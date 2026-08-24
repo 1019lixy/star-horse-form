@@ -1,12 +1,12 @@
 <script setup lang="ts" name="DiagramDesigner">
-import { ref } from "vue";
-import { useDiagramDesigner } from "./composables/useDiagramDesigner";
+import {ref} from "vue";
+import {useDiagramDesigner} from "./composables/useDiagramDesigner";
 import DiagramToolbar from "./panels/DiagramToolbar.vue";
 import DiagramNodePanel from "./panels/DiagramNodePanel.vue";
 import DiagramCanvas from "./panels/DiagramCanvas.vue";
 import DiagramPropertyPanel from "./panels/DiagramPropertyPanel.vue";
 import DiagramPreviewDialog from "./dialogs/DiagramPreviewDialog.vue";
-import type { DiagramData, NodeTypePreset } from "./types";
+import type {DiagramData, NodeTypePreset} from "./types";
 
 const props = defineProps<{
   diagram?: DiagramData;

@@ -1,5 +1,5 @@
-import { ApiUrls, CompType, SelectOption } from "star-horse-lowcode";
-import { ToolBtnType } from "@/components/types/ToolBtnType";
+import {ApiUrls, CompType, SelectOption} from "star-horse-lowcode";
+import {ToolBtnType} from "@/components/types/ToolBtnType";
 
 /**
  * warning:返回Promise的函数，请勿更改为直接返回数据

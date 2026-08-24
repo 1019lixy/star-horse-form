@@ -1,5 +1,5 @@
-import { ApiUrls, getRequest, postRequest } from "star-horse-lowcode";
-import { ref } from "vue";
+import {ApiUrls, getRequest, postRequest} from "star-horse-lowcode";
+import {ref} from "vue";
 
 const aiApi = ref<ApiUrls>();
 

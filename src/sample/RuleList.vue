@@ -198,19 +198,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
-import {
-  Delete,
-  Edit,
-  Plus,
-  Search,
-  Upload,
-  VideoPlay,
-} from "@element-plus/icons-vue";
-import { ruleDefinitionApi } from "@/api/rule_engine_api";
+import {onMounted, reactive, ref} from "vue";
+import {Delete, Edit, Plus, Search, Upload, VideoPlay,} from "@element-plus/icons-vue";
+import {ruleDefinitionApi} from "@/api/rule_engine_api";
 import RuleDesigner from "../components/rule/RuleDesigner.vue";
 import RuleTestDialog from "../components/rule/dialogs/RuleTestDialog.vue";
-import { error, operationConfirm, success } from "../shplugin/src";
+import {error, operationConfirm, success} from "../shplugin/src";
 
 const loading = ref(false);
 const ruleList = ref<any[]>([]);

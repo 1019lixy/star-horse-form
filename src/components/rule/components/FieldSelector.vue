@@ -4,8 +4,8 @@
  * 供规则设计器中的字段参数使用，支持从表单字段列表 + 规则变量库中选择
  * 替代手动输入 fieldPath，避免拼写错误
  */
-import { computed } from "vue";
-import { i18n } from "@/lang";
+import {computed} from "vue";
+import {i18n} from "@/lang";
 
 export interface FieldOption {
   fieldName: string;

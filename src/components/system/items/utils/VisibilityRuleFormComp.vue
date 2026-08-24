@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { relationDataField } from "@/components/system/items/utils/ItemPreps.js";
-import { PageFieldInfo } from "star-horse-lowcode";
-import { nextTick, PropType, reactive, ref } from "vue";
+import {relationDataField} from "@/components/system/items/utils/ItemPreps.js";
+import {PageFieldInfo} from "star-horse-lowcode";
+import {nextTick, PropType, reactive, ref} from "vue";
 
 defineOptions({ name: "VisibilityRuleFormComp" });
 

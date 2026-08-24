@@ -1,4 +1,4 @@
-import { SelectOption } from "star-horse-lowcode";
+import {SelectOption} from "star-horse-lowcode";
 
 export const formIcons: SelectOption[] = [
   { name: "add-dept", value: "add-dept" },

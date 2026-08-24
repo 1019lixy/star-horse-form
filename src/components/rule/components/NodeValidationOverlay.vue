@@ -54,10 +54,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
-import { Aim } from "@element-plus/icons-vue";
-import { i18n } from "@/lang";
-import type { ValidationResult, ValidationIssue } from "../engine/validator";
+import {nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {Aim} from "@element-plus/icons-vue";
+import {i18n} from "@/lang";
+import type {ValidationIssue, ValidationResult} from "../engine/validator";
 
 const props = defineProps<{
   result: ValidationResult | null;

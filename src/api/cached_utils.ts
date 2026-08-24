@@ -41,10 +41,7 @@ export { setCacheData, getCacheData, getAndDelCacheData, delCacheData };
 
 const LOCAL_TEMPLATE_KEY = "star_horse_config_templates";
 
-import type {
-  ConfigTemplate,
-  ConfigTemplateCategory,
-} from "@/components/types/DataSourceTypes";
+import type {ConfigTemplate, ConfigTemplateCategory,} from "@/components/types/DataSourceTypes";
 
 /**
  * 获取本地所有模板

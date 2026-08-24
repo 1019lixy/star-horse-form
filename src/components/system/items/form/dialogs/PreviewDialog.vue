@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { i18n } from "@/lang/index.js";
-import { onMounted, ref, watch } from "vue";
+import {i18n} from "@/lang/index.js";
+import {onMounted, ref, watch} from "vue";
 import FormPreview from "@/components/system/items/form/components/FormPreview.vue";
 
 const emit = defineEmits<{

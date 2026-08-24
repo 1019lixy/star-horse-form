@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import { computed, onActivated, onMounted, reactive, ref, watch } from "vue";
+import {computed, onActivated, onMounted, reactive, ref, watch} from "vue";
 import {
   analysisCompDatas,
   commonField,
@@ -14,13 +14,10 @@ import {
   useDesignFormStore,
   warning,
 } from "star-horse-lowcode";
-import { Config } from "@/api/settings.js";
-import {
-  loadElementPlusIcon,
-  loadSvgIcons,
-} from "@/api/star_horse_form_utils.js";
-import { FormConfig } from "@/components/types";
-import { i18n } from "@/lang/index.js";
+import {Config} from "@/api/settings.js";
+import {loadElementPlusIcon, loadSvgIcons,} from "@/api/star_horse_form_utils.js";
+import {FormConfig} from "@/components/types";
+import {i18n} from "@/lang/index.js";
 
 const props = defineProps<{
   optional: FormConfig;

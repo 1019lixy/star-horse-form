@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import { StarHorseJsonEditor } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {onMounted, ref} from "vue";
+import {StarHorseJsonEditor} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import JSON5 from "json5";
 
 let designForm = getDesignFormStore();

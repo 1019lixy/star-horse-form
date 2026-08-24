@@ -1,7 +1,7 @@
 <script setup lang="ts" name="OutlineTree">
-import { computed, ref, watch, nextTick } from "vue";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { i18n } from "@/lang";
+import {computed, nextTick, ref, watch} from "vue";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {i18n} from "@/lang";
 
 const designForm = getDesignFormStore();
 const compList = computed(() => designForm.compList);

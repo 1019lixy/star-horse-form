@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from "vue";
-import { i18n } from "@/lang";
-import { SelectOption } from "star-horse-lowcode";
-import { FormConfig } from "@/components/types";
+import {computed, nextTick, ref, watch} from "vue";
+import {i18n} from "@/lang";
+import {SelectOption} from "star-horse-lowcode";
+import {FormConfig} from "@/components/types";
 import LinkPolicyComp from "@/components/system/items/utils/LinkPolicyComp.vue";
 import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
 import {
   PreOrPendEventConfig,
   preOrPendEventTypeOptions,
 } from "@/components/system/items/form/composables/usePreOrPendEvent";
-import {
-  compressJs,
-  formatJs,
-  userOperationMsg,
-} from "@/components/system/items/utils/jsCodeFormatter";
+import {compressJs, formatJs, userOperationMsg,} from "@/components/system/items/utils/jsCodeFormatter";
 
 defineOptions({ name: "PreOrPendEventDialog" });
 

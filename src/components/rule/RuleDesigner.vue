@@ -1380,31 +1380,16 @@
 
 <script setup lang="ts">
 // 弹窗组件懒加载，只在用户点击编辑时才加载
-import {
-  computed,
-  defineAsyncComponent,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from "vue";
-import { useRoute } from "vue-router";
-import { ConnectionMode, type Edge, type Node } from "./compat";
+import {computed, defineAsyncComponent, nextTick, onMounted, onUnmounted, provide, reactive, ref, watch,} from "vue";
+import {useRoute} from "vue-router";
+import {ConnectionMode, type Edge, type Node} from "./compat";
 import RuleCanvas from "./RuleCanvas.vue";
-import {
-  ruleActionApi,
-  ruleConditionApi,
-  ruleDefinitionApi,
-  ruleVariableApi,
-} from "@/api/rule_engine_api";
+import {ruleActionApi, ruleConditionApi, ruleDefinitionApi, ruleVariableApi,} from "@/api/rule_engine_api";
 import NodePanel from "./NodePanel.vue";
 import PropertyPanel from "./PropertyPanel.vue";
 import NodeExecOverlay from "./components/NodeExecOverlay.vue";
 import NodeValidationOverlay from "./components/NodeValidationOverlay.vue";
-import { validateRuleFlow, type ValidationResult } from "./engine/validator";
+import {validateRuleFlow, type ValidationResult} from "./engine/validator";
 import StartNode from "./nodes/StartNode.vue";
 import EndNode from "./nodes/EndNode.vue";
 import ConditionNode from "./nodes/ConditionNode.vue";
@@ -1414,20 +1399,14 @@ import VariableAssignNode from "./nodes/VariableAssignNode.vue";
 import ScriptNode from "./nodes/ScriptNode.vue";
 import HttpCallNode from "./nodes/HttpCallNode.vue";
 import GenericNode from "./nodes/GenericNode.vue";
-import { DEMO_LIST } from "./demos/demoData";
-import { getNodeDefaultData, getNodeLabel } from "./nodeTypes";
-import { executeRuleFlow, type ExecutionPath } from "./engine/RuleExecutor";
-import {
-  error,
-  operationConfirm,
-  postRequest,
-  success,
-  warning,
-} from "star-horse-lowcode";
-import { i18n } from "@/lang";
-import { ElMessageBox } from "element-plus";
+import {DEMO_LIST} from "./demos/demoData";
+import {getNodeDefaultData, getNodeLabel} from "./nodeTypes";
+import {executeRuleFlow, type ExecutionPath} from "./engine/RuleExecutor";
+import {error, operationConfirm, postRequest, success, warning,} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {ElMessageBox} from "element-plus";
 import RuleCodeView from "./RuleCodeView.vue";
-import { extractFieldMetaList, type FormFieldMeta } from "./useFormRuleRuntime";
+import {extractFieldMetaList, type FormFieldMeta} from "./useFormRuleRuntime";
 
 const ConditionEditDialog = defineAsyncComponent(
   () => import("./dialogs/ConditionEditDialog.vue"),

@@ -1,13 +1,13 @@
 <script setup lang="ts" name="descriptions-container">
-import { nextTick, onMounted, PropType, ref } from "vue";
-import { itemCheck } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { i18n } from "@/lang";
-import { quickAddItem } from "@/api/form_utils";
+import {nextTick, onMounted, PropType, ref} from "vue";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {i18n} from "@/lang";
+import {quickAddItem} from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
-import { ensureDefaultElements } from "./container-types";
-import { ensureItems } from "./container-utils";
+import {ensureDefaultElements} from "./container-types";
+import {ensureItems} from "./container-utils";
 
 const props = defineProps({
   parentField: { type: Object as PropType<any> },

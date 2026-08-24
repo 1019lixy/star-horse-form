@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { i18n } from "@/lang";
-import type { DataSourceType } from "@/components/types/DataSourceTypes";
+import {computed, ref} from "vue";
+import {i18n} from "@/lang";
+import type {DataSourceType} from "@/components/types/DataSourceTypes";
 
 defineOptions({ name: "DataSourceConfigPanel" });
 

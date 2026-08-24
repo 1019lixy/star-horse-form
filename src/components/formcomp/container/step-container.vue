@@ -1,18 +1,13 @@
 <script setup lang="ts" name="step-container">
-import { computed, onMounted, PropType, ref, watch } from "vue";
-import {
-  compKey,
-  itemCheck,
-  operationConfirm,
-  warning,
-} from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { i18n } from "@/lang";
-import { quickAddItem } from "@/api/form_utils";
+import {computed, onMounted, PropType, ref, watch} from "vue";
+import {compKey, itemCheck, operationConfirm, warning,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {i18n} from "@/lang";
+import {quickAddItem} from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import { isContainer, ensureDefaultElements } from "./container-types";
-import { useDragAdd, ensureItems } from "./container-utils";
-import { useInlineEdit } from "./useInlineEdit";
+import {ensureDefaultElements, isContainer} from "./container-types";
+import {ensureItems, useDragAdd} from "./container-utils";
+import {useInlineEdit} from "./useInlineEdit";
 
 const props = defineProps({
   parentField: { type: Object as PropType<any> },

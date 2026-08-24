@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import {
-  analysisCompDatas,
-  convertCompToAppComps,
-  dialogPreps,
-} from "star-horse-lowcode";
-import { useCommonPage, DEFAULT_BTN_PERMISSIONS } from "./useCommonPage";
+import {nextTick, provide, ref, watch} from "vue";
+import {analysisCompDatas, convertCompToAppComps, dialogPreps,} from "star-horse-lowcode";
+import {DEFAULT_BTN_PERMISSIONS, useCommonPage} from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import { i18n } from "@/lang";
-import { nextTick, provide } from "vue";
+import {i18n} from "@/lang";
 
 const props = defineProps({
   currentPageClass: { type: String, default: "" },

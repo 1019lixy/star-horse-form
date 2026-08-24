@@ -471,24 +471,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, type Ref } from "vue";
-import {
-  Setting,
-  Pointer,
-  Plus,
-  Edit,
-  EditPen,
-  Delete,
-} from "@element-plus/icons-vue";
-import {
-  NODE_TYPE_MAP,
-  getParamSchema,
-  getCategoryColor,
-  type ParamField,
-} from "./nodeTypes";
-import { i18n } from "@/lang";
+import {computed, inject, type Ref} from "vue";
+import {Delete, Edit, EditPen, Plus, Pointer, Setting,} from "@element-plus/icons-vue";
+import {getCategoryColor, getParamSchema, NODE_TYPE_MAP, type ParamField,} from "./nodeTypes";
+import {i18n} from "@/lang";
 import FieldSelector from "./components/FieldSelector.vue";
-import type { FormFieldMeta } from "./useFormRuleRuntime";
+import type {FormFieldMeta} from "./useFormRuleRuntime";
 
 const props = defineProps<{
   selectedNode: any;

@@ -8,17 +8,18 @@ import itemsComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";
 import systemComponent from "@/components/system/SystemComp";
 import App from "@/App.vue";
-import { createApp } from "vue";
+import {createApp} from "vue";
 // 导入svg图标
 import draggable from "vuedraggable-es";
 import piniaCompInstance from "@/store";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import prepsComponent from "@/components/system/items/prepscomp";
 import StarHorseLowCode from "star-horse-lowcode";
-import { getLang } from "@/theme/localStorge";
-import { LangType } from "@/theme/theme";
-import { registerVueContext } from "@/api/vueContext";
-import { axiosInstance } from "@/api/star_horse_form_api.js";
+import {getLang} from "@/theme/localStorge";
+import {LangType} from "@/theme/theme";
+import {registerVueContext} from "@/api/vueContext";
+import {axiosInstance} from "@/api/star_horse_form_api.js";
+
 const app = createApp(App);
 export const appInstance = app;
 const currentLang = getLang() || LangType.ZH_CN;

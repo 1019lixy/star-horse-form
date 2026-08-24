@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
-import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin";
-import { itemCheck, uuid } from "star-horse-lowcode";
-import { i18n } from "@/lang/index";
+import {onMounted, onUnmounted, ref} from "vue";
+import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
+import {itemCheck} from "star-horse-lowcode";
+import {i18n} from "@/lang/index";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 
 const emit = defineEmits<{

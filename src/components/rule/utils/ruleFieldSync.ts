@@ -15,8 +15,8 @@
  * - 跳过 ${...} 表达式占位符和 =formula 形式
  * - 仅替换精确匹配的字段名
  */
-import { ruleDefinitionApi } from "@/api/rule_engine_api";
-import { NODE_TYPE_MAP } from "../nodeTypes";
+import {ruleDefinitionApi} from "@/api/rule_engine_api";
+import {NODE_TYPE_MAP} from "../nodeTypes";
 
 /**
  * 判断字段引用是否为纯字段名（非表达式）

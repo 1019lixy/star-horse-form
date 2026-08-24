@@ -168,16 +168,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import {
-  DocumentCopy,
-  RefreshRight,
-  VideoPause,
-  VideoPlay,
-} from "@element-plus/icons-vue";
-import { executeRuleFlow, type ExecutionPath } from "../engine/RuleExecutor";
-import { error, success, warning } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {computed, ref, watch} from "vue";
+import {DocumentCopy, RefreshRight, VideoPause, VideoPlay,} from "@element-plus/icons-vue";
+import {executeRuleFlow, type ExecutionPath} from "../engine/RuleExecutor";
+import {error, success, warning} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const props = defineProps<{
   visible: boolean;

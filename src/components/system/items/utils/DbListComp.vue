@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import {
-  initApi,
-  openDatabase,
-  tableColumns,
-} from "@/components/system/items/utils/DbSearchUtils";
-import { i18n } from "@/lang";
+import {initApi, openDatabase, tableColumns,} from "@/components/system/items/utils/DbSearchUtils";
+import {i18n} from "@/lang";
 import {
   BtnAuth,
   closeLoad,
@@ -17,18 +13,9 @@ import {
   success,
   warning,
 } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import {
-  computed,
-  ComputedRef,
-  nextTick,
-  onMounted,
-  PropType,
-  ref,
-  unref,
-  watch,
-} from "vue";
-import { FormConfig } from "@/components/types";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {computed, ComputedRef, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
+import {FormConfig} from "@/components/types";
 
 const props = defineProps({
   optional: { type: Object as PropType<FormConfig> },

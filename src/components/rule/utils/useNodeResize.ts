@@ -1,4 +1,4 @@
-import { computed } from "vue";
+import {computed} from "vue";
 
 /**
  * 节点拖拽改变大小 composable

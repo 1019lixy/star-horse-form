@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { computed, onMounted, PropType } from "vue";
+import {computed, onMounted, PropType} from "vue";
 
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import JSON5 from "json5";
-import { itemCheck } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { i18n } from "@/lang";
-import { quickAddItem } from "@/api/form_utils";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {i18n} from "@/lang";
+import {quickAddItem} from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import { ensureDefaultElements } from "./container-types";
-import { useDragAdd, ensureItems } from "./container-utils";
-import { useInlineEdit } from "./useInlineEdit";
+import {ensureDefaultElements} from "./container-types";
+import {ensureItems, useDragAdd} from "./container-utils";
+import {useInlineEdit} from "./useInlineEdit";
 
 defineOptions({
   name: "SplitterContainer",

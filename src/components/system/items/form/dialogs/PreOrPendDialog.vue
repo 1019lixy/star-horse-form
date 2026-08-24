@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, shallowRef, unref, watch } from "vue";
-import { i18n } from "@/lang";
-import { loadSvgIcons } from "@/api/star_horse_form_utils.js";
-import { analysisCompDatas, SelectOption } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, nextTick, ref, shallowRef, unref, watch} from "vue";
+import {i18n} from "@/lang";
+import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
+import {analysisCompDatas, SelectOption} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import PreOrPendEventDialog from "@/components/system/items/form/dialogs/PreOrPendEventDialog.vue";
 import {
   PreOrPendEventConfig,

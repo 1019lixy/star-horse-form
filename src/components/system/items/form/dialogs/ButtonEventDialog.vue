@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { buttonClickDataField } from "@/components/system/items/utils/ItemPreps.js";
-import { i18n } from "@/lang/index.js";
+import {ref, watch} from "vue";
+import {buttonClickDataField} from "@/components/system/items/utils/ItemPreps.js";
+import {i18n} from "@/lang/index.js";
 
 const props = defineProps<{
   visible: boolean;

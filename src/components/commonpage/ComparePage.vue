@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useCommonPage } from "./useCommonPage";
+import {computed, ref} from "vue";
+import {useCommonPage} from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 
 const props = defineProps({
   currentPageClass: { type: String, default: "" },

@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref, PropType } from "vue";
-import { i18n } from "@/lang";
-import {
-  dynamicFormContextMenuData,
-  getParentComp,
-  moveDownItem,
-  moveUpItem,
-  removeItem,
-} from "@/plugins/AblesPlugin";
-import { hasOpenDialog } from "@/api/keyboard-event-utils";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, nextTick, onBeforeUnmount, PropType, ref} from "vue";
+import {i18n} from "@/lang";
+import {dynamicFormContextMenuData, getParentComp, moveDownItem, moveUpItem, removeItem,} from "@/plugins/AblesPlugin";
+import {hasOpenDialog} from "@/api/keyboard-event-utils";
+import {getDesignFormStore} from "@/store/StoreManager";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
-import { warning, isMobile } from "star-horse-lowcode";
+import {isMobile, warning} from "star-horse-lowcode";
 
 const props = defineProps({
   field: { type: Object as PropType<any>, required: true },

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { nextTick, reactive, ref, unref, watch } from "vue";
-import { PageFieldInfo } from "star-horse-lowcode";
-import { i18n } from "@/lang/index.js";
+import {nextTick, reactive, ref, unref, watch} from "vue";
+import {PageFieldInfo} from "star-horse-lowcode";
+import {i18n} from "@/lang/index.js";
 import JSON5 from "json5";
 
 const props = defineProps<{

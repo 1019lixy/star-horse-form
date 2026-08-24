@@ -10,8 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
-import type { Position } from "./index";
+import {inject} from "vue";
+import type {Position} from "./index";
 
 const props = defineProps<{
   type: "source" | "target";

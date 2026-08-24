@@ -1,5 +1,5 @@
-import { CompType, ItemType } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {CompType, ItemType} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 /** 公共子项字段（元素型容器共享） */
 const elementCommonFields: ItemType[] = [

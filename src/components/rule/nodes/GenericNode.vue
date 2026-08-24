@@ -31,10 +31,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { Handle, Position } from "../compat";
-import { NODE_TYPE_MAP, NODE_CATEGORIES } from "../nodeTypes";
-import { i18n } from "@/lang";
+import {computed} from "vue";
+import {Handle, Position} from "../compat";
+import {NODE_CATEGORIES, NODE_TYPE_MAP} from "../nodeTypes";
+import {i18n} from "@/lang";
 
 const props = defineProps<{
   id: string;

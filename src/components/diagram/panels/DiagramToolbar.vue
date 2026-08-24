@@ -1,6 +1,6 @@
 <script setup lang="ts" name="DiagramToolbar">
-import { i18n } from "@/lang";
-import type { UseDiagramDesignerReturn } from "../composables/useDiagramDesigner";
+import {i18n} from "@/lang";
+import type {UseDiagramDesignerReturn} from "../composables/useDiagramDesigner";
 
 defineProps<{
   designer: UseDiagramDesignerReturn;

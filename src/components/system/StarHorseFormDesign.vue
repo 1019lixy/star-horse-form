@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {
   computed,
+  defineAsyncComponent,
   nextTick,
   onActivated,
   onBeforeUnmount,
@@ -11,8 +12,8 @@ import {
   unref,
   watch,
 } from "vue";
-import { debounce } from "lodash";
-import { deepClone } from "@/api/system";
+import {debounce} from "lodash";
+import {deepClone} from "@/api/system";
 import {
   closeLoad,
   CompType,
@@ -25,13 +26,31 @@ import {
   uploadRequest,
   warning,
 } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { validDynamicFormCompParams } from "@/components/system/items/utils/FormParamsValid";
-import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils";
-import { i18n } from "@/lang";
-import { extractFieldMetaList } from "@/components/rule/useFormRuleRuntime";
-import { Config } from "@/api/settings";
-import { defineAsyncComponent } from "vue";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
+import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
+import {i18n} from "@/lang";
+import {extractFieldMetaList} from "@/components/rule/useFormRuleRuntime";
+import {Config} from "@/api/settings";
+import FormToolbar from "@/components/system/items/form/components/FormToolbar.vue";
+import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
+import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
+import PropertyPanel from "@/components/system/items/form/PropertyPanel.vue";
+import {useKeyboardEvents} from "@/components/system/items/form/composables/useKeyboardEvents";
+import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager";
+import {ToolBtnType} from "@/components/types/ToolBtnType";
+import {formContainer} from "@/components/system/items/form/composables/formContainer";
+import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems";
+import {formItems} from "@/components/system/items/form/composables/formItems";
+import {FormConfig} from "@/components/types";
+import {FormSocketService} from "@/components/system/items/FormSocketService";
+import JSON5 from "json5";
+import {quickAddItem} from "@/api/form_utils";
+import type {Content} from "vanilla-jsoneditor";
+import {createJSONEditor, isTextContent, toJSONContent,} from "vanilla-jsoneditor";
+import {loadCustomComponents} from "@/components/system/items/utils/FieldOperationUtils";
+import {initCustomCompApi} from "@/api/custom_component_api";
+import {hasOpenDialog} from "@/api/keyboard-event-utils";
 // 对话框类组件改为异步加载，减小首屏 bundle
 const CodeDialog = defineAsyncComponent(
   () => import("@/components/system/items/form/dialogs/CodeDialog.vue"),
@@ -58,29 +77,6 @@ const SaveAsCustomCompDialog = defineAsyncComponent(
   () =>
     import("@/components/system/items/form/dialogs/SaveAsCustomCompDialog.vue"),
 );
-import FormToolbar from "@/components/system/items/form/components/FormToolbar.vue";
-import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
-import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
-import PropertyPanel from "@/components/system/items/form/PropertyPanel.vue";
-import { useKeyboardEvents } from "@/components/system/items/form/composables/useKeyboardEvents";
-import { useDialogManager } from "@/components/system/items/form/composables/useDialogManager";
-import { ToolBtnType } from "@/components/types/ToolBtnType";
-import { formContainer } from "@/components/system/items/form/composables/formContainer";
-import { formExtendItems } from "@/components/system/items/form/composables/formExtendItems";
-import { formItems } from "@/components/system/items/form/composables/formItems";
-import { FormConfig } from "@/components/types";
-import { FormSocketService } from "@/components/system/items/FormSocketService";
-import JSON5 from "json5";
-import { quickAddItem } from "@/api/form_utils";
-import type { Content } from "vanilla-jsoneditor";
-import {
-  createJSONEditor,
-  isTextContent,
-  toJSONContent,
-} from "vanilla-jsoneditor";
-import { loadCustomComponents } from "@/components/system/items/utils/FieldOperationUtils";
-import { initCustomCompApi } from "@/api/custom_component_api";
-import { hasOpenDialog } from "@/api/keyboard-event-utils";
 
 defineOptions({
   name: "StarHorseFormDesign",

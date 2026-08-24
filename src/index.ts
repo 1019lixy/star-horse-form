@@ -1,15 +1,15 @@
 // 在文件最顶部添加以下代码
-import { defineAsyncComponent } from "vue";
+import {defineAsyncComponent} from "vue";
 import "star-horse-lowcode/assets/index.css";
 import "tailwindcss/index.css";
 import "@/assets/css/devops.scss";
 import "element-plus/theme-chalk/index.css";
 import "@/assets/icons.css";
-import { LangType } from "@/theme/theme";
+import {LangType} from "@/theme/theme";
 import StarHorseLowcode from "star-horse-lowcode";
 import piniaCompInstance from "@/store/index";
 import draggable from "vuedraggable-es";
-import { registerVueContext } from "@/api/vueContext";
+import {registerVueContext} from "@/api/vueContext";
 
 const items = import.meta.glob([
   "@/components/system/*.vue",

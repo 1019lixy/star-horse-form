@@ -1,15 +1,7 @@
-import { loadData, SelectOption } from "star-horse-lowcode";
-import { i18n } from "@/lang";
-import {
-  AppContext,
-  createVNode,
-  isVNode,
-  nextTick,
-  ref,
-  render,
-  VNode,
-} from "vue";
-import { getVueContext } from "@/api/vueContext";
+import {loadData, SelectOption} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {AppContext, createVNode, isVNode, nextTick, ref, render, VNode,} from "vue";
+import {getVueContext} from "@/api/vueContext";
 
 const validUrl: string = "/userdb-manage/redirect/valid";
 

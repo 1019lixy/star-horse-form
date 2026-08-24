@@ -1,5 +1,5 @@
-import { ItemType } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {ItemType} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 export interface OtherPreps extends ItemType {
   /**

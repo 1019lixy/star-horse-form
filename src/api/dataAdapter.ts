@@ -1,5 +1,5 @@
-import { SelectOption, error as showError } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {error as showError, SelectOption} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 /**
  * 数据适配器配置选项

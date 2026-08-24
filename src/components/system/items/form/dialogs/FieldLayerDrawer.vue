@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FieldLayer from "@/components/system/items/form/FieldLayer.vue";
-import { i18n } from "@/lang/index.js";
+import {i18n} from "@/lang/index.js";
 
 const emit = defineEmits<{
   (e: "update:visible", visible: boolean): void;

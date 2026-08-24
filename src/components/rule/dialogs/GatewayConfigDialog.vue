@@ -114,10 +114,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
-import { Delete, InfoFilled } from "@element-plus/icons-vue";
-import { i18n } from "@/lang";
+import {computed, reactive, ref, watch} from "vue";
+import type {FormInstance, FormRules} from "element-plus";
+import {Delete, InfoFilled} from "@element-plus/icons-vue";
+import {i18n} from "@/lang";
 
 const props = defineProps<{
   visible: boolean;

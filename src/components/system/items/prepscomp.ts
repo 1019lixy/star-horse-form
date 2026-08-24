@@ -1,4 +1,4 @@
-import { App, defineAsyncComponent } from "vue";
+import {App, defineAsyncComponent} from "vue";
 
 const items = import.meta.glob("@/components/system/items/utils/*.vue");
 export default function install(app: App<Element>) {

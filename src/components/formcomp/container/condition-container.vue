@@ -1,12 +1,12 @@
 <script setup lang="ts" name="condition-container">
-import { computed, nextTick, onMounted, PropType, ref } from "vue";
-import { itemCheck, operationConfirm, uuid } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, nextTick, onMounted, PropType, ref} from "vue";
+import {itemCheck, operationConfirm, uuid} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import { quickAddItem } from "@/api/form_utils";
-import { useDragAdd, ensureItems } from "./container-utils";
+import {quickAddItem} from "@/api/form_utils";
+import {ensureItems, useDragAdd} from "./container-utils";
 
 const props = defineProps({
   parentField: { type: Object as PropType<any> },

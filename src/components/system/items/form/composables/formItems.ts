@@ -1,12 +1,7 @@
-import {
-  CompType,
-  ItemType,
-  StarHorseDialog,
-  StarHorseForm,
-} from "star-horse-lowcode";
-import { i18n } from "@/lang";
-import { createDynamicComp } from "@/api/system";
-import { unref } from "vue";
+import {CompType, ItemType, StarHorseDialog, StarHorseForm,} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {createDynamicComp} from "@/api/system";
+import {unref} from "vue";
 
 const dialogAndDrawerFields: Array<ItemType | any> = [
   {

@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DynamicQueryBuilder">
-import { computed, PropType, ref, watch } from "vue";
-import { searchMatchList, SelectOption, uuid } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {computed, PropType, ref, watch} from "vue";
+import {searchMatchList, SelectOption, uuid} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 defineOptions({ name: "DynamicQueryBuilder" });
 

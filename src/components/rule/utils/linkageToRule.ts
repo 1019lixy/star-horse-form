@@ -20,7 +20,7 @@
  * - ruleData.flowContent: { nodes: [], edges: [], variables: [] }
  * - ruleData.formId / ruleData.ruleType / ruleData.status
  */
-import type { FormFieldMeta } from "../useFormRuleRuntime";
+import type {FormFieldMeta} from "../useFormRuleRuntime";
 
 /** 联动配置输入：从 compList 中提取的每个字段的联动配置 */
 export interface LinkageSourceItem {

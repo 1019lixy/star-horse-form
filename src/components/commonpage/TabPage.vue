@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, provide, ref, watch } from "vue";
+import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
 import {
-  analysisAppComps,
   analysisCompDatas,
   apiInstance,
   ApiUrls,
@@ -11,10 +10,10 @@ import {
   SearchFields,
   UserFuncInfo,
 } from "star-horse-lowcode";
-import { TabsPaneContext } from "element-plus";
-import { i18n } from "@/lang";
+import {TabsPaneContext} from "element-plus";
+import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import { useFormRuleRuntime } from "@/components/rule/useFormRuleRuntime";
+import {useFormRuleRuntime} from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps({
   currentPageClass: { type: String, default: "" },

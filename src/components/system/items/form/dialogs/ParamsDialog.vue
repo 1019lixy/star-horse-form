@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { nextTick, ref, unref, watch } from "vue";
-import { warning } from "star-horse-lowcode";
-import { paramsFields } from "@/components/system/items/utils/ItemPreps.js";
-import { i18n } from "@/lang/index.js";
+import {nextTick, ref, unref, watch} from "vue";
+import {warning} from "star-horse-lowcode";
+import {paramsFields} from "@/components/system/items/utils/ItemPreps.js";
+import {i18n} from "@/lang/index.js";
 
 const props = defineProps<{
   visible: boolean;

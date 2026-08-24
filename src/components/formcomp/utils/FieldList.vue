@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ComputedRef, nextTick, ref, watch } from "vue";
-import { i18n } from "@/lang";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, ComputedRef, nextTick, ref, watch} from "vue";
+import {i18n} from "@/lang";
+import {getDesignFormStore} from "@/store/StoreManager";
 
 defineOptions({
   name: "FieldList",

@@ -1,5 +1,5 @@
-import { operationConfirm, uuid } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {operationConfirm, uuid} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 /**
  * 定义td 数据

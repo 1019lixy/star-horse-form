@@ -10,34 +10,27 @@
  * 4. 查看执行日志（复用 ExecutionLogViewer）
  * 5. 联动策略一键转规则（调用 linkageToRule.ts）
  */
-import { computed, nextTick, ref, watch } from "vue";
-import { ElMessageBox } from "element-plus";
+import {computed, ref, watch} from "vue";
 import {
-  Plus,
-  Edit,
-  Delete,
-  Lock,
-  Unlock,
-  Document,
-  Refresh,
   Back,
-  MagicStick,
   Connection,
+  Delete,
+  Document,
+  Edit,
+  Lock,
+  MagicStick,
+  Plus,
+  Refresh,
+  Unlock,
 } from "@element-plus/icons-vue";
-import { i18n } from "@/lang";
-import { success, warning, error, operationConfirm } from "star-horse-lowcode";
-import { ruleDefinitionApi } from "@/api/rule_engine_api";
+import {i18n} from "@/lang";
+import {error, operationConfirm, success, warning} from "star-horse-lowcode";
+import {ruleDefinitionApi} from "@/api/rule_engine_api";
 import RuleDesigner from "@/components/rule/RuleDesigner.vue";
 import RuleBindManager from "@/components/system/items/form/components/RuleBindManager.vue";
 import ExecutionLogViewer from "@/components/rule/ExecutionLogViewer.vue";
-import {
-  convertLinkageToRule,
-  extractLinkageFromCompList,
-} from "@/components/rule/utils/linkageToRule";
-import {
-  extractFieldMetaList,
-  type FormFieldMeta,
-} from "@/components/rule/useFormRuleRuntime";
+import {convertLinkageToRule, extractLinkageFromCompList,} from "@/components/rule/utils/linkageToRule";
+import {type FormFieldMeta,} from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps<{
   /** 弹窗显示控制（v-model） */

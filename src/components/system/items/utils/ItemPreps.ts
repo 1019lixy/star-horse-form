@@ -1,25 +1,25 @@
-import { computed, nextTick, reactive, ref, Ref, unref, watch } from "vue";
-import { i18n } from "@/lang";
+import {computed, nextTick, reactive, ref, Ref, unref, watch} from "vue";
+import {i18n} from "@/lang";
 import {
-  analysisCompDatas,
-  compDynamicData,
-  dataType,
-  dictData,
-  error,
-  FieldInfo,
-  httpMethod,
-  loadData,
-  loadGetData,
-  orderBy,
-  PageFieldInfo,
-  searchMatchList,
-  SelectOption,
-  success,
-  validRulesList,
-  warning,
+    analysisCompDatas,
+    compDynamicData,
+    dataType,
+    dictData,
+    error,
+    FieldInfo,
+    httpMethod,
+    loadData,
+    loadGetData,
+    orderBy,
+    PageFieldInfo,
+    searchMatchList,
+    SelectOption,
+    success,
+    validRulesList,
+    warning,
 } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { validDataUrl } from "@/api/system.js";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {validDataUrl} from "@/api/system.js";
 import WebUrlComp from "./WebUrlComp.vue";
 import camelcase from "camelcase";
 

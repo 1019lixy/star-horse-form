@@ -7,7 +7,7 @@ import {
   PageFieldInfo,
   StarHorseDataView,
 } from "star-horse-lowcode";
-import { nextTick, onMounted, provide, ref, watch } from "vue";
+import {nextTick, onMounted, provide, ref, watch} from "vue";
 
 const props = defineProps({
   currentPageClass: { type: String, default: "" },

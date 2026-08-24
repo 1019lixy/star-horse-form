@@ -1,11 +1,11 @@
 <script setup lang="ts" name="gridtable-col">
-import { computed, onMounted, PropType, ref } from "vue";
-import { tableCellOperation } from "@/components/formcomp/container/gridtableUtils";
-import { itemCheck, uuid } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, onMounted, PropType, ref} from "vue";
+import {tableCellOperation} from "@/components/formcomp/container/gridtableUtils";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import { useRowHeight, useDropGuard } from "./container-utils";
+import {useDropGuard, useRowHeight} from "./container-utils";
 
 const props = defineProps({
   parentField: { type: Object as PropType<any> },

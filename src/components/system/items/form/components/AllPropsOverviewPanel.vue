@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from "vue";
-import { i18n } from "@/lang";
+import {computed, reactive, ref, watch} from "vue";
+import {i18n} from "@/lang";
 
 defineOptions({ name: "AllPropsOverviewPanel" });
 

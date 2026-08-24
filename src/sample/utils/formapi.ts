@@ -1,26 +1,26 @@
 import {
-  ContainerFieldInfo,
-  createDatetime,
-  error,
-  FieldInfo,
-  getRequest,
-  JoinSearchParams,
-  MenusInfo,
-  operationConfirm,
-  OrderByInfo,
-  PageFieldInfo,
-  postRequest,
-  SearchParams,
-  SelectOption,
-  success,
-  TabFieldInfo,
-  warning,
+    ContainerFieldInfo,
+    createDatetime,
+    error,
+    FieldInfo,
+    getRequest,
+    JoinSearchParams,
+    MenusInfo,
+    operationConfirm,
+    OrderByInfo,
+    PageFieldInfo,
+    postRequest,
+    SearchParams,
+    SelectOption,
+    success,
+    TabFieldInfo,
+    warning,
 } from "star-horse-lowcode";
-import { reactive, ShallowRef, unref } from "vue";
-import { ElLoading } from "element-plus";
+import {reactive, ShallowRef, unref} from "vue";
+import {ElLoading} from "element-plus";
 // import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import { ServiceEnums } from "@/components/enums/ServiceEnums";
-import { i18n } from "@/lang";
+import {ServiceEnums} from "@/components/enums/ServiceEnums";
+import {i18n} from "@/lang";
 
 let loading: any = null;
 /**

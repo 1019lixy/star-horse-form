@@ -223,18 +223,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import {
-  Grid,
-  Search,
-  Plus,
-  Coin,
-  Edit,
-  Delete,
-} from "@element-plus/icons-vue";
-import { ElMessageBox, ElMessage } from "element-plus";
-import { NODE_CATEGORIES } from "./nodeTypes";
-import { i18n } from "@/lang";
+import {computed, ref} from "vue";
+import {Coin, Delete, Edit, Grid, Plus, Search,} from "@element-plus/icons-vue";
+import {ElMessage, ElMessageBox} from "element-plus";
+import {NODE_CATEGORIES} from "./nodeTypes";
+import {i18n} from "@/lang";
 
 type VarType = "STRING" | "NUMBER" | "DATE" | "BOOLEAN" | "ARRAY";
 type VarSource = "INPUT" | "CONTEXT" | "CONSTANT";

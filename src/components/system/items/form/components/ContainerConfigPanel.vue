@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from "vue";
-import { i18n } from "@/lang";
-import type { ItemType } from "star-horse-lowcode";
-import { uuid } from "star-horse-lowcode";
-import { deepClone } from "@/api/system";
-import { formContainer } from "@/components/system/items/form/composables/formContainer";
+import {computed, onMounted, reactive, ref, watch} from "vue";
+import {i18n} from "@/lang";
+import type {ItemType} from "star-horse-lowcode";
+import {uuid} from "star-horse-lowcode";
+import {deepClone} from "@/api/system";
+import {formContainer} from "@/components/system/items/form/composables/formContainer";
 
 defineOptions({ name: "ContainerConfigPanel" });
 

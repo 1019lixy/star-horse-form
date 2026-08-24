@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import RuleDesigner from "@/components/rule/RuleDesigner.vue";
-import { uuid } from "star-horse-lowcode";
+import {uuid} from "star-horse-lowcode";
 
 const currentRuleId = uuid();
 </script>

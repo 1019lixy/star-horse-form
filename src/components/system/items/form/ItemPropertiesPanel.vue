@@ -1,29 +1,11 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onMounted,
-  PropType,
-  ref,
-  unref,
-  watch,
-} from "vue";
-import {
-  buttonClickDataField,
-  fieldPlaceholder,
-} from "@/components/system/items/utils/ItemPreps.js";
-import {
-  analysisCompDatas,
-  operationConfirm,
-  searchMatchList,
-  uuid,
-  validRulesList,
-  warning,
-} from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { i18n } from "@/lang/index.js";
-import { FormConfig } from "@/components/types";
-import type { FormulaConfig } from "@/components/types/FormulaConfig";
+import {computed, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
+import {buttonClickDataField, fieldPlaceholder,} from "@/components/system/items/utils/ItemPreps.js";
+import {analysisCompDatas, operationConfirm, searchMatchList, uuid, validRulesList, warning,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {i18n} from "@/lang/index.js";
+import {FormConfig} from "@/components/types";
+import type {FormulaConfig} from "@/components/types/FormulaConfig";
 import FormulaConfigDialog from "@/components/system/items/form/dialogs/FormulaConfigDialog.vue";
 import DataSourceConfigPanel from "@/components/system/items/form/components/DataSourceConfigPanel.vue";
 import LinkageConfigPanel from "@/components/system/items/form/components/LinkageConfigPanel.vue";

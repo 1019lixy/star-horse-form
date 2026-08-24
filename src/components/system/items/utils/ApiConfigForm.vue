@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import { createApiConfig } from "@/components/system/items/utils/ApiSharedConfig";
-import {
-  PageFieldInfo,
-  postRequest,
-  SelectOption,
-  StarHorseDialog,
-  success,
-  warning,
-  error,
-} from "star-horse-lowcode";
-import { nextTick, PropType, reactive, ref, unref, watch } from "vue";
-import { i18n } from "@/lang";
+import {createApiConfig} from "@/components/system/items/utils/ApiSharedConfig";
+import {error, PageFieldInfo, postRequest, SelectOption, success, warning,} from "star-horse-lowcode";
+import {nextTick, PropType, reactive, ref, unref} from "vue";
+import {i18n} from "@/lang";
 import DynamicQueryBuilder from "@/components/system/DynamicQueryBuilder.vue";
-import { getInterfaceUtils } from "@/components/system/items/utils/ItemPreps";
+import {getInterfaceUtils} from "@/components/system/items/utils/ItemPreps";
 
 defineOptions({ name: "ApiConfigForm" });
 const props = defineProps({

@@ -1,4 +1,4 @@
-import type { SelectOption } from "star-horse-lowcode";
+import type {SelectOption} from "star-horse-lowcode";
 
 // ═══════════════════════════════════════════════════════════════
 // 数据源类型定义

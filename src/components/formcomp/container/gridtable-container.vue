@@ -1,5 +1,5 @@
 <script setup lang="ts" name="gridtable-container">
-import { computed, PropType, ref } from "vue";
+import {computed, PropType, ref} from "vue";
 import GridtableCol from "@/components/formcomp/container/gridtable-col.vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 

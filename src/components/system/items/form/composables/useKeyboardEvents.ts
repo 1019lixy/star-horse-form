@@ -1,10 +1,7 @@
-import { ref } from "vue";
-import { ModuleEnums } from "@/components/enums/ModuleEnums";
-import {
-  initKeyboardEvent,
-  removeKeyboardEvent,
-} from "@/api/keyboard-event-utils";
-import { ToolBtnType } from "@/components/types/ToolBtnType";
+import {ref} from "vue";
+import {ModuleEnums} from "@/components/enums/ModuleEnums";
+import {initKeyboardEvent, removeKeyboardEvent,} from "@/api/keyboard-event-utils";
+import {ToolBtnType} from "@/components/types/ToolBtnType";
 
 export function useKeyboardEvents(actions: (action: ToolBtnType) => void) {
   const keyboardHandlers = ref<{

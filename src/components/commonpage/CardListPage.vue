@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useCommonPage, DEFAULT_BTN_PERMISSIONS } from "./useCommonPage";
+import {computed, ref} from "vue";
+import {DEFAULT_BTN_PERMISSIONS, useCommonPage} from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 
 const props = defineProps({
   currentPageClass: { type: String, default: "" },

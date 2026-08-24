@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
-import { computed, nextTick, ref, shallowRef, triggerRef, unref } from "vue";
+import {defineStore} from "pinia";
+import {computed, nextTick, ref, shallowRef, triggerRef, unref} from "vue";
 import JSON5 from "json5";
-import { CompType, UserInfo } from "@/components/types/DesignFormTypes";
-import { analysisCompDatas } from "star-horse-lowcode";
+import {CompType, UserInfo} from "@/components/types/DesignFormTypes";
+import {analysisCompDatas} from "star-horse-lowcode";
 
 export const useDesignFormStore = defineStore("designForm", () => {
   const containerDataList = ref<CompType[]>([]);

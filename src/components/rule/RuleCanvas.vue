@@ -257,18 +257,9 @@
 </template>
 
 <script setup lang="ts">
-import {
-  computed,
-  onMounted,
-  onBeforeUnmount,
-  provide,
-  reactive,
-  ref,
-  watch,
-  nextTick,
-} from "vue";
-import { i18n } from "@/lang";
-import type { Connection, Edge, Node } from "./compat";
+import {computed, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, watch,} from "vue";
+import {i18n} from "@/lang";
+import type {Connection, Edge, Node} from "./compat";
 
 /* ============================================================
  * Props & Emits

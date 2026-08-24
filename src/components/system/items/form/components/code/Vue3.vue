@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, PropType, ref, watch } from "vue";
-import { convertToCamelCase } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {onMounted, PropType, ref, watch} from "vue";
+import {convertToCamelCase} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const props = defineProps({
   formInfo: { type: Object as PropType<any>, required: true },

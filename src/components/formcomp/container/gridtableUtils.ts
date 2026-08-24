@@ -1,5 +1,5 @@
-import { operationConfirm, uuid } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {operationConfirm, uuid} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 export const colDataInfo = () => {
   return { id: uuid(), colspan: 1, rowspan: 1, items: [], cellVisible: true };

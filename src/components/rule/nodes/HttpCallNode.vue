@@ -62,10 +62,10 @@
 </template>
 
 <script setup lang="ts">
-import { Position, Handle } from "../compat";
-import { Edit, InfoFilled } from "@element-plus/icons-vue";
-import { computed } from "vue";
-import { i18n } from "@/lang";
+import {Handle, Position} from "../compat";
+import {Edit, InfoFilled} from "@element-plus/icons-vue";
+import {computed} from "vue";
+import {i18n} from "@/lang";
 
 const props = defineProps<{
   id?: string;

@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DiagramNodePanel">
-import { computed } from "vue";
-import { NODE_PRESETS, PRESET_CATEGORIES } from "../constants";
-import type { NodeTypePreset } from "../types";
+import {computed} from "vue";
+import {NODE_PRESETS, PRESET_CATEGORIES} from "../constants";
+import type {NodeTypePreset} from "../types";
 
 const props = defineProps<{
   readonly?: boolean;

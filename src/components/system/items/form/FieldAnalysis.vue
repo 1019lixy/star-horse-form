@@ -1,11 +1,11 @@
 <script setup lang="ts" name="FieldAnalysis">
-import { Config } from "@/api/settings.js";
-import { i18n } from "@/lang";
-import { onMounted, PropType, ref } from "vue";
-import { fieldPlaceholder } from "@/components/system/items/utils/ItemPreps.js";
-import { operationConfirm, success, warning } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { syncRuleFieldReferences } from "@/components/rule/utils/ruleFieldSync";
+import {Config} from "@/api/settings.js";
+import {i18n} from "@/lang";
+import {onMounted, PropType, ref} from "vue";
+import {fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
+import {operationConfirm, success, warning} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {syncRuleFieldReferences} from "@/components/rule/utils/ruleFieldSync";
 import camelCase from "camelcase";
 
 const props = defineProps({

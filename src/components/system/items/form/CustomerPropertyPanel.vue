@@ -1,25 +1,13 @@
 <script setup lang="ts" name="CustomerPropertyPanel">
-import {
-  computed,
-  defineAsyncComponent,
-  nextTick,
-  onMounted,
-  PropType,
-  ref,
-  unref,
-  watch,
-} from "vue";
-import { i18n } from "@/lang";
-import { formFieldMapping, isJson, PageFieldInfo } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { loadSvgIcons } from "@/api/star_horse_form_utils.js";
-import { useDialogManager } from "@/components/system/items/form/composables/useDialogManager.js";
-import { FormConfig } from "@/components/types";
-import { deepClone } from "@/api/system.js";
-import {
-  OtherPreps,
-  otherPreps,
-} from "@/components/system/items/form/composables/otherPreps";
+import {computed, defineAsyncComponent, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
+import {i18n} from "@/lang";
+import {formFieldMapping, isJson, PageFieldInfo} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
+import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager.js";
+import {FormConfig} from "@/components/types";
+import {deepClone} from "@/api/system.js";
+import {OtherPreps, otherPreps,} from "@/components/system/items/form/composables/otherPreps";
 // 对话框类组件改为异步加载，减小首屏 bundle
 const ButtonEventDialog = defineAsyncComponent(
   () => import("@/components/system/items/form/dialogs/ButtonEventDialog.vue"),

@@ -3,7 +3,7 @@
  * 2大类8种节点，精简实用，覆盖表单规则全部场景
  */
 
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 
 export interface ParamField {
   name: string;

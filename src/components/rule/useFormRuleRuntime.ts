@@ -18,13 +18,9 @@
  * - action.readonly → field.preps.readonly
  * - action.value   → field.defaultValue 或 formData[fieldName]
  */
-import { computed, type Ref, ref, unref } from "vue";
-import {
-  useRuleEngine,
-  type FieldAction,
-  type TriggerEvent,
-} from "./useRuleEngine";
-import { analysisCompDatas, warning } from "star-horse-lowcode";
+import {computed, type Ref, ref, unref} from "vue";
+import {type FieldAction, type TriggerEvent, useRuleEngine,} from "./useRuleEngine";
+import {analysisCompDatas, warning} from "star-horse-lowcode";
 
 /** 表单字段元数据（从 compList 提取） */
 export interface FormFieldMeta {

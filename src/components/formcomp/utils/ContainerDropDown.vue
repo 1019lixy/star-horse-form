@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, PropType, ref, watch } from "vue";
-import { tableAction } from "@/components/formcomp/container/dytableUtils";
-import { tableAction as gridtableAction } from "@/components/formcomp/container/gridtableUtils";
-import { i18n } from "@/lang";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, onMounted, PropType, ref, watch} from "vue";
+import {tableAction} from "@/components/formcomp/container/dytableUtils";
+import {tableAction as gridtableAction} from "@/components/formcomp/container/gridtableUtils";
+import {i18n} from "@/lang";
+import {getDesignFormStore} from "@/store/StoreManager";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
-import { numberRangeItem, uuid, warning } from "star-horse-lowcode";
+import {numberRangeItem, uuid, warning} from "star-horse-lowcode";
 import camelcase from "camelcase";
 
 const props = defineProps({

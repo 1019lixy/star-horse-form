@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { i18n } from "@/lang";
-import {
-  linkPolicyTypeEvent,
-  relationDataField,
-} from "@/components/system/items/utils/ItemPreps.js";
-import { SelectOption, warning } from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {linkPolicyTypeEvent, relationDataField,} from "@/components/system/items/utils/ItemPreps.js";
+import {SelectOption, warning} from "star-horse-lowcode";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import ConfigTemplateManager from "@/components/system/items/utils/ConfigTemplateManager.vue";
-import { computed, nextTick, PropType, reactive, ref } from "vue";
-import type { ConfigTemplateCategory } from "@/components/types/DataSourceTypes";
-import { FormConfig } from "@/components/types";
-import { userOperationMsg } from "@/components/system/items/utils/jsCodeFormatter";
+import {computed, nextTick, PropType, reactive, ref} from "vue";
+import type {ConfigTemplateCategory} from "@/components/types/DataSourceTypes";
+import {FormConfig} from "@/components/types";
+import {userOperationMsg} from "@/components/system/items/utils/jsCodeFormatter";
 
 defineOptions({ name: "LinkPolicyComp" });
 

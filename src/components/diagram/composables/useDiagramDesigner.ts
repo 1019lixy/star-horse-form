@@ -2,15 +2,9 @@
  * 通用图编辑器 - 状态管理
  */
 
-import { computed, reactive } from "vue";
-import { DEFAULT_CANVAS, MAX_HISTORY, createNode } from "../constants";
-import type {
-  DiagramData,
-  DiagramDesignerState,
-  DiagramEdge,
-  DiagramNode,
-  NodeTypePreset,
-} from "../types";
+import {computed, reactive} from "vue";
+import {createNode, DEFAULT_CANVAS, MAX_HISTORY} from "../constants";
+import type {DiagramData, DiagramDesignerState, DiagramEdge, DiagramNode, NodeTypePreset,} from "../types";
 
 const createInitialDiagram = (): DiagramData => ({
   id: `dg_${Date.now()}`,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { i18n } from "@/lang/index.js";
-import { error, isMobile, success } from "star-horse-lowcode";
-import { nextTick, onMounted, ref, watch } from "vue";
+import {i18n} from "@/lang/index.js";
+import {error, isMobile, success} from "star-horse-lowcode";
+import {nextTick, onMounted, ref, watch} from "vue";
 
 const props = defineProps<{
   compSize: string;

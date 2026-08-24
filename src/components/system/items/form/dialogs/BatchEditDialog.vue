@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { i18n } from "@/lang/index.js";
-import { StarHorseDialog } from "star-horse-lowcode";
+import {i18n} from "@/lang/index.js";
 import BatchEditFields from "@/components/system/items/form/BatchEditFields.vue";
-import { ref, watch } from "vue";
+import {ref, watch} from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;

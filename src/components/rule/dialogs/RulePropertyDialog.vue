@@ -78,9 +78,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
-import { i18n } from "@/lang";
+import {reactive, ref, watch} from "vue";
+import type {FormInstance, FormRules} from "element-plus";
+import {i18n} from "@/lang";
 
 // 规则分类选项（业务域分类，非自由文本）
 const CATEGORY_OPTIONS = [

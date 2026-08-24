@@ -1,8 +1,9 @@
-import { computed, ref, Ref, ComputedRef } from "vue";
-import { warning } from "star-horse-lowcode";
-import { i18n } from "@/lang";
-import { canAcceptChild } from "./container-types";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, ComputedRef, Ref, ref} from "vue";
+import {warning} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {canAcceptChild} from "./container-types";
+import {getDesignFormStore} from "@/store/StoreManager";
+
 /**
  * Create the standard onDragAdd handler used by all container components.
  * Selects the dragged item in the design form store.

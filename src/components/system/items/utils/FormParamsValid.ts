@@ -1,5 +1,5 @@
-import { SearchParams, success } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {SearchParams, success} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 /**
  * 解析查询字段类型

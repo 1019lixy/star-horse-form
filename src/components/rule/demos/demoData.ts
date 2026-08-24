@@ -2,8 +2,8 @@
  * 规则引擎Demo数据 — 严格贴合低代码表单落地场景
  * 覆盖全部8种节点：start/end/condition/action/exclusive-gateway/http-call/variable-assign/script
  */
-import type { Node, Edge } from "../compat";
-import { i18n } from "@/lang";
+import type {Edge, Node} from "../compat";
+import {i18n} from "@/lang";
 
 export interface DemoData {
   ruleCode: string;

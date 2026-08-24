@@ -1,15 +1,9 @@
 <script lang="ts" setup>
-import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { i18n } from "@/lang";
-import { clearAiChatSession, sendAiChatMessage } from "@/api/ai_chat_api";
-import {
-  activateAiConfig,
-  AiConfigData,
-  deleteAiConfig,
-  getAiConfigList,
-  saveAiConfig,
-} from "@/api/ai_config_api";
-import { error, operationConfirm, success, warning } from "star-horse-lowcode";
+import {computed, nextTick, onBeforeUnmount, reactive, ref, watch} from "vue";
+import {i18n} from "@/lang";
+import {clearAiChatSession, sendAiChatMessage} from "@/api/ai_chat_api";
+import {activateAiConfig, AiConfigData, deleteAiConfig, getAiConfigList, saveAiConfig,} from "@/api/ai_config_api";
+import {error, operationConfirm, success, warning} from "star-horse-lowcode";
 
 interface Props {
   dialogVisible: boolean;

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { i18n } from "@/lang/index.js";
+import {i18n} from "@/lang/index.js";
 import CodeComp from "@/components/system/items/form/components/code/CodeComp.vue";
-import { FormConfig } from "@/components/types";
-import { ref, watch } from "vue";
+import {FormConfig} from "@/components/types";
+import {ref, watch} from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;

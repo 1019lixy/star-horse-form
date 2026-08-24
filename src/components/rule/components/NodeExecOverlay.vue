@@ -44,16 +44,9 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  computed,
-  watch,
-  onMounted,
-  onBeforeUnmount,
-  nextTick,
-} from "vue";
-import { i18n } from "@/lang";
-import type { ExecutionPath } from "../engine/RuleExecutor";
+import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch,} from "vue";
+import {i18n} from "@/lang";
+import type {ExecutionPath} from "../engine/RuleExecutor";
 
 const props = defineProps<{
   executionPath: ExecutionPath | null;

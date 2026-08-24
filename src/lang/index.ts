@@ -1,7 +1,7 @@
 import zh_CN from "@/lang/zh_CN";
 // 仅导入必要的类型和工具函数
-import { LangType } from "@/theme/theme";
-import { getLang, setLang } from "@/theme/localStorge";
+import {LangType} from "@/theme/theme";
+import {getLang, setLang} from "@/theme/localStorge";
 
 // 当前语言包缓存
 let langCache: Partial<Record<LangType, Record<string, string | Function>>> =

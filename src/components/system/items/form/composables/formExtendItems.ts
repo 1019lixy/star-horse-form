@@ -1,5 +1,5 @@
-import { CompType, SelectOption } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {CompType, SelectOption} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const commonSelectOptions: SelectOption[] = [
   { name: i18n("dyform.item.40"), value: "string" },

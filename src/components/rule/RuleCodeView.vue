@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { Check, Refresh } from "@element-plus/icons-vue";
-import { i18n } from "@/lang";
-import { success, warning, operationConfirm } from "star-horse-lowcode";
+import {computed, ref, watch} from "vue";
+import {Check, Refresh} from "@element-plus/icons-vue";
+import {i18n} from "@/lang";
+import {operationConfirm, success, warning} from "star-horse-lowcode";
 
 const props = defineProps<{
   ruleData: any;

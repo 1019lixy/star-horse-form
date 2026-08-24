@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { i18n } from "@/lang";
-import { error, warning, StarHorseIcon } from "star-horse-lowcode";
-import { computed, ref } from "vue";
-import { FormConfig } from "@/components/types";
-import {
-  saveCurrentCompAsCustom,
-  type CustomCompStorageMode,
-} from "@/api/custom_component_api";
-import {
-  COMMON_ICONS,
-  ALL_ICONS,
-} from "@/components/system/items/form/composables/customCompIcons";
+import {i18n} from "@/lang";
+import {error, StarHorseIcon, warning} from "star-horse-lowcode";
+import {computed, ref} from "vue";
+import {FormConfig} from "@/components/types";
+import {type CustomCompStorageMode, saveCurrentCompAsCustom,} from "@/api/custom_component_api";
+import {ALL_ICONS, COMMON_ICONS,} from "@/components/system/items/form/composables/customCompIcons";
 
 defineOptions({ name: "SaveAsCustomCompDialog" });
 

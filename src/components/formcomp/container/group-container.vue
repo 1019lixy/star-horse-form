@@ -1,24 +1,18 @@
 <script setup lang="ts">
-import {
-  insertBelowRow,
-  insertRightCol,
-} from "@/components/formcomp/container/dytableUtils";
+import {insertBelowRow, insertRightCol,} from "@/components/formcomp/container/dytableUtils";
 import {
   insertBelowRow as gtInsertBelowRow,
   insertRightCol as gtInsertRightCol,
 } from "@/components/formcomp/container/gridtableUtils";
-import { i18n } from "@/lang";
-import {
-  copyContainer,
-  dynamicFormContextMenuData,
-} from "@/plugins/AblesPlugin";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { fieldCopy } from "@/utils/FieldOperationUtils";
-import { hasOpenDialog } from "@/api/keyboard-event-utils";
+import {i18n} from "@/lang";
+import {copyContainer, dynamicFormContextMenuData,} from "@/plugins/AblesPlugin";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {fieldCopy} from "@/utils/FieldOperationUtils";
+import {hasOpenDialog} from "@/api/keyboard-event-utils";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
 
-import { computed, PropType, ref, watch } from "vue";
-import { operationConfirm } from "star-horse-lowcode";
+import {computed, PropType, ref, watch} from "vue";
+import {operationConfirm} from "star-horse-lowcode";
 
 const props = defineProps({
   isDesign: { type: Boolean, default: false },

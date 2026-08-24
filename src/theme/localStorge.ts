@@ -1,4 +1,4 @@
-import { LangType } from "./theme.js";
+import {LangType} from "./theme.js";
 
 /**
  * 获取系统语言

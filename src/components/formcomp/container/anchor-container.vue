@@ -1,19 +1,12 @@
 <script setup lang="ts" name="anchor-container">
-import {
-  computed,
-  nextTick,
-  onMounted,
-  onBeforeUnmount,
-  PropType,
-  ref,
-} from "vue";
-import { itemCheck } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { i18n } from "@/lang";
-import { quickAddItem } from "@/api/form_utils";
+import {computed, nextTick, onBeforeUnmount, onMounted, PropType, ref,} from "vue";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {i18n} from "@/lang";
+import {quickAddItem} from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import { isContainer, ensureDefaultElements } from "./container-types";
-import { useDragAdd, ensureItems } from "./container-utils";
+import {ensureDefaultElements} from "./container-types";
+import {ensureItems, useDragAdd} from "./container-utils";
 
 const props = defineProps({
   parentField: { type: Object as PropType<any> },

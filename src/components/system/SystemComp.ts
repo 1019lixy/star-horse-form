@@ -1,4 +1,4 @@
-import { App, defineAsyncComponent } from "vue";
+import {App, defineAsyncComponent} from "vue";
 
 // @ts-ignore
 const items = import.meta.glob("@/components/system/*.vue");

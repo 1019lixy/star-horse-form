@@ -8,8 +8,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, onMounted, ref} from "vue";
+import {getDesignFormStore} from "@/store/StoreManager";
+
 let designForm = getDesignFormStore();
 let currenetId = computed(() => designForm.currentItemId);
 const formData = ref<any>({

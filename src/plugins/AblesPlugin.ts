@@ -1,10 +1,7 @@
-import {
-  getCopyerOperationStore,
-  getDesignFormStore,
-} from "@/store/StoreManager";
-import { uuid, DynamicNode } from "star-horse-lowcode";
-import { computed, reactive } from "vue";
-import { i18n } from "@/lang";
+import {getCopyerOperationStore, getDesignFormStore,} from "@/store/StoreManager";
+import {DynamicNode, uuid} from "star-horse-lowcode";
+import {computed, reactive} from "vue";
+import {i18n} from "@/lang";
 import camelcase from "camelcase";
 
 const copyerAction = getCopyerOperationStore();

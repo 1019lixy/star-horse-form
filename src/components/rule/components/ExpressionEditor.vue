@@ -67,8 +67,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from "vue";
-import { i18n } from "@/lang";
+import {computed, nextTick, ref} from "vue";
+import {i18n} from "@/lang";
 
 type VarType = "STRING" | "NUMBER" | "DATE" | "BOOLEAN" | "ARRAY";
 interface RuleVariable {

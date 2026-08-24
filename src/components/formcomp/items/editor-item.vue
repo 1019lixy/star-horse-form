@@ -14,8 +14,9 @@
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="codeItem">
-import { onMounted } from "vue";
-import { ItemPreps } from "star-horse-lowcode";
+import {onMounted} from "vue";
+import {ItemPreps} from "star-horse-lowcode";
+
 const props = withDefaults(defineProps<ItemPreps>(), {
   isDesign: false,
   disabled: false,

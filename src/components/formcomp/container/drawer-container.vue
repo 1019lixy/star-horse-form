@@ -1,12 +1,12 @@
 <script setup lang="ts" name="drawer-container">
-import { onMounted, PropType, ref } from "vue";
-import { itemCheck } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { i18n } from "@/lang";
-import { quickAddItem } from "@/api/form_utils";
+import {onMounted, PropType} from "vue";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {i18n} from "@/lang";
+import {quickAddItem} from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import { isContainer, ensureDefaultElements } from "./container-types";
-import { useDragAdd, ensureItems, usePanelState } from "./container-utils";
+import {ensureDefaultElements} from "./container-types";
+import {ensureItems, useDragAdd, usePanelState} from "./container-utils";
 
 const props = defineProps({
   parentField: { type: Object as PropType<any> },

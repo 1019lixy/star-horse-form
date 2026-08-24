@@ -113,11 +113,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
-import { ruleExecutionLogApi } from "@/api/rule_engine_api";
-import { Document } from "@element-plus/icons-vue";
-import { error } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {computed, onMounted, ref, watch} from "vue";
+import {ruleExecutionLogApi} from "@/api/rule_engine_api";
+import {Document} from "@element-plus/icons-vue";
+import {error} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const props = defineProps<{
   ruleId?: string;

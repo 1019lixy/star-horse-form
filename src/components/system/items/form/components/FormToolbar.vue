@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import {
-  dynamicFormHelpMessage,
-  formActions,
-} from "@/components/system/items/utils/DynamicForm";
-import { i18n } from "@/lang";
-import { computed, ref } from "vue";
-import { ToolBtnType } from "@/components/types/ToolBtnType";
-import { FormConfig } from "@/components/types";
-import { StarHorseIcon } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {dynamicFormHelpMessage, formActions,} from "@/components/system/items/utils/DynamicForm";
+import {i18n} from "@/lang";
+import {computed, ref} from "vue";
+import {ToolBtnType} from "@/components/types/ToolBtnType";
+import {FormConfig} from "@/components/types";
+import {StarHorseIcon} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType | any): void;
   (e: "cacheRestore", event: MouseEvent): void;

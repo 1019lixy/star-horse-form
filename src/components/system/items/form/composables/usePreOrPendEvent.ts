@@ -1,5 +1,5 @@
-import { computed } from "vue";
-import { i18n } from "@/lang";
+import {computed} from "vue";
+import {i18n} from "@/lang";
 
 /**
  * 前后缀事件类型

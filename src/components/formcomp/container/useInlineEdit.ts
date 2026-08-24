@@ -1,4 +1,4 @@
-import { nextTick, ref } from "vue";
+import {nextTick, ref} from "vue";
 
 /**
  * Composable for inline double-click label editing.

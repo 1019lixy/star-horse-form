@@ -1,5 +1,6 @@
 // 规则定义相关接口
-import { apiInstance, postRequest } from "star-horse-lowcode";
+import {apiInstance, postRequest} from "star-horse-lowcode";
+
 const ruleDefineUrl = apiInstance("userdb-manage", "userdb/ruleDefinition");
 const ruleConditionUrl = apiInstance("userdb-manage", "userdb/ruleCondition");
 const ruleActionUrl = apiInstance("userdb-manage", "userdb/ruleAction");

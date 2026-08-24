@@ -192,10 +192,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, reactive, ref, watch, type Ref } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
-import { i18n } from "@/lang";
-import type { FormFieldMeta } from "../useFormRuleRuntime";
+import {computed, inject, reactive, ref, type Ref, watch} from "vue";
+import type {FormInstance, FormRules} from "element-plus";
+import {i18n} from "@/lang";
+import type {FormFieldMeta} from "../useFormRuleRuntime";
 
 const props = defineProps<{
   visible: boolean;

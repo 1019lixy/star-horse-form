@@ -1,5 +1,5 @@
-import { i18n } from "@/lang/index.js";
-import { ToolBtnType } from "@/components/types/ToolBtnType.js";
+import {i18n} from "@/lang/index.js";
+import {ToolBtnType} from "@/components/types/ToolBtnType.js";
 
 const formActions = (): Array<ToolBtnType> => [
   // 文件组（下拉）：新建表单 / 导入 / 导出

@@ -210,11 +210,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, computed, inject, type Ref } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
-import { i18n } from "@/lang";
+import {computed, inject, reactive, ref, type Ref, watch} from "vue";
+import type {FormInstance, FormRules} from "element-plus";
+import {i18n} from "@/lang";
 import ExpressionEditor from "../components/ExpressionEditor.vue";
-import type { FormFieldMeta } from "../useFormRuleRuntime";
+import type {FormFieldMeta} from "../useFormRuleRuntime";
 
 const props = defineProps<{
   visible: boolean;

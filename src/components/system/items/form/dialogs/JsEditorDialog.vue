@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { i18n } from "@/lang/index.js";
+import {ref, watch} from "vue";
+import {i18n} from "@/lang/index.js";
 import JSON5 from "json5";
 
 const props = defineProps<{

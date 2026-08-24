@@ -34,9 +34,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { Position, Handle } from "../compat";
-import { i18n } from "@/lang";
+import {computed} from "vue";
+import {Handle, Position} from "../compat";
+import {i18n} from "@/lang";
 
 const props = defineProps<{
   id?: string;

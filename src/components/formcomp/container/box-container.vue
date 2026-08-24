@@ -1,5 +1,5 @@
 <script setup lang="ts" name="box-container">
-import { computed, PropType } from "vue";
+import {computed, PropType} from "vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import BoxCol from "@/components/formcomp/container/box-col.vue";
 

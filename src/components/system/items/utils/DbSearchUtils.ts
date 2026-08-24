@@ -1,15 +1,6 @@
-import {
-  ApiUrls,
-  closeLoad,
-  error,
-  getRequest,
-  load,
-  loadGetData,
-  SelectOption,
-  warning,
-} from "star-horse-lowcode";
-import { i18n } from "@/lang";
-import { ref } from "vue";
+import {ApiUrls, closeLoad, error, getRequest, load, loadGetData, SelectOption, warning,} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {ref} from "vue";
 
 const dbInfoApi = ref<ApiUrls>();
 

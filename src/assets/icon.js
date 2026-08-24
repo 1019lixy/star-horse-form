@@ -1,4 +1,4 @@
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 
 let icon = [
     {label: i18n("icon.add"), menuIcon: "add"},

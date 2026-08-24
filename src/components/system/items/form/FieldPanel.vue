@@ -1,26 +1,15 @@
 <script setup lang="ts" name="FieldPanel">
-import { computed, PropType, ref } from "vue";
-import {
-  loadData,
-  operationConfirm,
-  StarHorseIcon,
-  success,
-} from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import {
-  fieldCopy,
-  loadCustomComponents,
-} from "@/components/system/items/utils/FieldOperationUtils.js";
-import { i18n } from "@/lang/index.js";
-import { FormConfig } from "@/components/types";
+import {computed, PropType, ref} from "vue";
+import {loadData, operationConfirm, StarHorseIcon, success,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {fieldCopy, loadCustomComponents,} from "@/components/system/items/utils/FieldOperationUtils.js";
+import {i18n} from "@/lang/index.js";
+import {FormConfig} from "@/components/types";
 import OutlineTree from "@/components/system/items/form/components/OutlineTree.vue";
+import {deleteCustomComponent, deleteLocalCustomComponent,} from "@/api/custom_component_api";
 import {
-  deleteCustomComponent,
-  deleteLocalCustomComponent,
-} from "@/api/custom_component_api";
-import {
-  SYSTEM_TEMPLATES,
   SYSTEM_TEMPLATE_CATEGORIES,
+  SYSTEM_TEMPLATES,
 } from "@/components/system/items/form/composables/systemTemplates";
 
 const props = defineProps({

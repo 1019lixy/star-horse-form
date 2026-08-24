@@ -1,16 +1,8 @@
-import { ApiUrls, postRequest, success, warning } from "star-horse-lowcode";
-import type {
-  ConfigTemplate,
-  ConfigTemplateCategory,
-  SaveTemplateParams,
-} from "@/components/types/DataSourceTypes";
-import {
-  deleteLocalTemplate,
-  getLocalTemplateList,
-  saveLocalTemplate,
-} from "@/api/cached_utils";
-import { i18n } from "@/lang";
-import { ref } from "vue";
+import {ApiUrls, postRequest, success, warning} from "star-horse-lowcode";
+import type {ConfigTemplate, ConfigTemplateCategory, SaveTemplateParams,} from "@/components/types/DataSourceTypes";
+import {deleteLocalTemplate, getLocalTemplateList, saveLocalTemplate,} from "@/api/cached_utils";
+import {i18n} from "@/lang";
+import {ref} from "vue";
 
 const configApi = ref<ApiUrls>();
 

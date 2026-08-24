@@ -1,9 +1,9 @@
 <script setup lang="ts" name="DiagramCanvas">
-import { computed, ref, onMounted, onBeforeUnmount, nextTick } from "vue";
-import { i18n } from "@/lang";
-import { getPortPosition, getShapePath } from "../constants";
-import type { DiagramNode, DiagramEdge, NodeTypePreset } from "../types";
-import type { UseDiagramDesignerReturn } from "../composables/useDiagramDesigner";
+import {computed, nextTick, onBeforeUnmount, onMounted, ref} from "vue";
+import {i18n} from "@/lang";
+import {getPortPosition, getShapePath} from "../constants";
+import type {DiagramEdge, DiagramNode, NodeTypePreset} from "../types";
+import type {UseDiagramDesignerReturn} from "../composables/useDiagramDesigner";
 
 const props = defineProps<{
   designer: UseDiagramDesignerReturn;

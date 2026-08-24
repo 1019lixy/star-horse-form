@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { apiInstance } from "star-horse-lowcode";
-import { useCommonPage, DEFAULT_BTN_PERMISSIONS } from "./useCommonPage";
+import {ref} from "vue";
+import {apiInstance} from "star-horse-lowcode";
+import {useCommonPage} from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 
 const props = defineProps({
   currentPageClass: { type: String, default: "" },

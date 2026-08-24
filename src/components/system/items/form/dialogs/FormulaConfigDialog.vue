@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import type {
-  ConditionBranch,
-  FormulaConfig,
-  FormulaType,
-  LookupMapping,
-} from "@/components/types/FormulaConfig";
-import { i18n } from "@/lang/index.js";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {computed, ref} from "vue";
+import type {ConditionBranch, FormulaConfig, FormulaType, LookupMapping,} from "@/components/types/FormulaConfig";
+import {i18n} from "@/lang/index.js";
+import {getDesignFormStore} from "@/store/StoreManager";
+
 defineOptions({ name: "FormulaConfigDialog" });
 
 const props = defineProps<{

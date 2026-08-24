@@ -4,8 +4,8 @@
  * 节点预设库（流程图 / 网络拓扑 / 组织架构 / UML 等）
  */
 
-import { i18n } from "@/lang";
-import type { NodeTypePreset, DiagramNode } from "./types";
+import {i18n} from "@/lang";
+import type {DiagramNode, NodeTypePreset} from "./types";
 
 /** 通用端口（四向） */
 const DEFAULT_PORTS = [

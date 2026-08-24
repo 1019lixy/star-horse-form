@@ -1,6 +1,6 @@
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import { error, getFingerId, warning } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import {error, getFingerId, warning} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const TOKENCONST: string = "cbd451ac4d874c74bb1736449e873bab";
 const axiosInstance = axios.create({

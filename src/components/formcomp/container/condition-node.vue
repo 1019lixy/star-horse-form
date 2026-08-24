@@ -1,11 +1,11 @@
 <script setup lang="ts" name="condition-node">
-import { computed, nextTick, PropType, ref } from "vue";
-import { itemCheck, operationConfirm, uuid } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { i18n } from "@/lang";
-import { quickAddItem } from "@/api/form_utils";
+import {computed, nextTick, PropType, ref} from "vue";
+import {itemCheck, operationConfirm, uuid} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {i18n} from "@/lang";
+import {quickAddItem} from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import { useDragAdd, ensureItems } from "./container-utils";
+import {ensureItems, useDragAdd} from "./container-utils";
 
 defineOptions({ name: "ConditionNode" });
 

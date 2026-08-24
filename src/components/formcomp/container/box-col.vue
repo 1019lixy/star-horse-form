@@ -1,12 +1,12 @@
 <script setup lang="ts" name="box-container">
-import { computed, onMounted, PropType } from "vue";
+import {computed, onMounted, PropType} from "vue";
 // import piniaInstance from "@/store/index";
-import { tableCellOperation } from "@/components/formcomp/container/dytableUtils";
-import { itemCheck, uuid } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import { useRowHeight, useDropGuard } from "./container-utils";
+import {useDropGuard, useRowHeight} from "./container-utils";
 
 const props = defineProps({
   parentField: { type: Object as PropType<any> },

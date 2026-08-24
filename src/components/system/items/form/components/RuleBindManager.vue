@@ -12,17 +12,12 @@
  * 3. 解除绑定
  * 4. 字段覆盖范围分析：扫描规则节点中的 targetField/fieldName，与 formFields 比对
  */
-import { computed, ref, watch } from "vue";
-import { Plus, Delete, Search, Link, View } from "@element-plus/icons-vue";
-import { i18n } from "@/lang";
-import { success, warning, error, operationConfirm } from "star-horse-lowcode";
-import {
-  ruleSetApi,
-  ruleSetItemApi,
-  ruleDefinitionApi,
-  ruleExecutionLogApi,
-} from "@/api/rule_engine_api";
-import type { FormFieldMeta } from "@/components/rule/useFormRuleRuntime";
+import {computed, ref, watch} from "vue";
+import {Delete, Plus, Search, View} from "@element-plus/icons-vue";
+import {i18n} from "@/lang";
+import {error, operationConfirm, success, warning} from "star-horse-lowcode";
+import {ruleDefinitionApi, ruleSetApi, ruleSetItemApi,} from "@/api/rule_engine_api";
+import type {FormFieldMeta} from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps<{
   modelValue: boolean;

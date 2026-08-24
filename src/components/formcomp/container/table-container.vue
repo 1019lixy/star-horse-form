@@ -1,11 +1,11 @@
 <script setup lang="ts" name="table-container">
 // 右键菜单组件
-import { computed, PropType, ref } from "vue";
-import { i18n } from "@/lang";
+import {computed, PropType, ref} from "vue";
+import {i18n} from "@/lang";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
-import { itemCheck, operationConfirm, uuid } from "star-horse-lowcode";
-import { getDesignFormStore } from "@/store/StoreManager";
-import { useRowHeight, useDropGuard } from "./container-utils";
+import {itemCheck, operationConfirm} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {useDropGuard, useRowHeight} from "./container-utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 
 let containerTableRef = ref(); // 强制刷新表格

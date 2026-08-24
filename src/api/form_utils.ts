@@ -1,7 +1,7 @@
-import { i18n } from "@/lang";
-import { uuid } from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {uuid} from "star-horse-lowcode";
 import camelcase from "camelcase";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {getDesignFormStore} from "@/store/StoreManager";
 
 /**
  * 检查对象是否需要创建

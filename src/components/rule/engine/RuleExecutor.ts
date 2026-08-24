@@ -3,7 +3,7 @@
  * 解析流程图节点和边，模拟规则执行，返回执行路径
  */
 
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 
 export interface ExecutionNode {
   id: string;

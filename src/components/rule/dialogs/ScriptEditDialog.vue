@@ -66,10 +66,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
-import { warning } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {reactive, ref, watch} from "vue";
+import type {FormInstance, FormRules} from "element-plus";
+import {warning} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const props = defineProps<{
   visible: boolean;

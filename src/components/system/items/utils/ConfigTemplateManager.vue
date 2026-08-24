@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { i18n } from "@/lang";
-import { error, success, warning } from "star-horse-lowcode";
-import { computed, ref, watch } from "vue";
+import {i18n} from "@/lang";
+import {error, success, warning} from "star-horse-lowcode";
+import {computed, ref, watch} from "vue";
 import type {
   ConfigTemplate,
   ConfigTemplateCategory,
@@ -9,13 +9,8 @@ import type {
   ConfigTemplateStorage,
   SaveTemplateParams,
 } from "@/components/types/DataSourceTypes";
-import {
-  getTemplateList,
-  init,
-  removeTemplate,
-  saveTemplate,
-} from "@/api/config_template_api";
-import { FormConfig } from "@/components/types";
+import {getTemplateList, init, removeTemplate, saveTemplate,} from "@/api/config_template_api";
+import {FormConfig} from "@/components/types";
 
 defineOptions({ name: "ConfigTemplateManager" });
 

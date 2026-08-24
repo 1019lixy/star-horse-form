@@ -1,6 +1,6 @@
-import { uuid } from "star-horse-lowcode";
-import { computed } from "vue";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {uuid} from "star-horse-lowcode";
+import {computed} from "vue";
+import {getDesignFormStore} from "@/store/StoreManager";
 import JSON5 from "json5";
 
 const formData = computed(() => getDesignFormStore().formData);

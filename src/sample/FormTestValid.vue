@@ -12,19 +12,13 @@ import {
   success,
   warning,
 } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
-import { nextTick, ref } from "vue";
-import { createBiParamDataAdapter, FormConfig } from "@/components/types";
-import { useRoute } from "vue-router";
-import {
-  getUserInfo,
-  loadDict,
-  loadRolesInfo,
-  loadSystemInfo,
-  permissionMenus,
-} from "@/sample/utils/formapi";
-import { ServiceEnums } from "@/components/enums/ServiceEnums";
+import {nextTick, ref} from "vue";
+import {createBiParamDataAdapter, FormConfig} from "@/components/types";
+import {useRoute} from "vue-router";
+import {getUserInfo, loadDict, loadRolesInfo, loadSystemInfo, permissionMenus,} from "@/sample/utils/formapi";
+import {ServiceEnums} from "@/components/enums/ServiceEnums";
 
 const starHorseFormDesignRef = ref();
 const loadMenu = (type: string, sysId: string) => {

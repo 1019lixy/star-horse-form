@@ -1,12 +1,9 @@
-import { postRequest, SearchParams, uuid } from "star-horse-lowcode";
-import { computed } from "vue";
-import { getDesignFormStore } from "@/store/StoreManager";
+import {postRequest, SearchParams, uuid} from "star-horse-lowcode";
+import {computed} from "vue";
+import {getDesignFormStore} from "@/store/StoreManager";
 import camelCase from "camelcase";
-import {
-  getCustomComponentList,
-  getLocalCustomComponentList,
-} from "@/api/custom_component_api";
-import { createDefaultElements } from "@/components/formcomp/container/container-types";
+import {getCustomComponentList, getLocalCustomComponentList,} from "@/api/custom_component_api";
+import {createDefaultElements} from "@/components/formcomp/container/container-types";
 
 const formData = computed(() => getDesignFormStore().formData);
 const numField: Array<string> = [

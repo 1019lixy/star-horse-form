@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DiagramPropertyPanel">
-import { computed, ref, watch } from "vue";
-import { i18n } from "@/lang";
-import type { UseDiagramDesignerReturn } from "../composables/useDiagramDesigner";
+import {computed, ref, watch} from "vue";
+import {i18n} from "@/lang";
+import type {UseDiagramDesignerReturn} from "../composables/useDiagramDesigner";
 
 const props = defineProps<{
   designer: UseDiagramDesignerReturn;

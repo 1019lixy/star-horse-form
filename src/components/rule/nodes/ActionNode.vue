@@ -87,10 +87,10 @@
 </template>
 
 <script setup lang="ts">
-import { Position, Handle } from "../compat";
-import { Plus, Edit, Delete, InfoFilled } from "@element-plus/icons-vue";
-import { i18n } from "@/lang";
-import { useNodeResize } from "../utils/useNodeResize";
+import {Handle, Position} from "../compat";
+import {Delete, Edit, InfoFilled, Plus} from "@element-plus/icons-vue";
+import {i18n} from "@/lang";
+import {useNodeResize} from "../utils/useNodeResize";
 
 const props = defineProps<{
   data: {

@@ -1,18 +1,10 @@
-import {
-  copyContainer,
-  moveDownItem,
-  moveUpItem,
-  removeItem,
-} from "@/plugins/AblesPlugin";
-import {
-  getCopyerOperationStore,
-  getDesignFormStore,
-} from "@/store/StoreManager";
-import { operationConfirm, uuid, warning } from "star-horse-lowcode";
-import { i18n } from "@/lang";
-import { computed } from "vue";
-import { ModuleEnums } from "@/components/enums/ModuleEnums";
-import { deepClone } from "@/api/system";
+import {copyContainer, moveDownItem, moveUpItem, removeItem,} from "@/plugins/AblesPlugin";
+import {getCopyerOperationStore, getDesignFormStore,} from "@/store/StoreManager";
+import {operationConfirm, uuid, warning} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {computed} from "vue";
+import {ModuleEnums} from "@/components/enums/ModuleEnums";
+import {deepClone} from "@/api/system";
 
 const list = computed(() => getDesignFormStore().compList);
 const isEdit = computed(() => getDesignFormStore().isEdit);

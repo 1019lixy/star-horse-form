@@ -1,6 +1,5 @@
 <script setup lang="ts" name="Areainfo">
-import { onMounted, ref, defineAsyncComponent } from "vue";
-import { i18n } from "@/lang";
+import {defineAsyncComponent, onMounted, ref} from "vue";
 
 // 懒加载重量级组件，按需初始化
 const FormTestValid = defineAsyncComponent(

@@ -11,8 +11,8 @@
  * - applyToCompList: 将 FieldAction 应用到 compList 的 preps（与 shplugin controlFieldProps 对齐）
  * - 受控字段追踪: 记录哪些字段受规则引擎控制，避免与已有联动冲突
  */
-import { ruleEngineApi } from "@/api/rule_engine_api";
-import { success, error, warning } from "star-horse-lowcode";
+import {ruleEngineApi} from "@/api/rule_engine_api";
+import {error, success, warning} from "star-horse-lowcode";
 
 /** 触发事件类型 */
 export type TriggerEvent =

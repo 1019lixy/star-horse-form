@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from "vue";
-import { i18n } from "@/lang";
-import { validDynamicFormCompParams } from "@/components/system/items/utils/FormParamsValid";
-import { piniaInstance, useDesignFormStore, warning } from "star-horse-lowcode";
+import {computed, nextTick, ref, watch} from "vue";
+import {i18n} from "@/lang";
+import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
+import {piniaInstance, useDesignFormStore, warning} from "star-horse-lowcode";
 import FormPropertyPanel from "@/components/system/items/form/FormPropertyPanel.vue";
-import { FormConfig } from "@/components/types";
+import {FormConfig} from "@/components/types";
 
 const props = defineProps<{
   visible: boolean;

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="dytable-container">
 // 右键菜单组件
-import { computed, PropType, ref } from "vue";
+import {computed, PropType, ref} from "vue";
 import DytableCol from "@/components/formcomp/container/dytable-col.vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 

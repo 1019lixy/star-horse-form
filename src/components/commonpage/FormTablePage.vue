@@ -1,15 +1,6 @@
 <script setup lang="ts">
+import {computed, nextTick, onMounted, provide, reactive, ref, watch,} from "vue";
 import {
-  computed,
-  nextTick,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from "vue";
-import {
-  analysisAppComps,
   analysisCompDatas,
   apiInstance,
   ApiUrls,
@@ -18,12 +9,9 @@ import {
   PageFieldInfo,
   SearchFields,
 } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import {
-  useFormRuleRuntime,
-  validateRule,
-} from "@/components/rule/useFormRuleRuntime";
+import {useFormRuleRuntime, validateRule,} from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps({
   currentPageClass: { type: String, default: "" },

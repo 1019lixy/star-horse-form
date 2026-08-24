@@ -3,8 +3,8 @@
  * 对标阿里/淘宝规则引擎：节点配置完整性 + 连线合法性 + 图结构合法性 + 字段引用有效性
  * 输出按节点聚合的问题列表，供画布红角标与汇总面板消费
  */
-import { i18n } from "@/lang";
-import { NODE_TYPE_MAP } from "../nodeTypes";
+import {i18n} from "@/lang";
+import {NODE_TYPE_MAP} from "../nodeTypes";
 
 export type IssueLevel = "error" | "warning";
 

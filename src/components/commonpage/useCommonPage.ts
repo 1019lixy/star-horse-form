@@ -12,27 +12,19 @@
  *
  * ON_CHANGE 通用化：通过 enableOnChange 开关启用，内置 300ms 防抖 watch
  */
+import {computed, nextTick, onMounted, provide, ref, type Ref, watch,} from "vue";
 import {
-  computed,
-  nextTick,
-  onMounted,
-  provide,
-  ref,
-  watch,
-  type Ref,
-} from "vue";
-import {
-  analysisCompDatas,
-  apiInstance,
-  ApiUrls,
-  convertCompToAppComps,
-  createDatetime,
-  dialogPreps,
-  SearchFields,
-  UserFuncInfo,
+    analysisCompDatas,
+    apiInstance,
+    ApiUrls,
+    convertCompToAppComps,
+    createDatetime,
+    dialogPreps,
+    SearchFields,
+    UserFuncInfo,
 } from "star-horse-lowcode";
-import { i18n } from "@/lang";
-import { useFormRuleRuntime } from "@/components/rule/useFormRuleRuntime";
+import {i18n} from "@/lang";
+import {useFormRuleRuntime} from "@/components/rule/useFormRuleRuntime";
 
 export interface CommonPageProps {
   currentPageClass: string;

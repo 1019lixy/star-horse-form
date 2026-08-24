@@ -1,6 +1,6 @@
-import { ApiUrls, postRequest, success, warning } from "star-horse-lowcode";
-import { ref } from "vue";
-import { i18n } from "@/lang";
+import {ApiUrls, postRequest, success, warning} from "star-horse-lowcode";
+import {ref} from "vue";
+import {i18n} from "@/lang";
 
 const customCompApi = ref<ApiUrls>();
 let basePrefix = "/userdb-manage";

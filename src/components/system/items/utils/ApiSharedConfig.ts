@@ -1,11 +1,6 @@
-import { i18n } from "@/lang";
-import { ref } from "vue";
-import {
-  dataType,
-  httpMethod,
-  searchMatchList,
-  SelectOption,
-} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {ref} from "vue";
+import {dataType, httpMethod, searchMatchList, SelectOption,} from "star-horse-lowcode";
 
 /**
  * Response template options (shared)

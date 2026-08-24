@@ -1,26 +1,17 @@
 <script setup lang="ts">
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 import {
   createData,
   getInterfaceUtils,
   validInterface,
   validOperation,
 } from "@/components/system/items/utils/ItemPreps.js";
-import {
-  error,
-  FieldInfo,
-  PageFieldInfo,
-  SelectOption,
-} from "star-horse-lowcode";
-import type {
-  ConfigTemplateCategory,
-  DataSourceType,
-  DataSourceTypeOption,
-} from "@/components/types/DataSourceTypes";
+import {error, FieldInfo, PageFieldInfo, SelectOption,} from "star-horse-lowcode";
+import type {ConfigTemplateCategory, DataSourceType, DataSourceTypeOption,} from "@/components/types/DataSourceTypes";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import ConfigTemplateManager from "@/components/system/items/utils/ConfigTemplateManager.vue";
-import { computed, nextTick, PropType, reactive, ref, unref, watch } from "vue";
-import { FormConfig } from "@/components/types";
+import {computed, nextTick, PropType, reactive, ref, unref, watch} from "vue";
+import {FormConfig} from "@/components/types";
 
 defineOptions({ name: "DataSourceComp" });
 

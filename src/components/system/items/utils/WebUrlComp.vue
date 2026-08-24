@@ -1,20 +1,8 @@
 <script setup lang="ts">
-import {
-  getInterfaceUtils,
-  getUrlFieldConfig,
-  validOperation,
-} from "@/components/system/items/utils/ItemPreps";
-import { i18n } from "@/lang";
-import { PageFieldInfo, searchMatchList } from "star-horse-lowcode";
-import {
-  ModelRef,
-  nextTick,
-  onMounted,
-  PropType,
-  reactive,
-  ref,
-  unref,
-} from "vue";
+import {getInterfaceUtils, getUrlFieldConfig, validOperation,} from "@/components/system/items/utils/ItemPreps";
+import {i18n} from "@/lang";
+import {PageFieldInfo, searchMatchList} from "star-horse-lowcode";
+import {ModelRef, nextTick, onMounted, PropType, reactive, ref, unref,} from "vue";
 
 defineOptions({
   name: "WebUrlComp",

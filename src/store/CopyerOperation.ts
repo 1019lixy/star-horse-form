@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import { ModuleEnums } from "@/components/enums/ModuleEnums";
-import { message } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {defineStore} from "pinia";
+import {ref} from "vue";
+import {ModuleEnums} from "@/components/enums/ModuleEnums";
+import {message} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 export const useCopyerOperationStore = defineStore("copyerOperation", () => {
   const action = ref<string>("");

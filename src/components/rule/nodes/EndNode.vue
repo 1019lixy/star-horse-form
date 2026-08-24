@@ -20,8 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { Handle, Position } from "../compat";
-import { i18n } from "@/lang";
+import {Handle, Position} from "../compat";
+import {i18n} from "@/lang";
 </script>
 
 <style scoped lang="scss">
