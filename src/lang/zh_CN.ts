@@ -499,6 +499,24 @@ export default {
   "rule.desc.ruleSetRef": "引用一组子规则",
   "rule.desc.decisionTable": "多条件+多动作的表格化规则",
 
+  // 触发事件（start 节点配置）
+  "rule.lbl.triggerEvent": "触发事件",
+  "rule.lbl.triggerField": "监听字段",
+  "rule.lbl.triggerButton": "触发按钮",
+  "rule.opt.onLoad": "表单加载",
+  "rule.opt.onChange": "字段变更",
+  "rule.opt.onSubmit": "提交前",
+  "rule.opt.onValidate": "校验时",
+  "rule.opt.onButtonClick": "按钮点击",
+  "rule.group.trigger": "触发配置",
+
+  // 动作类型标识（action 派生体系）
+  "rule.lbl.actionCategory": "动作类别",
+  "rule.opt.formControl": "表单控制",
+  "rule.opt.httpCall": "接口调用",
+  "rule.opt.scriptExec": "脚本执行",
+  "rule.opt.variableAssign": "变量赋值",
+
   // 字段标签
   "rule.field.source": "数据来源",
   "rule.field.fieldPath": "字段路径",

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {apiInstance, success} from "star-horse-lowcode";
+import {appEndpoints} from "@/api/app_config";
 import {useCommonPage} from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
 import {i18n} from "@/lang";
@@ -19,7 +20,7 @@ const { isLoading, hasData, errorMsg, tableFieldList, dataFormat, dataUrl } =
   useCommonPage({
     props,
     formRef: printFormRef,
-    defaultDataUrl: apiInstance("userdb-manage", "consumer/api"),
+    defaultDataUrl: apiInstance(appEndpoints.gatewayServiceName, "consumer/api"),
   });
 
 const buildPrintTitle = () => {

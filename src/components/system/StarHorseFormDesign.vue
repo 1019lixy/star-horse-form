@@ -51,6 +51,7 @@ import {createJSONEditor, isTextContent, toJSONContent,} from "vanilla-jsonedito
 import {loadCustomComponents} from "@/components/system/items/utils/FieldOperationUtils";
 import {initCustomCompApi} from "@/api/custom_component_api";
 import {hasOpenDialog} from "@/api/keyboard-event-utils";
+import {appEndpoints} from "@/api/app_config";
 // 对话框类组件改为异步加载，减小首屏 bundle
 const CodeDialog = defineAsyncComponent(
   () => import("@/components/system/items/form/dialogs/CodeDialog.vue"),
@@ -532,7 +533,7 @@ const initWebSocketService = () => {
   try {
     console.log("Initializing WebSocket service");
     formSocketInstance.value = new FormSocketService({
-      endpoint: "/api/ws/form",
+      endpoint: appEndpoints.wsEndpoint,
       onChatConnected: () => {
         console.log("Form WebSocket连接已建立");
         isConnected.value = true;

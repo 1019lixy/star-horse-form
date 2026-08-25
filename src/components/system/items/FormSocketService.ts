@@ -2,6 +2,7 @@
 //https://webrtc.github.io/samples/
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import {appEndpoints} from "@/api/app_config";
 
 // 消息类型
 export enum MessageType {
@@ -49,7 +50,7 @@ export class FormSocketService {
 
   constructor(options: ChatSocketServiceOptions = {}) {
     this.options = {
-      endpoint: "/api/ws/form",
+      endpoint: appEndpoints.wsEndpoint,
       ...options,
     };
     if (this.initConnectInstance) {

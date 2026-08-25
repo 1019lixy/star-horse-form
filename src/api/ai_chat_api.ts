@@ -1,4 +1,5 @@
 import {ApiUrls} from "star-horse-lowcode";
+import {appEndpoints} from "@/api/app_config";
 import {ref} from "vue";
 
 const aiApi = ref<ApiUrls>();
@@ -26,7 +27,7 @@ export function sendAiChatMessage(
 ): AbortController {
   const controller = new AbortController();
 
-  const baseUrl = aiApi.value?.appName || "userdb-manage";
+  const baseUrl = aiApi.value?.appName || appEndpoints.gatewayPrefix;
   const url = `/${baseUrl}/userdb/aiChat/chat`;
 
   fetch(url, {
@@ -143,7 +144,7 @@ export function sendAiChatMessage(
  * 清空 AI 会话
  */
 export function clearAiChatSession(sessionId: string): Promise<any> {
-  const baseUrl = aiApi.value?.appName || "userdb-manage";
+  const baseUrl = aiApi.value?.appName || appEndpoints.gatewayPrefix;
   return fetch(`/${baseUrl}/userdb/aiChat/session/${sessionId}`, {
     method: "DELETE",
   }).then((res) => res.json());

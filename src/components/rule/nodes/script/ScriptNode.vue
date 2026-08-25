@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import {Handle, Position} from "../compat";
+import {Handle, Position} from "../../compat";
 import {Edit, InfoFilled} from "@element-plus/icons-vue";
 import {computed} from "vue";
 import {i18n} from "@/lang";
@@ -83,7 +83,7 @@ const scriptPreview = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@use "../styles/design-tokens.scss" as tokens;
+@use "../../styles/design-tokens.scss" as tokens;
 
 .script-node {
   .node-card {

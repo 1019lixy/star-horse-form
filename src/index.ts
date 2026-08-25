@@ -52,6 +52,30 @@ export * from "@/components/formcomp/items";
 export * from "@/components/formcomp/container";
 export * from "@/components/types";
 export * from "@/components/system";
+export { configureRuleEngine, getRuleEngineConfig } from "@/api/rule_engine_api";
+export { configureAppEndpoints, getAppEndpoints } from "@/api/app_config";
+export {
+  configureRuleNodes,
+  registerRuleNode,
+  unregisterRuleNodeType,
+  disableRuleNodeTypes,
+  resetRuleNodes,
+  getNodeCategories,
+  getNodeTypeMap,
+  getNodeDef,
+  getNodeLabel,
+  type NodeTypeDef,
+  type NodeCategory,
+  type ParamField,
+} from "@/components/rule/nodeTypes";
+export { BUILT_IN_NODE_TYPES } from "@/components/rule/nodes";
+export {
+  configureRuleCategories,
+  resetRuleCategories,
+  getRuleCategoryOptions,
+  getDefaultRuleType,
+  type RuleCategoryOption,
+} from "@/components/rule/designerConfig";
 export default {
   install,
 };

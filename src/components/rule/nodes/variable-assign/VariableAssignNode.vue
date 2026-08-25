@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import {Handle, Position} from "../compat";
+import {Handle, Position} from "../../compat";
 import {Delete, Edit, InfoFilled, Plus} from "@element-plus/icons-vue";
 import {i18n} from "@/lang";
 
@@ -119,7 +119,7 @@ const formatValue = (item: any) => {
 </script>
 
 <style scoped lang="scss">
-@use "../styles/design-tokens.scss" as tokens;
+@use "../../styles/design-tokens.scss" as tokens;
 
 .variable-assign-node {
   .node-card {

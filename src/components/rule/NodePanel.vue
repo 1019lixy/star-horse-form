@@ -226,7 +226,7 @@
 import {computed, ref} from "vue";
 import {Coin, Delete, Edit, Grid, Plus, Search,} from "@element-plus/icons-vue";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {NODE_CATEGORIES} from "./nodeTypes";
+import {getNodeCategories} from "./nodeTypes";
 import {i18n} from "@/lang";
 
 type VarType = "STRING" | "NUMBER" | "DATE" | "BOOLEAN" | "ARRAY";
@@ -252,11 +252,11 @@ const activeTab = ref("nodes");
 
 // ===== 节点库 =====
 const searchKeyword = ref("");
-const activeGroups = ref(NODE_CATEGORIES.map((c) => c.name));
+const activeGroups = ref(getNodeCategories().map((c) => c.name));
 const filteredCategories = computed(() => {
-  if (!searchKeyword.value) return NODE_CATEGORIES;
+  if (!searchKeyword.value) return getNodeCategories();
   const kw = searchKeyword.value.toLowerCase();
-  return NODE_CATEGORIES.map((cat) => ({
+  return getNodeCategories().map((cat) => ({
     ...cat,
     nodes: cat.nodes.filter((n) => {
       const label = i18n(n.label).toLowerCase();

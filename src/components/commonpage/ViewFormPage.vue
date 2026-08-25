@@ -8,6 +8,7 @@ import {
   StarHorseDataView,
 } from "star-horse-lowcode";
 import {nextTick, onMounted, provide, ref, watch} from "vue";
+import {appEndpoints} from "@/api/app_config";
 
 const props = defineProps({
   currentPageClass: { type: String, default: "" },
@@ -18,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const dataUrl = apiInstance("userdb-manage", "consumer/api");
+const dataUrl = apiInstance(appEndpoints.gatewayServiceName, "consumer/api");
 
 const tableFieldList = ref<PageFieldInfo | any>({
   fieldList: [],

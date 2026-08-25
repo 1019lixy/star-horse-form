@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {i18n} from "@/lang";
+import {appEndpoints} from "@/api/app_config";
 import {
   createData,
   getInterfaceUtils,
@@ -163,7 +164,7 @@ const dictFields: FieldInfo[] | any = [
     formVisible: true,
     listVisible: true,
     preps: {
-      dataUrl: "/system-config/system/dictinfoType/pageList",
+      dataUrl: appEndpoints.dictPageListUrl,
       displayName: "dictTypeName",
       multiple: false,
       displayValue: "dictTypeCode",

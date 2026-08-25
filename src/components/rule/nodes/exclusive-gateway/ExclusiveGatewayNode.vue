@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import {computed} from "vue";
-import {Handle, Position} from "../compat";
+import {Handle, Position} from "../../compat";
 import {i18n} from "@/lang";
 
 const props = defineProps<{
@@ -54,7 +54,7 @@ const hasBranches = computed(
 </script>
 
 <style scoped lang="scss">
-@use "../styles/design-tokens.scss" as tokens;
+@use "../../styles/design-tokens.scss" as tokens;
 .exclusive-gateway {
   display: flex;
   flex-direction: column;

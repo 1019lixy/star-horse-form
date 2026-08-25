@@ -6,15 +6,16 @@
 
 | 文件 | 说明 |
 | --- | --- |
-| `rule_engine_api.ts` | 规则引擎 CRUD 接口 |
+| `rule_engine_api.ts` | 规则引擎 CRUD 接口 + `configureRuleEngine` / `getRuleEngineConfig` |
+| `app_config.ts` | 全局端点配置 + `configureAppEndpoints` / `getAppEndpoints` / `appEndpoints` |
 | `star_horse_form_api.ts` | 表单设计器 axios 实例 |
 | `dataAdapter.ts` | 数据适配器（createDataAdapter / createParamDataAdapter / createBiParamDataAdapter） |
 | `form_utils.ts` | 表单工具 |
 | `star_horse_form_utils.ts` | 表单设计器工具 |
 | `config_template_api.ts` | 配置模板接口 |
-| `custom_component_api.ts` | 自定义组件接口 |
-| `ai_chat_api.ts` | AI 对话接口 |
-| `ai_config_api.ts` | AI 配置接口 |
+| `custom_component_api.ts` | 自定义组件接口（已支持 `initCustomCompApi`） |
+| `ai_chat_api.ts` | AI 对话接口（已支持 `initAiApi`） |
+| `ai_config_api.ts` | AI 配置接口（已支持 `initAiConfigApi`） |
 | `short_key_operation.ts` | 快捷键操作 |
 | `dyform-short-key-operation.ts` | 动态表单快捷键操作 |
 | `keyboard-event-utils.ts` | 键盘事件工具 |
@@ -24,9 +25,75 @@
 | `vueContext.ts` | Vue 上下文 |
 | `pcas-code.json` | 省市区编码数据 |
 
+## 端点配置（无状态注入）
+
+遵循无状态 lib 库原则，本组件包**不绑定任何特定业务的接口地址**。所有后端交互路径均通过两个全局配置函数在宿主应用入口（如 `main.ts`）按需注入；未配置时使用内置默认值保证开箱可用。
+
+### configureRuleEngine — 规则引擎 API 端点
+
+定义于 `src/api/rule_engine_api.ts`：
+
+```ts
+interface RuleEngineApiConfig {
+  serviceName: string;            // apiInstance 服务名，默认 "userdb-manage"
+  ruleDefinitionPath: string;     // 规则定义路径，默认 "userdb/ruleDefinition"
+  ruleConditionPath: string;      // 规则条件路径，默认 "userdb/ruleCondition"
+  ruleActionPath: string;         // 规则动作路径，默认 "userdb/ruleAction"
+  ruleSetPath: string;            // 规则集路径，默认 "userdb/ruleSet"
+  ruleSetItemPath: string;        // 关联项路径，默认 "userdb/ruleSetItem"
+  ruleVariablePath: string;       // 变量路径，默认 "userdb/ruleVariable"
+  ruleExecutionLogPath: string;   // 执行日志路径，默认 "userdb/ruleExecutionLog"
+  ruleEnginePath: string;         // 引擎执行路径，默认 "userdb/ruleEngine"
+  ruleVersionPath: string;        // 版本路径，默认 "userdb/ruleVersion"
+}
+
+configureRuleEngine(cfg: Partial<RuleEngineApiConfig>): void
+getRuleEngineConfig(): Readonly<RuleEngineApiConfig>
+```
+
+最终请求路径为 `/{serviceName}/{xxxPath}/具体操作`。例如默认配置下执行接口为
+`POST /userdb-manage/userdb/ruleEngine/executeByForm/{formId}?triggerEvent=ON_LOAD`。
+
+```ts
+// 完全自定义
+configureRuleEngine({ serviceName: "my-service", ruleEnginePath: "api/v2/ruleEngine" });
+// 仅改服务名，其余路径沿用默认
+configureRuleEngine({ serviceName: "custom-gateway" });
+```
+
+### configureAppEndpoints — 全局通用端点
+
+定义于 `src/api/app_config.ts`，覆盖 WebSocket、代理、字典、网关等非规则引擎端点：
+
+| 字段 | 默认值 | 使用方 |
+| --- | --- | --- |
+| `wsEndpoint` | `/api/ws/form` | FormSocketService / StarHorseFormDesign（SockJS 协同） |
+| `redirectPrefix` | `/system-config/redirect` | ItemPreps（拼接 redirect 类地址） |
+| `apiLinkageProxyUrl` | `/system-config/redirect/apiLinkage` | http-call 节点默认 proxyUrl、ApiSharedConfig |
+| `executeProxyUrl` | `/system-config/redirect/execute` | ItemPreps 接口执行 |
+| `serviceListUrl` | `/userdb-manage/redirect/api/service/list` | 内部服务列表下拉 |
+| `dictPageListUrl` | `/system-config/system/dictinfoType/pageList` | 数据源字典分页 |
+| `formDesignPageListUrl` | `userdb-manage/userdb/dynamicForm/pageList` | 表单选择分页列表 |
+| `formDesignBaseUrl` | `userdb-manage/userdb/dynamicForm` | 表单设计器基础路径（getById 等操作拼接，RuleDesigner 加载表单字段） |
+| `gatewayPrefix` | `/userdb-manage` | URL 拼接（custom_component_api、ai_*_api 兜底） |
+| `gatewayServiceName` | `userdb-manage` | apiInstance 服务名（commonpage 三页） |
+
+```ts
+import { configureAppEndpoints } from "star-horse-form";
+
+configureAppEndpoints({
+  wsEndpoint: "/my-ws/form",
+  gatewayPrefix: "/my-gateway",
+  gatewayServiceName: "my-gateway",
+  apiLinkageProxyUrl: "/system-config/redirect/apiLinkage",
+});
+```
+
+> 配置为模块级单例，应在渲染任何表单/规则组件**之前**调用；重复调用按字段合并覆盖。`getAppEndpoints()` 返回只读快照用于调试。
+
 ## 规则引擎接口（rule_engine_api.ts）
 
-所有接口基于 `apiInstance("userdb-manage", "userdb/xxx")` 构建基础路径，通过 `postRequest` 发起 POST 请求。
+以下表格中的路径均为**相对路径片段**，实际请求会拼接 `configureRuleEngine` 注入的 `{serviceName}/{xxxPath}` 前缀。所有请求通过 `postRequest` 发起 POST。
 
 ### ruleDefinitionApi（规则定义）
 

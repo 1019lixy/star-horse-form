@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import {Handle, Position} from "../compat";
+import {Handle, Position} from "../../compat";
 import {Edit, InfoFilled} from "@element-plus/icons-vue";
 import {computed} from "vue";
 import {i18n} from "@/lang";
@@ -101,7 +101,7 @@ const hasExtra = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@use "../styles/design-tokens.scss" as tokens;
+@use "../../styles/design-tokens.scss" as tokens;
 .http-call-node {
   .node-card {
     min-width: tokens.$rd-node-min-width;

@@ -49,161 +49,33 @@
         </el-form>
       </div>
 
-      <!-- 条件节点（基础类型） -->
-      <div v-if="selectedNode.type === 'condition'" class="prop-section">
-        <div class="section-title">
-          <span>{{ i18n("rule.panel.conditionList") }}</span>
-          <el-button
-            type="primary"
-            link
-            @click="emit('editCondition', selectedNode.id, -1)"
-            ><el-icon><Plus /></el-icon> {{ i18n("rule.add") }}</el-button
-          >
-        </div>
-        <div class="logic-toggle">
-          <span>{{ i18n("rule.panel.logic") }}：</span>
-          <el-radio-group
-            :model-value="selectedNode.data.logic"
-            @change="updateField('logic', $event)"
-          >
-            <el-radio-button value="AND">{{
-              i18n("rule.option.and")
-            }}</el-radio-button>
-            <el-radio-button value="OR">{{
-              i18n("rule.option.or")
-            }}</el-radio-button>
-          </el-radio-group>
-        </div>
-        <div v-if="!conditions.length" class="empty-tip">
-          {{ i18n("rule.panel.noCondition") }}
-        </div>
-        <div v-for="(cond, idx) in conditions" :key="idx" class="list-item">
-          <div class="item-info">
-            <span class="item-field">{{ cond.fieldName }}</span>
-            <span class="item-op">{{ getOpSymbol(cond.operator) }}</span>
-            <span class="item-val">{{
-              cond.value || i18n("rule.panel.emptyValue")
-            }}</span>
-          </div>
-          <div class="item-actions">
-            <el-button
-              link
-              @click="emit('editCondition', selectedNode.id, Number(idx))"
-              ><el-icon><Edit /></el-icon
-            ></el-button>
-            <el-button link type="danger" @click="deleteCondition(Number(idx))"
-              ><el-icon><Delete /></el-icon
-            ></el-button>
-          </div>
-        </div>
-      </div>
+      <!-- 节点专属面板片段（由节点模块提供，面板零类型感知） -->
+      <component
+        v-if="nodeDef?.panelSection"
+        :is="nodeDef.panelSection"
+        :nodeData="selectedNode.data"
+        :variables="variables"
+        @update="(patch: any) => emit('update', selectedNode.id, patch)"
+        @configure="(idx?: number) => emit('configure', selectedNode.id, idx)"
+      />
 
-      <!-- 动作节点（基础类型） -->
-      <div v-if="selectedNode.type === 'action'" class="prop-section">
-        <div class="section-title">
-          <span>{{ i18n("rule.panel.actionList") }}</span>
-          <el-button
-            type="primary"
-            link
-            @click="emit('editAction', selectedNode.id, -1)"
-            ><el-icon><Plus /></el-icon> {{ i18n("rule.add") }}</el-button
-          >
-        </div>
-        <div v-if="!actions.length" class="empty-tip">
-          {{ i18n("rule.panel.noAction") }}
-        </div>
-        <div v-for="(act, idx) in actions" :key="idx" class="list-item">
-          <div class="item-info">
-            <el-tag type="success" effect="plain">{{
-              getActionLabel(act.actionType)
-            }}</el-tag>
-            <span class="item-field">{{ act.targetField || "-" }}</span>
-          </div>
-          <div class="item-actions">
-            <el-button
-              link
-              @click="emit('editAction', selectedNode.id, Number(idx))"
-              ><el-icon><Edit /></el-icon
-            ></el-button>
-            <el-button link type="danger" @click="deleteAction(Number(idx))"
-              ><el-icon><Delete /></el-icon
-            ></el-button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 变量赋值（基础类型） -->
-      <div v-if="selectedNode.type === 'variable-assign'" class="prop-section">
-        <div class="section-title">
-          <span>{{ i18n("rule.panel.assignList") }}</span>
-          <el-button
-            type="primary"
-            link
-            @click="emit('editCondition', selectedNode.id, -1)"
-            ><el-icon><Plus /></el-icon> {{ i18n("rule.add") }}</el-button
-          >
-        </div>
-        <div v-if="!assignments.length" class="empty-tip">
-          {{ i18n("rule.panel.noAssign") }}
-        </div>
-        <div v-for="(assign, idx) in assignments" :key="idx" class="list-item">
-          <div class="item-info">
-            <span class="item-field">{{ assign.variableName }}</span>
-            <span class="item-op">=</span>
-            <span class="item-val">{{
-              assign.value || i18n("rule.panel.empty")
-            }}</span>
-          </div>
-          <div class="item-actions">
-            <el-button link type="danger" @click="deleteAssignment(Number(idx))"
-              ><el-icon><Delete /></el-icon
-            ></el-button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 网关节点（基础类型） -->
-      <div v-if="isGateway" class="prop-section">
-        <div class="section-title">{{ i18n("rule.panel.gatewayConfig") }}</div>
-        <el-form label-width="70px" labelPosition="top">
-          <el-form-item :label="i18n('rule.panel.name')">
-            <el-input
-              v-model="selectedNode.data.name"
-              @input="updateField('name', selectedNode.data.name)"
-            />
-          </el-form-item>
-          <el-form-item :label="i18n('rule.panel.branchCount')">
-            <span
-              >{{ branches.length }} {{ i18n("rule.panel.branchUnit") }}</span
-            >
-          </el-form-item>
-        </el-form>
-        <el-button
-          type="primary"
-          @click="emit('editGateway', selectedNode.id)"
-          style="width: 100%"
-        >
-          <el-icon><Setting /></el-icon> {{ i18n("rule.panel.configBranch") }}
-        </el-button>
-      </div>
-
-      <!-- 开始/结束节点 -->
+      <!-- 流程锚点节点（start/end）描述 -->
       <div
-        v-if="selectedNode.type === 'start' || selectedNode.type === 'end'"
+        v-if="nodeDef?.category === 'flow'"
         class="prop-section"
       >
         <div class="section-title">{{ i18n("rule.panel.description") }}</div>
         <p class="node-desc">
           {{
-            selectedNode.type === "start"
+            actualType === 'start'
               ? i18n("rule.panel.startNodeDesc")
               : i18n("rule.panel.endNodeDesc")
           }}
         </p>
       </div>
 
-      <!-- 通用企业级节点（generic类型）：基于paramSchema动态渲染 -->
-      <template v-if="isGenericNode && paramSchema.length > 0">
+      <!-- 无 panelSection 的节点：基于 paramSchema 动态渲染兜底面板 -->
+      <template v-if="!nodeDef?.panelSection && paramSchema.length > 0">
         <!-- 复杂节点：详细配置入口（弹窗编辑，避免面板过长） -->
         <div v-if="hasDialogEditor" class="prop-section dialog-entry-section">
           <el-button
@@ -214,7 +86,7 @@
             <el-icon><EditPen /></el-icon>
             <span>{{ i18n("rule.btn.openDialogConfig") }}</span>
           </el-button>
-          <p class="dialog-tip">{{ dialogEditorHint }}</p>
+          <p v-if="dialogEditorHint" class="dialog-tip">{{ dialogEditorHint }}</p>
         </div>
         <div
           v-for="group in groupedSchema"
@@ -473,7 +345,7 @@
 <script setup lang="ts">
 import {computed, inject, type Ref} from "vue";
 import {Delete, Edit, EditPen, Plus, Pointer, Setting,} from "@element-plus/icons-vue";
-import {getCategoryColor, getParamSchema, NODE_TYPE_MAP, type ParamField,} from "./nodeTypes";
+import {getCategoryColor, getNodeTypeMap, getParamSchema, type ParamField,} from "./nodeTypes";
 import {i18n} from "@/lang";
 import FieldSelector from "./components/FieldSelector.vue";
 import type {FormFieldMeta} from "./useFormRuleRuntime";
@@ -484,11 +356,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "update", nodeId: string, data: any): void;
-  (e: "editCondition", nodeId: string, index: number): void;
-  (e: "editAction", nodeId: string, index: number): void;
-  (e: "editGateway", nodeId: string): void;
-  (e: "editScript", nodeId: string): void;
-  (e: "editHttp", nodeId: string): void;
+  (e: "configure", nodeId: string, itemIndex?: number): void;
 }>();
 
 // 从 RuleDesigner 注入表单字段列表（provide 时的 key: ruleFormFields）
@@ -562,54 +430,30 @@ const onFieldSelectChange = (fieldName: string, value: string) => {
   emit("update", props.selectedNode.id, { [fieldName]: value });
 };
 
-const conditions = computed(() => props.selectedNode?.data?.conditions || []);
-const actions = computed(() => props.selectedNode?.data?.actions || []);
-const branches = computed(() => props.selectedNode?.data?.branches || []);
-const assignments = computed(() => props.selectedNode?.data?.assignments || []);
 
-const isGateway = computed(() => {
+const actualType = computed(() => {
   const t = props.selectedNode?.type;
-  return t === "exclusive-gateway";
+  return t === "generic" ? (props.selectedNode?.data?.__nodeType || "") : (t || "");
 });
+const nodeDef = computed(() =>
+  getNodeTypeMap()[actualType.value || props.selectedNode?.type || ""],
+);
+const categoryColor = computed(() =>
+  getCategoryColor(actualType.value || props.selectedNode?.type || ""),
+);
 
-const isGenericNode = computed(() => props.selectedNode?.type === "generic");
-
-const DIALOG_EDITABLE_NODES: Record<string, { hintKey: string; evt: string }> =
-  {
-    "http-call": { hintKey: "rule.hint.httpCallDialog", evt: "editHttp" },
-  };
-const hasDialogEditor = computed(() => {
-  if (!isGenericNode.value) return false;
-  return !!DIALOG_EDITABLE_NODES[actualType.value];
-});
-const dialogEditorHint = computed(() => {
-  const cfg = DIALOG_EDITABLE_NODES[actualType.value];
-  return cfg ? i18n(cfg.hintKey) : "";
-});
+// 弹窗编辑入口：节点注册了统一协议编辑器即出现，面板不感知具体节点类型
+const hasDialogEditor = computed(() => !!nodeDef.value?.editor);
+const dialogEditorHint = computed(() =>
+  nodeDef.value?.editorHint ? i18n(nodeDef.value.editorHint) : "",
+);
 const openDialogEditor = () => {
   if (!props.selectedNode) return;
-  const cfg = DIALOG_EDITABLE_NODES[actualType.value];
-  if (!cfg) return;
-  emit(cfg.evt as any, props.selectedNode.id);
+  emit("configure", props.selectedNode.id);
 };
 
-const actualType = computed(() => props.selectedNode?.data?.__nodeType || "");
-const nodeDef = computed(() => NODE_TYPE_MAP[actualType.value]);
-const categoryColor = computed(() => {
-  if (isGenericNode.value && actualType.value)
-    return getCategoryColor(actualType.value);
-  const t = props.selectedNode?.type;
-  if (t === "start") return "#7c3aed";
-  if (t === "end") return "#ef4444";
-  if (t === "condition") return "#3b82f6";
-  if (t === "action") return "#22c55e";
-  if (t === "variable-assign") return "#8b5cf6";
-  if (isGateway.value) return "#f59e0b";
-  return "#64748b";
-});
-
 const paramSchema = computed<ParamField[]>(() => {
-  if (!isGenericNode.value || !actualType.value) return [];
+  if (!actualType.value) return [];
   return getParamSchema(actualType.value);
 });
 
@@ -628,26 +472,6 @@ const groupedSchema = computed(() => {
   return groups;
 });
 
-const updateField = (field: string, value: any) => {
-  if (!props.selectedNode) return;
-  emit("update", props.selectedNode.id, { [field]: value });
-};
-
-const deleteCondition = (idx: number) => {
-  const list = [...conditions.value];
-  list.splice(idx, 1);
-  updateField("conditions", list);
-};
-const deleteAction = (idx: number) => {
-  const list = [...actions.value];
-  list.splice(idx, 1);
-  updateField("actions", list);
-};
-const deleteAssignment = (idx: number) => {
-  const list = [...assignments.value];
-  list.splice(idx, 1);
-  updateField("assignments", list);
-};
 
 // 表格数据操作
 const getTableData = (fieldName: string) => {
@@ -669,42 +493,7 @@ const removeTableRow = (fieldName: string, idx: number) => {
   emit("update", props.selectedNode.id, { [fieldName]: list });
 };
 
-const getOpSymbol = (op: string) => {
-  const map: Record<string, string> = {
-    EQ: "=",
-    NE: "≠",
-    GT: ">",
-    GTE: "≥",
-    LT: "<",
-    LTE: "≤",
-    IN: "∈",
-    NOT_IN: "∉",
-    CONTAINS: "⊃",
-    NOT_CONTAINS: "⊄",
-    IS_NULL: "∅",
-    NOT_NULL: "∃",
-    STARTS_WITH: "⊙",
-    ENDS_WITH: "⊛",
-  };
-  return map[op] || op;
-};
-const getActionLabel = (type: string) => {
-  const map: Record<string, string> = {
-    SHOW_FIELD: "rule.action.showField",
-    HIDE_FIELD: "rule.action.hideField",
-    SET_VALUE: "rule.action.setValue",
-    CLEAR_VALUE: "rule.action.clearValue",
-    SET_REQUIRED: "rule.action.setRequired",
-    SET_OPTIONAL: "rule.action.setOptional",
-    SET_READONLY: "rule.action.setReadonly",
-    SET_EDITABLE: "rule.action.setEditable",
-    SET_DISABLED: "rule.action.setDisabled",
-    SET_ENABLED: "rule.action.setEnabled",
-    SHOW_MESSAGE: "rule.action.showMessage",
-    REDIRECT: "rule.action.redirect",
-  };
-  return i18n(map[type] || type);
-};
+
 </script>
 
 <style scoped lang="scss">

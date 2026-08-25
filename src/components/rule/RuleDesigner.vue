@@ -1,44 +1,7 @@
 <template>
-  <!-- 保留必要的弹窗（复杂编辑用） -->
-  <ConditionEditDialog
-    :visible="conditionDialogVisible"
-    :condition="editingCondition"
-    :variables="ruleData.variables"
-    @close="conditionDialogVisible = false"
-    @save="handleConditionSave"
-  />
-  <ActionEditDialog
-    :visible="actionDialogVisible"
-    :action="editingAction"
-    :variables="ruleData.variables"
-    @close="actionDialogVisible = false"
-    @save="handleActionSave"
-  />
-  <GatewayConfigDialog
-    :visible="gatewayDialogVisible"
-    :gateway="editingGateway"
-    @close="gatewayDialogVisible = false"
-    @save="handleGatewaySave"
-  />
-  <VariableAssignDialog
-    :visible="variableDialogVisible"
-    :assignments="editingAssignments"
-    :variables="ruleData.variables"
-    @close="variableDialogVisible = false"
-    @save="handleVariableSave"
-  />
-  <ScriptEditDialog
-    :visible="scriptDialogVisible"
-    :script="editingScript"
-    @close="scriptDialogVisible = false"
-    @save="handleScriptSave"
-  />
-  <HttpCallDialog
-    :visible="httpDialogVisible"
-    :config="editingHttpConfig"
-    @close="httpDialogVisible = false"
-    @save="handleHttpSave"
-  />
+  <!-- 统一节点编辑器宿主：按注册表解析各节点的 editor，设计器零类型分发 -->
+  <NodeEditorHost />
+  <!-- 规则文档属性弹窗（保留） -->
   <RulePropertyDialog
     :visible="propertyDialogVisible"
     :rule-data="ruleData"
@@ -78,390 +41,16 @@
   </star-horse-panel>
 
   <div class="rule-designer">
-    <!-- 顶部菜单栏 -->
-    <div class="designer-toolbar">
-      <!-- 左：规则名 + 状态 + 分类 -->
-      <div class="toolbar-left">
-        <el-button
-          v-if="props.formId"
-          link
-          @click="handleBackToForm"
-          :title="i18n('rule.backToForm')"
-        >
-          <el-icon>
-            <Back />
-          </el-icon>
-        </el-button>
-        <div class="rule-title-wrap">
-          <span
-            class="status-dot"
-            :class="'dot-' + (ruleData.status || 'DRAFT').toLowerCase()"
-          ></span>
-          <el-input
-            v-model="ruleData.ruleName"
-            :placeholder="i18n('rule.msg.ruleName')"
-            class="rule-name-input"
-            size="large"
-          >
-            <template #prefix>
-              <el-icon>
-                <EditPen />
-              </el-icon>
-            </template>
-          </el-input>
-        </div>
-        <el-tag
-          :type="getStatusType(ruleData.status)"
-          size="small"
-          effect="plain"
-          round
-        >
-          {{ getStatusText(ruleData.status) }}
-        </el-tag>
-        <!-- 规则分类：下拉选择 -->
-        <el-select
-          v-model="ruleData.ruleCategory"
-          :placeholder="i18n('rule.ph.selectRuleCategory')"
-          size="small"
-          class="rule-category-input"
-          clearable
-        >
-          <template #prefix>
-            <el-icon><FolderOpened /></el-icon>
-          </template>
-          <el-option
-            v-for="cat in CATEGORY_OPTIONS"
-            :key="cat.value"
-            :label="i18n(cat.label)"
-            :value="cat.value"
-          />
-        </el-select>
-      </div>
-      <!-- 中：主操作分组下拉 -->
-      <div class="toolbar-center">
-        <!-- 文件组：保存/发布/测试 -->
-        <el-dropdown
-          trigger="click"
-          @command="onToolbarCommand"
-          popper-class="toolbar-dropdown-popper"
-        >
-          <el-button size="small">
-            <star-horse-icon iconClass="save" />
-            <span>{{ i18n("rule.toolbar.file") }}</span>
-            <el-icon class="dropdown-caret"><ArrowDown /></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="save" :icon="null">
-                <star-horse-icon iconClass="save" />
-                <span>{{ i18n("rule.save") }}</span>
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="ruleData.status !== 'PUBLISHED'"
-                command="publish"
-                :icon="null"
-              >
-                <star-horse-icon iconClass="publish" />
-                <span>{{ i18n("rule.publish") }}</span>
-              </el-dropdown-item>
-              <el-dropdown-item command="test" :icon="null" divided>
-                <star-horse-icon iconClass="run" />
-                <span>{{ i18n("rule.test") }}</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-
-        <!-- 视图组：设计/代码 -->
-        <el-dropdown
-          trigger="click"
-          @command="onToolbarCommand"
-          popper-class="toolbar-dropdown-popper"
-        >
-          <el-button size="small">
-            <star-horse-icon iconClass="data-view" />
-            <span>{{ i18n("rule.toolbar.view") }}</span>
-            <el-icon class="dropdown-caret"><ArrowDown /></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item
-                command="viewDesign"
-                :icon="null"
-                :class="{ 'is-active': viewMode === 'design' }"
-              >
-                <star-horse-icon iconClass="data-view" />
-                <span>{{ i18n("rule.codeView.design") }}</span>
-                <el-icon v-if="viewMode === 'design'" class="active-check"
-                  ><Check
-                /></el-icon>
-              </el-dropdown-item>
-              <el-dropdown-item
-                command="viewCode"
-                :icon="null"
-                :class="{ 'is-active': viewMode === 'code' }"
-              >
-                <star-horse-icon iconClass="document" />
-                <span>{{ i18n("rule.codeView.code") }}</span>
-                <el-icon v-if="viewMode === 'code'" class="active-check"
-                  ><Check
-                /></el-icon>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
-      <!-- 右：更多操作分组下拉 -->
-      <div class="toolbar-right">
-        <!-- 校验徽标（独立显示，方便快速查看问题数） -->
-        <el-popover
-          placement="bottom-end"
-          :width="420"
-          trigger="click"
-          popper-class="validation-popper"
-        >
-          <template #reference>
-            <el-badge
-              :value="validationResult.errorCount"
-              :hidden="validationResult.errorCount === 0"
-              type="danger"
-            >
-              <el-button
-                size="small"
-                :class="{
-                  'val-ok':
-                    validationResult.errorCount === 0 &&
-                    validationResult.warningCount === 0,
-                }"
-              >
-                <star-horse-icon
-                  iconClass="check"
-                  v-if="
-                    validationResult.errorCount === 0 &&
-                    validationResult.warningCount === 0
-                  "
-                />
-                <star-horse-icon iconClass="warning" v-else />
-                <span>{{ i18n("rule.val.title") }}</span>
-              </el-button>
-            </el-badge>
-          </template>
-          <div class="validation-panel">
-            <div class="validation-head">
-              <div class="vh-title">
-                <star-horse-icon iconClass="warning" />
-                {{ i18n("rule.val.title") }}
-              </div>
-              <div class="vh-stats">
-                <el-tag
-                  v-if="validationResult.errorCount"
-                  type="danger"
-                  size="small"
-                  effect="dark"
-                >
-                  {{
-                    i18n("rule.val.errorCount", [validationResult.errorCount])
-                  }}
-                </el-tag>
-                <el-tag
-                  v-if="validationResult.warningCount"
-                  type="warning"
-                  size="small"
-                  effect="dark"
-                >
-                  {{
-                    i18n("rule.val.warningCount", [
-                      validationResult.warningCount,
-                    ])
-                  }}
-                </el-tag>
-                <el-tag
-                  v-if="
-                    validationResult.errorCount === 0 &&
-                    validationResult.warningCount === 0
-                  "
-                  type="success"
-                  size="small"
-                  effect="dark"
-                >
-                  {{ i18n("rule.val.allPass") }}
-                </el-tag>
-              </div>
-            </div>
-            <el-divider style="margin: 8px 0" />
-            <div class="validation-list">
-              <div
-                v-if="validationResult.issues.length === 0"
-                class="val-empty"
-              >
-                <star-horse-icon iconClass="check" />
-                <p>{{ i18n("rule.val.allPassDesc") }}</p>
-              </div>
-              <div
-                v-for="(iss, idx) in validationResult.issues"
-                :key="idx"
-                class="val-item"
-                :class="'vi-' + iss.level"
-                @click="iss.nodeId && handleLocateNode(iss.nodeId)"
-              >
-                <span class="vi-bullet">{{
-                  iss.level === "error" ? "✗" : "⚠"
-                }}</span>
-                <div class="vi-body">
-                  <div class="vi-msg">{{ iss.message }}</div>
-                  <div class="vi-meta">
-                    <span v-if="iss.nodeId" class="vi-node">{{
-                      iss.nodeName
-                    }}</span>
-                    <span v-else class="vi-node">{{
-                      i18n("rule.val.graphLevel")
-                    }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </el-popover>
-
-        <!-- 更多操作下拉 -->
-        <el-dropdown
-          trigger="click"
-          @command="onToolbarCommand"
-          popper-class="toolbar-dropdown-popper"
-        >
-          <el-button size="small">
-            <star-horse-icon iconClass="setting" />
-            <span>{{ i18n("rule.toolbar.more") }}</span>
-            <el-icon class="dropdown-caret"><ArrowDown /></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="import" :icon="null">
-                <star-horse-icon iconClass="upload" />
-                <span>{{ i18n("rule.importRule") }}</span>
-              </el-dropdown-item>
-              <el-dropdown-item command="export" :icon="null">
-                <star-horse-icon iconClass="download" />
-                <span>{{ i18n("rule.exportRule") }}</span>
-              </el-dropdown-item>
-              <el-dropdown-item command="demo" :icon="null" divided>
-                <star-horse-icon iconClass="info" />
-                <span>{{ i18n("rule.demo") }}</span>
-              </el-dropdown-item>
-              <el-dropdown-item command="help" :icon="null" divided>
-                <star-horse-icon iconClass="help" />
-                <span>{{ i18n("rule.help") }}</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-
-        <!-- 帮助面板（隐藏触发，由"更多"下拉调用） -->
-        <el-popover
-          ref="helpPopoverRef"
-          placement="bottom-end"
-          :width="420"
-          trigger="click"
-          popper-class="help-popper"
-        >
-          <template #reference>
-            <span style="display: none"></span>
-          </template>
-          <div class="help-panel">
-            <div class="help-title">
-              <star-horse-icon iconClass="help" />
-              {{ i18n("rule.help.title") }}
-            </div>
-            <el-divider style="margin: 8px 0" />
-            <div class="help-section">
-              <div class="help-section-title">
-                {{ i18n("rule.help.basic") }}
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.dragAdd") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.dragConnect") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.doubleClick") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.rightClick") }}</kbd>
-              </div>
-            </div>
-            <div class="help-section">
-              <div class="help-section-title">
-                {{ i18n("rule.help.select") }}
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.clickSelect") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.shiftSelect") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.boxSelect") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.middlePan") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.ctrlA") }}</kbd>
-              </div>
-            </div>
-            <div class="help-section">
-              <div class="help-section-title">{{ i18n("rule.help.edit") }}</div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.delete") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.ctrlZ") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.ctrlY") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.ctrlC") }}</kbd> /
-                <kbd>{{ i18n("rule.help.ctrlV") }}</kbd>
-              </div>
-            </div>
-            <div class="help-section">
-              <div class="help-section-title">
-                {{ i18n("rule.help.canvas") }}
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.wheelZoom") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.alignTool") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.edgeStyle") }}</kbd>
-              </div>
-            </div>
-            <div class="help-section">
-              <div class="help-section-title">{{ i18n("rule.help.test") }}</div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.openConsole") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.executeHighlight") }}</kbd>
-              </div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.help.closeRestore") }}</kbd>
-              </div>
-            </div>
-            <div class="help-section">
-              <div class="help-section-title">{{ i18n("rule.msg.tip") }}</div>
-              <div class="help-row">
-                <kbd>{{ i18n("rule.msg.canvasTip") }}</kbd>
-              </div>
-            </div>
-          </div>
-        </el-popover>
-      </div>
-    </div>
+    <RuleToolbar
+      :formId="props.formId"
+      :ruleData="ruleData"
+      :viewMode="viewMode"
+      :validationResult="validationResult"
+      :ruleCategoryOptions="ruleCategoryOptions"
+      @command="onToolbarCommand"
+      @back="handleBackToForm"
+      @locateNode="handleLocateNode"
+    />
 
     <!-- 主体 -->
     <!-- 设计视图 -->
@@ -911,47 +500,19 @@
                 @connect="onConnect"
                 @nodes-moved="pushHistory"
               >
-                <template #node-start="p">
-                  <StartNode v-bind="p" />
-                </template>
-                <template #node-end="p">
-                  <EndNode v-bind="p" />
-                </template>
-                <template #node-condition="p">
-                  <ConditionNode
+                <!-- 动态节点插槽：按注册表渲染，新增节点零改动 -->
+                <template
+                  v-for="def in registeredDefs"
+                  :key="def.type"
+                  #[`node-${def.type}`]="p"
+                >
+                  <RuleNodeHost
                     v-bind="p"
-                    @edit="openConditionDialog(p.id, -1)"
-                    @editCondition="(i) => openConditionDialog(p.id, i)"
-                    @deleteCondition="(i) => deleteCondition(p.id, i)"
+                    @host-edit="openNodeEditor(p.id)"
+                    @host-edit-item="(i: number) => openNodeEditor(p.id, i)"
+                    @host-delete-item="(i: number) => deleteNodeItem(p.id, i)"
+                    @host-update-data="(patch: Record<string, any>) => updateNodeData(p.id, patch)"
                   />
-                </template>
-                <template #node-action="p">
-                  <ActionNode
-                    v-bind="p"
-                    @edit="openActionDialog(p.id, -1)"
-                    @editAction="(i) => openActionDialog(p.id, i)"
-                    @deleteAction="(i) => deleteAction(p.id, i)"
-                  />
-                </template>
-                <template #node-exclusive-gateway="p">
-                  <ExclusiveGatewayNode
-                    v-bind="p"
-                    @edit="openGatewayDialog(p.id)"
-                  />
-                </template>
-                <template #node-variable-assign="p">
-                  <VariableAssignNode
-                    v-bind="p"
-                    @edit="openVariableDialog(p.id)"
-                    @editAssignment="(i) => openVariableDialog(p.id)"
-                    @deleteAssignment="(i) => deleteAssignment(p.id, i)"
-                  />
-                </template>
-                <template #node-script="p">
-                  <ScriptNode v-bind="p" @edit="openScriptDialog(p.id)" />
-                </template>
-                <template #node-http-call="p">
-                  <HttpCallNode v-bind="p" @edit="openHttpDialog(p.id)" />
                 </template>
                 <template #node-generic="p">
                   <GenericNode v-bind="p" />
@@ -1051,11 +612,9 @@
             <PropertyPanel
               :selected-node="selectedNode"
               @update="handlePropertyUpdate"
-              @edit-condition="openConditionDialog"
-              @edit-action="openActionDialog"
-              @edit-gateway="openGatewayDialog"
-              @edit-script="openScriptDialog"
-              @edit-http="openHttpDialog"
+              @configure="
+                (id: string, idx?: number) => openNodeEditor(id, idx ?? -1)
+              "
             />
           </el-splitter-panel>
         </el-splitter>
@@ -1384,23 +943,30 @@ import {computed, defineAsyncComponent, nextTick, onMounted, onUnmounted, provid
 import {useRoute} from "vue-router";
 import {ConnectionMode, type Edge, type Node} from "./compat";
 import RuleCanvas from "./RuleCanvas.vue";
+import RuleToolbar from "./RuleToolbar.vue";
 import {ruleActionApi, ruleConditionApi, ruleDefinitionApi, ruleVariableApi,} from "@/api/rule_engine_api";
+import {appEndpoints} from "@/api/app_config";
 import NodePanel from "./NodePanel.vue";
 import PropertyPanel from "./PropertyPanel.vue";
 import NodeExecOverlay from "./components/NodeExecOverlay.vue";
 import NodeValidationOverlay from "./components/NodeValidationOverlay.vue";
 import {validateRuleFlow, type ValidationResult} from "./engine/validator";
-import StartNode from "./nodes/StartNode.vue";
-import EndNode from "./nodes/EndNode.vue";
-import ConditionNode from "./nodes/ConditionNode.vue";
-import ActionNode from "./nodes/ActionNode.vue";
-import ExclusiveGatewayNode from "./nodes/ExclusiveGatewayNode.vue";
-import VariableAssignNode from "./nodes/VariableAssignNode.vue";
-import ScriptNode from "./nodes/ScriptNode.vue";
-import HttpCallNode from "./nodes/HttpCallNode.vue";
 import GenericNode from "./nodes/GenericNode.vue";
+import RuleNodeHost from "./nodes/RuleNodeHost.vue";
+import NodeEditorHost from "./dialogs/NodeEditorHost.vue";
+import {useRuleDesignerStore} from "./ruleDesignerStore";
+import {
+  BUILT_IN_NODE_TYPES,
+  FLOW_START_TYPE,
+  getDefaultFlowTemplate,
+} from "./nodes";
+import {
+  getDefaultRuleType,
+  getRuleCategoryOptions,
+  type RuleCategoryOption,
+} from "./designerConfig";
+import {getNodeDefaultData, getNodeLabel, getNodeDef, getNodeTypeMap, resolveNodeType, migrateFlowNodes,} from "./nodeTypes";
 import {DEMO_LIST} from "./demos/demoData";
-import {getNodeDefaultData, getNodeLabel} from "./nodeTypes";
 import {executeRuleFlow, type ExecutionPath} from "./engine/RuleExecutor";
 import {error, operationConfirm, postRequest, success, warning,} from "star-horse-lowcode";
 import {i18n} from "@/lang";
@@ -1408,24 +974,6 @@ import {ElMessageBox} from "element-plus";
 import RuleCodeView from "./RuleCodeView.vue";
 import {extractFieldMetaList, type FormFieldMeta} from "./useFormRuleRuntime";
 
-const ConditionEditDialog = defineAsyncComponent(
-  () => import("./dialogs/ConditionEditDialog.vue"),
-);
-const ActionEditDialog = defineAsyncComponent(
-  () => import("./dialogs/ActionEditDialog.vue"),
-);
-const GatewayConfigDialog = defineAsyncComponent(
-  () => import("./dialogs/GatewayConfigDialog.vue"),
-);
-const VariableAssignDialog = defineAsyncComponent(
-  () => import("./dialogs/VariableAssignDialog.vue"),
-);
-const ScriptEditDialog = defineAsyncComponent(
-  () => import("./dialogs/ScriptEditDialog.vue"),
-);
-const HttpCallDialog = defineAsyncComponent(
-  () => import("./dialogs/HttpCallDialog.vue"),
-);
 const RulePropertyDialog = defineAsyncComponent(
   () => import("./dialogs/RulePropertyDialog.vue"),
 );
@@ -1441,6 +989,8 @@ const props = defineProps<{
   ruleId?: string;
   formId?: string;
   formFields?: FormFieldMeta[];
+  /** 规则分类选项注入（优先级最高；缺省用 configureRuleCategories 的全局配置） */
+  ruleCategories?: RuleCategoryOption[];
   prefilledData?: {
     ruleName?: string;
     ruleCode?: string;
@@ -1451,6 +1001,17 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: "saved"): void; (e: "close"): void }>();
 const route = useRoute();
 const ruleId = computed(() => props.ruleId || (route?.params?.id as string));
+
+// ==================== 共享 Store ====================
+// 规则元数据 / 表单字段上下文 / 统一编辑器状态均由 Store 管理，
+// 设计器与各编辑弹窗共享同一数据源。
+const designerStore = useRuleDesignerStore();
+const ruleData = designerStore.ruleData;
+
+// 规则分类选项：props 注入 > 全局配置 > 内置默认
+const ruleCategoryOptions = computed<RuleCategoryOption[]>(() =>
+  props.ruleCategories?.length ? props.ruleCategories : getRuleCategoryOptions(),
+);
 
 // ==================== 表单上下文 provide ====================
 // 提供 formFields 给 PropertyPanel / FieldSelector / 各类编辑弹窗使用
@@ -1486,19 +1047,27 @@ provide(
   "ruleVariables",
   computed(() => ruleData.variables || []),
 );
+// 字段上下文同步进 Store，供统一编辑器等非 inject 场景使用
+watch(
+  providedFormFields,
+  (f) => {
+    designerStore.formFields = f;
+  },
+  { immediate: true },
+);
 
 /**
  * 根据 formId 从后端加载表单 compList 并提取字段元数据
  * 用于独立打开规则设计器（非从表单设计器进入）时补充字段上下文
  *
- * API: POST /userdb-manage/userdb/dynamicForm/getById/{formId}
+ * API: POST {appEndpoints.formDesignBaseUrl}/getById/{formId}
  * 返回 data.details.content 是 compList 的 JSON 字符串
  */
 const loadFormFieldsFromApi = async (formId: string) => {
   if (!formId) return;
   try {
     const res: any = await postRequest(
-      `userdb-manage/userdb/dynamicForm/getById/${formId}`,
+      `${appEndpoints.formDesignBaseUrl}/getById/${formId}`,
       {},
     );
     const dynamicFormData = res?.data?.data;
@@ -1565,24 +1134,9 @@ const selectedNode = ref<any>(null);
 // 视图模式：design=设计视图, code=代码视图
 const viewMode = ref<"design" | "code">("design");
 
-// 弹窗
-const conditionDialogVisible = ref(false);
-const actionDialogVisible = ref(false);
-const gatewayDialogVisible = ref(false);
-const variableDialogVisible = ref(false);
-const scriptDialogVisible = ref(false);
-const httpDialogVisible = ref(false);
+// 弹窗（仅保留文档级弹窗状态；节点编辑器状态统一由 Store.editor 管理）
 const propertyDialogVisible = ref(false);
 const edgeLabelDialogVisible = ref(false);
-const editingNodeId = ref("");
-const editingCondition = ref<any>(null);
-const editingConditionIndex = ref(-1);
-const editingAction = ref<any>(null);
-const editingActionIndex = ref(-1);
-const editingGateway = ref<any>(null);
-const editingAssignments = ref<any[]>([]);
-const editingScript = ref<any>(null);
-const editingHttpConfig = ref<any>(null);
 const editingEdge = ref<any>(null);
 const edgeLabel = ref("");
 
@@ -1658,27 +1212,16 @@ const handleLocateNode = (nodeId: string) => {
 const jsonMode = ref(false);
 const testFormData = reactive<Record<string, any>>({});
 
-// 自动从条件节点解析测试参数
+// 自动从各节点解析测试参数（收集逻辑由注册表钩子提供）
 const testFields = computed(() => {
   const fields: { name: string; type: string }[] = [];
   const seen = new Set<string>();
   nodes.value.forEach((n: any) => {
-    if (n.type === "condition" && n.data?.conditions) {
-      n.data.conditions.forEach((c: any) => {
-        if (c.fieldName && !seen.has(c.fieldName)) {
-          seen.add(c.fieldName);
-          fields.push({ name: c.fieldName, type: c.fieldType || "STRING" });
-        }
-      });
-    }
-    if (n.type === "variable-assign" && n.data?.assignments) {
-      n.data.assignments.forEach((a: any) => {
-        if (a.variableName && !seen.has(a.variableName)) {
-          seen.add(a.variableName);
-          fields.push({ name: a.variableName, type: "STRING" });
-        }
-      });
-    }
+    getNodeDef(resolveNodeType(n))?.collectTestFields?.(
+      n.data || {},
+      fields,
+      seen,
+    );
   });
   return fields;
 });
@@ -1694,71 +1237,15 @@ const contextMenu = reactive({
 });
 const clipboard = ref<Node | null>(null);
 
-const ruleData = reactive({
-  idRuleDefinition: "",
-  ruleCode: "",
-  ruleName: "",
-  ruleDesc: "",
-  ruleType: "FORM_LINKAGE",
-  ruleCategory: "",
-  priority: 0,
-  enabled: "Y",
-  conditionLogic: "AND",
-  status: "DRAFT",
-  formId: "",
-  flowContent: "",
-  // 变量库：入参/上下文/常量统一管理，供条件编辑与表达式引用
-  variables: [] as Array<{
-    field: string;
-    label: string;
-    type: "STRING" | "NUMBER" | "DATE" | "BOOLEAN" | "ARRAY";
-    source: "INPUT" | "CONTEXT" | "CONSTANT";
-    defaultValue?: string;
-    desc?: string;
-  }>,
-});
+/** 该类型是否有专用画布插槽（注册表中有 component 即有） */
+const hasDedicatedSlot = (type: string) =>
+  BUILT_IN_NODE_TYPES.has(type) || !!getNodeDef(type)?.component;
 
-const nodeDefaultData: Record<string, () => any> = {
-  start: () => ({}),
-  end: () => ({}),
-  condition: () => ({ conditions: [], logic: "AND" }),
-  action: () => ({ actions: [] }),
-  "exclusive-gateway": () => ({
-    name: i18n("rule.node.exclusiveGateway"),
-    gatewayType: "XOR",
-    branches: [],
-  }),
-  "variable-assign": () => ({ assignments: [] }),
-  script: () => ({
-    scriptContent: "",
-    scriptLang: "javascript",
-    description: "",
-  }),
-  "http-call": () => getNodeDefaultData("http-call"),
-};
-// 规则分类选项（业务域分类，非自由文本）
-// 规则必须归属到明确业务分类，避免阿猫阿狗随便填
-const CATEGORY_OPTIONS = [
-  { label: "rule.category.formLinkage", value: "FORM_LINKAGE" },
-  { label: "rule.category.dataValidation", value: "DATA_VALIDATION" },
-  { label: "rule.category.processControl", value: "PROCESS_CONTROL" },
-  { label: "rule.category.calcAssignment", value: "CALC_ASSIGNMENT" },
-  { label: "rule.category.businessRule", value: "BUSINESS_RULE" },
-  { label: "rule.category.notificationMsg", value: "NOTIFICATION_MSG" },
-  { label: "rule.category.dataTransform", value: "DATA_TRANSFORM" },
-  { label: "rule.category.other", value: "OTHER" },
-];
-// 基础节点类型（有专用组件）
-const BASIC_NODE_TYPES = new Set([
-  "start",
-  "end",
-  "condition",
-  "action",
-  "exclusive-gateway",
-  "variable-assign",
-  "script",
-  "http-call",
-]);
+// 注册表中所有带渲染组件的节点定义（驱动动态插槽）
+const registeredDefs = computed(() =>
+  Object.values(getNodeTypeMap()).filter((d) => d.component),
+);
+
 let nodeIdCounter = 0;
 const generateNodeId = (type: string) => {
   nodeIdCounter++;
@@ -1766,11 +1253,9 @@ const generateNodeId = (type: string) => {
 };
 
 const initDefaultFlow = () => {
-  nodes.value = [
-    { id: "start_1", type: "start", position: { x: 400, y: 50 }, data: {} },
-    { id: "end_1", type: "end", position: { x: 400, y: 400 }, data: {} },
-  ];
-  edges.value = [];
+  const tpl = getDefaultFlowTemplate();
+  nodes.value = tpl.nodes;
+  edges.value = tpl.edges;
 };
 
 // ========== 拖拽创建 ==========
@@ -1789,12 +1274,12 @@ const onDrop = (e: DragEvent) => {
   // 清除其他节点的选中状态
   nodes.value.forEach((n) => (n.selected = false));
   let newNode: Node;
-  if (BASIC_NODE_TYPES.has(nodeType)) {
+  if (hasDedicatedSlot(nodeType)) {
     newNode = {
       id: generateNodeId(nodeType),
       type: nodeType,
       position,
-      data: nodeDefaultData[nodeType] ? nodeDefaultData[nodeType]() : {},
+      data: getNodeDefaultData(nodeType),
       selected: true,
     };
   } else {
@@ -1823,102 +1308,9 @@ const onConnect = (c: any) => {
   const targetNode = nodes.value.find((n) => n.id === c.target);
   if (!sourceNode || !targetNode) return;
 
-  // 根据源节点类型自动生成边标签
-  let label = "";
-  let labelStyle = { fill: "#64748b", fontSize: 11, fontWeight: 500 };
-  const sourceType =
-    sourceNode.type === "generic"
-      ? sourceNode.data.__nodeType
-      : sourceNode.type;
-
-  switch (sourceType) {
-    case "condition": {
-      // 条件节点：第一条出边标注"满足✓"，第二条标注"不满足✗"
-      const outEdges = edges.value.filter((e) => e.source === c.source);
-      if (outEdges.length === 0) {
-        label = i18n("rule.edge.satisfied");
-        labelStyle = { fill: "#10b981", fontSize: 11, fontWeight: 600 };
-      } else {
-        label = i18n("rule.edge.notSatisfied");
-        labelStyle = { fill: "#ef4444", fontSize: 11, fontWeight: 600 };
-      }
-      break;
-    }
-    case "exclusive-gateway": {
-      // 排他网关：根据分支配置自动生成条件摘要
-      const branches = sourceNode.data.branches || [];
-      const outEdges = edges.value.filter((e) => e.source === c.source);
-      const branchIndex = outEdges.length;
-      if (branchIndex < branches.length) {
-        const branch = branches[branchIndex];
-        label =
-          branch.condition ||
-          branch.label ||
-          `${i18n("rule.edge.branch")}${branchIndex + 1}`;
-      } else {
-        label = i18n("rule.edge.defaultBranch");
-      }
-      labelStyle = { fill: "#f59e0b", fontSize: 11, fontWeight: 600 };
-      break;
-    }
-    case "parallel-gateway": {
-      label = i18n("rule.edge.parallelExec");
-      labelStyle = { fill: "#06b6d4", fontSize: 11, fontWeight: 600 };
-      break;
-    }
-    case "inclusive-gateway": {
-      const branches = sourceNode.data.branches || [];
-      const outEdges = edges.value.filter((e) => e.source === c.source);
-      const branchIndex = outEdges.length;
-      if (branchIndex < branches.length) {
-        const branch = branches[branchIndex];
-        label =
-          branch.condition ||
-          branch.label ||
-          `${i18n("rule.edge.branch")}${branchIndex + 1}`;
-      } else {
-        label = i18n("rule.edge.defaultBranch");
-      }
-      labelStyle = { fill: "#8b5cf6", fontSize: 11, fontWeight: 600 };
-      break;
-    }
-    case "variable-assign": {
-      const assignments = sourceNode.data.assignments || [];
-      if (assignments.length > 0) {
-        label = `${i18n("rule.edge.set")} ${assignments.map((a) => a.variableName).join(", ")}`;
-      } else {
-        label = i18n("rule.edge.varAssign");
-      }
-      labelStyle = { fill: "#6366f1", fontSize: 11, fontWeight: 500 };
-      break;
-    }
-    case "action": {
-      const actions = sourceNode.data.actions || [];
-      if (actions.length > 0) {
-        label = `${actions.length}${i18n("rule.edge.actions")}`;
-      } else {
-        label = i18n("rule.edge.execAction");
-      }
-      break;
-    }
-    case "loop": {
-      label = `${i18n("rule.edge.loop")} ${sourceNode.data.collectionVar || i18n("rule.edge.collection")}`;
-      break;
-    }
-    case "script": {
-      label = i18n("rule.edge.execScript");
-      break;
-    }
-    case "http-call": {
-      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || i18n("rule.edge.interface")}`;
-      break;
-    }
-    default: {
-      // 其他节点：显示节点类型
-      const nodeLabel = getNodeLabel(sourceType);
-      label = nodeLabel || sourceType;
-    }
-  }
+  // 边标签由源节点注册表钩子生成，设计器零类型分发
+  const outIndex = edges.value.filter((e) => e.source === c.source).length;
+  const { label, labelStyle } = generateEdgeLabel(sourceNode, outIndex);
 
   addEdges({
     id: `e_${c.source}_${c.target}_${Date.now()}`,
@@ -1946,12 +1338,12 @@ const handleNodeAdd = (nodeType: string) => {
   // 清除其他节点的选中状态
   nodes.value.forEach((n) => (n.selected = false));
   let newNode: Node;
-  if (BASIC_NODE_TYPES.has(nodeType)) {
+  if (hasDedicatedSlot(nodeType)) {
     newNode = {
       id: generateNodeId(nodeType),
       type: nodeType,
       position,
-      data: nodeDefaultData[nodeType] ? nodeDefaultData[nodeType]() : {},
+      data: getNodeDefaultData(nodeType),
       selected: true,
     };
   } else {
@@ -1986,40 +1378,9 @@ const onNodeClick = (payload: any) => {
 };
 const onNodeDoubleClick = (payload: any) => {
   const node = payload?.node || payload;
-  const { id } = node;
-  const type = node.type;
-  // 企业级节点都是 generic 类型，实际节点类型存在 data.__nodeType 中
-  const actualType = node.data?.__nodeType || type;
-  editingNodeId.value = id;
-
-  // 优先按 actualType 匹配（企业级节点）
-  switch (actualType) {
-    case "condition":
-      openConditionDialog(id, -1);
-      return;
-    case "action":
-      openActionDialog(id, -1);
-      return;
-    case "variable-assign":
-      openVariableDialog(id);
-      return;
-    case "script":
-      openScriptDialog(id);
-      return;
-    case "http-call":
-    case "datasource-fetch":
-    case "action-set-options":
-      openHttpDialog(id);
-      return;
-  }
-
-  // 基础类型节点：gateway 等
-  switch (type) {
-    case "exclusive-gateway":
-    case "inclusive-gateway":
-      openGatewayDialog(id);
-      return;
-  }
+  if (!node?.id) return;
+  // 编辑器由注册表定义决定，设计器零类型分发
+  openNodeEditor(node.id);
 };
 
 // 双击边编辑标签
@@ -2048,117 +1409,43 @@ const updateNodeData = (id: string, data: any) => {
   if (n) n.data = { ...n.data, ...data };
 };
 
-const openConditionDialog = (nodeId: string, index: number) => {
-  editingNodeId.value = nodeId;
-  editingConditionIndex.value = index;
-  const data = getNodeData(nodeId);
-  editingCondition.value = index >= 0 ? { ...data.conditions[index] } : null;
-  conditionDialogVisible.value = true;
+// ========== 统一节点编辑入口（零类型分发） ==========
+// 编辑器组件、列表键均由注册表定义提供；无 editor 的节点静默忽略。
+const openNodeEditor = (nodeId: string, itemIndex = -1) => {
+  const n = nodes.value.find((x) => x.id === nodeId);
+  if (!n) return;
+  const def = getNodeDef(resolveNodeType(n));
+  if (!def?.editor) return;
+  designerStore.openEditor(nodeId, def.uiEvents?.listKey, itemIndex);
 };
-const handleConditionSave = (c: any) => {
-  const data = getNodeData(editingNodeId.value);
-  const list = [...(data.conditions || [])];
-  if (editingConditionIndex.value >= 0) list[editingConditionIndex.value] = c;
-  else list.push(c);
-  updateNodeData(editingNodeId.value, { conditions: list });
-  conditionDialogVisible.value = false;
-  if (selectedNode.value?.id === editingNodeId.value)
-    selectedNode.value = {
-      ...selectedNode.value,
-      data: { ...data, conditions: list },
-    };
-};
-const deleteCondition = (nodeId: string, i: number) => {
-  const d = getNodeData(nodeId);
-  const l = [...(d.conditions || [])];
-  l.splice(i, 1);
-  updateNodeData(nodeId, { conditions: l });
+const deleteNodeItem = (nodeId: string, index: number) => {
+  const n = nodes.value.find((x) => x.id === nodeId);
+  if (!n) return;
+  const listKey = getNodeDef(resolveNodeType(n))?.uiEvents?.listKey;
+  if (!listKey) return;
+  designerStore.deleteListItem(nodeId, listKey, index);
 };
 
-const openActionDialog = (nodeId: string, index: number) => {
-  editingNodeId.value = nodeId;
-  editingActionIndex.value = index;
-  const data = getNodeData(nodeId);
-  editingAction.value = index >= 0 ? { ...data.actions[index] } : null;
-  actionDialogVisible.value = true;
-};
-const handleActionSave = (a: any) => {
-  const data = getNodeData(editingNodeId.value);
-  const list = [...(data.actions || [])];
-  if (editingActionIndex.value >= 0) list[editingActionIndex.value] = a;
-  else list.push(a);
-  updateNodeData(editingNodeId.value, { actions: list });
-  actionDialogVisible.value = false;
-  if (selectedNode.value?.id === editingNodeId.value)
-    selectedNode.value = {
-      ...selectedNode.value,
-      data: { ...data, actions: list },
-    };
-};
-const deleteAction = (nodeId: string, i: number) => {
-  const d = getNodeData(nodeId);
-  const l = [...(d.actions || [])];
-  l.splice(i, 1);
-  updateNodeData(nodeId, { actions: l });
-};
+// 向 Store 注入画布访问器（nodes/edges 归 Vue Flow 管，Store 经此读写）
+designerStore.setCanvasApi({
+  getNode: (id: string) => nodes.value.find((x) => x.id === id),
+  getNodeData,
+  updateNodeData,
+});
 
-const openGatewayDialog = (id: string) => {
-  editingNodeId.value = id;
-  const d = getNodeData(id);
-  editingGateway.value = {
-    name: d.name || i18n("rule.node.gateway"),
-    gatewayType: d.gatewayType || "XOR",
-    branches: d.branches ? JSON.parse(JSON.stringify(d.branches)) : [],
-  };
-  gatewayDialogVisible.value = true;
+// 编辑器关闭后同步选中节点快照，保证 PropertyPanel 响应式刷新
+const syncSelectedFromCanvas = () => {
+  const id = designerStore.editor.nodeId;
+  const n = nodes.value.find((x) => x.id === id);
+  if (n && selectedNode.value?.id === id)
+    selectedNode.value = JSON.parse(JSON.stringify(n));
 };
-const handleGatewaySave = (g: any) => {
-  updateNodeData(editingNodeId.value, g);
-  gatewayDialogVisible.value = false;
-};
-
-const openVariableDialog = (id: string) => {
-  editingNodeId.value = id;
-  const d = getNodeData(id);
-  editingAssignments.value = d.assignments
-    ? JSON.parse(JSON.stringify(d.assignments))
-    : [];
-  variableDialogVisible.value = true;
-};
-const handleVariableSave = (a: any[]) => {
-  updateNodeData(editingNodeId.value, { assignments: a });
-  variableDialogVisible.value = false;
-};
-const deleteAssignment = (nodeId: string, i: number) => {
-  const d = getNodeData(nodeId);
-  const l = [...(d.assignments || [])];
-  l.splice(i, 1);
-  updateNodeData(nodeId, { assignments: l });
-};
-
-const openScriptDialog = (id: string) => {
-  editingNodeId.value = id;
-  const d = getNodeData(id);
-  editingScript.value = {
-    scriptLang: d.scriptLang || "javascript",
-    scriptContent: d.scriptContent || "",
-  };
-  scriptDialogVisible.value = true;
-};
-const handleScriptSave = (s: any) => {
-  updateNodeData(editingNodeId.value, s);
-  scriptDialogVisible.value = false;
-};
-
-const openHttpDialog = (id: string) => {
-  editingNodeId.value = id;
-  editingHttpConfig.value = JSON.parse(JSON.stringify(getNodeData(id)));
-  httpDialogVisible.value = true;
-};
-const handleHttpSave = (c: any) => {
-  updateNodeData(editingNodeId.value, c);
-  httpDialogVisible.value = false;
-};
+watch(
+  () => designerStore.editor.visible,
+  (v) => {
+    if (!v) syncSelectedFromCanvas();
+  },
+);
 
 // 待执行动作：save 或 publish 触发时若缺少名称/编码则先打开属性对话框
 // 填写完成后自动继续执行对应的保存/发布操作
@@ -2182,8 +1469,6 @@ const handlePropertySave = (d: any) => {
 };
 
 // 帮助面板引用（由"更多"下拉中的 help 命令触发显示）
-const helpPopoverRef = ref();
-
 // 统一处理 toolbar 下拉命令分发
 const onToolbarCommand = (cmd: string) => {
   switch (cmd) {
@@ -2210,21 +1495,6 @@ const onToolbarCommand = (cmd: string) => {
       break;
     case "demo":
       loadDemoData();
-      break;
-    case "help":
-      // 通过隐藏的 popover 引用打开帮助面板
-      nextTick(() => {
-        const popper = helpPopoverRef.value as any;
-        if (popper && typeof popper.show === "function") {
-          popper.show();
-        } else if (
-          popper &&
-          popper.popperRef &&
-          typeof popper.popperRef.show === "function"
-        ) {
-          popper.popperRef.show();
-        }
-      });
       break;
   }
 };
@@ -2266,102 +1536,34 @@ const handleEdgeLabelSave = () => {
 };
 
 // ========== 边标签自动同步 ==========
-// 根据节点类型和配置自动生成边标签
+// 标签内容由源节点的注册表钩子生成，设计器零类型分发
+const DEFAULT_EDGE_LABEL_STYLE = {
+  fill: "#64748b",
+  fontSize: 11,
+  fontWeight: 500,
+};
 const generateEdgeLabel = (
   sourceNode: any,
   edgeIndex: number,
 ): { label: string; labelStyle: any } => {
-  const sourceType =
-    sourceNode.type === "generic"
-      ? sourceNode.data.__nodeType
-      : sourceNode.type;
-  let label = "";
-  let labelStyle = { fill: "#64748b", fontSize: 11, fontWeight: 500 };
-
-  switch (sourceType) {
-    case "condition": {
-      // 条件节点：第一条出边标注"满足✓"，第二条标注"不满足✗"
-      if (edgeIndex === 0) {
-        label = i18n("rule.edge.satisfied");
-        labelStyle = { fill: "#10b981", fontSize: 11, fontWeight: 600 };
-      } else {
-        label = i18n("rule.edge.notSatisfied");
-        labelStyle = { fill: "#ef4444", fontSize: 11, fontWeight: 600 };
-      }
-      break;
-    }
-    case "exclusive-gateway": {
-      // 排他网关：根据分支配置自动生成条件摘要
-      const branches = sourceNode.data.branches || [];
-      if (edgeIndex < branches.length) {
-        const branch = branches[edgeIndex];
-        label =
-          branch.condition ||
-          branch.label ||
-          `${i18n("rule.edge.branch")}${edgeIndex + 1}`;
-      } else {
-        label = i18n("rule.edge.defaultBranch");
-      }
-      labelStyle = { fill: "#f59e0b", fontSize: 11, fontWeight: 600 };
-      break;
-    }
-    case "parallel-gateway": {
-      label = i18n("rule.edge.parallelExec");
-      labelStyle = { fill: "#06b6d4", fontSize: 11, fontWeight: 600 };
-      break;
-    }
-    case "inclusive-gateway": {
-      const branches = sourceNode.data.branches || [];
-      if (edgeIndex < branches.length) {
-        const branch = branches[edgeIndex];
-        label =
-          branch.condition ||
-          branch.label ||
-          `${i18n("rule.edge.branch")}${edgeIndex + 1}`;
-      } else {
-        label = i18n("rule.edge.defaultBranch");
-      }
-      labelStyle = { fill: "#8b5cf6", fontSize: 11, fontWeight: 600 };
-      break;
-    }
-    case "variable-assign": {
-      const assignments = sourceNode.data.assignments || [];
-      if (assignments.length > 0) {
-        label = `${i18n("rule.edge.set")} ${assignments.map((a) => a.variableName).join(", ")}`;
-      } else {
-        label = i18n("rule.edge.varAssign");
-      }
-      labelStyle = { fill: "#6366f1", fontSize: 11, fontWeight: 500 };
-      break;
-    }
-    case "action": {
-      const actions = sourceNode.data.actions || [];
-      if (actions.length > 0) {
-        label = `${actions.length}${i18n("rule.edge.actions")}`;
-      } else {
-        label = i18n("rule.edge.execAction");
-      }
-      break;
-    }
-    case "loop": {
-      label = `${i18n("rule.edge.loop")} ${sourceNode.data.collectionVar || i18n("rule.edge.collection")}`;
-      break;
-    }
-    case "script": {
-      label = i18n("rule.edge.execScript");
-      break;
-    }
-    case "http-call": {
-      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || i18n("rule.edge.interface")}`;
-      break;
-    }
-    default: {
-      const nodeLabel = getNodeLabel(sourceType);
-      label = nodeLabel || sourceType;
-    }
+  const type = resolveNodeType(sourceNode);
+  const result = getNodeDef(type)?.getEdgeLabel?.({
+    data: sourceNode.data || {},
+    outIndex: edgeIndex,
+  });
+  if (result) {
+    if (typeof result === "string")
+      return { label: result, labelStyle: { ...DEFAULT_EDGE_LABEL_STYLE } };
+    return {
+      label: result.label,
+      labelStyle: result.labelStyle ?? { ...DEFAULT_EDGE_LABEL_STYLE },
+    };
   }
-
-  return { label, labelStyle };
+  // 未注册标签钩子的节点：回退显示节点名
+  return {
+    label: getNodeLabel(type) || type,
+    labelStyle: { ...DEFAULT_EDGE_LABEL_STYLE },
+  };
 };
 
 // 更新指定节点的所有出边标签（跳过手动编辑过的边）
@@ -2386,24 +1588,9 @@ const updateEdgeLabelsForNode = (nodeId: string) => {
 watch(
   () => nodes.value,
   (newNodes) => {
-    // 遍历所有节点，更新其出边标签
+    // 遍历所有节点，更新其出边标签（是否生成由注册表钩子决定）
     newNodes.forEach((node) => {
-      const nodeType =
-        node.type === "generic" ? node.data.__nodeType : node.type;
-      // 只对需要自动生成边标签的节点类型进行处理
-      if (
-        [
-          "condition",
-          "exclusive-gateway",
-          "inclusive-gateway",
-          "parallel-gateway",
-          "variable-assign",
-          "action",
-          "loop",
-          "script",
-          "http-call",
-        ].includes(nodeType)
-      ) {
+      if (getNodeDef(resolveNodeType(node))?.getEdgeLabel) {
         updateEdgeLabelsForNode(node.id);
       }
     });
@@ -2721,46 +1908,20 @@ const handleEdgeType = (type: string) => {
 // ========== 画布操作 ==========
 const fitView = () => fitViewFn({ duration: 300 });
 
-// 获取节点尺寸：优先使用 RuleCanvas 实测值（来自 DOM ResizeObserver），fallback 到估算
+// 获取节点尺寸：优先使用 RuleCanvas 实测值（来自 DOM ResizeObserver），fallback 到注册表估算钩子
 const getNodeSize = (node: any): { width: number; height: number } => {
   // 优先：实测尺寸（保证对齐/布局准确）
   const real = ruleCanvasRef.value?.getNodeDim?.(node.id);
   if (real && real.w > 0 && real.h > 0) {
     return { width: real.w, height: real.h };
   }
-  // Fallback：根据节点类型估算
-  const t = node.type === "generic" ? node.data?.__nodeType : node.type;
-  switch (t) {
-    case "start":
-    case "end":
-      return { width: 80, height: 80 };
-    case "exclusive-gateway":
-    case "parallel-gateway":
-    case "inclusive-gateway":
-    case "join":
-      return { width: 80, height: 80 };
-    case "condition":
-      return {
-        width: 300,
-        height: 120 + (node.data?.conditions?.length || 0) * 28,
-      };
-    case "action":
-      return {
-        width: 300,
-        height: 100 + (node.data?.actions?.length || 0) * 28,
-      };
-    case "variable-assign":
-      return {
-        width: 300,
-        height: 100 + (node.data?.assignments?.length || 0) * 28,
-      };
-    case "script":
-      return { width: 300, height: 140 };
-    case "http-call":
-      return { width: 300, height: 160 };
-    default:
-      return { width: 260, height: 100 };
-  }
+  const t = resolveNodeType(node);
+  return (
+    getNodeDef(t)?.estimateSize?.(node.data || {}) ?? {
+      width: 260,
+      height: 100,
+    }
+  );
 };
 
 const autoLayout = () => {
@@ -2770,7 +1931,9 @@ const autoLayout = () => {
   }
 
   // 1. BFS分层（拓扑排序）
-  const startNodes = nodes.value.filter((n) => n.type === "start");
+  const startNodes = nodes.value.filter(
+    (n) => resolveNodeType(n) === FLOW_START_TYPE,
+  );
   const visited = new Set<string>();
   const levels: Record<string, number> = {};
   const queue = (startNodes.length ? startNodes : [nodes.value[0]]).map(
@@ -3144,27 +2307,19 @@ const formatJson = (o: any) => {
 };
 
 // ========== 数据加载保存 ==========
-const allConditions = computed(() => {
-  const c: any[] = [];
-  nodes.value
-    .filter((n) => n.type === "condition")
-    .forEach((n) =>
-      (n.data.conditions || []).forEach((cond: any) =>
-        c.push({
-          ...cond,
-          logic: n.data.logic || "AND",
-        }),
-      ),
-    );
-  return c;
+// 按注册表 collectItems 钩子归集所有节点的可持久化条目（listKey 分组）
+const collectedByList = computed<Record<string, any[]>>(() => {
+  const byList: Record<string, any[]> = {};
+  nodes.value.forEach((n: any) => {
+    const r = getNodeDef(resolveNodeType(n))?.collectItems?.(n.data || {});
+    if (!r?.listKey) return;
+    if (!byList[r.listKey]) byList[r.listKey] = [];
+    byList[r.listKey].push(...r.items);
+  });
+  return byList;
 });
-const allActions = computed(() => {
-  const a: any[] = [];
-  nodes.value
-    .filter((n) => n.type === "action")
-    .forEach((n) => (n.data.actions || []).forEach((act: any) => a.push(act)));
-  return a;
-});
+const allConditions = computed(() => collectedByList.value["conditions"] || []);
+const allActions = computed(() => collectedByList.value["actions"] || []);
 
 const loadRuleData = async () => {
   // 优先应用 props 传入的 formId（来自表单设计器的 RuleConfigPanel）
@@ -3179,6 +2334,7 @@ const loadRuleData = async () => {
       if (pf.ruleCode) ruleData.ruleCode = pf.ruleCode;
       if (pf.ruleType) ruleData.ruleType = pf.ruleType;
       nodes.value = pf.flowContent.nodes || [];
+      migrateFlowNodes(nodes.value);
       edges.value = pf.flowContent.edges || [];
       ruleData.variables = Array.isArray(pf.flowContent.variables)
         ? pf.flowContent.variables
@@ -3207,6 +2363,7 @@ const loadRuleData = async () => {
         try {
           const f = JSON.parse(ruleData.flowContent);
           nodes.value = f.nodes || [];
+          migrateFlowNodes(nodes.value);
           edges.value = f.edges || [];
           ruleData.variables = Array.isArray(f.variables) ? f.variables : [];
         } catch {
@@ -3395,14 +2552,6 @@ const doPublish = async () => {
   }
 };
 
-const getStatusType = (s: string) =>
-  ({ DRAFT: "info", PUBLISHED: "success", DISABLED: "danger" })[s] || "info";
-const getStatusText = (s: string) =>
-  ({
-    DRAFT: i18n("rule.status.draft"),
-    PUBLISHED: i18n("rule.status.published"),
-    DISABLED: i18n("rule.status.disabled"),
-  })[s] || s;
 
 const loadDemoData = async () => {
   const { value: demoType } = await ElMessageBox.prompt(
@@ -3509,7 +2658,7 @@ const handleImportRule = () => {
           ruleData.ruleCode = rd.ruleCode || "";
           ruleData.ruleName = rd.ruleName || "";
           ruleData.ruleDesc = rd.ruleDesc || "";
-          ruleData.ruleType = rd.ruleType || "FORM_LINKAGE";
+          ruleData.ruleType = rd.ruleType || getDefaultRuleType();
           ruleData.ruleCategory = rd.ruleCategory || "";
           ruleData.priority = rd.priority || 0;
           ruleData.enabled = rd.enabled || "Y";
@@ -3602,170 +2751,6 @@ onUnmounted(() => {
   flex-direction: column;
   background: tokens.$rd-bg-canvas;
 
-  .designer-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: tokens.$rd-space-2 tokens.$rd-space-4;
-    background: tokens.$rd-bg-surface;
-    border-bottom: 1px solid tokens.$rd-border;
-    box-shadow: tokens.$rd-shadow-xs;
-    z-index: 10;
-    min-height: 56px;
-    // 防止分辨率变化时按钮被挤出/重叠：不允许换行，三栏自适应
-    flex-wrap: nowrap;
-    gap: tokens.$rd-space-2;
-    overflow: hidden;
-
-    // 主工具栏所有按钮统一为"图标+文字"风格
-    :deep(.el-button) {
-      // 图标与文字间距
-      .el-icon + span {
-        margin-left: 4px;
-      }
-
-      .el-icon {
-        font-size: 16px;
-
-        svg {
-          width: 1.05em;
-          height: 1.05em;
-        }
-      }
-
-      // 文字字号统一
-      > span {
-        font-size: 13px;
-        font-weight: 500;
-      }
-
-      // 下拉触发按钮：图标 + 文字 + 箭头 三段式布局
-      .dropdown-caret {
-        margin-left: 4px;
-        font-size: 12px;
-        color: tokens.$rd-text-tertiary;
-      }
-    }
-
-    // 左侧返回按钮保持纯图标（link 样式，区别于主操作）
-    .toolbar-left :deep(.el-button.el-button--link) {
-      padding: 6px 8px;
-
-      .el-icon {
-        font-size: 18px;
-      }
-    }
-
-    .toolbar-left {
-      display: flex;
-      align-items: center;
-      gap: tokens.$rd-space-3;
-      // 允许收缩：分辨率变化时规则名输入框自适应
-      flex: 1 1 auto;
-      min-width: 0;
-
-      .rule-title-wrap {
-        display: flex;
-        align-items: center;
-        gap: tokens.$rd-space-2;
-        min-width: 0;
-
-        .status-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: tokens.$rd-radius-pill;
-          flex-shrink: 0;
-          background: tokens.$rd-text-tertiary;
-
-          &.dot-draft {
-            background: tokens.$rd-text-tertiary;
-          }
-
-          &.dot-published {
-            background: tokens.$rd-success;
-          }
-
-          &.dot-disabled {
-            background: tokens.$rd-error;
-          }
-        }
-      }
-
-      .rule-name-input {
-        // 自适应宽度：分辨率变化时自动收缩，但保留最小可用宽度
-        width: 100%;
-        max-width: 240px;
-        min-width: 80px;
-
-        :deep(.el-input__wrapper) {
-          box-shadow: none;
-          background: transparent;
-          padding-left: 0;
-        }
-
-        :deep(.el-input__inner) {
-          font-size: tokens.$rd-font-md;
-          font-weight: tokens.$rd-font-weight-semibold;
-          color: tokens.$rd-text-primary;
-        }
-      }
-
-      // 规则分类下拉选择：紧凑样式，与状态标签并列
-      .rule-category-input {
-        width: 160px !important;
-        flex-shrink: 0;
-
-        :deep(.el-input__wrapper) {
-          background: tokens.$rd-bg-active;
-          box-shadow: 0 0 0 1px tokens.$rd-border inset;
-          border-radius: tokens.$rd-radius-sm;
-          padding-left: 8px;
-        }
-
-        :deep(.el-input__inner) {
-          font-size: tokens.$rd-font-sm;
-          color: tokens.$rd-text-secondary;
-        }
-
-        :deep(.el-input__prefix) {
-          color: tokens.$rd-text-tertiary;
-          margin-right: 4px;
-        }
-
-        :deep(.el-select__caret) {
-          color: tokens.$rd-text-tertiary;
-        }
-      }
-
-      // 状态标签不可压缩
-      .el-tag {
-        flex-shrink: 0;
-      }
-    }
-
-    .toolbar-center {
-      display: flex;
-      align-items: center;
-      gap: tokens.$rd-space-2;
-      // 中间分组下拉按钮固定尺寸，不允许挤压
-      flex: 0 0 auto;
-    }
-
-    .toolbar-right {
-      display: flex;
-      align-items: center;
-      gap: tokens.$rd-space-2;
-      flex: 0 0 auto;
-      // 校验通过时按钮文字置灰，存在问题时由图标颜色区分
-      .val-ok {
-        color: tokens.$rd-text-tertiary;
-
-        .el-icon {
-          color: tokens.$rd-success;
-        }
-      }
-    }
-  }
 
   .designer-body {
     flex: 1;
@@ -4219,180 +3204,4 @@ onUnmounted(() => {
   background: #eef2ff;
 }
 
-/* 帮助面板样式 */
-.help-popper.help-popper {
-  z-index: 9999 !important;
-}
-
-.help-popper .help-panel {
-  max-height: 480px;
-  overflow-y: auto;
-}
-
-.help-popper .help-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.help-popper .help-section {
-  margin-bottom: 10px;
-}
-
-.help-popper .help-section-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: #6366f1;
-  margin-bottom: 4px;
-  padding-left: 2px;
-}
-
-.help-popper .help-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #475569;
-  padding: 2px 0;
-}
-
-.help-popper .help-row span {
-  color: #94a3b8;
-  margin-left: auto;
-}
-
-.help-popper kbd {
-  display: inline-block;
-  padding: 1px 6px;
-  font-size: 11px;
-  font-family: "Consolas", "Monaco", monospace;
-  color: #475569;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  white-space: nowrap;
-}
-
-/* 实时校验汇总面板（popper 渲染在 body，需放在非 scoped 块） */
-.validation-popper.validation-popper {
-  z-index: 9999 !important;
-}
-
-.validation-popper .validation-panel {
-  max-height: 460px;
-  overflow-y: auto;
-}
-
-.validation-popper .validation-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.validation-popper .vh-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #111827;
-}
-
-.validation-popper .vh-stats {
-  display: flex;
-  gap: 4px;
-}
-
-.validation-popper .validation-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.validation-popper .val-empty {
-  text-align: center;
-  padding: 24px 0;
-  color: #10b981;
-}
-
-.validation-popper .val-empty p {
-  margin: 8px 0 0;
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.validation-popper .val-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 8px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.12s ease;
-  border: 1px solid transparent;
-}
-
-.validation-popper .val-item:hover {
-  background: #f4f5f7;
-}
-
-.validation-popper .val-item.vi-error {
-  background: #fef2f2;
-  border-color: #fecaca;
-}
-
-.validation-popper .val-item.vi-error:hover {
-  background: #fee2e2;
-}
-
-.validation-popper .val-item.vi-warning {
-  background: #fffbeb;
-  border-color: #fde68a;
-}
-
-.validation-popper .val-item.vi-warning:hover {
-  background: #fef3c7;
-}
-
-.validation-popper .vi-bullet {
-  flex-shrink: 0;
-  font-weight: 700;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.validation-popper .vi-error .vi-bullet {
-  color: #ef4444;
-}
-
-.validation-popper .vi-warning .vi-bullet {
-  color: #f59e0b;
-}
-
-.validation-popper .vi-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.validation-popper .vi-msg {
-  font-size: 12px;
-  color: #111827;
-  line-height: 1.5;
-  word-break: break-word;
-}
-
-.validation-popper .vi-meta {
-  margin-top: 2px;
-  font-size: 11px;
-  color: #9ca3af;
-}
-
-.validation-popper .vi-node {
-  font-family: ui-monospace, monospace;
-}
 </style>

@@ -16,7 +16,7 @@
  * - 仅替换精确匹配的字段名
  */
 import {ruleDefinitionApi} from "@/api/rule_engine_api";
-import {NODE_TYPE_MAP} from "../nodeTypes";
+import {getNodeTypeMap, resolveNodeType} from "../nodeTypes";
 
 /**
  * 判断字段引用是否为纯字段名（非表达式）
@@ -47,44 +47,10 @@ export const replaceFieldRefsInFlow = (
   for (const node of nodes) {
     if (!node.data) continue;
     const data = node.data;
-    const type = node.type;
+    const type = resolveNodeType(node);
 
-    // condition 节点：替换 conditions[].fieldName
-    if (type === "condition" && Array.isArray(data.conditions)) {
-      for (const c of data.conditions) {
-        if (isPlainFieldRef(c.fieldName) && c.fieldName === oldName) {
-          c.fieldName = newName;
-          count++;
-        }
-      }
-      continue;
-    }
-
-    // action 节点：替换 actions[].targetField（SHOW_MESSAGE 不针对字段，跳过）
-    if (type === "action" && Array.isArray(data.actions)) {
-      for (const a of data.actions) {
-        if (a.actionType === "SHOW_MESSAGE") continue;
-        if (isPlainFieldRef(a.targetField) && a.targetField === oldName) {
-          a.targetField = newName;
-          count++;
-        }
-      }
-      continue;
-    }
-
-    // variable-assign：替换 assignments[].targetField
-    if (type === "variable-assign" && Array.isArray(data.assignments)) {
-      for (const a of data.assignments) {
-        if (isPlainFieldRef(a.targetField) && a.targetField === oldName) {
-          a.targetField = newName;
-          count++;
-        }
-      }
-      continue;
-    }
-
-    // 通用节点：基于 paramSchema 替换 fieldSelect 字段和表格列
-    const def = NODE_TYPE_MAP[type];
+    // 基于注册表 paramSchema 替换 fieldSelect 字段和表格列（各节点自行声明）
+    const def = getNodeTypeMap()[type];
     if (def && Array.isArray(def.paramSchema)) {
       for (const f of def.paramSchema) {
         // fieldSelect 标记的字段

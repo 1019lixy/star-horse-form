@@ -176,6 +176,7 @@ watch(
       formRef.value?.clearValidate();
     }
   },
+  { immediate: true },
 );
 
 const removeBranch = (index: number) => {

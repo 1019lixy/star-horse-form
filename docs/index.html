@@ -265,6 +265,31 @@ app.mount(&quot;#app&quot;);
 <li>异步注册 <code>system/*.vue</code>、<code>system/items/utils/*.vue</code>、<code>formcomp/items/*.vue</code>、<code>formcomp/container/*.vue</code> 下所有组件</li>
 <li>注册 <code>formContext</code> 上下文</li>
 </ol>
+<h3 id="后端端点配置-无状态注入">后端端点配置（无状态注入）</h3>
+<p>本组件包遵循无状态 lib 库原则，<strong>不绑定任何特定业务的接口地址</strong>。对接自有后端时，请在 <code>main.ts</code> 中、渲染任何表单/规则组件之前调用两个全局配置函数：</p>
+<pre><code class="language-ts">import {
+  configureRuleEngine,
+  configureAppEndpoints,
+} from &quot;star-horse-form&quot;;
+
+// 1) 规则引擎 9 组 CRUD/执行接口的服务名与路径
+configureRuleEngine({
+  serviceName: &quot;my-service&quot;,       // 默认 userdb-manage
+  ruleEnginePath: &quot;api/ruleEngine&quot;, // 其余 8 组路径同理可覆盖，未传则用默认
+});
+
+// 2) 全局通用端点（WebSocket / 代理 / 字典 / 网关等），按需覆盖
+configureAppEndpoints({
+  wsEndpoint: &quot;/my-ws/form&quot;,                    // 协同编辑 WebSocket，默认 /api/ws/form
+  apiLinkageProxyUrl: &quot;/gw/redirect/apiLinkage&quot;, // http-call 代理，默认 /system-config/redirect/apiLinkage
+  executeProxyUrl: &quot;/gw/redirect/execute&quot;,       // 接口执行代理，默认 /system-config/redirect/execute
+  gatewayPrefix: &quot;/my-service&quot;,                  // 网关前缀，默认 /userdb-manage
+  gatewayServiceName: &quot;my-service&quot;,              // apiInstance 服务名，默认 userdb-manage
+});
+</code></pre>
+<blockquote>
+<p>未配置时使用内置默认值保证开箱可用；重复调用按字段合并覆盖。字段含义详见 <a href="./api-layer.md#%E7%AB%AF%E7%82%B9%E9%85%8D%E7%BD%AE%E6%97%A0%E7%8A%B6%E6%80%81%E6%B3%A8%E5%85%A5">前端 API 层 - 端点配置</a>。</p>
+</blockquote>
 <h2 id="最小可用示例">最小可用示例</h2>
 <h3 id="1-表单设计器-极简模式">1. 表单设计器（极简模式）</h3>
 <pre><code class="language-vue">&lt;script setup lang=&quot;ts&quot;&gt;
@@ -1489,6 +1514,11 @@ const formFields = ref([
 <td><code>object</code></td>
 <td>预填数据（如联动策略转换结果），新建时作为初始流程</td>
 </tr>
+<tr>
+<td><code>ruleCategories</code></td>
+<td><code>RuleCategoryOption[]</code></td>
+<td>规则分类选项（业务域分类）。不传时使用 <code>configureRuleCategories</code> 注入的全局配置，再兜底内置默认</td>
+</tr>
 </tbody></table>
 <p><code>prefilledData</code> 结构：</p>
 <pre><code class="language-ts">{
@@ -1545,16 +1575,20 @@ const formFields = ref([
 <td>主组件，集成工具栏、画布、节点面板、属性面板</td>
 </tr>
 <tr>
+<td><code>RuleToolbar.vue</code></td>
+<td>顶部菜单栏组件（规则名/状态/分类 + 文件/视图/更多操作下拉 + 校验面板 + 帮助面板），通过 props 接收状态、emit command/back/locateNode</td>
+</tr>
+<tr>
 <td><code>RuleCanvas.vue</code></td>
 <td>Vue Flow 画布封装，暴露 fitView/zoom/addNodes/removeNodes 等方法</td>
 </tr>
 <tr>
 <td><code>NodePanel.vue</code></td>
-<td>左侧节点面板，展示 8 种可拖拽节点</td>
+<td>左侧节点面板，展示注册表中的可拖拽节点（支持搜索/分组）</td>
 </tr>
 <tr>
 <td><code>PropertyPanel.vue</code></td>
-<td>右侧属性面板，根据选中节点渲染 paramSchema 表单</td>
+<td>右侧属性面板，动态渲染 <code>nodeDef.panelSection</code>（节点专属面板片段）+ 通用 paramSchema 兜底，零类型硬编码</td>
 </tr>
 <tr>
 <td><code>RuleCodeView.vue</code></td>
@@ -1565,12 +1599,32 @@ const formFields = ref([
 <td>执行日志查看器</td>
 </tr>
 <tr>
-<td><code>nodes/*.vue</code></td>
-<td>9 个节点渲染组件（StartNode/EndNode/ConditionNode/ActionNode/ExclusiveGatewayNode/HttpCallNode/VariableAssignNode/ScriptNode/GenericNode）</td>
+<td><code>nodes/{type}/</code></td>
+<td>每个节点自包含目录：<code>Node.vue</code>（画布渲染）+ 编辑对话框 + <code>Panel.vue</code>（面板片段）+ <code>index.ts</code>（def 注册：component/editor/panelSection/钩子全组装）</td>
 </tr>
 <tr>
-<td><code>dialogs/*.vue</code></td>
-<td>8 个编辑对话框（ConditionEdit/ActionEdit/GatewayConfig/VariableAssign/ScriptEdit/HttpCall/RuleProperty/RuleTest）</td>
+<td><code>nodes/GenericNode.vue</code></td>
+<td>通用兜底渲染组件（无专用 component 时使用）</td>
+</tr>
+<tr>
+<td><code>nodes/RuleNodeHost.vue</code></td>
+<td>动态宿主：转发自定义节点事件给设计器</td>
+</tr>
+<tr>
+<td><code>nodes/index.ts</code></td>
+<td>内置节点汇总：<code>builtinCategories</code> / <code>BUILT_IN_NODE_TYPES</code> / <code>getDefaultFlowTemplate</code> / <code>FLOW_START_TYPE</code></td>
+</tr>
+<tr>
+<td><code>dialogs/NodeEditorHost.vue</code></td>
+<td>统一节点编辑器宿主：按注册表解析 <code>nodeDef.editor</code> 渲染，设计器零类型分发</td>
+</tr>
+<tr>
+<td><code>dialogs/RulePropertyDialog.vue</code></td>
+<td>规则属性弹窗（规则名/编码/分类等）</td>
+</tr>
+<tr>
+<td><code>dialogs/RuleTestDialog.vue</code></td>
+<td>规则测试弹窗</td>
 </tr>
 <tr>
 <td><code>engine/RuleExecutor.ts</code></td>
@@ -1582,7 +1636,15 @@ const formFields = ref([
 </tr>
 <tr>
 <td><code>nodeTypes.ts</code></td>
-<td>8 种节点类型定义（含 paramSchema）</td>
+<td>节点注册表机制层：类型定义 + 响应式注册表 + 可插拔注册 API（configureRuleNodes / registerRuleNode / resetRuleNodes 等）</td>
+</tr>
+<tr>
+<td><code>ruleDesignerStore.ts</code></td>
+<td>Pinia Store：ruleData/variables/editor 状态 + canvasApi 注入 + 统一编辑器 openEditor/saveEditor/deleteListItem</td>
+</tr>
+<tr>
+<td><code>designerConfig.ts</code></td>
+<td>规则分类注册表（configureRuleCategories / getDefaultRuleType 等）</td>
 </tr>
 <tr>
 <td><code>useRuleEngine.ts</code></td>
@@ -1652,7 +1714,60 @@ const formFields = ref([
 </tr>
 </tbody></table>
 <h2 id="节点类型定义">节点类型定义</h2>
-<p>定义于 <code>src/components/rule/nodeTypes.ts</code>，分基础节点与高级节点两大类共 8 种。</p>
+<p>定义于 <code>src/components/rule/nodeTypes.ts</code>。遵循无状态 lib 库原则，节点采用<strong>注册表模式</strong>：</p>
+<ul>
+<li>内置 2 大类 8 种节点仅作为<strong>默认注册集</strong>，保证开箱可用，并非封闭穷举；</li>
+<li>宿主应用可在运行时增删节点与分类（<code>configureRuleNodes</code> / <code>registerRuleNode</code> 等），无需修改本库代码；</li>
+<li>注册表为 Vue 响应式状态，节点面板/画布/属性区自动跟随更新。</li>
+</ul>
+<h3 id="nodetypedef-节点类型定义">NodeTypeDef（节点类型定义）</h3>
+<pre><code class="language-ts">interface NodeTypeDef {
+  type: string;          // 节点类型标识（写入 flowContent.nodes[].type）
+  label: string;         // 标签（支持 i18n key）
+  icon: string;          // 图标
+  category: string;      // 逻辑类别标记（flow/logic/...，供执行器识别）
+  nodeClass: NodeClass;  // 节点大类：flow / condition / action
+  desc: string;          // 描述（支持 i18n key）
+  component?: Component; // 画布渲染组件；缺省回退 GenericNode 通用渲染
+  editor?: Component;    // 统一协议属性编辑器：props { nodeData, itemIndex, variables }，emits save(patch)/close
+  editorHint?: string;   // 属性面板弹窗编辑入口提示文案（i18n key）
+  panelSection?: Component; // 属性面板片段组件：props { nodeData, variables }，emits update(patch)/configure(itemIndex?)
+  uiEvents?: { editItemEvent?, deleteItemEvent?, listKey? }; // 子组件事件名映射
+  getSummary?: (data) =&gt; string; // 节点配置摘要（画布卡片展示），由节点自行计算
+  defaultData: () =&gt; Record&lt;string, any&gt;;  // 新建节点的默认数据（工厂函数）
+  paramSchema: ParamField[];               // 属性面板参数 schema（generic 兜底渲染）
+  estimateSize?: (data) =&gt; { width, height }; // 画布尺寸估算
+  getEdgeLabel?: (ctx: { data, outIndex }) =&gt; { label, labelStyle? } | string; // 出边标签生成
+  collectTestFields?: (data, fields, seen) =&gt; void; // 测试面板参数提取
+  collectItems?: (data) =&gt; { listKey, items }; // 保存时按 listKey 拆解批量入库
+}
+</code></pre>
+<h3 id="统一数据结构体系">统一数据结构体系</h3>
+<p>节点按 <strong>NodeClass</strong> 分为三大类，动作节点统一继承 <code>actionType</code> 派生标识：</p>
+<pre><code>基础节点：
+  start (flow)       流程起点，可配置触发事件（ON_LOAD/ON_CHANGE/ON_SUBMIT/ON_VALIDATE/ON_BUTTON_CLICK）
+  end (flow)         流程终点，可配置结束类型（success/fail/skip）
+  condition (condition)  条件判断，AND/OR 逻辑 + 二分出边
+  exclusive-gateway (condition)  多路分支路由，N 条出边 + 默认分支
+
+动作节点（nodeClass: &quot;action&quot;，统一 actionType 派生）：
+  action             actionType: FORM_CONTROL    表单控制（显示/隐藏/赋值/必填/设选项/提示）
+  http-call          actionType: HTTP_CALL       HTTP 接口调用
+  script             actionType: SCRIPT          脚本执行
+  variable-assign    actionType: VARIABLE_ASSIGN 变量赋值
+</code></pre>
+<p><strong>数据迁移</strong>：<code>migrateFlowNodes(nodes)</code> 在加载已保存规则时自动补齐旧数据缺失的 <code>triggerEvent</code> / <code>actionType</code> 字段，保证向后兼容。</p>
+<h3 id="可插拔架构要点">可插拔架构要点</h3>
+<ul>
+<li><strong>节点业务全内聚</strong>：每个节点的定义、画布渲染、编辑器、面板片段、配置摘要、出边标签、尺寸估算、字段收集全部聚合在 <code>nodes/{type}/index.ts</code> 各自模块内；设计器（RuleDesigner / PropertyPanel / NodeEditorHost / GenericNode / RuleTestDialog）不感知任何具体节点类型，零 <code>switch/case</code> 类型分发。</li>
+<li><strong>getSummary 钩子</strong>：各节点自带 <code>getSummary(data)</code> 计算配置摘要（如条件数、动作数、HTTP 方法等），GenericNode 通用渲染调用 <code>nodeDef.getSummary(data)</code> 展示，不再硬编码类型分支。</li>
+<li><strong>collectTestFields 钩子</strong>：测试对话框 <code>loadSampleData</code> 通过注册表钩子收集测试参数，不再硬编码 <code>node.type === &quot;condition&quot;</code> 等类型判断。</li>
+<li><strong>字段引用同步</strong>：<code>ruleFieldSync.ts</code> 使用 <code>resolveNodeType</code> + paramSchema <code>fieldSelect</code> 标记替换字段引用，不再硬编码类型分支。</li>
+<li><strong>panelSection 机制</strong>：基础类型节点（condition/action/variable-assign/exclusive-gateway）各自提供 <code>panelSection</code> 组件，PropertyPanel 动态渲染 <code>&lt;component :is=&quot;nodeDef.panelSection&quot;&gt;</code>，不再硬编码类型分支。新增节点可自带定制面板片段。</li>
+<li><strong>统一编辑器宿主</strong>：<code>NodeEditorHost.vue</code> 按注册表解析 <code>nodeDef.editor</code> 渲染，通过 <code>ruleDesignerStore.openEditor(nodeId, listKey, itemIndex)</code> 打开，<code>saveEditor</code> 将补丁 merge 回节点数据。</li>
+<li><strong>Store 共享数据</strong>：<code>ruleDesignerStore.ts</code> 持有 <code>ruleData</code>/<code>variables</code>/<code>editor</code> 状态，通过 <code>setCanvasApi({ getNode, getNodeData, updateNodeData })</code> 注入画布访问器，避免组件间直接耦合。</li>
+<li><strong>动态画布插槽</strong>：RuleDesigner 用 <code>v-for=&quot;def in registeredDefs&quot; #[\</code>node-${def.type}`]<code>动态渲染专用节点插槽 +</code>#node-generic` 兜底，新增节点自动获得画布渲染。</li>
+</ul>
 <h3 id="paramfield-节点参数字段-schema">ParamField（节点参数字段 schema）</h3>
 <p>每个节点的可配置参数由 <code>ParamField[]</code> 描述：</p>
 <pre><code class="language-ts">interface ParamField {
@@ -1885,7 +2000,7 @@ const formFields = ref([
 <li><strong>分类</strong>：flow</li>
 <li><strong>图标</strong>：✕</li>
 <li><strong>说明</strong>：排他网关，根据条件分支路由</li>
-<li><strong>defaultData</strong>：<code>{ name: &quot;&quot;, branches: [] }</code></li>
+<li><strong>defaultData</strong>：<code>{ name, gatewayType: &quot;XOR&quot;, branches: [] }</code></li>
 <li><strong>paramSchema</strong>：</li>
 </ul>
 <table>
@@ -2063,7 +2178,7 @@ const formFields = ref([
 <li><strong>分类</strong>：logic</li>
 <li><strong>图标</strong>：📜</li>
 <li><strong>说明</strong>：自定义脚本执行</li>
-<li><strong>defaultData</strong>：<code>{ scriptContent: &quot;&quot;, description: &quot;&quot; }</code></li>
+<li><strong>defaultData</strong>：<code>{ scriptContent: &quot;&quot;, scriptLang: &quot;javascript&quot;, description: &quot;&quot; }</code></li>
 <li><strong>paramSchema</strong>：</li>
 </ul>
 <table>
@@ -2102,13 +2217,100 @@ const formFields = ref([
 <td>http-call、variable-assign、script</td>
 </tr>
 </tbody></table>
-<p>辅助函数：</p>
+<p>辅助函数（均动态读取注册表）：</p>
 <ul>
-<li><code>getNodeDef(type)</code>：获取节点类型定义</li>
-<li><code>getNodeDefaultData(type)</code>：获取节点默认数据</li>
-<li><code>getNodeLabel(type)</code>：获取节点标签（支持 i18n）</li>
-<li><code>getCategoryColor(type)</code>：获取分类颜色</li>
+<li><code>getNodeCategories()</code>：当前分类面板结构</li>
+<li><code>getNodeTypeMap()</code>：type → 定义映射（含已退役定义，旧数据可兜底渲染）</li>
+<li><code>getNodeDef(type)</code> / <code>getNodeDefaultData(type)</code> / <code>getNodeLabel(type)</code> / <code>getParamSchema(type)</code> / <code>getCategoryColor(type)</code></li>
 </ul>
+<h2 id="可插拔节点注册">可插拔节点注册</h2>
+<p>节点是可插拔的：新增节点只需注册，不修改组件库代码。</p>
+<h3 id="注册-api">注册 API</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>configureRuleNodes(opts)</code></td>
+<td>批量配置：<code>extraCategories</code> 追加分类、<code>extraNodes</code> 向指定分类追加节点（分类不存在则自动创建）、<code>disabledNodeTypes</code> 从面板隐藏内置节点</td>
+</tr>
+<tr>
+<td><code>registerRuleNode(def, categoryName?)</code></td>
+<td>注册单个节点；同 type 覆盖旧定义</td>
+</tr>
+<tr>
+<td><code>unregisterRuleNodeType(type)</code></td>
+<td>彻底移除节点类型</td>
+</tr>
+<tr>
+<td><code>disableRuleNodeTypes(types)</code></td>
+<td>从面板隐藏（转入退役区，旧流程数据仍可渲染）</td>
+</tr>
+<tr>
+<td><code>resetRuleNodes()</code></td>
+<td>恢复内置默认注册集</td>
+</tr>
+</tbody></table>
+<h3 id="自定义节点示例">自定义节点示例</h3>
+<pre><code class="language-ts">// main.ts 中，渲染 RuleDesigner 之前
+import MyAuditNode from &quot;./MyAuditNode.vue&quot;;
+import { configureRuleNodes } from &quot;star-horse-form&quot;;
+
+configureRuleNodes({
+  // 可选：屏蔽不需要的内置节点
+  disabledNodeTypes: [&quot;script&quot;],
+  extraNodes: {
+    categoryName: &quot;业务节点&quot;,
+    icon: &quot;🏢&quot;,
+    color: &quot;#f59e0b&quot;,
+    nodes: [
+      {
+        type: &quot;my-audit&quot;,
+        label: &quot;审批节点&quot;,
+        icon: &quot;✅&quot;,
+        category: &quot;logic&quot;,
+        desc: &quot;提交审批流程&quot;,
+        component: MyAuditNode,          // 自定义画布渲染组件
+        defaultData: () =&gt; ({ approver: &quot;&quot;, cc: [] }),
+        paramSchema: [
+          { name: &quot;approver&quot;, label: &quot;审批人&quot;, type: &quot;input&quot;, required: true },
+        ],
+      },
+    ],
+  },
+});
+</code></pre>
+<p>注册后：</p>
+<ol>
+<li><strong>节点面板</strong>自动出现&quot;业务节点&quot;分组与&quot;审批节点&quot;卡片，支持拖拽/点击添加；</li>
+<li><strong>画布渲染</strong>使用 <code>MyAuditNode</code> 组件（宿主为 <code>RuleNodeHost.vue</code>，插槽名 <code>node-my-audit</code> 自动生成）；未提供 <code>component</code> 的注册节点回退 GenericNode 渲染；</li>
+<li><strong>属性面板</strong>按 <code>paramSchema</code> 自动渲染配置表单，无需为每个节点写对话框；</li>
+<li><strong>校验器</strong>基于 <code>paramSchema.required</code> 自动校验必填项。</li>
+</ol>
+<blockquote>
+<p>内置 8 种节点的专用渲染组件与配置弹窗属于编辑器自带能力；自定义节点的交互通过自身 <code>component</code> + 属性面板完成，两者互不影响。</p>
+</blockquote>
+<h2 id="规则分类注入">规则分类注入</h2>
+<p>规则分类（ruleType / ruleCategory）是纯业务概念，库内不穷举，优先级：</p>
+<pre><code>props.ruleCategories &gt; configureRuleCategories 全局配置 &gt; 内置默认（8 类）
+</code></pre>
+<pre><code class="language-ts">import { configureRuleCategories } from &quot;star-horse-form&quot;;
+
+configureRuleCategories({
+  options: [
+    { label: &quot;审批类&quot;, value: &quot;AUDIT&quot; },
+    { label: &quot;核算类&quot;, value: &quot;ACCOUNTING&quot; },
+  ],
+  defaultRuleType: &quot;AUDIT&quot;,   // 新建规则的默认分类
+});
+</code></pre>
+<p>或在组件上直接传入：</p>
+<pre><code class="language-vue">&lt;RuleDesigner :form-id=&quot;formId&quot; :rule-categories=&quot;myCategories&quot; /&gt;
+</code></pre>
+<p>相关函数：<code>getRuleCategoryOptions()</code>（读取选项）、<code>getDefaultRuleType()</code>（默认值，未配置或不在选项中时回退 options[0]）、<code>resetRuleCategories()</code>（恢复内置）。</p>
 <h2 id="触发事件">触发事件</h2>
 <p>定义于 <code>useRuleEngine.ts</code>，规则集通过触发事件与表单生命周期绑定：</p>
 <table>
@@ -2446,13 +2648,21 @@ const handleMerge = async (type: string) =&gt; {
 <p>定义于 <code>src/components/rule/engine/RuleExecutor.ts</code>，规则执行器，负责按流程图拓扑顺序执行节点。</p>
 <p>校验器定义于 <code>src/components/rule/engine/validator.ts</code>，提供 <code>validateRule()</code> 函数用于表单提交前的字段级验证（required/readonly/value 三种校验类型）。</p>
 <h2 id="后端对接">后端对接</h2>
-<p>规则引擎通过 <code>src/api/rule_engine_api.ts</code> 与后端交互，所有接口基于 <code>apiInstance(&quot;userdb-manage&quot;, &quot;userdb/xxx&quot;)</code> 构建，不写死地址。</p>
+<p>规则引擎通过 <code>src/api/rule_engine_api.ts</code> 与后端交互。遵循无状态 lib 库原则，所有端点通过 <code>configureRuleEngine</code> 注入，不写死地址；默认值为 <code>{ serviceName: &quot;userdb-manage&quot;, xxxPath: &quot;userdb/xxx&quot; }</code>，最终请求路径为 <code>/{serviceName}/{xxxPath}/具体操作</code>。</p>
+<pre><code class="language-ts">import { configureRuleEngine } from &quot;star-horse-form&quot;;
+
+// 在 main.ts 中、渲染任何规则组件之前调用
+configureRuleEngine({
+  serviceName: &quot;my-service&quot;,
+  ruleEnginePath: &quot;api/v2/ruleEngine&quot;, // 其余 8 组路径同理可覆盖
+});
+</code></pre>
 <h3 id="执行接口">执行接口</h3>
 <table>
 <thead>
 <tr>
 <th>方法</th>
-<th>路径</th>
+<th>相对路径</th>
 <th>说明</th>
 </tr>
 </thead>
@@ -2473,7 +2683,7 @@ const handleMerge = async (type: string) =&gt; {
 </tr>
 </tbody></table>
 <blockquote>
-<p>完整 API 清单详见 <a href="./api-layer.md#%E8%A7%84%E5%88%99%E5%BC%95%E6%93%8E%E6%8E%A5%E5%8F%A3-rule_engine_apits">前端 API 层</a>。</p>
+<p>完整 API 清单及配置字段说明详见 <a href="./api-layer.md#%E7%AB%AF%E7%82%B9%E9%85%8D%E7%BD%AE%E6%97%A0%E7%8A%B6%E6%80%81%E6%B3%A8%E5%85%A5">前端 API 层</a>。</p>
 </blockquote>
 <h3 id="flowcontent-结构">flowContent 结构</h3>
 <p>规则流程图持久化结构：</p>
@@ -3549,7 +3759,11 @@ const conditions = ref([]);
 </thead>
 <tbody><tr>
 <td><code>rule_engine_api.ts</code></td>
-<td>规则引擎 CRUD 接口</td>
+<td>规则引擎 CRUD 接口 + <code>configureRuleEngine</code> / <code>getRuleEngineConfig</code></td>
+</tr>
+<tr>
+<td><code>app_config.ts</code></td>
+<td>全局端点配置 + <code>configureAppEndpoints</code> / <code>getAppEndpoints</code> / <code>appEndpoints</code></td>
 </tr>
 <tr>
 <td><code>star_horse_form_api.ts</code></td>
@@ -3573,15 +3787,15 @@ const conditions = ref([]);
 </tr>
 <tr>
 <td><code>custom_component_api.ts</code></td>
-<td>自定义组件接口</td>
+<td>自定义组件接口（已支持 <code>initCustomCompApi</code>）</td>
 </tr>
 <tr>
 <td><code>ai_chat_api.ts</code></td>
-<td>AI 对话接口</td>
+<td>AI 对话接口（已支持 <code>initAiApi</code>）</td>
 </tr>
 <tr>
 <td><code>ai_config_api.ts</code></td>
-<td>AI 配置接口</td>
+<td>AI 配置接口（已支持 <code>initAiConfigApi</code>）</td>
 </tr>
 <tr>
 <td><code>short_key_operation.ts</code></td>
@@ -3616,8 +3830,108 @@ const conditions = ref([]);
 <td>省市区编码数据</td>
 </tr>
 </tbody></table>
+<h2 id="端点配置-无状态注入">端点配置（无状态注入）</h2>
+<p>遵循无状态 lib 库原则，本组件包<strong>不绑定任何特定业务的接口地址</strong>。所有后端交互路径均通过两个全局配置函数在宿主应用入口（如 <code>main.ts</code>）按需注入；未配置时使用内置默认值保证开箱可用。</p>
+<h3 id="configureruleengine-规则引擎-api-端点">configureRuleEngine — 规则引擎 API 端点</h3>
+<p>定义于 <code>src/api/rule_engine_api.ts</code>：</p>
+<pre><code class="language-ts">interface RuleEngineApiConfig {
+  serviceName: string;            // apiInstance 服务名，默认 &quot;userdb-manage&quot;
+  ruleDefinitionPath: string;     // 规则定义路径，默认 &quot;userdb/ruleDefinition&quot;
+  ruleConditionPath: string;      // 规则条件路径，默认 &quot;userdb/ruleCondition&quot;
+  ruleActionPath: string;         // 规则动作路径，默认 &quot;userdb/ruleAction&quot;
+  ruleSetPath: string;            // 规则集路径，默认 &quot;userdb/ruleSet&quot;
+  ruleSetItemPath: string;        // 关联项路径，默认 &quot;userdb/ruleSetItem&quot;
+  ruleVariablePath: string;       // 变量路径，默认 &quot;userdb/ruleVariable&quot;
+  ruleExecutionLogPath: string;   // 执行日志路径，默认 &quot;userdb/ruleExecutionLog&quot;
+  ruleEnginePath: string;         // 引擎执行路径，默认 &quot;userdb/ruleEngine&quot;
+  ruleVersionPath: string;        // 版本路径，默认 &quot;userdb/ruleVersion&quot;
+}
+
+configureRuleEngine(cfg: Partial&lt;RuleEngineApiConfig&gt;): void
+getRuleEngineConfig(): Readonly&lt;RuleEngineApiConfig&gt;
+</code></pre>
+<p>最终请求路径为 <code>/{serviceName}/{xxxPath}/具体操作</code>。例如默认配置下执行接口为
+<code>POST /userdb-manage/userdb/ruleEngine/executeByForm/{formId}?triggerEvent=ON_LOAD</code>。</p>
+<pre><code class="language-ts">// 完全自定义
+configureRuleEngine({ serviceName: &quot;my-service&quot;, ruleEnginePath: &quot;api/v2/ruleEngine&quot; });
+// 仅改服务名，其余路径沿用默认
+configureRuleEngine({ serviceName: &quot;custom-gateway&quot; });
+</code></pre>
+<h3 id="configureappendpoints-全局通用端点">configureAppEndpoints — 全局通用端点</h3>
+<p>定义于 <code>src/api/app_config.ts</code>，覆盖 WebSocket、代理、字典、网关等非规则引擎端点：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>默认值</th>
+<th>使用方</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>wsEndpoint</code></td>
+<td><code>/api/ws/form</code></td>
+<td>FormSocketService / StarHorseFormDesign（SockJS 协同）</td>
+</tr>
+<tr>
+<td><code>redirectPrefix</code></td>
+<td><code>/system-config/redirect</code></td>
+<td>ItemPreps（拼接 redirect 类地址）</td>
+</tr>
+<tr>
+<td><code>apiLinkageProxyUrl</code></td>
+<td><code>/system-config/redirect/apiLinkage</code></td>
+<td>http-call 节点默认 proxyUrl、ApiSharedConfig</td>
+</tr>
+<tr>
+<td><code>executeProxyUrl</code></td>
+<td><code>/system-config/redirect/execute</code></td>
+<td>ItemPreps 接口执行</td>
+</tr>
+<tr>
+<td><code>serviceListUrl</code></td>
+<td><code>/userdb-manage/redirect/api/service/list</code></td>
+<td>内部服务列表下拉</td>
+</tr>
+<tr>
+<td><code>dictPageListUrl</code></td>
+<td><code>/system-config/system/dictinfoType/pageList</code></td>
+<td>数据源字典分页</td>
+</tr>
+<tr>
+<td><code>formDesignPageListUrl</code></td>
+<td><code>userdb-manage/userdb/dynamicForm/pageList</code></td>
+<td>表单选择分页列表</td>
+</tr>
+<tr>
+<td><code>formDesignBaseUrl</code></td>
+<td><code>userdb-manage/userdb/dynamicForm</code></td>
+<td>表单设计器基础路径（getById 等操作拼接，RuleDesigner 加载表单字段）</td>
+</tr>
+<tr>
+<td><code>gatewayPrefix</code></td>
+<td><code>/userdb-manage</code></td>
+<td>URL 拼接（custom_component_api、ai_*_api 兜底）</td>
+</tr>
+<tr>
+<td><code>gatewayServiceName</code></td>
+<td><code>userdb-manage</code></td>
+<td>apiInstance 服务名（commonpage 三页）</td>
+</tr>
+</tbody></table>
+<pre><code class="language-ts">import { configureAppEndpoints } from &quot;star-horse-form&quot;;
+
+configureAppEndpoints({
+  wsEndpoint: &quot;/my-ws/form&quot;,
+  gatewayPrefix: &quot;/my-gateway&quot;,
+  gatewayServiceName: &quot;my-gateway&quot;,
+  apiLinkageProxyUrl: &quot;/system-config/redirect/apiLinkage&quot;,
+});
+</code></pre>
+<blockquote>
+<p>配置为模块级单例，应在渲染任何表单/规则组件<strong>之前</strong>调用；重复调用按字段合并覆盖。<code>getAppEndpoints()</code> 返回只读快照用于调试。</p>
+</blockquote>
 <h2 id="规则引擎接口-rule_engine_api-ts">规则引擎接口（rule_engine_api.ts）</h2>
-<p>所有接口基于 <code>apiInstance(&quot;userdb-manage&quot;, &quot;userdb/xxx&quot;)</code> 构建基础路径，通过 <code>postRequest</code> 发起 POST 请求。</p>
+<p>以下表格中的路径均为<strong>相对路径片段</strong>，实际请求会拼接 <code>configureRuleEngine</code> 注入的 <code>{serviceName}/{xxxPath}</code> 前缀。所有请求通过 <code>postRequest</code> 发起 POST。</p>
 <h3 id="ruledefinitionapi-规则定义">ruleDefinitionApi（规则定义）</h3>
 <table>
 <thead>

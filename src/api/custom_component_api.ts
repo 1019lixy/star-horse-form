@@ -3,7 +3,8 @@ import {ref} from "vue";
 import {i18n} from "@/lang";
 
 const customCompApi = ref<ApiUrls>();
-let basePrefix = "/userdb-manage";
+import {appEndpoints} from "@/api/app_config";
+let basePrefix = appEndpoints.gatewayPrefix;
 
 /** 存储模式: db-数据库, local-本地缓存 */
 export type CustomCompStorageMode = "db" | "local";

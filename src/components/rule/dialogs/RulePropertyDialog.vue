@@ -81,18 +81,10 @@
 import {reactive, ref, watch} from "vue";
 import type {FormInstance, FormRules} from "element-plus";
 import {i18n} from "@/lang";
+// 规则分类选项：来自 designerConfig 注册表（configureRuleCategories 可注入）
+import {getRuleCategoryOptions} from "../designerConfig";
 
-// 规则分类选项（业务域分类，非自由文本）
-const CATEGORY_OPTIONS = [
-  { label: "rule.category.formLinkage", value: "FORM_LINKAGE" },
-  { label: "rule.category.dataValidation", value: "DATA_VALIDATION" },
-  { label: "rule.category.processControl", value: "PROCESS_CONTROL" },
-  { label: "rule.category.calcAssignment", value: "CALC_ASSIGNMENT" },
-  { label: "rule.category.businessRule", value: "BUSINESS_RULE" },
-  { label: "rule.category.notificationMsg", value: "NOTIFICATION_MSG" },
-  { label: "rule.category.dataTransform", value: "DATA_TRANSFORM" },
-  { label: "rule.category.other", value: "OTHER" },
-];
+const CATEGORY_OPTIONS = getRuleCategoryOptions();
 
 const props = defineProps<{
   visible: boolean;

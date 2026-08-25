@@ -69,6 +69,34 @@ install 内部执行顺序：
 4. 异步注册 `system/*.vue`、`system/items/utils/*.vue`、`formcomp/items/*.vue`、`formcomp/container/*.vue` 下所有组件
 5. 注册 `formContext` 上下文
 
+### 后端端点配置（无状态注入）
+
+本组件包遵循无状态 lib 库原则，**不绑定任何特定业务的接口地址**。对接自有后端时，请在 `main.ts` 中、渲染任何表单/规则组件之前调用两个全局配置函数：
+
+```ts
+import {
+  configureRuleEngine,
+  configureAppEndpoints,
+} from "star-horse-form";
+
+// 1) 规则引擎 9 组 CRUD/执行接口的服务名与路径
+configureRuleEngine({
+  serviceName: "my-service",       // 默认 userdb-manage
+  ruleEnginePath: "api/ruleEngine", // 其余 8 组路径同理可覆盖，未传则用默认
+});
+
+// 2) 全局通用端点（WebSocket / 代理 / 字典 / 网关等），按需覆盖
+configureAppEndpoints({
+  wsEndpoint: "/my-ws/form",                    // 协同编辑 WebSocket，默认 /api/ws/form
+  apiLinkageProxyUrl: "/gw/redirect/apiLinkage", // http-call 代理，默认 /system-config/redirect/apiLinkage
+  executeProxyUrl: "/gw/redirect/execute",       // 接口执行代理，默认 /system-config/redirect/execute
+  gatewayPrefix: "/my-service",                  // 网关前缀，默认 /userdb-manage
+  gatewayServiceName: "my-service",              // apiInstance 服务名，默认 userdb-manage
+});
+```
+
+> 未配置时使用内置默认值保证开箱可用；重复调用按字段合并覆盖。字段含义详见 [前端 API 层 - 端点配置](./api-layer.md#端点配置无状态注入)。
+
 ## 最小可用示例
 
 ### 1. 表单设计器（极简模式）

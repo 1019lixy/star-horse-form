@@ -1,5 +1,6 @@
 import {computed, nextTick, reactive, ref, Ref, unref, watch} from "vue";
 import {i18n} from "@/lang";
+import {appEndpoints} from "@/api/app_config";
 import {
     analysisCompDatas,
     compDynamicData,
@@ -101,7 +102,7 @@ export async function validInterface(
           ...custom,
         };
       }
-      url = "/system-config/redirect/execute";
+      url = appEndpoints.executeProxyUrl;
       validResult = await loadData(url, params);
     } else {
       if (httpMethod && httpMethod.toUpperCase() === "POST") {
@@ -235,7 +236,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
           dataSource: "url",
           redirect: false,
           httpMethod: "GET",
-          url: "/userdb-manage/redirect/api/service/list",
+          url: appEndpoints.serviceListUrl,
         },
       },
       {
@@ -667,7 +668,7 @@ export function getInterfaceUtils() {
   const disableUrl = ref<boolean>(false);
 
   const loadInterface = (serviceName: string) => {
-    loadGetData(`/userdb-manage/redirect/api/webApis2/${serviceName}`).then(
+    loadGetData(`${appEndpoints.gatewayPrefix}/redirect/api/webApis2/${serviceName}`).then(
       (res: any) => {
         interfaceDatas.value = [];
         interfaceList.value = [];
@@ -909,7 +910,7 @@ const fieldMap: any = reactive({
         preps: {
           primaryKey: "idDynamicForm",
           dataUrl: {
-            pageListUrl: "userdb-manage/userdb/dynamicForm/pageList",
+            pageListUrl: appEndpoints.formDesignPageListUrl,
           },
           needField: [
             { sourceField: "formName", distField: "formName" },

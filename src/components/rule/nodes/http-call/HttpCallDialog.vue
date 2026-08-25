@@ -371,6 +371,7 @@ import type {FormInstance} from "element-plus";
 import {Delete, Plus} from "@element-plus/icons-vue";
 import {warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
+import {appEndpoints} from "@/api/app_config";
 
 const props = defineProps<{
   visible: boolean;
@@ -416,7 +417,7 @@ const defaultFormData = () => ({
   authEnabled: false,
   authInfo: "",
   proxyEnabled: true,
-  proxyUrl: "/system-config/redirect/apiLinkage",
+  proxyUrl: appEndpoints.apiLinkageProxyUrl,
   retryCount: 0,
   description: "",
 });
@@ -445,6 +446,7 @@ watch(
       activeTab.value = "source";
     }
   },
+  { immediate: true },
 );
 
 /** 将旧格式 {key, value} 转换为新格式 {paramName, valueType, paramValue} */

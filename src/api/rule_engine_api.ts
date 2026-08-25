@@ -1,378 +1,221 @@
-// 规则定义相关接口
 import {apiInstance, postRequest} from "star-horse-lowcode";
 
-const ruleDefineUrl = apiInstance("userdb-manage", "userdb/ruleDefinition");
-const ruleConditionUrl = apiInstance("userdb-manage", "userdb/ruleCondition");
-const ruleActionUrl = apiInstance("userdb-manage", "userdb/ruleAction");
-const ruleSetUrl = apiInstance("userdb-manage", "userdb/ruleSet");
-const ruleSetItemUrl = apiInstance("userdb-manage", "userdb/ruleSetItem");
-const ruleVariableUrl = apiInstance("userdb-manage", "userdb/ruleVariable");
-const ruleExecutionLogUrl = apiInstance(
-  "userdb-manage",
-  "userdb/ruleExecutionLog",
-);
-const ruleEngineUrl = apiInstance("userdb-manage", "userdb/ruleEngine");
-const ruleVersionUrl = apiInstance("userdb-manage", "userdb/ruleVersion");
+/**
+ * 规则引擎 API 配置
+ *
+ * serviceName + path 由 apiInstance 生成完整的 basePrefix，
+ * 最终请求路径为：/{serviceName}/{path}/具体操作
+ *
+ * 示例：serviceName="userdb-manage", path="userdb/ruleEngine"
+ *      → basePrefix="/userdb-manage/userdb/ruleEngine"
+ *      → POST /userdb-manage/userdb/ruleEngine/executeByForm/{formId}?triggerEvent=xxx
+ */
+export interface RuleEngineApiConfig {
+  serviceName: string;
+  ruleDefinitionPath: string;
+  ruleConditionPath: string;
+  ruleActionPath: string;
+  ruleSetPath: string;
+  ruleSetItemPath: string;
+  ruleVariablePath: string;
+  ruleExecutionLogPath: string;
+  ruleEnginePath: string;
+  ruleVersionPath: string;
+}
+
+let ruleConfig: RuleEngineApiConfig = {
+  serviceName: "userdb-manage",
+  ruleDefinitionPath: "userdb/ruleDefinition",
+  ruleConditionPath: "userdb/ruleCondition",
+  ruleActionPath: "userdb/ruleAction",
+  ruleSetPath: "userdb/ruleSet",
+  ruleSetItemPath: "userdb/ruleSetItem",
+  ruleVariablePath: "userdb/ruleVariable",
+  ruleExecutionLogPath: "userdb/ruleExecutionLog",
+  ruleEnginePath: "userdb/ruleEngine",
+  ruleVersionPath: "userdb/ruleVersion",
+};
+
+/**
+ * 配置规则引擎 API 端点
+ *
+ * 无状态 lib 库原则：所有后端交互必须通过此函数注入配置，
+ * 不绑定任何特定业务的接口路径。
+ *
+ * @example 完全自定义
+ * ```ts
+ * import { configureRuleEngine } from "star-horse-form";
+ * configureRuleEngine({
+ *   serviceName: "my-service",
+ *   ruleEnginePath: "api/v2/ruleEngine",
+ * });
+ * ```
+ *
+ * @example 仅改 serviceName，其余路径沿用默认
+ * ```ts
+ * configureRuleEngine({ serviceName: "custom-gateway" });
+ * ```
+ */
+export function configureRuleEngine(
+  cfg: Partial<RuleEngineApiConfig>,
+): void {
+  Object.assign(ruleConfig, cfg);
+}
+
+/** 获取当前规则引擎 API 配置（只读） */
+export function getRuleEngineConfig(): Readonly<RuleEngineApiConfig> {
+  return { ...ruleConfig };
+}
+
+function ruleApi(pathKey: keyof Omit<RuleEngineApiConfig, "serviceName">) {
+  return apiInstance(ruleConfig.serviceName, ruleConfig[pathKey]);
+}
+
+// 规则定义
 export const ruleDefinitionApi = {
-  // 获取规则列表
-  getRuleList: (params?: any) => {
-    return postRequest(`${ruleDefineUrl.basePrefix}/pageList`, params);
-  },
-
-  // 获取单个规则
-  getRuleById: (id: string) => {
-    return postRequest(`${ruleDefineUrl.basePrefix}/getDataById/${id}`, {});
-  },
-
-  // 保存规则
-  saveRule: (data: any) => {
-    return postRequest(`${ruleDefineUrl.basePrefix}/saveData`, data);
-  },
-
-  // 更新规则
-  updateRule: (data: any) => {
-    return postRequest(`${ruleDefineUrl.basePrefix}/updateData`, data);
-  },
-
-  // 删除规则
-  deleteRule: (id: string) => {
-    return postRequest(`${ruleDefineUrl.basePrefix}/deleteData/${id}`, {});
-  },
-
-  // 根据规则类型查询
-  listByRuleType: (ruleType: string) => {
-    return postRequest(
-      `${ruleDefineUrl.basePrefix}/listByRuleType/${ruleType}`,
-      {},
-    );
-  },
-
-  // 根据表单ID查询
-  listByFormId: (formId: string) => {
-    return postRequest(
-      `${ruleDefineUrl.basePrefix}/listByFormId/${formId}`,
-      {},
-    );
-  },
-
-  // 根据规则编码查询
-  getByRuleCode: (ruleCode: string) => {
-    return postRequest(
-      `${ruleDefineUrl.basePrefix}/getByRuleCode/${ruleCode}`,
-      {},
-    );
-  },
+  getRuleList: (params?: any) =>
+    postRequest(`${ruleApi("ruleDefinitionPath").basePrefix}/pageList`, params),
+  getRuleById: (id: string) =>
+    postRequest(`${ruleApi("ruleDefinitionPath").basePrefix}/getDataById/${id}`, {}),
+  saveRule: (data: any) =>
+    postRequest(`${ruleApi("ruleDefinitionPath").basePrefix}/saveData`, data),
+  updateRule: (data: any) =>
+    postRequest(`${ruleApi("ruleDefinitionPath").basePrefix}/updateData`, data),
+  deleteRule: (id: string) =>
+    postRequest(`${ruleApi("ruleDefinitionPath").basePrefix}/deleteData/${id}`, {}),
+  listByRuleType: (ruleType: string) =>
+    postRequest(`${ruleApi("ruleDefinitionPath").basePrefix}/listByRuleType/${ruleType}`, {}),
+  listByFormId: (formId: string) =>
+    postRequest(`${ruleApi("ruleDefinitionPath").basePrefix}/listByFormId/${formId}`, {}),
+  getByRuleCode: (ruleCode: string) =>
+    postRequest(`${ruleApi("ruleDefinitionPath").basePrefix}/getByRuleCode/${ruleCode}`, {}),
 };
 
-// 规则条件相关接口
+// 规则条件
 export const ruleConditionApi = {
-  // 获取条件列表
-  getConditionList: (params?: any) => {
-    return postRequest(`${ruleConditionUrl.basePrefix}/pageList`, params);
-  },
-
-  // 根据规则ID查询条件
-  listByRuleId: (ruleId: string) => {
-    return postRequest(
-      `${ruleConditionUrl.basePrefix}/listByRuleId/${ruleId}`,
-      {},
-    );
-  },
-
-  // 保存条件
-  saveCondition: (data: any) => {
-    return postRequest(`${ruleConditionUrl.basePrefix}/saveData`, data);
-  },
-
-  // 批量保存条件
-  batchSaveConditions: (conditions: any[]) => {
-    return postRequest(
-      `${ruleConditionUrl.basePrefix}/batchSaveData`,
-      conditions,
-    );
-  },
-
-  // 删除条件
-  deleteCondition: (id: string) => {
-    return postRequest(`${ruleConditionUrl.basePrefix}/deleteData/${id}`, {});
-  },
-
-  // 根据规则ID删除条件
-  deleteByRuleId: (ruleId: string) => {
-    return postRequest(
-      `${ruleConditionUrl.basePrefix}/deleteByRuleId/${ruleId}`,
-      {},
-    );
-  },
+  getConditionList: (params?: any) =>
+    postRequest(`${ruleApi("ruleConditionPath").basePrefix}/pageList`, params),
+  listByRuleId: (ruleId: string) =>
+    postRequest(`${ruleApi("ruleConditionPath").basePrefix}/listByRuleId/${ruleId}`, {}),
+  saveCondition: (data: any) =>
+    postRequest(`${ruleApi("ruleConditionPath").basePrefix}/saveData`, data),
+  batchSaveConditions: (conditions: any[]) =>
+    postRequest(`${ruleApi("ruleConditionPath").basePrefix}/batchSaveData`, conditions),
+  deleteCondition: (id: string) =>
+    postRequest(`${ruleApi("ruleConditionPath").basePrefix}/deleteData/${id}`, {}),
+  deleteByRuleId: (ruleId: string) =>
+    postRequest(`${ruleApi("ruleConditionPath").basePrefix}/deleteByRuleId/${ruleId}`, {}),
 };
 
-// 规则动作相关接口
+// 规则动作
 export const ruleActionApi = {
-  // 获取动作列表
-  getActionList: (params?: any) => {
-    return postRequest(`${ruleActionUrl.basePrefix}/pageList`, params);
-  },
-
-  // 根据规则ID查询动作
-  listByRuleId: (ruleId: string) => {
-    return postRequest(
-      `${ruleActionUrl.basePrefix}/listByRuleId/${ruleId}`,
-      {},
-    );
-  },
-
-  // 保存动作
-  saveAction: (data: any) => {
-    return postRequest(`${ruleActionUrl.basePrefix}/saveData`, data);
-  },
-
-  // 批量保存动作
-  batchSaveActions: (actions: any[]) => {
-    return postRequest(`${ruleActionUrl.basePrefix}/batchSaveData`, actions);
-  },
-
-  // 删除动作
-  deleteAction: (id: string) => {
-    return postRequest(`${ruleActionUrl.basePrefix}/deleteData/${id}`, {});
-  },
-
-  // 根据规则ID删除动作
-  deleteByRuleId: (ruleId: string) => {
-    return postRequest(
-      `${ruleActionUrl.basePrefix}/deleteByRuleId/${ruleId}`,
-      {},
-    );
-  },
+  getActionList: (params?: any) =>
+    postRequest(`${ruleApi("ruleActionPath").basePrefix}/pageList`, params),
+  listByRuleId: (ruleId: string) =>
+    postRequest(`${ruleApi("ruleActionPath").basePrefix}/listByRuleId/${ruleId}`, {}),
+  saveAction: (data: any) =>
+    postRequest(`${ruleApi("ruleActionPath").basePrefix}/saveData`, data),
+  batchSaveActions: (actions: any[]) =>
+    postRequest(`${ruleApi("ruleActionPath").basePrefix}/batchSaveData`, actions),
+  deleteAction: (id: string) =>
+    postRequest(`${ruleApi("ruleActionPath").basePrefix}/deleteData/${id}`, {}),
+  deleteByRuleId: (ruleId: string) =>
+    postRequest(`${ruleApi("ruleActionPath").basePrefix}/deleteByRuleId/${ruleId}`, {}),
 };
 
-// 规则集相关接口
+// 规则集
 export const ruleSetApi = {
-  // 获取规则集列表
-  getRuleSetList: (params?: any) => {
-    return postRequest(`${ruleSetUrl.basePrefix}/pageList`, params);
-  },
-
-  // 获取单个规则集
-  getRuleSetById: (id: string) => {
-    return postRequest(`${ruleSetUrl.basePrefix}/getDataById/${id}`, {});
-  },
-
-  // 保存规则集
-  saveRuleSet: (data: any) => {
-    return postRequest(`${ruleSetUrl.basePrefix}/saveData`, data);
-  },
-
-  // 更新规则集
-  updateRuleSet: (data: any) => {
-    return postRequest(`${ruleSetUrl.basePrefix}/updateData`, data);
-  },
-
-  // 删除规则集
-  deleteRuleSet: (id: string) => {
-    return postRequest(`${ruleSetUrl.basePrefix}/deleteData/${id}`, {});
-  },
-
-  // 根据类型查询
-  listBySetType: (setType: string) => {
-    return postRequest(`${ruleSetUrl.basePrefix}/listBySetType/${setType}`, {});
-  },
-
-  // 根据表单ID查询
-  listByFormId: (formId: string) => {
-    return postRequest(`${ruleSetUrl.basePrefix}/listByFormId/${formId}`, {});
-  },
+  getRuleSetList: (params?: any) =>
+    postRequest(`${ruleApi("ruleSetPath").basePrefix}/pageList`, params),
+  getRuleSetById: (id: string) =>
+    postRequest(`${ruleApi("ruleSetPath").basePrefix}/getDataById/${id}`, {}),
+  saveRuleSet: (data: any) =>
+    postRequest(`${ruleApi("ruleSetPath").basePrefix}/saveData`, data),
+  updateRuleSet: (data: any) =>
+    postRequest(`${ruleApi("ruleSetPath").basePrefix}/updateData`, data),
+  deleteRuleSet: (id: string) =>
+    postRequest(`${ruleApi("ruleSetPath").basePrefix}/deleteData/${id}`, {}),
+  listBySetType: (setType: string) =>
+    postRequest(`${ruleApi("ruleSetPath").basePrefix}/listBySetType/${setType}`, {}),
+  listByFormId: (formId: string) =>
+    postRequest(`${ruleApi("ruleSetPath").basePrefix}/listByFormId/${formId}`, {}),
 };
 
-// 规则集关联项接口
+// 规则集关联项
 export const ruleSetItemApi = {
-  // 获取关联项列表
-  getSetItemList: (params?: any) => {
-    return postRequest(`${ruleSetItemUrl.basePrefix}/pageList`, params);
-  },
-
-  // 根据规则集ID查询
-  listBySetId: (setId: string) => {
-    return postRequest(`${ruleSetItemUrl.basePrefix}/listBySetId/${setId}`, {});
-  },
-
-  // 保存关联项
-  saveSetItem: (data: any) => {
-    return postRequest(`${ruleSetItemUrl.basePrefix}/saveData`, data);
-  },
-
-  // 批量保存关联项
-  batchSaveSetItems: (items: any[]) => {
-    return postRequest(`${ruleSetItemUrl.basePrefix}/batchSaveData`, items);
-  },
-
-  // 删除关联项
-  deleteSetItem: (id: string) => {
-    return postRequest(`${ruleSetItemUrl.basePrefix}/deleteData/${id}`, {});
-  },
-
-  // 根据规则集ID删除
-  deleteBySetId: (setId: string) => {
-    return postRequest(
-      `${ruleSetItemUrl.basePrefix}/deleteBySetId/${setId}`,
-      {},
-    );
-  },
+  getSetItemList: (params?: any) =>
+    postRequest(`${ruleApi("ruleSetItemPath").basePrefix}/pageList`, params),
+  listBySetId: (setId: string) =>
+    postRequest(`${ruleApi("ruleSetItemPath").basePrefix}/listBySetId/${setId}`, {}),
+  saveSetItem: (data: any) =>
+    postRequest(`${ruleApi("ruleSetItemPath").basePrefix}/saveData`, data),
+  batchSaveSetItems: (items: any[]) =>
+    postRequest(`${ruleApi("ruleSetItemPath").basePrefix}/batchSaveData`, items),
+  deleteSetItem: (id: string) =>
+    postRequest(`${ruleApi("ruleSetItemPath").basePrefix}/deleteData/${id}`, {}),
+  deleteBySetId: (setId: string) =>
+    postRequest(`${ruleApi("ruleSetItemPath").basePrefix}/deleteBySetId/${setId}`, {}),
 };
 
-// 规则变量相关接口
+// 规则变量
 export const ruleVariableApi = {
-  // 获取变量列表
-  getVariableList: (params?: any) => {
-    return postRequest(`${ruleVariableUrl.basePrefix}/pageList`, params);
-  },
-
-  // 根据编码查询
-  getByVariableCode: (code: string) => {
-    return postRequest(
-      `${ruleVariableUrl.basePrefix}/getByVariableCode/${code}`,
-      {},
-    );
-  },
-
-  // 根据表单ID查询
-  listByFormId: (formId: string) => {
-    return postRequest(
-      `${ruleVariableUrl.basePrefix}/listByFormId/${formId}`,
-      {},
-    );
-  },
-
-  // 保存变量
-  saveVariable: (data: any) => {
-    return postRequest(`${ruleVariableUrl.basePrefix}/saveData`, data);
-  },
-
-  // 更新变量
-  updateVariable: (data: any) => {
-    return postRequest(`${ruleVariableUrl.basePrefix}/updateData`, data);
-  },
-
-  // 删除变量
-  deleteVariable: (id: string) => {
-    return postRequest(`${ruleVariableUrl.basePrefix}/deleteData/${id}`, {});
-  },
+  getVariableList: (params?: any) =>
+    postRequest(`${ruleApi("ruleVariablePath").basePrefix}/pageList`, params),
+  getByVariableCode: (code: string) =>
+    postRequest(`${ruleApi("ruleVariablePath").basePrefix}/getByVariableCode/${code}`, {}),
+  listByFormId: (formId: string) =>
+    postRequest(`${ruleApi("ruleVariablePath").basePrefix}/listByFormId/${formId}`, {}),
+  saveVariable: (data: any) =>
+    postRequest(`${ruleApi("ruleVariablePath").basePrefix}/saveData`, data),
+  updateVariable: (data: any) =>
+    postRequest(`${ruleApi("ruleVariablePath").basePrefix}/updateData`, data),
+  deleteVariable: (id: string) =>
+    postRequest(`${ruleApi("ruleVariablePath").basePrefix}/deleteData/${id}`, {}),
 };
 
-// 规则执行日志接口
+// 执行日志
 export const ruleExecutionLogApi = {
-  // 获取日志列表
-  getLogList: (params?: any) => {
-    return postRequest(`${ruleExecutionLogUrl.basePrefix}/pageList`, params);
-  },
-
-  // 根据规则ID查询
-  listByRuleId: (ruleId: string) => {
-    return postRequest(
-      `${ruleExecutionLogUrl.basePrefix}/listByRuleId/${ruleId}`,
-      {},
-    );
-  },
-
-  // 根据规则集ID查询
-  listBySetId: (setId: string) => {
-    return postRequest(
-      `${ruleExecutionLogUrl.basePrefix}/listBySetId/${setId}`,
-      {},
-    );
-  },
-
-  // 根据表单ID查询
-  listByFormId: (formId: string) => {
-    return postRequest(
-      `${ruleExecutionLogUrl.basePrefix}/listByFormId/${formId}`,
-      {},
-    );
-  },
+  getLogList: (params?: any) =>
+    postRequest(`${ruleApi("ruleExecutionLogPath").basePrefix}/pageList`, params),
+  listByRuleId: (ruleId: string) =>
+    postRequest(`${ruleApi("ruleExecutionLogPath").basePrefix}/listByRuleId/${ruleId}`, {}),
+  listBySetId: (setId: string) =>
+    postRequest(`${ruleApi("ruleExecutionLogPath").basePrefix}/listBySetId/${setId}`, {}),
+  listByFormId: (formId: string) =>
+    postRequest(`${ruleApi("ruleExecutionLogPath").basePrefix}/listByFormId/${formId}`, {}),
 };
 
-// 规则引擎执行接口
+// 引擎执行
 export const ruleEngineApi = {
-  // 执行单个规则
-  executeRule: (ruleId: string, context: any) => {
-    return postRequest(
-      `${ruleEngineUrl.basePrefix}/execute/${ruleId}`,
+  executeRule: (ruleId: string, context: any) =>
+    postRequest(`${ruleApi("ruleEnginePath").basePrefix}/execute/${ruleId}`, context),
+  executeRuleSet: (setId: string, context: any) =>
+    postRequest(`${ruleApi("ruleEnginePath").basePrefix}/executeSet/${setId}`, context),
+  executeByForm: (formId: string, triggerEvent: string, context: any) =>
+    postRequest(
+      `${ruleApi("ruleEnginePath").basePrefix}/executeByForm/${formId}?triggerEvent=${triggerEvent}`,
       context,
-    );
-  },
-
-  // 执行规则集
-  executeRuleSet: (setId: string, context: any) => {
-    return postRequest(
-      `${ruleEngineUrl.basePrefix}/executeSet/${setId}`,
-      context,
-    );
-  },
-
-  // 根据表单执行规则集
-  executeByForm: (formId: string, triggerEvent: string, context: any) => {
-    return postRequest(
-      `${ruleEngineUrl.basePrefix}/executeByForm/${formId}?triggerEvent=${triggerEvent}`,
-      context,
-    );
-  },
+    ),
 };
 
-// 规则版本相关接口
+// 版本管理
 export const ruleVersionApi = {
-  // 获取版本列表
-  getVersionList: (params?: any) => {
-    return postRequest(`${ruleVersionUrl.basePrefix}/pageList`, params);
-  },
-
-  // 根据规则ID查询版本列表
-  listByRuleId: (ruleId: string) => {
-    return postRequest(
-      `${ruleVersionUrl.basePrefix}/listByRuleId/${ruleId}`,
-      {},
-    );
-  },
-
-  // 根据规则ID和版本号查询
-  getByRuleIdAndVersion: (ruleId: string, version: number) => {
-    return postRequest(
-      `${ruleVersionUrl.basePrefix}/getByRuleIdAndVersion/${ruleId}/${version}`,
-      {},
-    );
-  },
-
-  // 查询已发布的版本
-  getPublishedVersion: (ruleId: string) => {
-    return postRequest(
-      `${ruleVersionUrl.basePrefix}/getPublishedVersion/${ruleId}`,
-      {},
-    );
-  },
-
-  // 发布指定版本
-  publishVersion: (versionId: string) => {
-    return postRequest(
-      `${ruleVersionUrl.basePrefix}/publishVersion/${versionId}`,
-      {},
-    );
-  },
-
-  // 获取单个版本
-  getVersionById: (id: string) => {
-    return postRequest(`${ruleVersionUrl.basePrefix}/getDataById/${id}`, {});
-  },
-
-  // 保存版本
-  saveVersion: (data: any) => {
-    return postRequest(`${ruleVersionUrl.basePrefix}/saveData`, data);
-  },
-
-  // 更新版本
-  updateVersion: (data: any) => {
-    return postRequest(`${ruleVersionUrl.basePrefix}/updateData`, data);
-  },
-
-  // 删除版本
-  deleteVersion: (id: string) => {
-    return postRequest(`${ruleVersionUrl.basePrefix}/deleteData/${id}`, {});
-  },
+  getVersionList: (params?: any) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/pageList`, params),
+  listByRuleId: (ruleId: string) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/listByRuleId/${ruleId}`, {}),
+  getByRuleIdAndVersion: (ruleId: string, version: number) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/getByRuleIdAndVersion/${ruleId}/${version}`, {}),
+  getPublishedVersion: (ruleId: string) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/getPublishedVersion/${ruleId}`, {}),
+  publishVersion: (versionId: string) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/publishVersion/${versionId}`, {}),
+  getVersionById: (id: string) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/getDataById/${id}`, {}),
+  saveVersion: (data: any) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/saveData`, data),
+  updateVersion: (data: any) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/updateData`, data),
+  deleteVersion: (id: string) =>
+    postRequest(`${ruleApi("ruleVersionPath").basePrefix}/deleteData/${id}`, {}),
 };

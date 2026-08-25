@@ -321,6 +321,24 @@ export default {
   "rule.desc.decisionTable":
     "Tabular rules with multiple conditions and actions",
 
+  // Trigger event (start node config)
+  "rule.lbl.triggerEvent": "Trigger Event",
+  "rule.lbl.triggerField": "Watch Field",
+  "rule.lbl.triggerButton": "Trigger Button",
+  "rule.opt.onLoad": "Form Load",
+  "rule.opt.onChange": "Field Change",
+  "rule.opt.onSubmit": "Before Submit",
+  "rule.opt.onValidate": "On Validate",
+  "rule.opt.onButtonClick": "Button Click",
+  "rule.group.trigger": "Trigger Config",
+
+  // Action type (action derivation system)
+  "rule.lbl.actionCategory": "Action Category",
+  "rule.opt.formControl": "Form Control",
+  "rule.opt.httpCall": "HTTP Call",
+  "rule.opt.scriptExec": "Script Execution",
+  "rule.opt.variableAssign": "Variable Assignment",
+
   // Field Labels
   "rule.field.source": "Data Source",
   "rule.field.fieldPath": "Field Path",

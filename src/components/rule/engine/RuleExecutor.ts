@@ -4,6 +4,7 @@
  */
 
 import {i18n} from "@/lang";
+import {resolveNodeType} from "../nodeTypes";
 
 export interface ExecutionNode {
   id: string;
@@ -166,7 +167,7 @@ const evaluateCondition = (
 };
 
 /**
- * 评估条件组
+ * 评估条件组（支持嵌套 ConditionGroup）
  */
 const evaluateConditions = (
   conditions: any[],
@@ -179,6 +180,17 @@ const evaluateConditions = (
 
   const details: string[] = [];
   const results = conditions.map((cond) => {
+    if (cond.type === "group") {
+      const { passed, details: subDetails } = evaluateConditions(
+        cond.conditions || [],
+        cond.logic || "AND",
+        context,
+      );
+      details.push(
+        `[组(${cond.logic})] ${passed ? "TRUE" : "FALSE"} | ${subDetails.join("; ")}`,
+      );
+      return passed;
+    }
     const result = evaluateCondition(cond, context);
     details.push(result.detail);
     return result.passed;
@@ -455,7 +467,7 @@ export const executeRuleFlow = (
   const snapshots: ExecutionPath["snapshots"] = [];
 
   // 找到开始节点
-  const startNode = nodes.find((n) => n.type === "start");
+  const startNode = nodes.find((n) => resolveNodeType(n) === "start");
   if (!startNode) {
     steps.push({
       nodeId: "",
@@ -499,7 +511,7 @@ export const executeRuleFlow = (
 
     steps.push({
       nodeId: node.id,
-      nodeType: node.type,
+      nodeType: resolveNodeType(node),
       nodeName,
       status: "RUNNING",
       message: `${i18n("rule.exec.enterNode")}: ${nodeName}`,
@@ -509,9 +521,16 @@ export const executeRuleFlow = (
     let nextEdgeId: string | null = null;
     let nextNodeId: string | null = null;
 
-    switch (node.type) {
+    const nodeType = resolveNodeType(node);
+    switch (nodeType) {
       case "start": {
-        steps[steps.length - 1].message = i18n("rule.exec.flowStart");
+        const trigger = node.data?.triggerEvent;
+        const triggerLabel = trigger?.type
+          ? {ON_LOAD: i18n("rule.opt.onLoad"), ON_CHANGE: i18n("rule.opt.onChange"), ON_SUBMIT: i18n("rule.opt.onSubmit"), ON_VALIDATE: i18n("rule.opt.onValidate"), ON_BUTTON_CLICK: i18n("rule.opt.onButtonClick")}[trigger.type] || trigger.type
+          : "";
+        steps[steps.length - 1].message = triggerLabel
+          ? `${i18n("rule.exec.flowStart")} (${triggerLabel})`
+          : i18n("rule.exec.flowStart");
         steps[steps.length - 1].status = "SUCCESS";
         // 开始节点自动找下一条边
         const startOutEdge = edges.find((e) => e.source === node.id);
@@ -725,7 +744,7 @@ export const executeRuleFlow = (
 
       default:
         steps[steps.length - 1].message =
-          `${i18n("rule.exec.unknownNodeType")}: ${node.type}`;
+          `${i18n("rule.exec.unknownNodeType")}: ${nodeType}`;
         steps[steps.length - 1].status = "SKIPPED";
         const outEdge = edges.find((e) => e.source === node.id);
         if (outEdge) {
@@ -784,7 +803,8 @@ export const executeRuleFlow = (
  * 获取节点显示名称
  */
 const getNodeName = (node: ExecutionNode): string => {
-  switch (node.type) {
+  const t = resolveNodeType(node);
+  switch (t) {
     case "start":
       return i18n("rule.node.start");
     case "end":
@@ -802,6 +822,6 @@ const getNodeName = (node: ExecutionNode): string => {
     case "http-call":
       return i18n("rule.node.httpCall");
     default:
-      return node.type;
+      return t;
   }
 };

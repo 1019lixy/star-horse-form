@@ -8,17 +8,36 @@
         </svg>
       </div>
       <span class="pill-label">{{ i18n("rule.node.start") }}</span>
+      <span v-if="triggerLabel" class="pill-event">{{ triggerLabel }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {Handle, Position} from "../compat";
+import {computed} from "vue";
+import {Handle, Position} from "../../compat";
 import {i18n} from "@/lang";
+
+const props = defineProps<{
+  data?: any;
+}>();
+
+const triggerLabel = computed(() => {
+  const evt = props.data?.triggerEvent?.type;
+  if (!evt) return "";
+  const map: Record<string, string> = {
+    ON_LOAD: i18n("rule.opt.onLoad"),
+    ON_CHANGE: i18n("rule.opt.onChange"),
+    ON_SUBMIT: i18n("rule.opt.onSubmit"),
+    ON_VALIDATE: i18n("rule.opt.onValidate"),
+    ON_BUTTON_CLICK: i18n("rule.opt.onButtonClick"),
+  };
+  return map[evt] || "";
+});
 </script>
 
 <style scoped lang="scss">
-@use "../styles/design-tokens.scss" as tokens;
+@use "../../styles/design-tokens.scss" as tokens;
 
 .start-node {
   position: relative;
@@ -58,7 +77,7 @@ import {i18n} from "@/lang";
     svg {
       width: 12px;
       height: 12px;
-      margin-left: 1px; // 视觉居中（播放图标偏右）
+      margin-left: 1px;
     }
   }
 
@@ -67,6 +86,15 @@ import {i18n} from "@/lang";
     font-weight: tokens.$rd-font-weight-semibold;
     color: tokens.$rd-text-primary;
     letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  .pill-event {
+    font-size: tokens.$rd-font-xs;
+    color: tokens.$rd-text-tertiary;
+    padding: 1px 6px;
+    background: tokens.$rd-bg-subtle;
+    border-radius: tokens.$rd-radius-sm;
     white-space: nowrap;
   }
 }

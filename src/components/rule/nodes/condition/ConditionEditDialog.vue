@@ -195,7 +195,7 @@
 import {computed, inject, reactive, ref, type Ref, watch} from "vue";
 import type {FormInstance, FormRules} from "element-plus";
 import {i18n} from "@/lang";
-import type {FormFieldMeta} from "../useFormRuleRuntime";
+import type {FormFieldMeta} from "../../useFormRuleRuntime";
 
 const props = defineProps<{
   visible: boolean;
@@ -364,6 +364,7 @@ watch(
       formRef.value?.clearValidate();
     }
   },
+  { immediate: true },
 );
 
 // 选择变量字段：自动回填显示名与类型

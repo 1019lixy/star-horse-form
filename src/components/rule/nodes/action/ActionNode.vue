@@ -1,5 +1,5 @@
 <template>
-  <div class="condition-node" @dblclick="$emit('edit')">
+  <div class="action-node" @dblclick="$emit('edit')">
     <Handle type="target" :position="Position.Top" />
     <div class="node-card" :style="cardStyle">
       <div class="node-header">
@@ -10,20 +10,14 @@
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
             stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
         </svg>
-        <span class="header-title">{{ i18n("rule.node.condition") }}</span>
-        <el-tag
-          :type="data.logic === 'OR' ? 'warning' : 'primary'"
-          class="logic-tag"
-        >
-          {{ data.logic || "AND" }}
-        </el-tag>
+        <span class="header-title">{{ i18n("rule.node.action") }}</span>
         <el-button
           type="primary"
           link
@@ -35,46 +29,50 @@
       </div>
       <div class="node-body" :style="bodyStyle">
         <div
-          v-if="!data.conditions || data.conditions.length === 0"
+          v-if="!data.actions || data.actions.length === 0"
           class="empty-tip"
         >
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>{{ i18n("rule.node.condEmptyTip") }}</span>
+          <span>{{ i18n("rule.node.actionEmptyTip") }}</span>
         </div>
-        <div v-else class="condition-list">
+        <div v-else class="action-list">
           <div
-            v-for="(cond, index) in data.conditions"
+            v-for="(action, index) in data.actions"
             :key="index"
-            class="condition-item"
+            class="action-item"
           >
-            <div class="logic-badge" v-if="index > 0 && data.logic">
-              {{ data.logic }}
+            <div class="action-index">{{ index + 1 }}</div>
+            <div class="action-content">
+              <el-tag
+                :type="getActionTagType(action.actionType)"
+                class="action-type-tag"
+              >
+                {{ getActionTypeName(action.actionType) }}
+              </el-tag>
+              <span class="action-target" v-if="action.targetField">{{
+                action.targetField
+              }}</span>
+              <span
+                class="action-value"
+                v-if="
+                  action.actionValue && needsValueDisplay(action.actionType)
+                "
+              >
+                = {{ action.actionValue }}
+              </span>
             </div>
-            <div class="cond-content">
-              <span class="cond-field">{{
-                cond.fieldLabel || cond.fieldName || i18n("rule.lbl.fieldName")
-              }}</span>
-              <span class="cond-operator">{{
-                getOperatorSymbol(cond.operator)
-              }}</span>
-              <span class="cond-value">{{
-                cond.valueType === "VARIABLE"
-                  ? cond.valueField
-                  : cond.value || "-"
-              }}</span>
-            </div>
-            <div class="cond-actions">
+            <div class="action-ops">
               <el-button
                 type="primary"
                 link
-                @click.stop="$emit('editCondition', index)"
+                @click.stop="$emit('editAction', index)"
               >
                 <el-icon><Edit /></el-icon>
               </el-button>
               <el-button
                 type="danger"
                 link
-                @click.stop="$emit('deleteCondition', index)"
+                @click.stop="$emit('deleteAction', index)"
               >
                 <el-icon><Delete /></el-icon>
               </el-button>
@@ -89,18 +87,14 @@
 </template>
 
 <script setup lang="ts">
-import {Handle, Position} from "../compat";
+import {Handle, Position} from "../../compat";
 import {Delete, Edit, InfoFilled, Plus} from "@element-plus/icons-vue";
 import {i18n} from "@/lang";
-import {useNodeResize} from "../utils/useNodeResize";
+import {useNodeResize} from "../../utils/useNodeResize";
 
-defineOptions({
-  name: "ConditionNode",
-});
 const props = defineProps<{
   data: {
-    conditions: any[];
-    logic: string;
+    actions: any[];
     __width?: number;
     __height?: number;
   };
@@ -110,36 +104,45 @@ const { cardStyle, bodyStyle, onResizeStart } = useNodeResize(props.data);
 
 defineEmits<{
   (e: "edit"): void;
-  (e: "editCondition", index: number): void;
-  (e: "deleteCondition", index: number): void;
+  (e: "editAction", index: number): void;
+  (e: "deleteAction", index: number): void;
 }>();
 
-const getOperatorSymbol = (op: string) => {
+const getActionTypeName = (type: string) => {
   const map: Record<string, string> = {
-    EQ: "=",
-    NEQ: "≠",
-    GT: ">",
-    GTE: "≥",
-    LT: "<",
-    LTE: "≤",
-    CONTAINS: i18n("rule.opt.contains"),
-    NOT_CONTAINS: i18n("rule.opt.notContains"),
-    STARTS_WITH: i18n("rule.opt.startsWith"),
-    ENDS_WITH: i18n("rule.opt.endsWith"),
-    IN: "∈",
-    NOT_IN: "∉",
-    IS_NULL: i18n("rule.opt.isNull"),
-    IS_NOT_NULL: i18n("rule.opt.isNotNull"),
-    BETWEEN: i18n("rule.opt.between"),
+    SHOW_FIELD: i18n("rule.opt.showField"),
+    HIDE_FIELD: i18n("rule.opt.hideField"),
+    SET_VALUE: i18n("rule.opt.setValue"),
+    CLEAR_VALUE: i18n("rule.opt.clearValue"),
+    SET_REQUIRED: i18n("rule.opt.setRequired"),
+    SET_OPTIONS: i18n("rule.opt.setOptions"),
+    SHOW_MESSAGE: i18n("rule.opt.showMessage"),
   };
-  return map[op] || op;
+  return map[type] || type;
+};
+
+const getActionTagType = (type: string) => {
+  const map: Record<string, string> = {
+    SHOW_FIELD: "success",
+    HIDE_FIELD: "info",
+    SET_VALUE: "warning",
+    CLEAR_VALUE: "info",
+    SET_REQUIRED: "danger",
+    SET_OPTIONS: "primary",
+    SHOW_MESSAGE: "",
+  };
+  return map[type] || "info";
+};
+
+const needsValueDisplay = (type: string) => {
+  return ["SET_VALUE"].includes(type);
 };
 </script>
 
 <style scoped lang="scss">
-@use "../styles/design-tokens.scss" as tokens;
+@use "../../styles/design-tokens.scss" as tokens;
 
-.condition-node {
+.action-node {
   .node-card {
     position: relative;
     min-width: tokens.$rd-node-min-width;
@@ -192,8 +195,8 @@ const getOperatorSymbol = (op: string) => {
     align-items: center;
     gap: tokens.$rd-space-2;
     padding: tokens.$rd-space-2 tokens.$rd-space-4;
-    background: rgba(37, 99, 235, 0.08);
-    color: tokens.$rd-node-condition;
+    background: rgba(5, 150, 105, 0.08);
+    color: tokens.$rd-node-action;
     border-bottom: 1px solid tokens.$rd-divider;
 
     .header-icon {
@@ -207,17 +210,12 @@ const getOperatorSymbol = (op: string) => {
       font-weight: tokens.$rd-font-weight-semibold;
     }
 
-    .logic-tag {
-      font-size: tokens.$rd-font-xs;
-      font-weight: tokens.$rd-font-weight-semibold;
-    }
-
     .header-btn {
-      color: tokens.$rd-node-condition;
+      color: tokens.$rd-node-action;
       font-size: tokens.$rd-font-lg;
 
       &:hover {
-        color: tokens.$rd-node-condition;
+        color: tokens.$rd-node-action;
         opacity: 0.8;
       }
     }
@@ -241,44 +239,43 @@ const getOperatorSymbol = (op: string) => {
       }
     }
 
-    .condition-list {
+    .action-list {
       display: flex;
       flex-direction: column;
       gap: tokens.$rd-space-2;
 
-      .condition-item {
-        position: relative;
+      .action-item {
         display: flex;
         align-items: center;
         gap: tokens.$rd-space-2;
         padding: tokens.$rd-space-2 tokens.$rd-space-3;
-        background: rgba(37, 99, 235, 0.05);
+        background: rgba(5, 150, 105, 0.05);
         border-radius: tokens.$rd-radius-md;
-        border: 1px solid rgba(37, 99, 235, 0.12);
+        border: 1px solid rgba(5, 150, 105, 0.12);
         transition:
           background tokens.$rd-transition-fast,
           border-color tokens.$rd-transition-fast;
 
         &:hover {
-          border-color: rgba(37, 99, 235, 0.24);
-          background: rgba(37, 99, 235, 0.09);
+          border-color: rgba(5, 150, 105, 0.24);
+          background: rgba(5, 150, 105, 0.09);
         }
 
-        .logic-badge {
-          position: absolute;
-          top: -10px;
-          left: 50%;
-          transform: translateX(-50%);
-          padding: 1px tokens.$rd-space-2;
-          background: tokens.$rd-node-condition;
+        .action-index {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: tokens.$rd-node-action;
           color: tokens.$rd-text-inverse;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-size: tokens.$rd-font-xs;
           font-weight: tokens.$rd-font-weight-semibold;
-          border-radius: tokens.$rd-radius-pill;
-          line-height: 16px;
+          flex-shrink: 0;
         }
 
-        .cond-content {
+        .action-content {
           flex: 1;
           display: flex;
           align-items: center;
@@ -286,20 +283,19 @@ const getOperatorSymbol = (op: string) => {
           font-size: tokens.$rd-font-sm;
           min-width: 0;
 
-          .cond-field {
-            color: tokens.$rd-node-condition;
-            font-weight: tokens.$rd-font-weight-semibold;
+          .action-type-tag {
+            flex-shrink: 0;
+          }
+
+          .action-target {
+            color: tokens.$rd-node-action;
+            font-weight: tokens.$rd-font-weight-medium;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
 
-          .cond-operator {
-            color: tokens.$rd-text-tertiary;
-            flex-shrink: 0;
-          }
-
-          .cond-value {
+          .action-value {
             color: tokens.$rd-text-secondary;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -307,7 +303,7 @@ const getOperatorSymbol = (op: string) => {
           }
         }
 
-        .cond-actions {
+        .action-ops {
           display: flex;
           gap: tokens.$rd-space-1;
           flex-shrink: 0;

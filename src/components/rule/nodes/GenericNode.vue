@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import {Handle, Position} from "../compat";
-import {NODE_CATEGORIES, NODE_TYPE_MAP} from "../nodeTypes";
+import {getNodeTypeMap, getNodeCategories, getCategoryColor} from "../nodeTypes";
 import {i18n} from "@/lang";
 
 const props = defineProps<{
@@ -44,44 +44,24 @@ const props = defineProps<{
 
 // 节点的实际类型存在 data.__nodeType 中（因为Vue Flow的type字段统一为'generic'）
 const actualType = computed(() => props.data?.__nodeType || props.type);
-const nodeDef = computed(() => NODE_TYPE_MAP[actualType.value]);
+const nodeDef = computed(() => getNodeTypeMap()[actualType.value]);
 const categoryColor = computed(() => {
   if (nodeDef.value) {
-    const cat = NODE_CATEGORIES.find((c) =>
-      c.nodes.some((n) => n.type === actualType.value),
-    );
-    return cat?.color || "#64748b";
+    return getCategoryColor(actualType.value) || "#64748b";
   }
   return "#64748b";
 });
 const categoryName = computed(() => {
-  const cat = NODE_CATEGORIES.find((c) =>
+  const cat = getNodeCategories().find((c) =>
     c.nodes.some((n) => n.type === actualType.value),
   );
   return cat?.name || "";
 });
 
-// 根据节点类型生成配置摘要
-const summary = computed(() => {
-  const d = props.data;
-  if (!d) return "";
-  switch (actualType.value) {
-    case "http-call":
-      return `${d.httpMethod || "GET"} ${d.url || "?"}`;
-    case "start":
-      return i18n("rule.exec.flowStart");
-    case "end":
-      return i18n("rule.exec.flowEnd");
-    case "condition":
-      return `${d.conditions?.length || 0}${i18n("rule.lbl.conditionCount")} (${d.logic})`;
-    case "action":
-      return `${d.actions?.length || 0}${i18n("rule.lbl.actionCount")}`;
-    case "variable-assign":
-      return `${d.assignments?.length || 0}${i18n("rule.lbl.itemAssignCount")}`;
-    default:
-      return "";
-  }
-});
+// 节点配置摘要：由节点自身 getSummary 钩子提供，设计器零类型感知
+const summary = computed(
+  () => nodeDef.value?.getSummary?.(props.data) || "",
+);
 </script>
 
 <style scoped lang="scss">

@@ -4,7 +4,7 @@
  * 输出按节点聚合的问题列表，供画布红角标与汇总面板消费
  */
 import {i18n} from "@/lang";
-import {NODE_TYPE_MAP} from "../nodeTypes";
+import {getNodeTypeMap, resolveNodeType} from "../nodeTypes";
 
 export type IssueLevel = "error" | "warning";
 
@@ -56,8 +56,9 @@ const nodeName = (n: any): string => {
   if (n.data?.label) return n.data.label;
   if (n.data?.tableName) return n.data.tableName;
   if (n.data?.title) return n.data.title;
-  const def = NODE_TYPE_MAP[n.type];
-  return def ? i18n(def.label) : n.type;
+  const nt = resolveNodeType(n);
+  const def = getNodeTypeMap()[nt];
+  return def ? i18n(def.label) : nt;
 };
 
 /**
@@ -172,8 +173,8 @@ export const validateRuleFlow = (
   };
 
   // ===== 图结构级别校验 =====
-  const startNodes = nodes.filter((n) => n.type === "start");
-  const endNodes = nodes.filter((n) => n.type === "end");
+  const startNodes = nodes.filter((n) => resolveNodeType(n) === "start");
+  const endNodes = nodes.filter((n) => resolveNodeType(n) === "end");
   if (startNodes.length === 0) {
     push("", "graph", "error", "NO_START", i18n("rule.val.noStart"));
   } else if (startNodes.length > 1) {
@@ -196,7 +197,7 @@ export const validateRuleFlow = (
   // ===== 节点级校验 =====
   for (const node of nodes) {
     const id = node.id;
-    const type = node.type;
+    const type = resolveNodeType(node);
     const data = node.data || {};
     const outs = outEdges.get(id) || [];
     const ins = inEdges.get(id) || [];
@@ -407,7 +408,7 @@ export const validateRuleFlow = (
       }
       default: {
         // 通用：基于 paramSchema 的 required 字段校验 + fieldSelect 字段引用校验
-        const def = NODE_TYPE_MAP[type];
+        const def = getNodeTypeMap()[type];
         if (def) {
           def.paramSchema.forEach((f) => {
             const labelText =
@@ -470,7 +471,7 @@ export const validateRuleFlow = (
       const node = nodes.find((n) => n.id === e.source);
       push(
         e.source,
-        node?.type || "edge",
+        node ? resolveNodeType(node) : "edge",
         "error",
         "EDGE_SELF_LOOP",
         i18n("rule.val.edgeSelfLoop"),
@@ -506,7 +507,7 @@ export const validateRuleFlow = (
     "script",
     "http-call",
   ]);
-  const hasBusinessNode = nodes.some((n) => businessNodeTypes.has(n.type));
+  const hasBusinessNode = nodes.some((n) => businessNodeTypes.has(resolveNodeType(n)));
   if (!hasBusinessNode) {
     push(
       "",

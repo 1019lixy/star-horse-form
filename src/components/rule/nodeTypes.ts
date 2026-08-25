@@ -1,9 +1,19 @@
 /**
- * 规则引擎节点类型定义
- * 2大类8种节点，精简实用，覆盖表单规则全部场景
+ * 规则引擎节点注册表（机制层）
+ *
+ * 无状态 lib 库原则：
+ * - 本文件只提供"类型定义 + 注册表机制"，不穷举任何具体节点；
+ * - 内置节点作为默认注册集位于 nodes/{type}/ 目录，每个节点的
+ *   画布渲染、编辑器、面板片段、行为钩子全部聚合在各自目录内；
+ * - 宿主应用通过 configureRuleNodes / registerRuleNode 在运行时
+ *   增删节点与分类；注册表为 Vue 响应式状态。
  */
 
+import {ref} from "vue";
+import type {Component} from "vue";
 import {i18n} from "@/lang";
+
+import {builtinCategories} from "./nodes";
 
 export interface ParamField {
   name: string;
@@ -39,14 +49,127 @@ export interface ParamField {
   }[];
 }
 
+// ═══════════════════════════════════════════════════════
+// 统一数据结构体系：基础节点 + 动作派生
+// ═══════════════════════════════════════════════════════
+
+/**
+ * 节点大类标识——区分基础节点与动作派生节点。
+ * - flow:      流程锚点（start / end）
+ * - condition: 条件判断（condition / exclusive-gateway）
+ * - action:    动作执行（action 及其所有派生类型）
+ */
+export type NodeClass = "flow" | "condition" | "action";
+
+/** 触发事件类型（与 useRuleEngine.TriggerEvent 对齐） */
+export type TriggerEventType =
+  | "ON_LOAD"
+  | "ON_CHANGE"
+  | "ON_SUBMIT"
+  | "ON_VALIDATE"
+  | "ON_BUTTON_CLICK";
+
+/** 开始节点的触发事件配置 */
+export interface TriggerEventConfig {
+  type: TriggerEventType;
+  /** ON_CHANGE 时指定监听字段 */
+  field?: string;
+  /** ON_BUTTON_CLICK 时指定按钮 ID */
+  buttonId?: string;
+}
+
+/** 动作节点的 actionType 标识——所有动作派生节点的统一枚举 */
+export const ActionType = {
+  FORM_CONTROL: "FORM_CONTROL",
+  HTTP_CALL: "HTTP_CALL",
+  SCRIPT: "SCRIPT",
+  VARIABLE_ASSIGN: "VARIABLE_ASSIGN",
+} as const;
+
+/** 动作节点统一基类数据 */
+export interface BaseActionNodeData {
+  /** 动作类型标识（派生标记） */
+  actionType: string;
+}
+
+/** 出边标签生成上下文 */
+export interface EdgeLabelContext {
+  /** 源节点 data */
+  data: Record<string, any>;
+  /** 当前是源节点的第几条出边（0 起） */
+  outIndex: number;
+}
+
+export interface EdgeLabelResult {
+  label: string;
+  labelStyle?: Record<string, any>;
+}
+
+/**
+ * 节点画布交互事件映射：
+ * 将自定义渲染组件 emit 的事件名映射为 RuleNodeHost 的统一宿主动作，
+ * 设计器不感知任何具体事件名。
+ */
+export interface NodeUiEvents {
+  /** 编辑节点数据中某列表项的子组件 emit 名，如 "editCondition" */
+  editItemEvent?: string;
+  /** 删除某列表项的子组件 emit 名，如 "deleteCondition" */
+  deleteItemEvent?: string;
+  /** 列表项所在的 data 键名（如 "conditions"），供统一删除/编辑动作定位 */
+  listKey?: string;
+}
+
 export interface NodeTypeDef {
   type: string;
   label: string;
   icon: string;
+  /** 节点逻辑类别标记（写入 flowContent，供执行器识别） */
   category: string;
+  /** 节点大类：flow（流程锚点）/ condition（条件判断）/ action（动作执行） */
+  nodeClass: NodeClass;
   desc: string;
+  /** 画布渲染组件；缺省回退 GenericNode */
+  component?: Component;
+  /**
+   * 统一协议属性编辑器组件。
+   * props: { nodeData, itemIndex, variables }；emits: save(patch) / close。
+   * save 必须返回要 merge 进 node.data 的补丁对象。
+   */
+  editor?: Component;
+  /** 属性面板弹窗编辑入口的提示文案（i18n key）；缺省不显示提示 */
+  editorHint?: string;
+  /**
+   * 属性面板片段组件（节点参数编辑 UI 内聚到节点模块）。
+   * props: { nodeData, variables }；emits: update(patch) / configure(itemIndex?)。
+   * 缺省时面板仅显示节点信息头 + 通用 paramSchema 渲染。
+   */
+  panelSection?: Component;
+  /** 节点配置摘要（画布/列表展示用）；由节点自行计算，设计器不硬编码类型 */
+  getSummary?: (data: Record<string, any>) => string;
+  /** 子组件事件名映射（edit / editItem / deleteItem → 宿主动作） */
+  uiEvents?: NodeUiEvents;
   defaultData: () => Record<string, any>;
   paramSchema: ParamField[];
+  /** 画布尺寸估算（拖拽布局 fallback 用） */
+  estimateSize?: (data: Record<string, any>) => {
+    width: number;
+    height: number;
+  };
+  /** 出边标签自动生成；未注册的节点不做自动标签 */
+  getEdgeLabel?: (ctx: EdgeLabelContext) => EdgeLabelResult | string;
+  /** 测试面板参数提取：向 fields 中追加去重后的字段引用 */
+  collectTestFields?: (
+    data: Record<string, any>,
+    fields: { name: string; type: string }[],
+    seen: Set<string>,
+  ) => void;
+  /**
+   * 收集节点内可持久化条目（保存时按 listKey 拆解批量入库，
+   * 如 condition → conditions、action → actions）
+   */
+  collectItems?: (
+    data: Record<string, any>,
+  ) => { listKey: string; items: any[] };
 }
 
 export interface NodeCategory {
@@ -56,507 +179,212 @@ export interface NodeCategory {
   nodes: NodeTypeDef[];
 }
 
-export const NODE_CATEGORIES: NodeCategory[] = [
-  // ============ 基础节点 ============
-  {
-    name: "rule.category.basic",
-    icon: "🎯",
-    color: "#8b5cf6",
-    nodes: [
-      {
-        type: "start",
-        label: "rule.node.start",
-        icon: "▶",
-        category: "flow",
-        desc: "rule.desc.start",
-        defaultData: () => ({}),
-        paramSchema: [],
-      },
-      {
-        type: "end",
-        label: "rule.node.end",
-        icon: "■",
-        category: "flow",
-        desc: "rule.desc.end",
-        defaultData: () => ({ endType: "success" }),
-        paramSchema: [
-          {
-            name: "endType",
-            label: "rule.lbl.resultType",
-            type: "select",
-            options: [
-              { label: () => i18n("rule.opt.pass"), value: "success" },
-              { label: () => i18n("rule.opt.reject"), value: "fail" },
-              { label: () => i18n("rule.opt.skip"), value: "skip" },
-            ],
-            group: "rule.group.basic",
-          },
-        ],
-      },
-      {
-        type: "condition",
-        label: "rule.node.condition",
-        icon: "❓",
-        category: "logic",
-        desc: "rule.desc.condition",
-        defaultData: () => ({ logic: "AND", conditions: [] }),
-        paramSchema: [
-          {
-            name: "logic",
-            label: "rule.lbl.logic",
-            type: "select",
-            options: [
-              { label: () => i18n("rule.opt.and"), value: "AND" },
-              { label: () => i18n("rule.opt.or"), value: "OR" },
-            ],
-            group: "rule.group.basic",
-          },
-          {
-            name: "conditions",
-            label: "rule.lbl.conditionList",
-            type: "table",
-            group: "rule.group.condition",
-            columns: [
-              {
-                prop: "fieldName",
-                label: "rule.lbl.fieldName",
-                type: "input",
-                width: "120px",
-                fieldSelect: true,
-              },
-              {
-                prop: "operator",
-                label: "rule.lbl.operator",
-                type: "select",
-                width: "110px",
-                options: [
-                  { label: () => i18n("rule.opt.eq"), value: "EQ" },
-                  { label: () => i18n("rule.opt.neq"), value: "NEQ" },
-                  { label: () => i18n("rule.opt.gt"), value: "GT" },
-                  { label: () => i18n("rule.opt.lt"), value: "LT" },
-                  { label: () => i18n("rule.opt.gte"), value: "GTE" },
-                  { label: () => i18n("rule.opt.lte"), value: "LTE" },
-                  { label: () => i18n("rule.opt.contains"), value: "CONTAINS" },
-                  {
-                    label: () => i18n("rule.opt.notContains"),
-                    value: "NOT_CONTAINS",
-                  },
-                  { label: () => i18n("rule.opt.isEmpty"), value: "IS_EMPTY" },
-                  {
-                    label: () => i18n("rule.opt.isNotEmpty"),
-                    value: "IS_NOT_EMPTY",
-                  },
-                  { label: () => i18n("rule.opt.in"), value: "IN" },
-                  { label: () => i18n("rule.opt.notIn"), value: "NOT_IN" },
-                  { label: () => i18n("rule.opt.between"), value: "BETWEEN" },
-                  { label: () => i18n("rule.opt.regex"), value: "REGEX" },
-                  {
-                    label: () => i18n("rule.opt.startsWith"),
-                    value: "STARTS_WITH",
-                  },
-                  {
-                    label: () => i18n("rule.opt.endsWith"),
-                    value: "ENDS_WITH",
-                  },
-                ],
-              },
-              {
-                prop: "value",
-                label: "rule.lbl.value",
-                type: "input",
-                width: "120px",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        type: "action",
-        label: "rule.node.action",
-        icon: "▶",
-        category: "logic",
-        desc: "rule.desc.action",
-        defaultData: () => ({ actions: [] }),
-        paramSchema: [
-          {
-            name: "actions",
-            label: "rule.lbl.actionList",
-            type: "table",
-            group: "rule.group.action",
-            columns: [
-              {
-                prop: "actionType",
-                label: "rule.lbl.actionType",
-                type: "select",
-                width: "120px",
-                options: [
-                  {
-                    label: () => i18n("rule.opt.showField"),
-                    value: "SHOW_FIELD",
-                  },
-                  {
-                    label: () => i18n("rule.opt.hideField"),
-                    value: "HIDE_FIELD",
-                  },
-                  {
-                    label: () => i18n("rule.opt.setValue"),
-                    value: "SET_VALUE",
-                  },
-                  {
-                    label: () => i18n("rule.opt.clearValue"),
-                    value: "CLEAR_VALUE",
-                  },
-                  {
-                    label: () => i18n("rule.opt.setRequired"),
-                    value: "SET_REQUIRED",
-                  },
-                  {
-                    label: () => i18n("rule.opt.setOptions"),
-                    value: "SET_OPTIONS",
-                  },
-                  {
-                    label: () => i18n("rule.opt.showMessage"),
-                    value: "SHOW_MESSAGE",
-                  },
-                ],
-              },
-              {
-                prop: "targetField",
-                label: "rule.lbl.targetField",
-                type: "input",
-                width: "120px",
-                fieldSelect: true,
-                hideOnActionTypes: ["SHOW_MESSAGE"],
-              },
-              {
-                prop: "actionValue",
-                label: "rule.lbl.value",
-                type: "input",
-                width: "120px",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        type: "exclusive-gateway",
-        label: "rule.node.exclusiveGateway",
-        icon: "✕",
-        category: "flow",
-        desc: "rule.desc.exclusiveGateway",
-        defaultData: () => ({ name: "", branches: [] }),
-        paramSchema: [
-          {
-            name: "name",
-            label: "rule.lbl.routeName",
-            type: "input",
-            group: "rule.group.basic",
-          },
-          {
-            name: "branches",
-            label: "rule.lbl.conditionBranch",
-            type: "table",
-            group: "rule.group.branch",
-            columns: [
-              {
-                prop: "label",
-                label: "rule.lbl.branchLabel",
-                type: "input",
-                width: "120px",
-              },
-              {
-                prop: "condition",
-                label: "rule.lbl.conditionExpr",
-                type: "input",
-                width: "200px",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  // ============ 高级节点 ============
-  {
-    name: "rule.category.advanced",
-    icon: "⚙️",
-    color: "#10b981",
-    nodes: [
-      {
-        type: "http-call",
-        label: "rule.node.httpCall",
-        icon: "🌐",
-        category: "logic",
-        desc: "rule.desc.httpCall",
-        defaultData: () => ({
-          apiMode: "custom",
-          apiType: "thirdApi",
-          url: "",
-          httpMethod: "GET",
-          protocol: "https",
-          timeout: 5000,
-          requestDataType: "json",
-          headers: [],
-          requestParams: [],
-          body: "",
-          successCode: "200",
-          codePath: "code",
-          messagePath: "message",
-          dataPath: "data",
-          fieldMappings: [],
-          authEnabled: false,
-          authInfo: null,
-          proxyEnabled: true,
-          proxyUrl: "/system-config/redirect/apiLinkage",
-          retryCount: 0,
-          description: "",
-        }),
-        paramSchema: [
-          {
-            name: "httpMethod",
-            label: "rule.lbl.httpMethod",
-            type: "select",
-            required: true,
-            group: "rule.group.request",
-            options: [
-              { label: "GET", value: "GET" },
-              { label: "POST", value: "POST" },
-              { label: "PUT", value: "PUT" },
-              { label: "DELETE", value: "DELETE" },
-            ],
-          },
-          {
-            name: "url",
-            label: "rule.lbl.apiUrl",
-            type: "input",
-            required: true,
-            group: "rule.group.request",
-            placeholder: "https://api.example.com/data",
-          },
-          {
-            name: "fieldMappings",
-            label: "rule.lbl.fieldMappings",
-            type: "table",
-            group: "rule.group.mapping",
-            columns: [
-              {
-                prop: "sourceField",
-                label: "rule.lbl.sourceField",
-                type: "input",
-                width: "45%",
-              },
-              {
-                prop: "distField",
-                label: "rule.lbl.distField",
-                type: "input",
-                fieldSelect: true,
-                width: "45%",
-              },
-            ],
-          },
-          {
-            name: "requestParams",
-            label: "rule.lbl.requestParams",
-            type: "table",
-            group: "rule.group.request",
-            columns: [
-              {
-                prop: "paramName",
-                label: "rule.lbl.paramName",
-                type: "input",
-                width: "30%",
-              },
-              {
-                prop: "valueType",
-                label: "rule.lbl.valueType",
-                type: "select",
-                width: "20%",
-                options: [
-                  { label: () => i18n("rule.opt.static"), value: "static" },
-                  { label: () => i18n("rule.opt.dynamic"), value: "dynamic" },
-                ],
-              },
-              {
-                prop: "paramValue",
-                label: "rule.lbl.paramValue",
-                type: "input",
-                fieldSelect: true,
-                width: "40%",
-              },
-            ],
-          },
-          {
-            name: "body",
-            label: "rule.lbl.requestBody",
-            type: "textarea",
-            rows: 4,
-            group: "rule.group.request",
-            placeholder: "rule.ph.jsonBody",
-          },
-          {
-            name: "successCode",
-            label: "rule.lbl.successCode",
-            type: "input",
-            default: "200",
-            group: "rule.group.response",
-            placeholder: "200",
-          },
-          {
-            name: "dataPath",
-            label: "rule.lbl.dataPath",
-            type: "input",
-            default: "data",
-            group: "rule.group.response",
-            placeholder: "data.list",
-          },
-          {
-            name: "headers",
-            label: "rule.lbl.headers",
-            type: "table",
-            group: "rule.group.advanced",
-            columns: [
-              {
-                prop: "paramName",
-                label: "rule.lbl.paramName",
-                type: "input",
-                width: "30%",
-              },
-              {
-                prop: "valueType",
-                label: "rule.lbl.valueType",
-                type: "select",
-                width: "20%",
-                options: [
-                  { label: () => i18n("rule.opt.static"), value: "static" },
-                  { label: () => i18n("rule.opt.dynamic"), value: "dynamic" },
-                ],
-              },
-              {
-                prop: "paramValue",
-                label: "rule.lbl.paramValue",
-                type: "input",
-                fieldSelect: true,
-                width: "40%",
-              },
-            ],
-          },
-          {
-            name: "timeout",
-            label: "rule.lbl.timeout",
-            type: "number",
-            min: 1000,
-            step: 1000,
-            default: 5000,
-            group: "rule.group.advanced",
-          },
-          {
-            name: "retryCount",
-            label: "rule.lbl.retryCount",
-            type: "number",
-            min: 0,
-            max: 5,
-            default: 0,
-            group: "rule.group.advanced",
-          },
-        ],
-      },
-      {
-        type: "variable-assign",
-        label: "rule.node.variableAssign",
-        icon: "=",
-        category: "logic",
-        desc: "rule.desc.variableAssign",
-        defaultData: () => ({ assignments: [] }),
-        paramSchema: [
-          {
-            name: "assignments",
-            label: "rule.lbl.assignList",
-            type: "table",
-            group: "rule.group.assign",
-            columns: [
-              {
-                prop: "variableName",
-                label: "rule.lbl.varName",
-                type: "input",
-                width: "120px",
-              },
-              {
-                prop: "valueType",
-                label: "rule.lbl.valueType",
-                type: "select",
-                width: "100px",
-                options: [
-                  { label: () => i18n("rule.opt.constant"), value: "CONSTANT" },
-                  { label: () => i18n("rule.opt.variable"), value: "VARIABLE" },
-                  {
-                    label: () => i18n("rule.opt.expression"),
-                    value: "EXPRESSION",
-                  },
-                ],
-              },
-              {
-                prop: "value",
-                label: "rule.lbl.value",
-                type: "input",
-                width: "150px",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        type: "script",
-        label: "rule.node.script",
-        icon: "📜",
-        category: "logic",
-        desc: "rule.desc.script",
-        defaultData: () => ({ scriptContent: "", description: "" }),
-        paramSchema: [
-          {
-            name: "scriptContent",
-            label: "rule.lbl.scriptContent",
-            type: "textarea",
-            rows: 8,
-            placeholder: "rule.ph.script",
-            group: "rule.group.basic",
-          },
-          {
-            name: "description",
-            label: "rule.lbl.nodeDesc",
-            type: "textarea",
-            rows: 2,
-            group: "rule.group.other",
-          },
-        ],
-      },
-    ],
-  },
-];
+// ═══════════════════════════════════════════════════════
+// 响应式注册表
+// ═══════════════════════════════════════════════════════
 
-// 扁平化映射
-export const NODE_TYPE_MAP: Record<string, NodeTypeDef> =
-  NODE_CATEGORIES.reduce(
-    (map, cat) => {
-      cat.nodes.forEach((n) => {
-        map[n.type] = n;
-      });
-      return map;
-    },
-    {} as Record<string, NodeTypeDef>,
-  );
+const registry = ref<NodeCategory[]>([]);
+
+/** 已移除但保留查询的节点定义（旧流程数据兼容渲染用） */
+const retiredDefs = ref<Map<string, NodeTypeDef>>(new Map());
+
+const findCategory = (name: string) =>
+  registry.value.find((c) => c.name === name);
+
+function removeDefFromRegistry(type: string): NodeTypeDef | undefined {
+  for (const cat of registry.value) {
+    const idx = cat.nodes.findIndex((n) => n.type === type);
+    if (idx >= 0) return cat.nodes.splice(idx, 1)[0];
+  }
+  return undefined;
+}
+
+export interface ConfigureRuleNodesOptions {
+  /** 追加整个新分类 */
+  extraCategories?: NodeCategory[];
+  /** 向指定分类追加节点；分类不存在时自动创建 */
+  extraNodes?: {
+    categoryName: string;
+    icon?: string;
+    color?: string;
+    nodes: NodeTypeDef[];
+  }[];
+  /** 从面板隐藏指定类型（旧数据仍可渲染） */
+  disabledNodeTypes?: string[];
+}
+
+/**
+ * 批量配置节点注册表（无状态注入）
+ *
+ * @example 屏蔽内置 script 节点并追加自定义节点
+ * ```ts
+ * import MyAuditNode from "./MyAuditNode.vue";
+ * configureRuleNodes({
+ *   disabledNodeTypes: ["script"],
+ *   extraNodes: {
+ *     categoryName: "业务节点",
+ *     icon: "🏢",
+ *     color: "#f59e0b",
+ *     nodes: [{ type: "my-audit", ..., component: MyAuditNode }],
+ *   },
+ * });
+ * ```
+ */
+export function configureRuleNodes(opts: ConfigureRuleNodesOptions): void {
+  if (opts.extraCategories?.length) {
+    for (const cat of opts.extraCategories) {
+      const existing = findCategory(cat.name);
+      if (existing) existing.nodes.push(...cat.nodes);
+      else registry.value.push({...cat, nodes: [...cat.nodes]});
+    }
+  }
+  if (opts.extraNodes) {
+    const {categoryName, icon, color, nodes} = opts.extraNodes;
+    let cat = findCategory(categoryName);
+    if (!cat) {
+      cat = {
+        name: categoryName,
+        icon: icon || "🧩",
+        color: color || "#64748b",
+        nodes: [],
+      };
+      registry.value.push(cat);
+    }
+    cat.nodes.push(...nodes);
+  }
+  if (opts.disabledNodeTypes?.length) {
+    disableRuleNodeTypes(opts.disabledNodeTypes);
+  }
+}
+
+/**
+ * 注册单个节点。同 type 重复注册覆盖旧定义；
+ * categoryName 缺省归入第一个已存在分类。
+ */
+export function registerRuleNode(
+  def: NodeTypeDef,
+  categoryName?: string,
+): void {
+  removeDefFromRegistry(def.type);
+  const cat =
+    (categoryName && findCategory(categoryName)) ||
+    (categoryName ? null : registry.value[0]);
+  if (cat) cat.nodes.push(def);
+  else
+    registry.value.push({
+      name: categoryName || "rule.category.custom",
+      icon: "🧩",
+      color: "#64748b",
+      nodes: [def],
+    });
+}
+
+/** 彻底移除节点类型（getNodeTypeMap 不再可查） */
+export function unregisterRuleNodeType(type: string): void {
+  removeDefFromRegistry(type);
+}
+
+/** 从面板隐藏节点类型；定义转入退役区供旧数据兜底查询 */
+export function disableRuleNodeTypes(types: string[]): void {
+  for (const t of types) {
+    const def = removeDefFromRegistry(t);
+    if (def) retiredDefs.value.set(t, def);
+  }
+}
+
+/** 由内置模块调用：清空并重建默认注册集（仅 install 时使用） */
+export function initRegistry(categories: NodeCategory[]): void {
+  registry.value = categories;
+  retiredDefs.value = new Map();
+}
+
+// ═══════════════════════════════════════════════════════
+// 动态读取 API（消费方一律通过函数读取，勿缓存结果）
+// ═══════════════════════════════════════════════════════
+
+/** 当前分类面板结构（响应式） */
+export const getNodeCategories = (): NodeCategory[] =>
+  registry.value
+    .map((c) => ({...c, nodes: [...c.nodes]}))
+    .filter((c) => c.nodes.length > 0);
+
+/** type → 定义映射（含退役定义，保证旧数据可渲染） */
+export function getNodeTypeMap(): Record<string, NodeTypeDef> {
+  const map: Record<string, NodeTypeDef> = {};
+  for (const [, def] of retiredDefs.value) map[def.type] = def;
+  for (const cat of registry.value)
+    for (const n of cat.nodes) map[n.type] = n;
+  return map;
+}
 
 export const getCategoryColor = (type: string): string => {
-  const cat = NODE_CATEGORIES.find((c) => c.nodes.some((n) => n.type === type));
+  const cat = registry.value.find((c) => c.nodes.some((n) => n.type === type));
   return cat?.color || "#64748b";
 };
 
 export const getNodeDef = (type: string): NodeTypeDef | undefined =>
-  NODE_TYPE_MAP[type];
+  getNodeTypeMap()[type];
+
 export const getNodeDefaultData = (type: string): Record<string, any> =>
-  NODE_TYPE_MAP[type]?.defaultData() || {};
+  getNodeTypeMap()[type]?.defaultData() ?? {};
+
 export const getNodeLabel = (type: string): string => {
-  const raw = NODE_TYPE_MAP[type]?.label || type;
+  const raw = getNodeTypeMap()[type]?.label || type;
   return typeof raw === "string" && raw.startsWith("rule.") ? i18n(raw) : raw;
 };
 export const getParamSchema = (type: string): ParamField[] =>
-  NODE_TYPE_MAP[type]?.paramSchema || [];
+  getNodeTypeMap()[type]?.paramSchema ?? [];
+
+/**
+ * 解析 Vue Flow 节点的真实类型：
+ * generic 包装节点的真实类型存于 data.__nodeType，其余即 type 本身。
+ */
+export const resolveNodeType = (node: {
+  type?: string;
+  data?: any;
+}): string =>
+  node?.type === "generic"
+    ? node?.data?.__nodeType || "generic"
+    : node?.type || "";
+
+/** 恢复内置默认节点注册集（清空宿主运行时增删的节点与分类） */
+export function resetRuleNodes(): void {
+  initRegistry(builtinCategories());
+}
+
+/**
+ * 节点数据迁移：补齐旧数据缺失的统一结构字段。
+ * - start 节点补 triggerEvent
+ * - action 派生节点补 actionType
+ * 在加载已保存规则时调用，保证旧数据兼容新结构。
+ */
+export function migrateNodeData(node: { type?: string; data?: any }): void {
+  if (!node.data) return;
+  const t = resolveNodeType(node);
+  switch (t) {
+    case "start":
+      if (!node.data.triggerEvent) node.data.triggerEvent = {type: "ON_LOAD"};
+      break;
+    case "action":
+      if (!node.data.actionType) node.data.actionType = ActionType.FORM_CONTROL;
+      break;
+    case "http-call":
+      if (!node.data.actionType) node.data.actionType = ActionType.HTTP_CALL;
+      break;
+    case "script":
+      if (!node.data.actionType) node.data.actionType = ActionType.SCRIPT;
+      break;
+    case "variable-assign":
+      if (!node.data.actionType) node.data.actionType = ActionType.VARIABLE_ASSIGN;
+      break;
+  }
+}
+
+/** 批量迁移流程图中所有节点 */
+export function migrateFlowNodes(nodes: any[]): void {
+  if (!Array.isArray(nodes)) return;
+  nodes.forEach((n) => migrateNodeData(n));
+}
+
+// 初始化内置默认注册集（registry 已声明，无 TDZ 风险）
+initRegistry(builtinCategories());

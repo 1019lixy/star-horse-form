@@ -173,6 +173,7 @@ import {DocumentCopy, RefreshRight, VideoPause, VideoPlay,} from "@element-plus/
 import {executeRuleFlow, type ExecutionPath} from "../engine/RuleExecutor";
 import {error, success, warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
+import {getNodeDef, resolveNodeType} from "../nodeTypes";
 
 const props = defineProps<{
   visible: boolean;
@@ -287,24 +288,19 @@ const resetHighlight = () => {
 
 const loadSampleData = () => {
   const sampleData: any = {};
-  // 从所有条件节点收集字段名
+  // 通过注册表钩子收集测试字段，设计器零类型感知
   if (props.nodes) {
+    const fields: {name: string; type: string}[] = [];
+    const seen = new Set<string>();
     props.nodes.forEach((node: any) => {
-      if (node.type === "condition" && node.data?.conditions) {
-        node.data.conditions.forEach((cond: any) => {
-          if (cond.fieldName && !(cond.fieldName in sampleData)) {
-            sampleData[cond.fieldName] = getSampleValue(cond.fieldType);
-          }
-        });
-      }
-      // 从变量赋值节点收集变量名
-      if (node.type === "variable-assign" && node.data?.assignments) {
-        node.data.assignments.forEach((assign: any) => {
-          if (assign.variableName && !(assign.variableName in sampleData)) {
-            sampleData[assign.variableName] = getSampleValue(assign.valueType);
-          }
-        });
-      }
+      getNodeDef(resolveNodeType(node))?.collectTestFields?.(
+        node.data || {},
+        fields,
+        seen,
+      );
+    });
+    fields.forEach((f) => {
+      sampleData[f.name] = getSampleValue(f.type);
     });
   }
 

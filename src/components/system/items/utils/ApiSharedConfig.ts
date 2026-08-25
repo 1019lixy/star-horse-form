@@ -1,4 +1,5 @@
 import {i18n} from "@/lang";
+import {appEndpoints} from "@/api/app_config";
 import {ref} from "vue";
 import {dataType, httpMethod, searchMatchList, SelectOption,} from "star-horse-lowcode";
 
@@ -164,7 +165,7 @@ export function createRequestTab(
                     dataSource: "url",
                     redirect: false,
                     httpMethod: "GET",
-                    url: "/userdb-manage/redirect/api/service/list",
+                    url: appEndpoints.serviceListUrl,
                   },
                 },
                 {
@@ -681,7 +682,7 @@ export function createApiConfig(
           i18n("dyform.apiSource.proxyUrl.helpMsg") +
           "\n\n" +
           i18n("dyform.apiConfig.helpMsg.configGuide"),
-        defaultValue: "/system-config/redirect/apiLinkage",
+        defaultValue: appEndpoints.apiLinkageProxyUrl,
         formVisible: true,
         required: true,
       },

@@ -165,8 +165,8 @@ import type {FormInstance} from "element-plus";
 import {Delete, Plus} from "@element-plus/icons-vue";
 import {warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
-import ExpressionEditor from "../components/ExpressionEditor.vue";
-import type {FormFieldMeta} from "../useFormRuleRuntime";
+import ExpressionEditor from "../../components/ExpressionEditor.vue";
+import type {FormFieldMeta} from "../../useFormRuleRuntime";
 
 const props = defineProps<{
   visible: boolean;
@@ -220,6 +220,7 @@ watch(
       }
     }
   },
+  { immediate: true },
 );
 
 const addAssignment = () => {

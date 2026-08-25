@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {apiInstance} from "star-horse-lowcode";
+import {appEndpoints} from "@/api/app_config";
 import {useCommonPage} from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
 import {i18n} from "@/lang";
@@ -41,7 +42,7 @@ const {
 } = useCommonPage({
   props,
   formRef: detailFormRef,
-  defaultDataUrl: apiInstance("userdb-manage", "consumer/api"),
+  defaultDataUrl: apiInstance(appEndpoints.gatewayServiceName, "consumer/api"),
   enableOnChange: true,
 });
 

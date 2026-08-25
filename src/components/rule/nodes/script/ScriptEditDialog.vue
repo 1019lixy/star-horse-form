@@ -127,6 +127,7 @@ watch(
       formRef.value?.clearValidate();
     }
   },
+  { immediate: true },
 );
 
 const handleClose = () => {
