@@ -1,19 +1,23 @@
 <template>
   <div class="property-panel">
     <div class="panel-header">
-      <el-icon><Setting /></el-icon>
+      <el-icon>
+        <Setting/>
+      </el-icon>
       <span>{{ i18n("rule.panel.propertyConfig") }}</span>
     </div>
     <div v-if="!selectedNode" class="empty-state">
-      <el-icon :size="32"><Pointer /></el-icon>
+      <el-icon :size="32">
+        <Pointer/>
+      </el-icon>
       <p>{{ i18n("rule.panel.selectNodeHint") }}</p>
     </div>
     <div v-else class="panel-body">
       <!-- 节点信息 -->
       <div class="prop-section node-info-section">
         <div
-          class="node-type-badge"
-          :style="{
+            class="node-type-badge"
+            :style="{
             background: categoryColor + '15',
             borderColor: categoryColor,
             color: categoryColor,
@@ -21,8 +25,8 @@
         >
           <span class="badge-icon">{{ nodeDef?.icon || "⬡" }}</span>
           <span class="badge-label">{{
-            nodeDef?.label ? i18n(nodeDef.label) : selectedNode.type
-          }}</span>
+              nodeDef?.label ? i18n(nodeDef.label) : selectedNode.type
+            }}</span>
         </div>
         <p class="node-desc">{{ nodeDef?.desc ? i18n(nodeDef.desc) : "" }}</p>
       </div>
@@ -32,18 +36,19 @@
         <div class="section-title">{{ i18n("rule.panel.basicInfo") }}</div>
         <el-form label-width="70px" labelPosition="top">
           <el-form-item :label="i18n('rule.panel.nodeId')">
-            <el-input :model-value="selectedNode.id" disabled />
+            <el-input :model-value="selectedNode.id" disabled/>
           </el-form-item>
           <el-form-item :label="i18n('rule.panel.nodeType')">
             <el-tag
-              :style="{
+                :style="{
                 background: categoryColor + '15',
                 borderColor: categoryColor,
                 color: categoryColor,
               }"
-              >{{
+            >{{
                 nodeDef?.label ? i18n(nodeDef.label) : selectedNode.type
-              }}</el-tag
+              }}
+            </el-tag
             >
           </el-form-item>
         </el-form>
@@ -51,66 +56,69 @@
 
       <!-- 节点专属面板片段（由节点模块提供，面板零类型感知） -->
       <component
-        v-if="nodeDef?.panelSection"
-        :is="nodeDef.panelSection"
-        :nodeData="selectedNode.data"
-        :variables="variables"
-        @update="(patch: any) => emit('update', selectedNode.id, patch)"
-        @configure="(idx?: number) => emit('configure', selectedNode.id, idx)"
+          v-if="nodeDef?.panelSection"
+          :is="nodeDef.panelSection"
+          :nodeData="selectedNode.data"
+          :variables="variables"
+          @update="(patch: any) => emit('update', selectedNode.id, patch)"
+          @configure="(idx?: number) => emit('configure', selectedNode.id, idx)"
       />
 
       <!-- 流程锚点节点（start/end）描述 -->
       <div
-        v-if="nodeDef?.category === 'flow'"
-        class="prop-section"
+          v-if="nodeDef?.category === 'flow'"
+          class="prop-section"
       >
         <div class="section-title">{{ i18n("rule.panel.description") }}</div>
         <p class="node-desc">
           {{
             actualType === 'start'
-              ? i18n("rule.panel.startNodeDesc")
-              : i18n("rule.panel.endNodeDesc")
+                ? i18n("rule.panel.startNodeDesc")
+                : i18n("rule.panel.endNodeDesc")
           }}
         </p>
       </div>
 
-      <!-- 无 panelSection 的节点：基于 paramSchema 动态渲染兜底面板 -->
-      <template v-if="!nodeDef?.panelSection && paramSchema.length > 0">
-        <!-- 复杂节点：详细配置入口（弹窗编辑，避免面板过长） -->
-        <div v-if="hasDialogEditor" class="prop-section dialog-entry-section">
-          <el-button
+      <div v-if="hasDialogEditor" class="prop-section dialog-entry-section">
+        <el-button
             type="primary"
             @click="openDialogEditor"
             class="open-dialog-btn"
-          >
-            <el-icon><EditPen /></el-icon>
-            <span>{{ i18n("rule.btn.openDialogConfig") }}</span>
-          </el-button>
-          <p v-if="dialogEditorHint" class="dialog-tip">{{ dialogEditorHint }}</p>
-        </div>
+        >
+          <el-icon>
+            <EditPen/>
+          </el-icon>
+          <span>{{ i18n("rule.btn.openDialogConfig") }}</span>
+        </el-button>
+        <p v-if="dialogEditorHint" class="dialog-tip">{{ dialogEditorHint }}</p>
+      </div>
+      <!-- 无 panelSection 的节点：基于 paramSchema 动态渲染兜底面板 -->
+      <template v-if="!nodeDef?.panelSection && paramSchema.length > 0">
+        <!-- 复杂节点：详细配置入口（弹窗编辑，避免面板过长） -->
+
         <div
-          v-for="group in groupedSchema"
-          :key="group.name"
-          class="prop-section"
+            v-for="group in groupedSchema"
+            :key="group.name"
+            class="prop-section"
         >
           <div class="section-title">{{ i18n(group.name) }}</div>
           <el-form label-width="90px" labelPosition="top">
             <el-form-item
-              v-for="field in group.fields"
-              :key="field.name"
-              :label="
+                v-for="field in group.fields"
+                :key="field.name"
+                :label="
                 typeof field.label === 'function'
                   ? field.label()
                   : i18n(field.label)
               "
-              :required="field.required"
+                :required="field.required"
             >
               <!-- input -->
               <el-input
-                v-if="field.type === 'input' && !field.fieldSelect"
-                v-model="selectedNode.data[field.name]"
-                :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
-                @input="
+                  v-if="field.type === 'input' && !field.fieldSelect"
+                  v-model="selectedNode.data[field.name]"
+                  :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
+                  @input="
                   emit('update', selectedNode.id, {
                     [field.name]: selectedNode.data[field.name],
                   })
@@ -118,23 +126,23 @@
               />
               <!-- 字段选择器（fieldSelect: true 且有表单字段上下文） -->
               <FieldSelector
-                v-else-if="
+                  v-else-if="
                   field.type === 'input' &&
                   field.fieldSelect &&
                   formFields.length > 0
                 "
-                :model-value="selectedNode.data[field.name] || ''"
-                :fields="formFields"
-                :variables="variables"
-                :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
-                @update:model-value="onFieldSelectChange(field.name, $event)"
+                  :model-value="selectedNode.data[field.name] || ''"
+                  :fields="formFields"
+                  :variables="variables"
+                  :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
+                  @update:model-value="onFieldSelectChange(field.name, $event)"
               />
               <!-- 无表单字段上下文时降级为普通输入（仍允许手动输入变量名） -->
               <el-input
-                v-else-if="field.type === 'input' && field.fieldSelect"
-                v-model="selectedNode.data[field.name]"
-                :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
-                @input="
+                  v-else-if="field.type === 'input' && field.fieldSelect"
+                  v-model="selectedNode.data[field.name]"
+                  :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
+                  @input="
                   emit('update', selectedNode.id, {
                     [field.name]: selectedNode.data[field.name],
                   })
@@ -142,14 +150,14 @@
               />
               <!-- number -->
               <el-input-number
-                v-else-if="field.type === 'number'"
-                v-model="selectedNode.data[field.name]"
-                :min="field.min"
-                :max="field.max"
-                :step="field.step || 1"
-                :controls="false"
-                style="width: 100%"
-                @change="
+                  v-else-if="field.type === 'number'"
+                  v-model="selectedNode.data[field.name]"
+                  :min="field.min"
+                  :max="field.max"
+                  :step="field.step || 1"
+                  :controls="false"
+                  style="width: 100%"
+                  @change="
                   emit('update', selectedNode.id, {
                     [field.name]: selectedNode.data[field.name],
                   })
@@ -157,57 +165,57 @@
               />
               <!-- select -->
               <el-select
-                v-else-if="field.type === 'select'"
-                v-model="selectedNode.data[field.name]"
-                style="width: 100%"
-                @change="
+                  v-else-if="field.type === 'select'"
+                  v-model="selectedNode.data[field.name]"
+                  style="width: 100%"
+                  @change="
                   emit('update', selectedNode.id, {
                     [field.name]: selectedNode.data[field.name],
                   })
                 "
               >
                 <el-option
-                  v-for="opt in field.options"
-                  :key="opt.value"
-                  :label="
+                    v-for="opt in field.options"
+                    :key="opt.value"
+                    :label="
                     typeof opt.label === 'function'
                       ? opt.label()
                       : i18n(opt.label)
                   "
-                  :value="opt.value"
+                    :value="opt.value"
                 />
               </el-select>
               <!-- multiselect -->
               <el-select
-                v-else-if="field.type === 'multiselect'"
-                v-model="selectedNode.data[field.name]"
-                multiple
-                style="width: 100%; z-index: 999 !important"
-                @change="
+                  v-else-if="field.type === 'multiselect'"
+                  v-model="selectedNode.data[field.name]"
+                  multiple
+                  style="width: 100%; z-index: 999 !important"
+                  @change="
                   emit('update', selectedNode.id, {
                     [field.name]: selectedNode.data[field.name],
                   })
                 "
               >
                 <el-option
-                  v-for="opt in field.options"
-                  :key="opt.value"
-                  :label="
+                    v-for="opt in field.options"
+                    :key="opt.value"
+                    :label="
                     typeof opt.label === 'function'
                       ? opt.label()
                       : i18n(opt.label)
                   "
-                  :value="opt.value"
+                    :value="opt.value"
                 />
               </el-select>
               <!-- textarea -->
               <el-input
-                v-else-if="field.type === 'textarea'"
-                v-model="selectedNode.data[field.name]"
-                type="textarea"
-                :rows="field.rows || 2"
-                :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
-                @input="
+                  v-else-if="field.type === 'textarea'"
+                  v-model="selectedNode.data[field.name]"
+                  type="textarea"
+                  :rows="field.rows || 2"
+                  :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
+                  @input="
                   emit('update', selectedNode.id, {
                     [field.name]: selectedNode.data[field.name],
                   })
@@ -215,17 +223,17 @@
               />
               <!-- date -->
               <el-date-picker
-                v-else-if="field.type === 'date'"
-                v-model="selectedNode.data[field.name]"
-                type="datetime"
-                :placeholder="
+                  v-else-if="field.type === 'date'"
+                  v-model="selectedNode.data[field.name]"
+                  type="datetime"
+                  :placeholder="
                   field.placeholder
                     ? i18n(field.placeholder)
                     : i18n('rule.panel.selectDate')
                 "
-                value-format="YYYY-MM-DD HH:mm:ss"
-                style="width: 100%"
-                @change="
+                  value-format="YYYY-MM-DD HH:mm:ss"
+                  style="width: 100%"
+                  @change="
                   emit('update', selectedNode.id, {
                     [field.name]: selectedNode.data[field.name],
                   })
@@ -233,11 +241,11 @@
               />
               <!-- switch -->
               <el-switch
-                v-else-if="field.type === 'switch'"
-                v-model="selectedNode.data[field.name]"
-                active-value="Y"
-                inactive-value="N"
-                @change="
+                  v-else-if="field.type === 'switch'"
+                  v-model="selectedNode.data[field.name]"
+                  active-value="Y"
+                  inactive-value="N"
+                  @change="
                   emit('update', selectedNode.id, {
                     [field.name]: selectedNode.data[field.name],
                   })
@@ -246,63 +254,65 @@
               <!-- table（卡片式垂直堆叠，避免横向挤压） -->
               <div v-else-if="field.type === 'table'" class="schema-table">
                 <div
-                  v-if="!getTableData(field.name).length"
-                  class="table-empty-tip"
+                    v-if="!getTableData(field.name).length"
+                    class="table-empty-tip"
                 >
                   {{ i18n("rule.panel.noData") }}
                 </div>
                 <div
-                  v-for="(row, rowIdx) in getTableData(field.name)"
-                  :key="rowIdx"
-                  class="table-row-card"
+                    v-for="(row, rowIdx) in getTableData(field.name)"
+                    :key="rowIdx"
+                    class="table-row-card"
                 >
                   <div class="row-card-head">
                     <span class="row-card-idx">#{{ rowIdx + 1 }}</span>
                     <el-button
-                      link
-                      type="danger"
-                      :title="i18n('rule.delete')"
-                      @click="removeTableRow(field.name, rowIdx)"
+                        link
+                        type="danger"
+                        :title="i18n('rule.delete')"
+                        @click="removeTableRow(field.name, rowIdx)"
                     >
-                      <el-icon><Delete /></el-icon>
+                      <el-icon>
+                        <Delete/>
+                      </el-icon>
                     </el-button>
                   </div>
                   <div class="row-card-body">
                     <div
-                      v-for="col in field.columns"
-                      :key="col.prop"
-                      class="row-cell"
-                      v-show="isColumnVisible(col, row)"
+                        v-for="col in field.columns"
+                        :key="col.prop"
+                        class="row-cell"
+                        v-show="isColumnVisible(col, row)"
                     >
                       <label class="cell-label">{{ i18n(col.label) }}</label>
                       <el-select
-                        v-if="col.type === 'select'"
-                        v-model="row[col.prop]"
-                        size="small"
-                        style="width: 100%"
-                        @change="
+                          v-if="col.type === 'select'"
+                          v-model="row[col.prop]"
+                          size="small"
+                          style="width: 100%"
+                          @change="
                           emit('update', selectedNode.id, {
                             [field.name]: getTableData(field.name),
                           })
                         "
                       >
                         <el-option
-                          v-for="opt in col.options"
-                          :key="opt.value"
-                          :label="
+                            v-for="opt in col.options"
+                            :key="opt.value"
+                            :label="
                             typeof opt.label === 'function'
                               ? opt.label()
                               : i18n(opt.label)
                           "
-                          :value="opt.value"
+                            :value="opt.value"
                         />
                       </el-select>
                       <FieldSelector
-                        v-else-if="col.fieldSelect && formFields.length > 0"
-                        :model-value="row[col.prop] || ''"
-                        :fields="formFields"
-                        :variables="variables"
-                        @update:model-value="
+                          v-else-if="col.fieldSelect && formFields.length > 0"
+                          :model-value="row[col.prop] || ''"
+                          :fields="formFields"
+                          :variables="variables"
+                          @update:model-value="
                           row[col.prop] = $event;
                           emit('update', selectedNode.id, {
                             [field.name]: getTableData(field.name),
@@ -310,11 +320,11 @@
                         "
                       />
                       <el-input
-                        v-else
-                        v-model="row[col.prop]"
-                        size="small"
-                        :placeholder="i18n(col.label)"
-                        @input="
+                          v-else
+                          v-model="row[col.prop]"
+                          size="small"
+                          :placeholder="i18n(col.label)"
+                          @input="
                           emit('update', selectedNode.id, {
                             [field.name]: getTableData(field.name),
                           })
@@ -324,13 +334,15 @@
                   </div>
                 </div>
                 <el-button
-                  type="primary"
-                  plain
-                  size="small"
-                  @click="addTableRow(field.name, field.columns)"
-                  class="table-add-btn"
+                    type="primary"
+                    plain
+                    size="small"
+                    @click="addTableRow(field.name, field.columns)"
+                    class="table-add-btn"
                 >
-                  <el-icon><Plus /></el-icon>
+                  <el-icon>
+                    <Plus/>
+                  </el-icon>
                   <span>{{ i18n("rule.addLine") }}</span>
                 </el-button>
               </div>
@@ -344,7 +356,7 @@
 
 <script setup lang="ts">
 import {computed, inject, type Ref} from "vue";
-import {Delete, Edit, EditPen, Plus, Pointer, Setting,} from "@element-plus/icons-vue";
+import {Delete, EditPen, Plus, Pointer, Setting,} from "@element-plus/icons-vue";
 import {getCategoryColor, getNodeTypeMap, getParamSchema, type ParamField,} from "./nodeTypes";
 import {i18n} from "@/lang";
 import FieldSelector from "./components/FieldSelector.vue";
@@ -362,24 +374,24 @@ const emit = defineEmits<{
 // 从 RuleDesigner 注入表单字段列表（provide 时的 key: ruleFormFields）
 // 若未注入（独立使用 RuleDesigner 时），降级为空数组，FieldSelector 不渲染
 const injectedFormFields = inject<
-  Ref<FormFieldMeta[]> | FormFieldMeta[] | undefined
+    Ref<FormFieldMeta[]> | FormFieldMeta[] | undefined
 >("ruleFormFields", undefined);
 const formFields = computed<FormFieldMeta[]>(() => {
   if (!injectedFormFields) {
     console.log(
-      "[PropertyPanel] formFields computed | injected=NONE (未注入 ruleFormFields)",
+        "[PropertyPanel] formFields computed | injected=NONE (未注入 ruleFormFields)",
     );
     return [];
   }
   const v = (injectedFormFields as any).value ?? injectedFormFields;
   const arr = Array.isArray(v) ? v : [];
   console.log(
-    "[PropertyPanel] formFields computed | injected.type=",
-    typeof injectedFormFields,
-    "| value.length=",
-    arr.length,
-    "| firstField=",
-    arr[0]?.fieldName,
+      "[PropertyPanel] formFields computed | injected.type=",
+      typeof injectedFormFields,
+      "| value.length=",
+      arr.length,
+      "| firstField=",
+      arr[0]?.fieldName,
   );
   return arr;
 });
@@ -388,8 +400,8 @@ const formFields = computed<FormFieldMeta[]>(() => {
 // 1. FieldSelector 同时显示表单字段 + 规则变量两组
 // 2. 校验时合并 form fields + variables 作为合法引用集合
 const injectedVariables = inject<Ref<any[]> | any[] | undefined>(
-  "ruleVariables",
-  undefined,
+    "ruleVariables",
+    undefined,
 );
 const variables = computed<any[]>(() => {
   if (!injectedVariables) return [];
@@ -406,15 +418,15 @@ const isColumnVisible = (col: any, row: any): boolean => {
   const actionType = row?.actionType;
   if (!actionType) return true;
   if (
-    Array.isArray(col.hideOnActionTypes) &&
-    col.hideOnActionTypes.includes(actionType)
+      Array.isArray(col.hideOnActionTypes) &&
+      col.hideOnActionTypes.includes(actionType)
   ) {
     return false;
   }
   if (
-    Array.isArray(col.showOnActionTypes) &&
-    col.showOnActionTypes.length > 0 &&
-    !col.showOnActionTypes.includes(actionType)
+      Array.isArray(col.showOnActionTypes) &&
+      col.showOnActionTypes.length > 0 &&
+      !col.showOnActionTypes.includes(actionType)
   ) {
     return false;
   }
@@ -427,7 +439,7 @@ const isColumnVisible = (col: any, row: any): boolean => {
 const onFieldSelectChange = (fieldName: string, value: string) => {
   if (!props.selectedNode) return;
   props.selectedNode.data[fieldName] = value;
-  emit("update", props.selectedNode.id, { [fieldName]: value });
+  emit("update", props.selectedNode.id, {[fieldName]: value});
 };
 
 
@@ -436,16 +448,16 @@ const actualType = computed(() => {
   return t === "generic" ? (props.selectedNode?.data?.__nodeType || "") : (t || "");
 });
 const nodeDef = computed(() =>
-  getNodeTypeMap()[actualType.value || props.selectedNode?.type || ""],
+    getNodeTypeMap()[actualType.value || props.selectedNode?.type || ""],
 );
 const categoryColor = computed(() =>
-  getCategoryColor(actualType.value || props.selectedNode?.type || ""),
+    getCategoryColor(actualType.value || props.selectedNode?.type || ""),
 );
 
 // 弹窗编辑入口：节点注册了统一协议编辑器即出现，面板不感知具体节点类型
 const hasDialogEditor = computed(() => !!nodeDef.value?.editor);
 const dialogEditorHint = computed(() =>
-  nodeDef.value?.editorHint ? i18n(nodeDef.value.editorHint) : "",
+    nodeDef.value?.editorHint ? i18n(nodeDef.value.editorHint) : "",
 );
 const openDialogEditor = () => {
   if (!props.selectedNode) return;
@@ -467,7 +479,7 @@ const groupedSchema = computed(() => {
     groupMap[g].push(f);
   });
   Object.entries(groupMap).forEach(([name, fields]) => {
-    groups.push({ name, fields });
+    groups.push({name, fields});
   });
   return groups;
 });
@@ -485,12 +497,12 @@ const addTableRow = (fieldName: string, columns: any[]) => {
     newRow[c.prop] = "";
   });
   const list = [...getTableData(fieldName), newRow];
-  emit("update", props.selectedNode.id, { [fieldName]: list });
+  emit("update", props.selectedNode.id, {[fieldName]: list});
 };
 const removeTableRow = (fieldName: string, idx: number) => {
   const list = [...getTableData(fieldName)];
   list.splice(idx, 1);
-  emit("update", props.selectedNode.id, { [fieldName]: list });
+  emit("update", props.selectedNode.id, {[fieldName]: list});
 };
 
 
@@ -523,6 +535,7 @@ const removeTableRow = (fieldName: string, idx: number) => {
     justify-content: center;
     height: 100%;
     color: #94a3b8;
+
     p {
       margin-top: 8px;
       font-size: 13px;
@@ -552,6 +565,7 @@ const removeTableRow = (fieldName: string, idx: number) => {
         width: 100%;
         font-weight: 600;
       }
+
       .dialog-tip {
         margin-top: 8px;
         font-size: 11px;
@@ -582,6 +596,7 @@ const removeTableRow = (fieldName: string, idx: number) => {
       border: 1px solid;
       font-size: 12px;
       font-weight: 600;
+
       .badge-icon {
         font-size: 14px;
       }
@@ -606,6 +621,7 @@ const removeTableRow = (fieldName: string, idx: number) => {
       align-items: center;
       gap: 8px;
       margin-bottom: 10px;
+
       span {
         font-size: 12px;
         color: #475569;
@@ -621,30 +637,36 @@ const removeTableRow = (fieldName: string, idx: number) => {
       background: #f8fafc;
       border-radius: 4px;
       border: 1px solid #f1f5f9;
+
       &:hover {
         background: #f1f5f9;
       }
+
       .item-info {
         display: flex;
         align-items: center;
         gap: 6px;
         flex: 1;
         min-width: 0;
+
         .item-field {
           font-size: 12px;
           font-weight: 600;
           color: #1e293b;
         }
+
         .item-op {
           font-size: 11px;
           color: #6366f1;
           font-family: monospace;
         }
+
         .item-val {
           font-size: 11px;
           color: #64748b;
         }
       }
+
       .item-actions {
         display: flex;
         gap: 2px;
@@ -671,9 +693,8 @@ const removeTableRow = (fieldName: string, idx: number) => {
         border: 1px solid #e2e8f0;
         border-radius: 6px;
         overflow: hidden;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
+        transition: border-color 0.2s,
+        box-shadow 0.2s;
 
         &:hover {
           border-color: #c7d2fe;
@@ -737,10 +758,12 @@ const removeTableRow = (fieldName: string, idx: number) => {
   :deep(.el-form-item) {
     margin-bottom: 10px;
   }
+
   :deep(.el-form-item__label) {
     font-size: 12px;
     color: #475569;
   }
+
   :deep(.el-input__inner),
   :deep(.el-textarea__inner) {
     font-size: 12px;

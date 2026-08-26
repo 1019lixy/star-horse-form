@@ -1,6 +1,7 @@
 <template>
   <div class="http-call-node" @dblclick="$emit('edit')">
     <Handle type="target" :position="Position.Top" />
+    <Handle type="target" :position="Position.Right" />
     <div class="node-card">
       <div class="node-header">
         <svg
@@ -58,6 +59,7 @@
       </div>
     </div>
     <Handle type="source" :position="Position.Bottom" />
+    <Handle type="source" :position="Position.Left" />
   </div>
 </template>
 

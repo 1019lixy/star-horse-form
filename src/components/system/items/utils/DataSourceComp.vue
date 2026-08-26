@@ -154,45 +154,6 @@ const staticFields: FieldInfo[] | any = [
   },
 ];
 
-// ─── Dict fields ───
-const dictFields: FieldInfo[] | any = [
-  {
-    label: i18n("dyform.utils.604"),
-    fieldName: "urlOrDictName",
-    required: true,
-    type: "datapicker",
-    formVisible: true,
-    listVisible: true,
-    preps: {
-      dataUrl: appEndpoints.dictPageListUrl,
-      displayName: "dictTypeName",
-      multiple: false,
-      displayValue: "dictTypeCode",
-      pageSize: 100,
-      colspan: 16,
-    },
-  },
-  {
-    label: i18n("dyform.utils.452"),
-    fieldName: "urlOrDictNameBtn",
-    type: "button",
-    actions: {
-      click: async (val: any) => {
-        await validOperation(
-          val,
-          formRef,
-          fieldList,
-          disableUrl,
-          true,
-          undefined,
-        );
-      },
-    },
-    formVisible: true,
-    listVisible: true,
-    preps: { colspan: 8, icon: "valid" },
-  },
-];
 
 // ─── Third-party API form ref ───
 const apiConfigRef = ref();
@@ -239,11 +200,7 @@ const analysisOptionData = (val: any) => {
 // Switch fieldList based on type
 const switchType = (type: DataSourceType) => {
   unifiedField.fieldList.splice(0);
-  // thirdParty uses ApiConfigForm component, not unifiedField
-  // if (type === "url") unifiedField.fieldList.push(...internalApiFields);
-  // else
-  if (type === "dict") unifiedField.fieldList.push(...dictFields);
-  else if (type === "data") unifiedField.fieldList.push(...staticFields);
+   if (type === "data") unifiedField.fieldList.push(...staticFields);
 };
 
 // Watch type changes

@@ -78,7 +78,7 @@ export function createRequestTab(
   title: string,
   i18nPrefix: string,
   subTableName: string,
-  defaultMethod: string = "GET",
+  defaultMethod: string = "POST",
   dataRequired: boolean = true,
   interfaceUtils?: any,
   formFields?: SelectOption[],
