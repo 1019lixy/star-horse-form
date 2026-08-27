@@ -239,4 +239,9 @@ app.mount('#app')
 ```
 --修复已知bug,增加descriptions,fieldset,step,drawer,dialog 等容器
 ```
+### v2.3.1
+
+```
+--增加DesignForm，CopyerOperation 导出
+```
 

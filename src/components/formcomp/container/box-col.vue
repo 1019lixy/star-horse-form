@@ -9,20 +9,20 @@ import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue
 import {useDropGuard, useRowHeight} from "./container-utils";
 
 const props = defineProps({
-  parentField: { type: Object as PropType<any> },
-  formInfo: { type: Object as PropType<any> },
-  parentComp: { type: Object as PropType<any> },
-  isDesign: { type: Boolean, default: false },
-  showFormItem: { type: Boolean, default: false },
-  disabled: { type: Object as PropType<Boolean | String> },
-  field: { type: Object as PropType<any> },
-  isFirstRow: { type: Boolean, default: false },
-  isLastRow: { type: Boolean, default: false },
-  isFirstCol: { type: Boolean, default: false },
-  isLastCol: { type: Boolean, default: false },
-  rowIndex: { type: Number, default: -1 },
-  colIndex: { type: Number, default: -1 },
-  compSize: { type: String, default: "default" },
+  parentField: {type: Object as PropType<any>},
+  formInfo: {type: Object as PropType<any>},
+  parentComp: {type: Object as PropType<any>},
+  isDesign: {type: Boolean, default: false},
+  showFormItem: {type: Boolean, default: false},
+  disabled: {type: Object as PropType<Boolean | String>},
+  field: {type: Object as PropType<any>},
+  isFirstRow: {type: Boolean, default: false},
+  isLastRow: {type: Boolean, default: false},
+  isFirstCol: {type: Boolean, default: false},
+  isLastCol: {type: Boolean, default: false},
+  rowIndex: {type: Number, default: -1},
+  colIndex: {type: Number, default: -1},
+  compSize: {type: String, default: "default"},
 });
 let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
@@ -30,7 +30,7 @@ let currentSubItemId = computed(() => designForm.currentSubItemId);
 let isEdit = computed(() => designForm.isEdit);
 const formData = defineModel("formData");
 const rowHeight = useRowHeight(() => props.compSize);
-const { moveHandler, guardAdd } = useDropGuard("box");
+const {moveHandler, guardAdd} = useDropGuard("box");
 const onDragAdd = (evt: Event | any, dataList: any) => {
   selectCurrentTd();
   let newIndex = evt.newIndex;
@@ -52,89 +52,94 @@ const checkItem = (items: any) => {
     items["items"] = [];
   }
 };
-onMounted(() => {});
+onMounted(() => {
+});
 //监控数据
 </script>
 <template>
   <el-col
-    :data-cell-id="field?.id"
-    :data-row-index="rowIndex"
-    :data-col-index="colIndex"
-    :span="field.colspan || 24"
-    :offset="field.offset || 0"
-    :push="field.push || 0"
-    :pull="field.pull || 0"
-    :xs="field.xs || undefined"
-    :sm="field.sm || undefined"
-    :md="field.md || undefined"
-    :lg="field.lg || undefined"
-    :xl="field.xl || undefined"
-    :tag="field.tag || 'div'"
-    :class="{ 'dragging-area': isDragging }"
-    class="edit_col flex! items-center justify-center"
-    :style="{ height: field.colHeight || '100%' }"
-    @click="selectCurrentTd"
+      :data-cell-id="field?.id"
+      :data-row-index="rowIndex"
+      :data-col-index="colIndex"
+      :span="field.colspan || 24"
+      :offset="field.offset || 0"
+      :push="field.push || 0"
+      :pull="field.pull || 0"
+      :xs="field.xs || undefined"
+      :sm="field.sm || undefined"
+      :md="field.md || undefined"
+      :lg="field.lg || undefined"
+      :xl="field.xl || undefined"
+      :tag="field.tag || 'div'"
+      :class="{ 'dragging-area': isDragging }"
+      class="edit_col flex! items-center justify-center"
+      :style="{ height: field.colHeight || '100%' }"
+      @click="selectCurrentTd"
   >
     <div
-      class="h-full w-full p-2 items-center justify-center flex flex-col"
-      v-if="field.staticData === true"
-      v-html="field.textContent"
+        class="h-full w-full p-2 items-center justify-center flex flex-col"
+        v-if="field.staticData === true"
+        v-html="field.textContent"
     />
     <draggable
-      v-else
-      @add="(evt: Event) => onDragAdd(evt, field.items)"
-      @dragover="checkItem(field)"
-      :move="moveHandler"
-      class="smain-design"
-      tag="div"
-      :disabled="!isEdit"
-      item-key="id"
-      group="starHorseGroup"
-      ghostClass="container_ghost"
-      animation="200"
-      :list="field.items"
+        v-else
+        @add="(evt: Event) => onDragAdd(evt, field.items)"
+        @dragover="checkItem(field)"
+        :move="moveHandler"
+        class="smain-design"
+        tag="div"
+        :disabled="!isEdit"
+        item-key="id"
+        group="starHorseGroup"
+        ghostClass="container_ghost"
+        animation="200"
+        :list="field.items"
     >
       <template #item="{ element: data }">
         <div class="comp-item" :data-field-id="data?.id">
           <DesignItemWrapper
-            :field="data"
-            :isDesign="isDesign"
-            :parentField="parentField"
-            :disabled="disabled"
+              :field="data"
+              :isDesign="isDesign"
+              :parentField="parentField"
+              :disabled="disabled"
           >
             <component
-              :key="data?.id"
-              :field="data"
-              :formInfo="formInfo"
-              :isDesign="isDesign"
-              :showFormItem="showFormItem"
-              :disabled="disabled"
-              :is="itemCheck(data)"
-              :parentField="parentField"
-              v-model:formData="formData"
+                :key="data?.id"
+                :field="data"
+                :formInfo="formInfo"
+                :isDesign="isDesign"
+                :showFormItem="showFormItem"
+                :disabled="disabled"
+                :is="itemCheck(data)"
+                :parentField="parentField"
+                v-model:formData="formData"
             />
           </DesignItemWrapper>
         </div>
       </template>
     </draggable>
     <div
-      class="table-cell-action"
-      v-if="isEdit && isDesign && currentSubItemId == field.id"
+        class="table-cell-action"
+        v-if="isEdit && isDesign && currentSubItemId == field.id"
     >
       <ContainerDropDown
-        :field="field"
-        :parentField="parentField"
-        :isFirstCol="isFirstCol"
-        :isLastCol="isLastCol"
-        :isFirstRow="isFirstRow"
-        :isLastRow="isLastRow"
-        :disabled="disabled"
-        :rowIndex="rowIndex"
-        :colIndex="colIndex"
-        :type="'box'"
-        @command="handleTableCellCommand"
+          :field="field"
+          :parentField="parentField"
+          :isFirstCol="isFirstCol"
+          :isLastCol="isLastCol"
+          :isFirstRow="isFirstRow"
+          :isLastRow="isLastRow"
+          :disabled="disabled"
+          :rowIndex="rowIndex"
+          :colIndex="colIndex"
+          :type="'box'"
+          @command="handleTableCellCommand"
       />
     </div>
   </el-col>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.edit_col {
+  border: 1px solid var(--star-horse-border—color) !important;
+}
+</style>

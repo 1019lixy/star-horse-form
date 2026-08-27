@@ -12,70 +12,73 @@ import draggable from "vuedraggable-es";
 import {registerVueContext} from "@/api/vueContext";
 
 const items = import.meta.glob([
-  "@/components/system/*.vue",
-  "@/components/system/items/utils/*.vue",
-  "@/components/formcomp/items/*.vue",
-  "@/components/formcomp/container/*.vue",
+    "@/components/system/*.vue",
+    "@/components/system/items/utils/*.vue",
+    "@/components/formcomp/items/*.vue",
+    "@/components/formcomp/container/*.vue",
 ]);
 // 插件安装方法
 const install = (
-  app: any,
-  options?: {
-    router?: any;
-    axiosInstance?: any; //如果外部传入axios实例，就使用外部传入的，否则使用默认的
-    elementPlusOptions?: any; // 添加Element Plus配置选项
-    lang?: LangType; //国际化语音
-    initElementPlus?: boolean; // 是否初始化element-plus
-  },
+    app: any,
+    options?: {
+        router?: any;
+        axiosInstance?: any; //如果外部传入axios实例，就使用外部传入的，否则使用默认的
+        elementPlusOptions?: any; // 添加Element Plus配置选项
+        lang?: LangType; //国际化语音
+        initElementPlus?: boolean; // 是否初始化element-plus
+    },
 ) => {
-  console.log("StarHorseForm init...");
-  app.component("draggable", draggable);
-  // 1. 首先初始化当前项目的pinia store
-  app.use(piniaCompInstance);
-  // 3. 最后使用StarHorseLowcode组件
-  app.use(StarHorseLowcode, options);
+    console.log("StarHorseForm init...");
+    app.component("draggable", draggable);
+    // 1. 首先初始化当前项目的pinia store
+    app.use(piniaCompInstance);
+    // 3. 最后使用StarHorseLowcode组件
+    app.use(StarHorseLowcode, options);
 
-  Object.entries(items).forEach(([path, component]) => {
-    const name = path
-      .split("/")
-      .pop() // 获取文件名
-      ?.replace(/\.vue$/, ""); // 移除扩展名
+    Object.entries(items).forEach(([path, component]) => {
+        const name = path
+            .split("/")
+            .pop() // 获取文件名
+            ?.replace(/\.vue$/, ""); // 移除扩展名
 
-    if (name) {
-      app.component(name, defineAsyncComponent(component as any));
-    }
-  });
-  //注册上下文
-  registerVueContext("formContext", app._context);
+        if (name) {
+            app.component(name, defineAsyncComponent(component as any));
+        }
+    });
+    //注册上下文
+    registerVueContext("formContext", app._context);
 };
 export * from "@/components/formcomp/items";
 export * from "@/components/formcomp/container";
 export * from "@/components/types";
 export * from "@/components/system";
-export { configureRuleEngine, getRuleEngineConfig } from "@/api/rule_engine_api";
-export { configureAppEndpoints, getAppEndpoints } from "@/api/app_config";
+export {configureRuleEngine, getRuleEngineConfig} from "@/api/rule_engine_api";
+export {configureAppEndpoints, getAppEndpoints} from "@/api/app_config";
 export {
-  configureRuleNodes,
-  registerRuleNode,
-  unregisterRuleNodeType,
-  disableRuleNodeTypes,
-  resetRuleNodes,
-  getNodeCategories,
-  getNodeTypeMap,
-  getNodeDef,
-  getNodeLabel,
-  type NodeTypeDef,
-  type NodeCategory,
-  type ParamField,
+    configureRuleNodes,
+    registerRuleNode,
+    unregisterRuleNodeType,
+    disableRuleNodeTypes,
+    resetRuleNodes,
+    getNodeCategories,
+    getNodeTypeMap,
+    getNodeDef,
+    getNodeLabel,
+    type NodeTypeDef,
+    type NodeCategory,
+    type ParamField,
 } from "@/components/rule/nodeTypes";
-export { BUILT_IN_NODE_TYPES } from "@/components/rule/nodes";
+export {BUILT_IN_NODE_TYPES} from "@/components/rule/nodes";
 export {
-  configureRuleCategories,
-  resetRuleCategories,
-  getRuleCategoryOptions,
-  getDefaultRuleType,
-  type RuleCategoryOption,
+    configureRuleCategories,
+    resetRuleCategories,
+    getRuleCategoryOptions,
+    getDefaultRuleType,
+    type RuleCategoryOption,
 } from "@/components/rule/designerConfig";
+export * from "@/store/CopyerOperation";
+export * from "@/store/DesignForm";
+export * from "@/store/StoreManager";
 export default {
-  install,
+    install,
 };
