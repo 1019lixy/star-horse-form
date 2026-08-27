@@ -1114,7 +1114,7 @@ export const formContainer: CompType[] = [
   {
     itemName: i18n("dyform.container.dialog"),
     itemType: "dialog",
-    itemIcon: "dialog",
+    itemIcon: "map",
     category: 2,
     remark: i18n("dyform.container.dialogRemark"),
     fields: [

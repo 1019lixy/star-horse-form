@@ -57,6 +57,9 @@ onMounted(() => {});
 </script>
 <template>
   <el-col
+    :data-cell-id="field?.id"
+    :data-row-index="rowIndex"
+    :data-col-index="colIndex"
     :span="field.colspan || 24"
     :offset="field.offset || 0"
     :push="field.push || 0"

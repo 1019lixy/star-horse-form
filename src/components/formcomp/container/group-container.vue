@@ -10,9 +10,19 @@ import {getDesignFormStore} from "@/store/StoreManager";
 import {fieldCopy} from "@/utils/FieldOperationUtils";
 import {hasOpenDialog} from "@/api/keyboard-event-utils";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import {CellRubberBand} from "@/components/formcomp/utils/CellRubberBand";
+import {
+  clearRegionItems,
+  mergeBoxRegionByCells,
+  mergeRegionByCells,
+  splitBoxRegionByCells,
+  splitRegionByCells,
+} from "@/components/formcomp/utils/CellRegionOperation";
 
 import {computed, PropType, ref, watch} from "vue";
-import {operationConfirm} from "star-horse-lowcode";
+import {operationConfirm, uuid, warning} from "star-horse-lowcode";
+import {ElMessage} from "element-plus";
+import camelcase from "camelcase";
 
 const props = defineProps({
   isDesign: { type: Boolean, default: false },
@@ -266,6 +276,287 @@ const tableOperation = (actonName: string, _preps: any) => {
     copyContainer(props.parentField, props.formItem, false);
   }
 };
+/**
+ * 容器级框选操作（box/dytable/gridtable）：进入框选模式后拖拽选择单元格
+ * （按住 Ctrl 可多次框选累积），提示条上执行合并单元格/拆分单元格/删除区域组件/
+ * 添加组件，数据语义与单元格菜单的合并、resetMerge、删除组件、添加组件完全一致。
+ * dytable/gridtable 为 rowspan/colspan + cellVisible 语义；box 无 rowspan，
+ * 合并即 colspan 求和 + splice 移除列（与单元格菜单的 box 合并一致）。
+ */
+const startBoxSelectOperation = () => {
+  const itemType = props.formItem.itemType;
+  if (itemType != "dytable" && itemType != "gridtable" && itemType != "box") {
+    return;
+  }
+  const isBox = itemType == "box";
+  const elements = props.formItem.preps.elements ?? [];
+  const started = CellRubberBand.start({
+    containerId: props.formItem?.preps?.id || props.formItem?.id,
+    mode: "action",
+    actions: [
+      {key: "merge", label: i18n("dyform.container.boxMergeCells"), icon: "merge", primary: true},
+      {key: "split", label: i18n("dyform.container.boxSplitCells"), icon: "split"},
+      {key: "clearItems", label: i18n("dyform.container.boxClearItems"), icon: "trash"},
+      {key: "addComp", label: i18n("dyform.container.boxAddCompBtn"), icon: "plus"},
+      {key: "editProps", label: i18n("dyform.container.boxEditPropsBtn"), icon: "edit"},
+    ],
+    onAction: (key, cells) => {
+      if (key == "merge") {
+        const res = isBox
+          ? mergeBoxRegionByCells(elements, cells)
+          : mergeRegionByCells(elements, cells);
+        if (res.ok) {
+          ElMessage.success(
+            isBox
+              ? `${i18n("dyform.container.boxMergeDone")}（${i18n("dyform.container.rubberColShort")}${res.cols}）`
+              : `${i18n("dyform.container.boxMergeDone")}（${res.rows} × ${res.cols}）`,
+          );
+        } else if (res.crossRow) {
+          warning(i18n("dyform.container.boxMergeBoxCrossRow"));
+        } else if (res.notContiguous) {
+          warning(i18n("dyform.container.boxMergeBoxNotContiguous"));
+        } else if (res.notRectangular) {
+          warning(i18n("dyform.container.boxMergeNotRect"));
+        } else {
+          warning(i18n("dyform.container.boxMergeSingle"));
+        }
+      } else if (key == "split") {
+        const res = isBox
+          ? splitBoxRegionByCells(elements, cells)
+          : splitRegionByCells(elements, cells);
+        if (res.ok) {
+          ElMessage.success(
+            `${i18n("dyform.container.boxSplitDone")}（${res.count}）`,
+          );
+        } else {
+          warning(i18n("dyform.container.boxSplitNone"));
+        }
+      } else if (key == "clearItems") {
+        operationConfirm(i18n("dyform.container.boxClearConfirm")).then(
+          (confirm) => {
+            if (!confirm) {
+              return;
+            }
+            const res = clearRegionItems(elements, cells);
+            if (res.ok) {
+              //被删组件若正处于选中态，清空选中避免属性面板悬空
+              if (res.removedIds.includes(designForm.currentItemId)) {
+                designForm.selectItem(null, "", "");
+              }
+              ElMessage.success(
+                `${i18n("dyform.container.boxClearDone")}（${res.count}）`,
+              );
+            } else {
+              warning(i18n("dyform.container.boxClearNone"));
+            }
+          },
+        );
+      } else if (key == "addComp") {
+        //记住框选的单元格，打开组件选择面板，选择后逐格添加
+        rubberAddCells.value = cells;
+        resetRubberProps();
+        rubberAddVisible.value = true;
+      } else if (key == "editProps") {
+        //框选批量编辑属性：作用于框选单元格内所有已有组件
+        rubberEditCells.value = cells;
+        resetRubberPropsFromCells(cells);
+        rubberEditVisible.value = true;
+      }
+    },
+  });
+  if (!started) {
+    warning(i18n("dyform.container.rubberContainerNotFound"));
+  }
+};
+//框选添加组件：待添加的单元格（0-based）与选择面板开关
+const rubberAddCells = ref<Array<{row: number; col: number}>>([]);
+const rubberAddVisible = ref(false);
+//框选批量编辑属性：待编辑的单元格与面板开关
+const rubberEditCells = ref<Array<{row: number; col: number}>>([]);
+const rubberEditVisible = ref(false);
+const rubberEditClose = () => {
+  rubberEditVisible.value = false;
+  rubberEditCells.value = [];
+};
+/**
+ * 组件基础属性定义（与 ItemPropertiesPanel 基础属性面板一致的字段与 i18n），
+ * 用于框选添加组件时的属性预设与框选批量编辑属性。
+ */
+const basePropList = [
+  {key: "required", label: "dyform.props.required", def: false},
+  {key: "formVisible", label: "dyform.props.formVisible", def: true},
+  {key: "listVisible", label: "dyform.props.listVisible", def: true},
+  {key: "searchVisible", label: "dyform.props.searchVisible", def: false},
+  {key: "hideLabel", label: "dyform.props.hideLabel", def: false},
+  {key: "viewVisible", label: "dyform.props.viewVisible", def: true},
+  {key: "disabled", label: "dyform.props.disabled", def: false},
+  {key: "editDisabled", label: "dyform.props.editDisabled", def: false},
+  {key: "readonly", label: "dyform.props.readonly", def: false},
+  {key: "clearable", label: "dyform.props.clearable", def: false},
+  {key: "prototypeDisplay", label: "dyform.props.prototypeDisplay", def: false},
+  {key: "uniqueValid", label: "dyform.props.uniqueValid", def: false},
+];
+//属性开关取值：添加面板按默认值初始化；批量编辑面板按区域内第一个组件的当前值初始化
+const rubberPropValues = ref<Record<string, boolean>>({});
+const resetRubberProps = () => {
+  const values: Record<string, boolean> = {};
+  basePropList.forEach((p) => {
+    values[p.key] = p.def;
+  });
+  rubberPropValues.value = values;
+};
+//批量编辑面板：以区域内第一个组件的当前属性值初始化开关（无组件时用默认值）
+const resetRubberPropsFromCells = (cells: Array<{row: number; col: number}>) => {
+  const elements = props.formItem.preps.elements ?? [];
+  const values: Record<string, boolean> = {};
+  const firstItem = cells
+    .map((cell) => elements[cell.row]?.columns?.[cell.col]?.items?.[0])
+    .find((item) => !!item);
+  basePropList.forEach((p) => {
+    values[p.key] = firstItem?.preps?.[p.key] ?? p.def;
+  });
+  rubberPropValues.value = values;
+};
+//批量编辑影响的组件数（框选单元格内的全部组件）
+const rubberEditCompCount = computed(() => {
+  const elements = props.formItem.preps.elements ?? [];
+  let count = 0;
+  rubberEditCells.value.forEach((cell) => {
+    const column = elements[cell.row]?.columns?.[cell.col];
+    count += column?.items?.length ?? 0;
+  });
+  return count;
+});
+//由 FieldList 选中项构建组件模板（与 ContainerDropDown.changeItem 一致）
+const buildCompTemplate = (item: any) => {
+  const id = uuid();
+  const fieldName = camelcase(["field", id.substring(0, 6)]);
+  return {
+    id: "Sh" + id,
+    label: item.itemName,
+    fieldName: fieldName,
+    itemType: item.itemType,
+    type: item.itemType,
+    compType: item.compType,
+    preps: {
+      id: "Sh" + id,
+      name: fieldName,
+      itemNameLabel: item.itemName,
+      label: item.itemName,
+    },
+  };
+};
+//向指定单元格添加组件（与 ContainerDropDown.addCompOperation 一致：深拷贝 + 重生成 id/fieldName），
+//extraProps 为面板中勾选的基础属性预设
+const addCompToCell = (
+  column: any,
+  template: any,
+  suffix: string,
+  extraProps?: Record<string, boolean>,
+) => {
+  if (!column || column.cellVisible === false) {
+    return null;
+  }
+  const id = uuid();
+  const tempItem = JSON.parse(JSON.stringify(template));
+  tempItem.id = id;
+  tempItem.fieldName = camelcase(["field", id.substring(0, 6), suffix]);
+  if (!tempItem.preps) {
+    tempItem.preps = {};
+  }
+  tempItem.preps.id = id;
+  tempItem.preps.name = tempItem.fieldName;
+  if (extraProps) {
+    Object.assign(tempItem.preps, extraProps);
+  }
+  if (!column.items) {
+    column.items = [];
+  }
+  column.items.push(tempItem);
+  return tempItem;
+};
+//框选添加组件：已选组件列表（点击左侧组件仅记录于此，点"提交"才真正添加）
+const rubberAddPicked = ref<Array<any>>([]);
+const rubberAddClose = () => {
+  rubberAddVisible.value = false;
+  rubberAddCells.value = [];
+  rubberAddPicked.value = [];
+};
+//点击左侧组件：仅记录/取消记录（可多选），不立即添加
+const rubberAddSelect = (item: any) => {
+  const idx = rubberAddPicked.value.findIndex(
+    (it) => it.itemName === item.itemName && it.itemType === item.itemType,
+  );
+  if (idx >= 0) {
+    rubberAddPicked.value.splice(idx, 1);
+  } else {
+    rubberAddPicked.value.push(item);
+  }
+};
+//移除单个已选组件
+const rubberAddRemove = (index: number) => {
+  rubberAddPicked.value.splice(index, 1);
+};
+//提交：把所有已选组件按面板开关值统一设置属性，添加到所有框选单元格并关闭面板
+const rubberAddSubmit = () => {
+  if (rubberAddPicked.value.length === 0) {
+    warning(i18n("dyform.container.boxAddCompNoPick"));
+    return;
+  }
+  const elements = props.formItem.preps.elements ?? [];
+  let added = 0;
+  let lastItem: any = null;
+  rubberAddCells.value.forEach((cell) => {
+    const column = elements[cell.row]?.columns?.[cell.col];
+    rubberAddPicked.value.forEach((item, i) => {
+      const template = buildCompTemplate(item);
+      const newItem = addCompToCell(
+        column,
+        template,
+        cell.row + "" + cell.col + "" + i,
+        {...rubberPropValues.value},
+      );
+      if (newItem) {
+        added++;
+        lastItem = newItem;
+      }
+    });
+  });
+  if (added > 0) {
+    if (lastItem) {
+      designForm.selectItem(lastItem, lastItem.itemType, lastItem.compType);
+    }
+    ElMessage.success(
+      `${i18n("dyform.container.boxAddCompDone")}（${added}）`,
+    );
+  } else {
+    warning(i18n("dyform.container.boxClearNone"));
+  }
+  rubberAddClose();
+};
+//框选批量编辑属性：把面板全部开关值写入框选单元格内所有组件的 preps
+const rubberEditApply = () => {
+  const elements = props.formItem.preps.elements ?? [];
+  let count = 0;
+  rubberEditCells.value.forEach((cell) => {
+    const column = elements[cell.row]?.columns?.[cell.col];
+    (column?.items ?? []).forEach((item: any) => {
+      if (!item.preps) {
+        item.preps = {};
+      }
+      Object.assign(item.preps, rubberPropValues.value);
+      count++;
+    });
+  });
+  if (count > 0) {
+    ElMessage.success(
+      `${i18n("dyform.container.boxEditPropsDone")}（${count}）`,
+    );
+  } else {
+    warning(i18n("dyform.container.boxClearNone"));
+  }
+  rubberEditClose();
+};
 </script>
 <template>
   <star-horse-panel
@@ -285,9 +576,100 @@ const tableOperation = (actonName: string, _preps: any) => {
     </template>
     <field-list @selectData="addItem" />
   </star-horse-panel>
+  <!--框选添加组件面板：框选单元格后选择组件（左侧，点击记录可多选）并预设基础属性（右侧），点提交逐格添加-->
+  <star-horse-panel
+    box-width="60%"
+    box-height="70%"
+    :source="1"
+    :full-screen="false"
+    :title="i18n('dyform.container.boxAddCompTitle')"
+    :self-func="true"
+    v-model="rubberAddVisible"
+    @merge="rubberAddSubmit"
+    @closeAction="rubberAddClose"
+  >
+    <el-splitter>
+      <el-splitter-panel size="40%">
+        <field-list @selectData="rubberAddSelect" />
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <!--已选组件（点击左侧组件添加/移除，点标签叉移除），提交时才真正添加-->
+        <div class="rubber-picked">
+          <span class="rubber-picked-label"
+            >{{ i18n("dyform.container.boxAddCompPicked") }}：</span
+          >
+          <template v-if="rubberAddPicked.length">
+            <el-tag
+              v-for="(it, i) in rubberAddPicked"
+              :key="it.itemType + it.itemName"
+              closable
+              size="small"
+              @close="rubberAddRemove(i)"
+              >{{ it.itemName }}
+            </el-tag>
+          </template>
+          <span v-else class="rubber-picked-empty">{{
+            i18n("dyform.container.boxAddCompNoPickTip")
+          }}</span>
+        </div>
+        <el-form label-position="top" class="rubber-props-form">
+          <div class="rubber-props-tip">
+            {{ i18n("dyform.container.boxAddPropsTip") }}
+          </div>
+          <el-form-item
+            v-for="prop in basePropList"
+            :key="prop.key"
+            :label="i18n(prop.label)"
+          >
+            <el-switch
+              v-model="rubberPropValues[prop.key]"
+              :active-text="i18n('dyform.props.yes')"
+              :inactive-text="i18n('dyform.props.no')"
+            />
+          </el-form-item>
+        </el-form>
+      </el-splitter-panel>
+    </el-splitter>
+  </star-horse-panel>
+  <!--框选批量编辑属性面板：把面板开关值写入框选单元格内所有组件-->
+  <star-horse-panel
+    box-width="450px"
+    box-height="70%"
+    :source="3"
+    :full-screen="false"
+    :title="i18n('dyform.container.boxEditPropsTitle')"
+    :self-func="true"
+    v-model="rubberEditVisible"
+    @closeAction="rubberEditClose"
+  >
+    <template #footer>
+      <el-button type="primary" size="default" @click="rubberEditApply"
+        >{{ i18n("dyform.container.boxEditPropsApply") }}
+      </el-button>
+    </template>
+    <el-form label-position="top" class="rubber-props-form">
+      <div class="rubber-props-tip">
+        {{ i18n("dyform.container.boxEditPropsTip") }}（{{
+          i18n("dyform.container.boxEditPropsAffect")
+        }}：{{ rubberEditCompCount }}）
+      </div>
+      <el-form-item
+        v-for="prop in basePropList"
+        :key="prop.key"
+        :label="i18n(prop.label)"
+      >
+        <el-switch
+          v-model="rubberPropValues[prop.key]"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
+        />
+      </el-form-item>
+    </el-form>
+  </star-horse-panel>
   <div
     class="field-item"
     :class="{ 'container-collapsed': collapsed }"
+    :data-container-id="formItem?.preps?.id || formItem?.id"
     v-if="isEdit && isDesign"
     @click.stop="selectContainer"
     @contextmenu="containerContextMenu"
@@ -401,6 +783,34 @@ const tableOperation = (actonName: string, _preps: any) => {
             />
           </el-tooltip>
         </template>
+        <template
+          v-if="
+            formItem.itemType == 'dytable' ||
+            formItem.itemType == 'gridtable' ||
+            formItem.itemType == 'box'
+          "
+        >
+          <el-tooltip :content="i18n('dyform.container.boxSelectOperation')">
+            <span
+              class="box-select-icon"
+              @click.stop="startBoxSelectOperation"
+            >
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none">
+                <rect
+                  x="1.5"
+                  y="1.5"
+                  width="13"
+                  height="13"
+                  rx="1.5"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                  stroke-dasharray="3 2"
+                />
+                <path d="M9.5 7.6l4.6 1.8-2.1.8-.8 2.1z" fill="currentColor" />
+              </svg>
+            </span>
+          </el-tooltip>
+        </template>
         <el-tooltip :content="i18n('form.copyContainer')">
           <star-horse-icon
             @click.stop="tableOperation('copy', formItem?.preps)"
@@ -427,6 +837,47 @@ const tableOperation = (actonName: string, _preps: any) => {
 .field-item {
   border: 1px dashed #e6a23c;
   position: relative;
+  width: 100%;
+}
+/* 框选添加组件面板：已选组件标签区 */
+.rubber-picked {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px 0;
+  .rubber-picked-label {
+    font-size: 12px;
+    color: #909399;
+  }
+  .rubber-picked-empty {
+    font-size: 12px;
+    color: #c0c4cc;
+  }
+}
+/* 框选属性设置/批量编辑表单 */
+.rubber-props-form {
+  padding: 0 12px;
+  .rubber-props-tip {
+    font-size: 12px;
+    color: #909399;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+}
+/* 容器工具栏"框选"入口图标（虚线选框+光标，与其他工具栏图标尺寸一致） */
+.box-select-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: var(--star-horse-white);
+  cursor: pointer;
+  border-radius: 2px;
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
 }
 
 /* ── Collapse/Expand ── */

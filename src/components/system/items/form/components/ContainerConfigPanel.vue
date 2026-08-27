@@ -308,38 +308,44 @@ watch(
                 </template>
                 <!-- 栅格列配置 -->
                 <template v-if="isGrid">
-                  <div class="expand-section-title">
-                    {{ i18n("dyform.container.cfg.columnsConfig") }}
-                  </div>
-                  <div
-                    v-for="(col, ci) in row.columns"
-                    :key="col.id"
-                    class="col-row"
-                  >
-                    <span class="col-label"
-                      >{{ i18n("dyform.container.cfg.column")
-                      }}{{ ci + 1 }}</span
+                  <div class="grid-col-section">
+                    <div
+                      v-for="(col, ci) in row.columns"
+                      :key="col.id"
+                      class="grid-col-block"
                     >
-                    <template v-for="d in gridColDefs" :key="d.fieldName">
-                      <span class="col-field-label">{{ d.label }}</span>
-                      <el-input-number
-                        v-model="col[d.fieldName]"
-                        :min="d.min"
-                        :max="d.max"
-                        :step="d.step || 1"
+                      <el-descriptions
+                        border
+                        :title="i18n('dyform.container.cfg.column') + (ci + 1)"
+                        :column="3"
                         :size="compSize"
-                        controls-position="right"
-                        style="width: 120px"
-                      />
-                    </template>
-                    <el-button
-                      :size="compSize"
-                      type="danger"
-                      plain
-                      icon="Delete"
-                      @click="removeColumn(row, ci)"
-                      style="margin-left: 12px"
-                    />
+                      >
+                        <template #extra>
+                          <el-button
+                            :size="compSize"
+                            type="danger"
+                            plain
+                            icon="Delete"
+                            @click="removeColumn(row, ci)"
+                          />
+                        </template>
+                        <el-descriptions-item
+                          v-for="d in gridColDefs"
+                          :key="d.fieldName"
+                          :label="d.label"
+                        >
+                          <el-input-number
+                            v-model="col[d.fieldName]"
+                            :min="d.min"
+                            :max="d.max"
+                            :step="d.step || 1"
+                            :size="compSize"
+                            controls-position="right"
+                            style="width: 100%"
+                          />
+                        </el-descriptions-item>
+                      </el-descriptions>
+                    </div>
                   </div>
                   <el-button
                     :size="compSize"
@@ -360,7 +366,6 @@ watch(
             v-for="f in commonListFields"
             :key="f.fieldName"
             :label="f.label"
-            :min-width="200"
           >
             <template #default="{ row }">
               <template v-if="isFieldVisible(f.fieldName, row)">
@@ -401,7 +406,6 @@ watch(
           <el-table-column
             v-if="isGrid"
             :label="i18n('dyform.container.cfg.columnCount')"
-            width="80"
             align="center"
           >
             <template #default="{ row }">{{
@@ -552,51 +556,29 @@ watch(
   border-radius: 6px;
 }
 
-.expand-section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--el-text-color-secondary);
-  margin-bottom: 8px;
 
-  &:not(:first-child) {
-    margin-top: 12px;
+.grid-col-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.grid-col-block {
+  background: var(--el-bg-color);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+
+  :deep(.el-descriptions__title) {
+    font-size: 13px;
+    padding:0 15px;
   }
-}
 
-.expand-fields {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 20px;
-}
-
-.expand-field-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.expand-field-label {
-  font-size: 13px;
-  white-space: nowrap;
-  color: var(--el-text-color-regular);
-}
-
-.col-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.col-label {
-  font-size: 13px;
-  font-weight: 500;
-  min-width: 44px;
-}
-
-.col-field-label {
-  font-size: 12px;
-  color: var(--el-text-color-secondary);
+  :deep(.el-descriptions__body) {
+    .el-descriptions__cell {
+      padding: 6px 10px;
+    }
+  }
 }
 
 .text-muted {

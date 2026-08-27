@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import {computed, onMounted, PropType, ref, watch} from "vue";
+import {computed, nextTick, onMounted, PropType, ref, watch} from "vue";
+import {ElMessage} from "element-plus";
 import {tableAction} from "@/components/formcomp/container/dytableUtils";
 import {tableAction as gridtableAction} from "@/components/formcomp/container/gridtableUtils";
 import {i18n} from "@/lang";
 import {getDesignFormStore} from "@/store/StoreManager";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import {CellRubberBand} from "@/components/formcomp/utils/CellRubberBand";
 import {numberRangeItem, uuid, warning} from "star-horse-lowcode";
 import camelcase from "camelcase";
 
@@ -114,6 +116,8 @@ const configDialog = ref<boolean>(false);
 const staticDataConfigDialog = ref<boolean>(false);
 const componentVisible = ref<boolean>(false);
 const currentCommand = ref<string>("");
+//框选模式下弹窗临时隐藏：此时禁止 close() 清空表单状态，待框选结束恢复弹窗
+const rubberActive = ref<boolean>(false);
 const handleTableCellCommand = (command: string) => {
   currentCommand.value = command;
   if (command.includes("Config")) {
@@ -152,12 +156,146 @@ const handleTableCellCommand = (command: string) => {
   }
 };
 const close = () => {
+  if (rubberActive.value) {
+    //框选期间弹窗被程序隐藏触发的关闭回调，直接忽略，状态保留待恢复
+    return;
+  }
   configDialog.value = false;
   staticDataConfigDialog.value = false;
   componentVisible.value = false;
   currentItem.value = null;
   fieldForm.value = {};
 };
+//框选回填标记：回填期间触发的 unlinkRows/unlinkCols 变化不算手动编辑，不清除精确单元格
+let rubberFilling = false;
+/**
+ * 框选单元格：临时隐藏添加组件弹窗（保留已选组件与表单状态），在当前单元格所在容器上
+ * 拖拽框选并自动回填行/列——连续模式填 linkRows/linkCols 的起止值；非连续模式按单元格精确记忆
+ * （Excel 语义，每次框选只累积自己覆盖的格子，行/列不交叉扩散）：unlinkRows/unlinkCols 回填
+ * 行/列并集便于查看，unlinkCells 保存精确格子，提交时优先按其逐格添加。
+ */
+const startRubberSelect = () => {
+  const containerId =
+    props.parentField?.preps?.id || props.parentField?.id || "";
+  const isContinuous = fieldForm.value.configRowType == "linkRows";
+  //输入框中的行列号为 1-based（提交逻辑按 -1 取下标），框选器内部以 DOM 的 0-based 行列为准，
+  //带入初始值时 -1 转换，回填结果时 +1 还原，保证框选所见与输入框/提交语义一致
+  const toZeroBased = (list: any) =>
+    (list ?? [])
+      .map((v: any) => parseInt(v))
+      .filter((n: number) => !isNaN(n) && n > 0)
+      .map((n: number) => n - 1);
+  //带入初始已选单元格：优先用上次框选的精确结果，否则按输入框行/列的笛卡尔积（手动输入语义）
+  const initialCells = (() => {
+    const precise = fieldForm.value.unlinkCells ?? [];
+    if (precise.length > 0) {
+      return precise.map((c: any) => ({row: c.row - 1, col: c.col - 1}));
+    }
+    const cells: Array<{row: number; col: number}> = [];
+    toZeroBased(fieldForm.value.unlinkRows).forEach((r: number) =>
+      toZeroBased(fieldForm.value.unlinkCols).forEach((c: number) =>
+        cells.push({row: r, col: c}),
+      ),
+    );
+    return cells;
+  })();
+  rubberActive.value = true;
+  componentVisible.value = false;
+  const started = CellRubberBand.start({
+    containerId,
+    mode: isContinuous ? "continuous" : "discrete",
+    initialCells: isContinuous ? [] : initialCells,
+    onFinish: (rows, cols, cells) => {
+      rubberActive.value = false;
+      if (isContinuous) {
+        if (rows.length > 0) {
+          fieldForm.value.linkRowsMin = Math.min(...rows) + 1;
+          fieldForm.value.linkRowsMax = Math.max(...rows) + 1;
+          fieldForm.value.linkColsMin = Math.min(...cols) + 1;
+          fieldForm.value.linkColsMax = Math.max(...cols) + 1;
+        }
+        //切换到连续模式后，之前非连续框选的精确单元格不再生效
+        fieldForm.value.unlinkCells = [];
+      } else {
+        rubberFilling = true;
+        fieldForm.value.unlinkRows = [...new Set(rows.map((r) => r + 1))]
+          .sort((a, b) => a - b)
+          .map(String);
+        fieldForm.value.unlinkCols = [...new Set(cols.map((c) => c + 1))]
+          .sort((a, b) => a - b)
+          .map(String);
+        //精确单元格（1-based），提交时优先按其添加，避免行/列并集交叉扩散到未框选的格子
+        fieldForm.value.unlinkCells = cells.map((c) => ({
+          row: c.row + 1,
+          col: c.col + 1,
+        }));
+        nextTick(() => {
+          rubberFilling = false;
+        });
+      }
+      componentVisible.value = true;
+    },
+    onCancel: () => {
+      rubberActive.value = false;
+      componentVisible.value = true;
+    },
+  });
+  if (!started) {
+    //容器 DOM 定位失败（如容器被折叠销毁），恢复弹窗
+    rubberActive.value = false;
+    componentVisible.value = true;
+    warning(i18n("dyform.container.rubberContainerNotFound"));
+  } else {
+    //进入框选模式的即时操作指引（提示条常驻，此消息用于强化引导）
+    ElMessage.info({
+      message: isContinuous
+        ? i18n("dyform.container.rubberContinuousTip")
+        : i18n("dyform.container.rubberDiscreteTip"),
+      duration: 4000,
+      showClose: true,
+    });
+  }
+};
+//手动编辑行/列输入框后，框选产生的精确单元格失效（提交回退为输入框行/列的笛卡尔积语义）
+watch(
+  () => [fieldForm.value.unlinkRows, fieldForm.value.unlinkCols],
+  () => {
+    if (rubberFilling) {
+      return;
+    }
+    if (fieldForm.value.unlinkCells?.length) {
+      fieldForm.value.unlinkCells = [];
+    }
+  },
+);
+//切离非连续模式时精确单元格同样失效
+watch(
+  () => fieldForm.value.configRowType,
+  (v) => {
+    if (v != "unlinkRows" && fieldForm.value.unlinkCells?.length) {
+      fieldForm.value.unlinkCells = [];
+    }
+  },
+);
+//框选明细（精确到 行: 列），与 unlinkRows/unlinkCols 输入框的并集展示互补
+const unlinkCellDetail = computed(() => {
+  const cells = fieldForm.value.unlinkCells ?? [];
+  const byRow = new Map<number, Array<number>>();
+  cells.forEach((c: any) => {
+    const cols = byRow.get(c.row) ?? [];
+    cols.push(c.col);
+    byRow.set(c.row, cols);
+  });
+  return [...byRow.keys()]
+    .sort((a, b) => a - b)
+    .map((row) => {
+      const cols = [...new Set(byRow.get(row))]
+        .sort((a, b) => a - b)
+        .join(",");
+      return `${i18n("dyform.container.rubberRowShort")}${row}: ${i18n("dyform.container.rubberColShort")}${cols}`;
+    })
+    .join("；");
+});
 const operationCell = (endCol: number, endRow: number, columns: any) => {
   const elements = props.parentField.preps.elements;
   //将当前行合并的单元格的可见改为false
@@ -343,14 +481,18 @@ const compAddOperation = (type: string) => {
       }
     }
   } else if (configRowType == "unlinkRows") {
-    let unlinkRows = fieldForm.value.unlinkRows ?? [];
-    let unLinkCols = fieldForm.value.unlinkCols ?? [];
-    for (let nums in unlinkRows) {
-      const tempRow = parseInt(unlinkRows[nums]) - 1;
-      element = elements[tempRow];
-      columns = element.columns;
-      for (let col of unLinkCols) {
-        const tempCol = parseInt(unLinkCols[col]) - 1;
+    const unlinkCells = fieldForm.value.unlinkCells ?? [];
+    if (unlinkCells.length > 0) {
+      //框选产生的精确单元格（行/列绑定，Excel 语义）：仅添加框选命中的格子，
+      //避免行/列并集做笛卡尔积扩散到未框选的格子
+      for (let cell of unlinkCells) {
+        const tempRow = cell.row - 1;
+        const tempCol = cell.col - 1;
+        element = elements[tempRow];
+        if (!element || !element.columns[tempCol]) {
+          continue;
+        }
+        columns = element.columns;
         if (
           fieldForm.value.copyCurrentItem &&
           tempRow == props.rowIndex &&
@@ -363,6 +505,34 @@ const compAddOperation = (type: string) => {
           currentItem.value,
           tempRow + "" + tempCol,
         );
+      }
+    } else {
+      //手动输入的行/列（笛卡尔积语义，原有行为）
+      let unlinkRows = fieldForm.value.unlinkRows ?? [];
+      let unLinkCols = fieldForm.value.unlinkCols ?? [];
+      for (let nums in unlinkRows) {
+        const tempRow = parseInt(unlinkRows[nums]) - 1;
+        element = elements[tempRow];
+        if (!element) {
+          continue;
+        }
+        columns = element.columns;
+        for (let col of unLinkCols) {
+          //注意：col 已经是值（如 "3"），直接解析即可，之前误用值当索引导致取错列
+          const tempCol = parseInt(col) - 1;
+          if (
+            fieldForm.value.copyCurrentItem &&
+            tempRow == props.rowIndex &&
+            tempCol == props.colIndex
+          ) {
+            continue;
+          }
+          addCompOperation(
+            columns[tempCol],
+            currentItem.value,
+            tempRow + "" + tempCol,
+          );
+        }
       }
     }
   } else {
@@ -447,6 +617,24 @@ watch(
               </el-select>
             </el-descriptions-item>
             <el-descriptions-item
+              :label="i18n('dyform.container.rubberSelect')"
+              v-if="
+                fieldForm.configRowType == 'linkRows' ||
+                fieldForm.configRowType == 'unlinkRows'
+              "
+            >
+              <div class="rubber-select-entry">
+                <el-button size="small" type="primary" plain @click="startRubberSelect">
+                  {{ i18n("dyform.container.rubberSelect") }}
+                </el-button>
+                <span class="rubber-select-tip">{{
+                  fieldForm.configRowType == "linkRows"
+                    ? i18n("dyform.container.rubberSelectTipLink")
+                    : i18n("dyform.container.rubberSelectTipUnlink")
+                }}</span>
+              </div>
+            </el-descriptions-item>
+            <el-descriptions-item
               :label="i18n('dyform.container.copyCurrentComponent')"
               v-if="
                 currentCell?.items?.length > 0 &&
@@ -493,6 +681,15 @@ watch(
               v-if="fieldForm.configRowType == 'unlinkRows'"
             >
               <el-input-tag v-model="fieldForm.unlinkCols" />
+            </el-descriptions-item>
+            <el-descriptions-item
+              :label="i18n('dyform.container.rubberDetailLabel')"
+              v-if="
+                fieldForm.configRowType == 'unlinkRows' &&
+                fieldForm.unlinkCells?.length
+              "
+            >
+              <span class="rubber-cell-detail">{{ unlinkCellDetail }}</span>
             </el-descriptions-item>
             <el-descriptions-item
               label-position="left"
@@ -867,5 +1064,20 @@ watch(
 <style scoped lang="scss">
 :deep(.field-item) {
   cursor: pointer;
+}
+.rubber-select-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  .rubber-select-tip {
+    font-size: 12px;
+    color: #909399;
+  }
+}
+.rubber-cell-detail {
+  font-size: 12px;
+  color: #67c23a;
+  word-break: break-all;
 }
 </style>

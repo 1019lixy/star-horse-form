@@ -105,6 +105,9 @@ onMounted(() => {});
 <template>
   <div
     class="gridtable-cell edit_col"
+    :data-cell-id="field?.id"
+    :data-row-index="rowIndex"
+    :data-col-index="colIndex"
     :class="{
       'dragging-area': isDragging,
       'no-drag': !isDesign,

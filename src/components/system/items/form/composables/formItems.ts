@@ -4004,26 +4004,5 @@ export const formItems: CompType[] = [
     actions: [],
     preps: [],
   },
-  {
-    itemName: i18n("dyform.item.310"),
-    itemType: "dialog",
-    itemIcon: "map",
-    category: 1,
-    fields: dialogAndDrawerFields,
-    advancedFields: [],
-    selfFields: [],
-    actions: [],
-    preps: [],
-  },
-  {
-    itemName: i18n("dyform.item.311"),
-    itemType: "drawer",
-    itemIcon: "map",
-    category: 1,
-    fields: dialogAndDrawerFields,
-    advancedFields: [],
-    selfFields: [],
-    actions: [],
-    preps: [],
-  },
+
 ];
