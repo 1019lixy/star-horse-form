@@ -68,10 +68,10 @@
                   <span class="gc-op">{{ getOperatorSymbol(gc.operator) }}</span>
                   <span class="gc-val">{{ gc.value || "-" }}</span>
                   <div class="gc-actions">
-                    <el-button type="primary" link size="small" @click.stop="editGroupCond(index, gIdx)">
+                    <el-button type="primary" link size="small" @click.stop="editGroupCond(index, Number(gIdx))">
                       <el-icon><Edit /></el-icon>
                     </el-button>
-                    <el-button type="danger" link size="small" @click.stop="removeGroupCond(index, gIdx)">
+                    <el-button type="danger" link size="small" @click.stop="removeGroupCond(index, Number(gIdx))">
                       <el-icon><Delete /></el-icon>
                     </el-button>
                   </div>

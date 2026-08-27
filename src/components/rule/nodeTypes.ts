@@ -239,18 +239,19 @@ export function configureRuleNodes(opts: ConfigureRuleNodesOptions): void {
     }
   }
   if (opts.extraNodes) {
-    const {categoryName, icon, color, nodes} = opts.extraNodes;
-    let cat = findCategory(categoryName);
-    if (!cat) {
-      cat = {
-        name: categoryName,
-        icon: icon || "🧩",
-        color: color || "#64748b",
-        nodes: [],
-      };
-      registry.value.push(cat);
+    for (const {categoryName, icon, color, nodes} of opts.extraNodes) {
+      let cat = findCategory(categoryName);
+      if (!cat) {
+        cat = {
+          name: categoryName,
+          icon: icon || "🧩",
+          color: color || "#64748b",
+          nodes: [],
+        };
+        registry.value.push(cat);
+      }
+      cat.nodes.push(...nodes);
     }
-    cat.nodes.push(...nodes);
   }
   if (opts.disabledNodeTypes?.length) {
     disableRuleNodeTypes(opts.disabledNodeTypes);

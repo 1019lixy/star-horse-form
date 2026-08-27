@@ -234,3 +234,9 @@ app.mount('#app')
 ```
 --增加规则引擎
 ```
+### v2.3.0
+
+```
+--修复已知bug,增加descriptions,fieldset,step,drawer,dialog 等容器
+```
+

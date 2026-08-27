@@ -70,7 +70,7 @@ const dataLoadConditionList = ref<Array<SelectOption>>([]);
 const primaryKeyPolicyList = ref<Array<SelectOption>>([]);
 const buttonPermissionsList = ref<Array<SelectOption>>([]);
 const tableFieldInfo = ref<PageFieldInfo>({
-  containerType: "table",
+  // containerType: "table",
   containerFields: [
     {
       subTableName: "tableNameList",
@@ -93,7 +93,7 @@ const tableFieldInfo = ref<PageFieldInfo>({
           required: true,
         },
       ],
-    },
+    } as any,
   ],
 });
 const configFieldInfo = ref<PageFieldInfo>({

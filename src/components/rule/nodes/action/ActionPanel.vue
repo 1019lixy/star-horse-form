@@ -17,10 +17,10 @@
         <span class="item-field">{{ act.targetField || "-" }}</span>
       </div>
       <div class="item-actions">
-        <el-button link @click="emit('configure', idx)">
+        <el-button link @click="emit('configure', Number(idx))">
           <el-icon><Edit /></el-icon>
         </el-button>
-        <el-button link type="danger" @click="removeItem(idx)">
+        <el-button link type="danger" @click="removeItem(Number(idx))">
           <el-icon><Delete /></el-icon>
         </el-button>
       </div>

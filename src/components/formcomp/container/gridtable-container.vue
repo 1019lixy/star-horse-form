@@ -260,9 +260,9 @@ const wrapperStyle = computed(() => {
           <div
             v-if="shouldShowLineNumber"
             class="gridtable-line-number no-cell"
-            :style="{ gridColumn: '1', gridRow: `${rowIndex + 1}` }"
+            :style="{ gridColumn: '1', gridRow: `${Number(rowIndex) + 1}` }"
           >
-            {{ rowIndex + 1 }}
+            {{ Number(rowIndex) + 1 }}
           </div>
           <template
             v-for="(td, colIndex) in row.columns"

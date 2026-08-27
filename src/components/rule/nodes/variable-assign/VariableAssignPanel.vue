@@ -18,7 +18,7 @@
         }}</span>
       </div>
       <div class="item-actions">
-        <el-button link type="danger" @click="removeItem(idx)">
+        <el-button link type="danger" @click="removeItem(Number(idx))">
           <el-icon><Delete /></el-icon>
         </el-button>
       </div>

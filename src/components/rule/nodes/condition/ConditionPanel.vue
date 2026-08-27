@@ -31,17 +31,17 @@
           <el-radio-group
             :model-value="item.logic"
             size="small"
-            @change="(v: any) => updateGroupLogic(idx, v)"
+            @change="(v: any) => updateGroupLogic(Number(idx), v)"
           >
             <el-radio-button value="AND">AND</el-radio-button>
             <el-radio-button value="OR">OR</el-radio-button>
           </el-radio-group>
-          <span class="group-label">#{{ idx + 1 }}</span>
+          <span class="group-label">#{{ Number(idx) + 1 }}</span>
           <div class="group-actions">
-            <el-button link size="small" @click="addConditionToGroup(idx)">
+            <el-button link size="small" @click="addConditionToGroup(Number(idx))">
               <el-icon><Plus /></el-icon>
             </el-button>
-            <el-button link size="small" type="danger" @click="removeGroup(idx)">
+            <el-button link size="small" type="danger" @click="removeGroup(Number(idx))">
               <el-icon><Delete /></el-icon>
             </el-button>
           </div>
@@ -66,10 +66,10 @@
             }}</span>
           </div>
           <div class="item-actions">
-            <el-button link @click="editGroupCondition(idx, cIdx)">
+            <el-button link @click="editGroupCondition(Number(idx), Number(cIdx))">
               <el-icon><Edit /></el-icon>
             </el-button>
-            <el-button link type="danger" @click="removeGroupCondition(idx, cIdx)">
+            <el-button link type="danger" @click="removeGroupCondition(Number(idx), Number(cIdx))">
               <el-icon><Delete /></el-icon>
             </el-button>
           </div>
@@ -86,10 +86,10 @@
           }}</span>
         </div>
         <div class="item-actions">
-          <el-button link @click="editCondition(idx)">
+          <el-button link @click="editCondition(Number(idx))">
             <el-icon><Edit /></el-icon>
           </el-button>
-          <el-button link type="danger" @click="removeCondition(idx)">
+          <el-button link type="danger" @click="removeCondition(Number(idx))">
             <el-icon><Delete /></el-icon>
           </el-button>
         </div>
