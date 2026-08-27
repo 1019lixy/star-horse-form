@@ -1,5 +1,5 @@
 import {getCopyerOperationStore, getDesignFormStore,} from "@/store/StoreManager";
-import {DynamicNode, uuid} from "star-horse-lowcode";
+import {uuid} from "star-horse-lowcode";
 import {computed, reactive} from "vue";
 import {i18n} from "@/lang";
 import camelcase from "camelcase";
