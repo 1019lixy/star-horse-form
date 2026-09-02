@@ -115,4 +115,12 @@ export interface FormConfig {
    * 获取所有的数据源信息
    */
   loadDbList?: () => Promise<SelectOption[]>;
+  /**
+   * 流程定义选项（表单级流程绑定用，外部直接注入静态列表）
+   */
+  flowDefineOptions?: SelectOption[];
+  /**
+   * 加载流程定义列表（表单级流程绑定用，外部注入加载能力）
+   */
+  loadFlowDefines?: () => Promise<SelectOption[]>;
 }

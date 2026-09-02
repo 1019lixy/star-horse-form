@@ -10,20 +10,20 @@ import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue
 
 let containerTableRef = ref(); // 强制刷新表格
 const props = defineProps({
-  parentField: { type: Object as PropType<any> },
-  isDesign: { type: Boolean, default: false },
-  showFormItem: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  formInfo: { type: Object as PropType<any> },
-  field: { type: Object as PropType<any> },
-  compSize: { type: String, default: "default" },
+  parentField: {type: Object as PropType<any>},
+  isDesign: {type: Boolean, default: false},
+  showFormItem: {type: Boolean, default: false},
+  disabled: {type: Boolean, default: false},
+  formInfo: {type: Object as PropType<any>},
+  field: {type: Object as PropType<any>},
+  compSize: {type: String, default: "default"},
 });
 let designForm = getDesignFormStore();
 let isEdit = computed(() => props.isDesign);
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 const rowHeight = useRowHeight(() => props.compSize);
-const { moveHandler, guardAdd } = useDropGuard("table");
+const {moveHandler, guardAdd} = useDropGuard("table");
 const staticColumn = computed(() => props.field?.preps?.staticColumn || "N");
 const dialogType = computed(() => props.field?.preps?.dialogType || "dialog");
 const onDragAdd = (evt: Event | any, dataList: any) => {
@@ -40,7 +40,7 @@ const analysisData = (index: number) => {
   const elements = columnElements.value;
   const col = elements.find((item: any) => item.colIndex == index);
   if (index > 1 && !col) {
-    elements.push({ colIndex: index, items: [] });
+    elements.push({colIndex: index, items: []});
   }
   return col?.items[0]?.preps?.label || `Title${index}`;
 };
@@ -71,45 +71,45 @@ const deleteCol = (index: number) => {
 </script>
 <template>
   <group-container
-    class="star-horse-form-container"
-    :showFormItem="showFormItem"
-    :isDesign="isDesign"
-    :disabled="disabled"
-    :parentField="parentField"
-    :form-item="field"
+      class="star-horse-form-container"
+      :showFormItem="showFormItem"
+      :isDesign="isDesign"
+      :disabled="disabled"
+      :parentField="parentField"
+      :form-item="field"
   >
     <div v-if="isDesign && staticColumn === 'Y'" class="table-edit-mode-hint">
-      <star-horse-icon icon-class="edit" color="var(--el-color-primary)" />
+      <star-horse-icon icon-class="edit" color="var(--el-color-primary)"/>
       <span
-        >{{
+      >{{
           dialogType === "drawer"
-            ? i18n("dyform.container.cfg.tableDialogTypeDrawer")
-            : i18n("dyform.container.cfg.tableDialogTypeDialog")
+              ? i18n("dyform.container.cfg.tableDialogTypeDrawer")
+              : i18n("dyform.container.cfg.tableDialogTypeDialog")
         }}{{ i18n("dyform.container.cfg.tableStaticColumnY") }}</span
       >
     </div>
     <table
-      ref="containerTableRef"
-      class="dynamic-table"
-      :class="{ 'striped-table': field.preps['striped'] }"
-      :border="
+        ref="containerTableRef"
+        class="dynamic-table"
+        :class="{ 'striped-table': field.preps['striped'] }"
+        :border="
         field.preps['tableBorder'] !== undefined
           ? field.preps['tableBorder']
             ? 1
             : 0
           : 1
       "
-      :cellpadding="
+        :cellpadding="
         field.preps['cellpadding'] !== undefined
           ? field.preps['cellpadding']
           : 5
       "
-      :cellspacing="
+        :cellspacing="
         field.preps['cellspacing'] !== undefined
           ? field.preps['cellspacing']
           : 0
       "
-      :style="{
+        :style="{
         width: field.preps['tableWidth'] || '100%',
         border:
           isEdit && isDesign
@@ -120,30 +120,31 @@ const deleteCol = (index: number) => {
       }"
     >
       <thead class="container-thead" v-if="field.preps['showHeader'] !== false">
-        <tr>
-          <th
+      <tr>
+        <th
             v-for="td of columnCount"
             @mouseenter="(evt) => tdOver(evt, td)"
             @mouseleave="(evt) => tdOut(evt)"
-          >
-            <div class="td-operator" v-if="currentIndex == td && isDesign">
-              <el-tooltip :content="i18n('dyform.comp.container.441')">
-                <star-horse-icon
+        >
+          <div class="td-operator" v-if=" isDesign">
+            <el-tooltip :content="i18n('dyform.comp.container.441')">
+              <star-horse-icon
+                  size="15px"
                   icon-class="delete"
                   cursor="pointer"
                   color="var(--el-color-danger)"
                   @click="deleteCol(td)"
-                />
-              </el-tooltip>
-            </div>
-            {{ analysisData(td) }}
-          </th>
-        </tr>
+              />
+            </el-tooltip>
+          </div>
+          {{ analysisData(td) }}
+        </th>
+      </tr>
       </thead>
       <tbody>
-        <tr class="dy-tr">
-          <template v-for="td of columnCount">
-            <td
+      <tr class="dy-tr">
+        <template v-for="td of columnCount">
+          <td
               :style="{
                 width: field.colWidth || '100%',
                 height: field.colHeight || rowHeight,
@@ -157,8 +158,8 @@ const deleteCol = (index: number) => {
               }"
               @mouseenter="(evt) => tdOver(evt, td)"
               @mouseleave="(evt) => tdOut(evt)"
-            >
-              <draggable
+          >
+            <draggable
                 @add="
                   (evt: Event) =>
                     onDragAdd(evt, field.preps.elements[td - 1].items)
@@ -171,23 +172,23 @@ const deleteCol = (index: number) => {
                 animation="200"
                 item-key="id"
                 :list="field.preps.elements[td - 1].items"
-              >
-                <template #item="{ element: data }">
-                  <div
+            >
+              <template #item="{ element: data }">
+                <div
                     :class="{
                       'comp-item': data?.preps?.headerFlag != 'Y',
                       'bare-item': data?.preps?.headerFlag,
                     }"
                     :data-field-id="data?.id"
                     style="height: 100%"
-                  >
-                    <DesignItemWrapper
+                >
+                  <DesignItemWrapper
                       :field="data"
                       :isDesign="isDesign"
                       :parentField="field"
                       :disabled="disabled"
-                    >
-                      <component
+                  >
+                    <component
                         :key="data?.id"
                         :field="data"
                         :showFormItem="showFormItem"
@@ -197,14 +198,14 @@ const deleteCol = (index: number) => {
                         :is="itemCheck(data)"
                         :parentField="field"
                         v-model:formData="formData"
-                      />
-                    </DesignItemWrapper>
-                  </div>
-                </template>
-              </draggable>
-            </td>
-          </template>
-        </tr>
+                    />
+                  </DesignItemWrapper>
+                </div>
+              </template>
+            </draggable>
+          </td>
+        </template>
+      </tr>
       </tbody>
     </table>
   </group-container>

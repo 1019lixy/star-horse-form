@@ -2,9 +2,10 @@
 import {computed, onMounted, reactive, ref, watch} from "vue";
 import {i18n} from "@/lang";
 import type {ItemType} from "star-horse-lowcode";
-import {uuid} from "star-horse-lowcode";
+import {uuid, StarHorseDataSelector} from "star-horse-lowcode";
 import {deepClone} from "@/api/system";
 import {formContainer} from "@/components/system/items/form/composables/formContainer";
+import FlowNodeConfigPanel from "@/components/system/items/form/components/FlowNodeConfigPanel.vue";
 
 defineOptions({ name: "ContainerConfigPanel" });
 
@@ -112,6 +113,48 @@ const isFieldVisible = (fieldName: string, row: any): boolean => {
   return true;
 };
 
+/** userSelector 字段的可选项（dataUrl 配置在字段 configParams，未配置时允许手输） */
+const selectorProps = (f: ItemType) => {
+  const cp = f.configParams?.[0] || {};
+  return {
+    multiple: !!cp.multiple,
+    dataUrl: cp.dataUrl,
+    params: cp.params,
+    displayName: cp.displayName || "name",
+    displayValue: cp.displayValue || "value",
+  };
+};
+
+/** 流程节点配置面板字段（flowNode 类型特殊渲染，不进常规 descriptions） */
+const flowNodeFields = computed(() =>
+  listFields.value.filter((f) => f.fieldType === "flowNode"),
+);
+
+/**
+ * 递归提取分段内的可绑定字段（叶子组件的 fieldName+label），
+ * 供流程节点配置面板做字段绑定与"表单字段取人"下拉
+ */
+const extractFields = (items: any[]): { fieldName: string; label: string }[] => {
+  const out: { fieldName: string; label: string }[] = [];
+  const walk = (list: any[]) => {
+    (list || []).forEach((el) => {
+      if (el?.fieldName) {
+        out.push({ fieldName: el.fieldName, label: el.label || el.fieldName });
+      }
+      // 容器递归：box/tab 等的 items、gridtable 的列 items、嵌套容器的 elements
+      if (Array.isArray(el.items)) walk(el.items);
+      if (Array.isArray(el.columns)) {
+        el.columns.forEach((c: any) => walk(c?.items || []));
+      }
+      if (Array.isArray(el.elements)) {
+        el.elements.forEach((e: any) => walk(e?.items || []));
+      }
+    });
+  };
+  walk(items || []);
+  return out;
+};
+
 // ==================== 数据 ====================
 const containerProps = reactive<Record<string, any>>({});
 const localElements = ref<any[]>([]);
@@ -148,6 +191,8 @@ const createNewElement = () => {
       const { active } = switchValues(f);
       el[f.fieldName] = active;
     } else if (f.fieldType === "number") el[f.fieldName] = undefined;
+    else if (f.fieldType === "userSelector") el[f.fieldName] = [];
+    else if (f.fieldType === "flowNode") el[f.fieldName] = createFlowCfg();
     else if (f.fieldName === "label")
       el[f.fieldName] = `${containerDef.value?.itemName || "Item"}${idx}`;
     else if (f.fieldName === "subTablePrimaryKey")
@@ -205,6 +250,18 @@ const removeColumn = (row: any, ci: number) => row.columns.splice(ci, 1);
 // ==================== 公共API ====================
 let currentDataKey = "elements";
 
+/** flowNode 字段缺省配置结构（新建分段与旧数据补齐共用） */
+const createFlowCfg = () => ({
+  flowFlag: "N",
+  paramFields: [],
+  assigneeType: "starter_pick",
+  assigneeField: "",
+  assigneeValue: [],
+  ccValue: [],
+  visibleScope: "prev_and_self",
+  rejectPolicy: "to_prev",
+});
+
 const setFormData = (data: any) => {
   initContainerProps(data);
   currentDataKey = detectDataKey(data);
@@ -212,6 +269,16 @@ const setFormData = (data: any) => {
     localElements.value = deepClone(data[currentDataKey]);
   } else {
     localElements.value = [];
+  }
+  // 旧模板分段缺 flowConfig 时补齐缺省结构，保证面板 v-model 绑定到有效响应式对象
+  if (flowNodeFields.value.length) {
+    localElements.value.forEach((el: any) => {
+      flowNodeFields.value.forEach((f) => {
+        if (!el[f.fieldName] || typeof el[f.fieldName] !== "object") {
+          el[f.fieldName] = createFlowCfg();
+        }
+      });
+    });
   }
 };
 
@@ -257,7 +324,7 @@ watch(
           <el-table-column v-if="hasExpand" type="expand" width="38">
             <template #default="{ row }">
               <div class="expand-body">
-                <!-- 特殊字段 -->
+                <!-- 特殊字段（应用 showFields 联动；flowNode 类型面板单独渲染） -->
                 <template v-if="expandFields.length">
                   <el-descriptions
                     :title="i18n('dyform.container.cfg.specialParams')"
@@ -267,11 +334,21 @@ watch(
                     label-width="150px"
                   >
                     <el-descriptions-item
-                      v-for="f in expandFields"
-                      :label="f.label"
+                      v-for="f in expandFields.filter(
+                        (x) =>
+                          x.fieldType !== 'flowNode' &&
+                          isFieldVisible(x.fieldName, row),
+                      )"
                       :key="f.fieldName"
                       label-align="right"
                     >
+                      <template #label>
+                        <span
+                          :title="f.remark"
+                          style="cursor: help; text-decoration: underline dotted"
+                          >{{ f.label }}</span
+                        >
+                      </template>
                       <el-input
                         v-if="f.fieldType === 'input'"
                         v-model="row[f.fieldName]"
@@ -303,8 +380,34 @@ watch(
                           :value="opt.value"
                         />
                       </el-select>
+                      <!-- 人员/编码选择器：经办人、抄送人等，支持手输与列表选择 -->
+                      <StarHorseDataSelector
+                        v-else-if="f.fieldType === 'userSelector'"
+                        v-model="row[f.fieldName]"
+                        v-bind="selectorProps(f)"
+                        :comp-size="compSize"
+                        allow-create
+                        :placeholder="
+                          i18n('dyform.step.flowSelectorTip')
+                        "
+                        style="width: 100%"
+                      />
                     </el-descriptions-item>
                   </el-descriptions>
+                </template>
+
+                <!-- 流程节点配置面板：传入当前分段字段列表，组件内完成字段绑定+流转设置 -->
+                <template v-if="flowNodeFields.length">
+                  <FlowNodeConfigPanel
+                    v-for="f in flowNodeFields"
+                    :key="f.fieldName"
+                    v-model="row[f.fieldName]"
+                    :fields="extractFields(row.items)"
+                    :node-key="row.subTablePrimaryKey"
+                    :node-name="row.label"
+                    :comp-size="compSize"
+                    style="margin-top: 12px"
+                  />
                 </template>
                 <!-- 栅格列配置 -->
                 <template v-if="isGrid">

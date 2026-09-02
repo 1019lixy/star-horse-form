@@ -14,6 +14,7 @@ import draggable from "vuedraggable-es";
 import piniaCompInstance from "@/store";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import prepsComponent from "@/components/system/items/prepscomp";
+import registerWorkflowDesigner from "@/components/workflow/designer/nodes/nodes";
 import StarHorseLowCode from "star-horse-lowcode";
 import {getLang} from "@/theme/localStorge";
 import {LangType} from "@/theme/theme";
@@ -36,6 +37,7 @@ app.use(prepsComponent);
 app.use(systemComponent);
 app.use(itemsComponent);
 app.use(containerComponent);
+app.use(registerWorkflowDesigner);
 
 console.log("当前语言", currentLang);
 app.use(StarHorseLowCode, {

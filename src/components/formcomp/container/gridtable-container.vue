@@ -231,7 +231,7 @@ const wrapperStyle = computed(() => {
         class="gridtable-header"
         :style="{ gridTemplateColumns: `30px ${gridTemplateColumns}` }"
       >
-        <div class="gridtable-header-cell no-cell"></div>
+        <div class="gridtable-header-cell no-cell">NO.</div>
         <div
           v-for="(col, index) in columnStructure"
           :key="index"

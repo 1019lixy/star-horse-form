@@ -79,6 +79,11 @@ export {
 export * from "@/store/CopyerOperation";
 export * from "@/store/DesignForm";
 export * from "@/store/StoreManager";
+export * from "@/store/FlowDesign";
+export * from "@/components/workflow";
+export {default as registerWorkflowDesigner} from "@/components/workflow/designer/nodes/nodes";
+export {default as FlowDesigner} from "@/components/workflow/designer/FlowDesigner.vue";
+export {setDebugEnabled, isDebugEnabled, dlog, dwarn, derror, dinfo} from "@/utils/debugLog";
 export default {
     install,
 };

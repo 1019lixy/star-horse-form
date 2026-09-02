@@ -14,3 +14,7 @@ declare module "*.vue" {
 interface ImportMeta {
     readonly glob: (pattern: string) => Record<string, () => Promise<any>>;
 }
+interface Window {
+    /** 全局调试开关：控制设计器等模块的控制台调试日志 */
+    _isDebug_?: boolean;
+}

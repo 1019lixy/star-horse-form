@@ -150,7 +150,7 @@ onBeforeUnmount(() => {
             :trigger="isMobile ? 'click' : 'hover'"
           >
             <span
-              style="color: var(--star-horse-white); cursor: pointer"
+              style="color: var(--star-horse-white);  cursor: pointer;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
               @click="selectData(field)"
             >
               {{ field?.preps["itemNameLabel"] }}

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="descriptions-container">
 import {nextTick, onMounted, PropType, ref} from "vue";
-import {itemCheck} from "star-horse-lowcode";
+import {itemCheck, operationConfirm} from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
@@ -10,12 +10,12 @@ import {ensureDefaultElements} from "./container-types";
 import {ensureItems} from "./container-utils";
 
 const props = defineProps({
-  parentField: { type: Object as PropType<any> },
-  isDesign: { type: Boolean, default: false },
-  showFormItem: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  formInfo: { type: Object as PropType<any> },
-  field: { type: Object as PropType<any> },
+  parentField: {type: Object as PropType<any>},
+  isDesign: {type: Boolean, default: false},
+  showFormItem: {type: Boolean, default: false},
+  disabled: {type: Boolean, default: false},
+  formInfo: {type: Object as PropType<any>},
+  field: {type: Object as PropType<any>},
 });
 let designForm = getDesignFormStore();
 const formData = defineModel("formData");
@@ -37,7 +37,7 @@ const startEditName = (element: any) => {
   editingText.value = element.preps?.label || "";
   nextTick(() => {
     const input = document.querySelector(
-      `.descriptions-edit-input input`,
+        `.descriptions-edit-input input`,
     ) as HTMLInputElement;
     if (input) {
       input.focus();
@@ -64,8 +64,13 @@ const allItems = () => {
   });
   return items;
 };
+const removeItem = (currentItem: any, parentList: Array<any>) => {
+  operationConfirm(i18n("starHorseDesign.deleteItemConfirm")).then(() => {
+    parentList.splice(parentList.indexOf(currentItem), 1);
+  });
+};
 const getItem = (item: any) => {
-  const newItem = { ...item };
+  const newItem = {...item};
   newItem.preps.hideLabel = true;
   return newItem;
 };
@@ -76,71 +81,74 @@ onMounted(() => {
 
 <template>
   <group-container
-    class="star-horse-form-container"
-    :showFormItem="showFormItem"
-    :isDesign="isDesign"
-    :disabled="disabled"
-    :parentField="parentField"
-    :form-item="field"
+      class="star-horse-form-container"
+      :showFormItem="showFormItem"
+      :isDesign="isDesign"
+      :disabled="disabled"
+      :parentField="parentField"
+      :form-item="field"
   >
     <el-descriptions
-      :title="field.preps['descTitle'] || ''"
-      :direction="field.preps['direction'] || 'horizontal'"
-      :column="field.preps['column'] || 3"
-      :border="field.preps['border'] !== false"
-      :size="field.preps['size'] || 'default'"
-      :extra="field.preps['descExtra'] || ''"
-      :label-width="field.preps['descItemLabelWidth'] || ''"
+        :title="field.preps['descTitle'] || ''"
+        :direction="field.preps['direction'] || 'horizontal'"
+        :column="field.preps['column'] || 3"
+        :border="field.preps['border'] !== false"
+        :size="field.preps['size'] || 'default'"
+        :extra="field.preps['descExtra'] || ''"
+        :label-width="field.preps['descItemLabelWidth'] || ''"
     >
       <template
-        v-for="adata in field['preps']['elements']"
-        :key="adata.subTablePrimaryKey"
+          v-for="adata in field['preps']['elements']"
+          :key="adata.subTablePrimaryKey"
       >
         <el-descriptions-item
-          v-for="item in adata['items']"
-          :key="item.id"
-          :label="item.preps?.label || item.fieldName"
-          :rowspan="field.preps['descItemRowspan'] || 1"
-          :align="field.preps['descItemAlign'] || 'left'"
-          :class-name="field.preps['descItemClassName'] || ''"
-          :span="field.preps['descItemSpan'] || 1"
-          :label-class-name="field.preps['descItemLabelClassName'] || ''"
+            v-for="item in adata['items']"
+            :key="item.id"
+            :label="item.preps?.label || item.fieldName"
+            :rowspan="field.preps['descItemRowspan'] || 1"
+            :align="field.preps['descItemAlign'] || 'left'"
+            :class-name="field.preps['descItemClassName'] || ''"
+            :span="field.preps['descItemSpan'] || 1"
+            :label-class-name="field.preps['descItemLabelClassName'] || ''"
         >
           <template #label>
-            <div class="splitter-panel-header" v-if="isDesign">
+            <div class="desc-panel-header" v-if="isDesign">
+              <div class="remove-action">
+                <star-horse-icon @click.stop="removeItem(item,adata['items'])" iconClass="delete" size="16px"
+                                 :title="i18n('ui.deleteCurrentCol')" color="var(--el-color-danger)" cursor="pointer"/>
+              </div>
               <span
-                v-if="editingId !== item.fieldName"
-                class="editable-name"
-                @dblclick.stop="startEditName(item)"
-                >{{ item.label }}</span
-              >
+                  v-if="editingId !== item.fieldName"
+                  class="editable-name"
+                  @dblclick.stop="startEditName(item)"
+              >{{ item.label }}</span>
               <el-input
-                v-else
-                class="descriptions-edit-input"
-                v-model="editingText"
-                size="small"
-                @blur="finishEditName(item)"
-                @keyup.enter="finishEditName(item)"
-                @click.stop
-                style="width: 120px"
+                  v-else
+                  class="descriptions-edit-input"
+                  v-model="editingText"
+                  size="small"
+                  @blur="finishEditName(item)"
+                  @keyup.enter="finishEditName(item)"
+                  @click.stop
+                  style="width: 120px"
               />
             </div>
           </template>
           <DesignItemWrapper
-            :field="item"
-            :isDesign="isDesign"
-            :parentField="field"
-            :disabled="disabled"
+              :field="item"
+              :isDesign="isDesign"
+              :parentField="field"
+              :disabled="disabled"
           >
             <component
-              :field="getItem(item)"
-              :isDesign="isDesign"
-              :disabled="disabled"
-              :showFormItem="showFormItem"
-              :formInfo="formInfo"
-              :is="itemCheck(item)"
-              :parentField="field"
-              v-model:formData="formData"
+                :field="getItem(item)"
+                :isDesign="isDesign"
+                :disabled="disabled"
+                :showFormItem="showFormItem"
+                :formInfo="formInfo"
+                :is="itemCheck(item)"
+                :parentField="field"
+                v-model:formData="formData"
             />
           </DesignItemWrapper>
         </el-descriptions-item>
@@ -151,11 +159,11 @@ onMounted(() => {
     <div v-if="isDesign" class="desc-design-bottom">
       <div class="quick-add-bar">
         <el-button
-          size="small"
-          type="info"
-          plain
-          @click.stop="quickAddItem(field.preps.elements[0].items, true)"
-          icon="Plus"
+            size="small"
+            type="info"
+            plain
+            @click.stop="quickAddItem(field.preps.elements[0].items, true)"
+            icon="Plus"
         >
           {{ i18n("dyform.condition.addLeaf") }}
         </el-button>
@@ -170,6 +178,21 @@ onMounted(() => {
   min-width: 100px;
   border: 1px dashed #dcdfe6;
   border-radius: 4px;
+}
+
+.desc-panel-header {
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #909399;
+  border-bottom: 1px solid #ebeef5;
+  background: #fafafa;
+  position: relative;
+
+  .remove-action {
+    position: absolute;
+    right: -10px;
+    top: -7px;
+  }
 }
 
 .desc-design-bottom {

@@ -16,22 +16,22 @@ defineOptions({
   name: "SplitterContainer",
 });
 const props = defineProps({
-  parentField: { type: Object as PropType<any> },
-  isDesign: { type: Boolean, default: false },
-  showFormItem: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  formInfo: { type: Object as PropType<any> },
-  field: { type: Object as PropType<any> },
+  parentField: {type: Object as PropType<any>},
+  isDesign: {type: Boolean, default: false},
+  showFormItem: {type: Boolean, default: false},
+  disabled: {type: Boolean, default: false},
+  formInfo: {type: Object as PropType<any>},
+  field: {type: Object as PropType<any>},
 });
 let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 
-const { onDragAdd } = useDragAdd(designForm);
+const {onDragAdd} = useDragAdd(designForm);
 const checkItem = (adata: any) => ensureItems(adata);
-const { editingId, editingText, startEditName, finishEditName } = useInlineEdit(
-  () => props.isDesign,
-  "splitter-edit-input",
+const {editingId, editingText, startEditName, finishEditName} = useInlineEdit(
+    () => props.isDesign,
+    "splitter-edit-input",
 );
 
 const checkData = (adata: any) => {
@@ -71,70 +71,70 @@ onMounted(() => {
 </script>
 <template>
   <group-container
-    class="star-horse-form-container"
-    :showFormItem="showFormItem"
-    :isDesign="isDesign"
-    :disabled="disabled"
-    :parentField="parentField"
-    :form-item="field"
+      class="star-horse-form-container"
+      :showFormItem="showFormItem"
+      :isDesign="isDesign"
+      :disabled="disabled"
+      :parentField="parentField"
+      :form-item="field"
   >
     <el-splitter
-      :layout="field?.preps?.layout ?? 'horizontal'"
-      :lazy="field?.preps?.lazy"
+        :layout="field?.preps?.layout ?? 'horizontal'"
+        :lazy="field?.preps?.lazy"
     >
       <el-splitter-panel
-        v-for="adata in field['preps']['elements']"
-        v-bind="checkData(adata)"
+          v-for="adata in field['preps']['elements']"
+          v-bind="checkData(adata)"
       >
         <div class="splitter-panel-header" v-if="isDesign">
           <span
-            v-if="
+              v-if="
               editingId !== (adata.subTablePrimaryKey || adata.subTableName)
             "
-            class="editable-name"
-            @dblclick.stop="startEditName(adata)"
-            >{{ adata.label || adata.subTableName }}</span
+              class="editable-name"
+              @dblclick.stop="startEditName(adata)"
+          >{{ adata.label || adata.subTableName }}</span
           >
           <el-input
-            v-else
-            class="splitter-edit-input"
-            v-model="editingText"
-            size="small"
-            @blur="finishEditName(adata)"
-            @keyup.enter="finishEditName(adata)"
-            @click.stop
-            style="width: 120px"
+              v-else
+              class="splitter-edit-input"
+              v-model="editingText"
+              size="small"
+              @blur="finishEditName(adata)"
+              @keyup.enter="finishEditName(adata)"
+              @click.stop
+              style="width: 120px"
           />
         </div>
         <draggable
-          @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-          @dragover="checkItem(adata)"
-          class="card-design"
-          :class="{ 'dragging-area': isDragging }"
-          group="starHorseGroup"
-          animation="100"
-          item-key="id"
-          ghostClass="ghost"
-          :list="adata['items']"
+            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+            @dragover="checkItem(adata)"
+            class="card-design"
+            :class="{ 'dragging-area': isDragging }"
+            group="starHorseGroup"
+            animation="100"
+            item-key="id"
+            ghostClass="ghost"
+            :list="adata['items']"
         >
           <template #item="{ element: data }">
             <div class="comp-item my-[5px]" :data-field-id="data.id">
               <DesignItemWrapper
-                :field="data"
-                :isDesign="isDesign"
-                :parentField="field"
-                :disabled="disabled"
-              >
-                <component
-                  :key="data.id"
                   :field="data"
                   :isDesign="isDesign"
-                  :disabled="disabled"
-                  :showFormItem="showFormItem"
-                  :formInfo="formInfo"
-                  :is="itemCheck(data)"
                   :parentField="field"
-                  v-model:formData="formData"
+                  :disabled="disabled"
+              >
+                <component
+                    :key="data.id"
+                    :field="data"
+                    :isDesign="isDesign"
+                    :disabled="disabled"
+                    :showFormItem="showFormItem"
+                    :formInfo="formInfo"
+                    :is="itemCheck(data)"
+                    :parentField="field"
+                    v-model:formData="formData"
                 />
               </DesignItemWrapper>
             </div>
@@ -144,11 +144,11 @@ onMounted(() => {
         <!-- 快捷添加组件按钮 -->
         <div v-if="isDesign" class="quick-add-bar">
           <el-button
-            size="small"
-            type="info"
-            plain
-            @click.stop="quickAddItem(adata.items)"
-            icon="Plus"
+              size="small"
+              type="info"
+              plain
+              @click.stop="quickAddItem(adata.items)"
+              icon="Plus"
           >
             {{ i18n("dyform.condition.addLeaf") }}
           </el-button>
@@ -172,6 +172,8 @@ onMounted(() => {
   color: #909399;
   border-bottom: 1px solid #ebeef5;
   background: #fafafa;
+  position: relative;
+
 }
 
 .editable-name {

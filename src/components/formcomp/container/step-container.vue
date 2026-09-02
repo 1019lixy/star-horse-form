@@ -58,8 +58,99 @@ const sameForm = computed(() => {
   return props.field?.preps?.sameForm === "Y" || !props.field?.preps?.sameForm;
 });
 
-// 步骤风格：steps(头部步骤条) / pager(底部导航分页)
+// 步骤风格：steps(头部步骤条) / pager(底部导航分页) / flat(平铺单页)
 const stepStyle = computed(() => props.field?.preps?.stepStyle || "steps");
+
+// 平铺单页模式：所有分段同页纵向展示
+const flatMode = computed(() => stepStyle.value === "flat");
+
+// 流程上下文（运行时由后端注入 formInfo.flow；设计态/无流程时为 null，回退原有行为）
+const flow = computed(() =>
+  !props.isDesign && props.formInfo?.flow?.enabled ? props.formInfo.flow : null,
+);
+
+// 段级权限：editable 可编辑 / readonly 只读 / hidden 不渲染；无流程时按 disabled 降级
+const segPermission = (key: string): "editable" | "readonly" | "hidden" => {
+  if (flow.value?.segments?.[key]) return flow.value.segments[key];
+  return props.disabled ? "readonly" : "editable";
+};
+
+// 段内组件禁用状态：平铺只读段强制禁用（disabled 链路已贯穿所有容器）
+const segDisabled = (key: string): boolean =>
+  props.disabled || (flatMode.value && segPermission(key) === "readonly");
+
+// 平铺段折叠状态：显式操作记录在 map；未记录时默认已完成段折叠、其余展开
+const flatCollapsed = ref<Record<string, boolean>>({});
+const isFlatCollapsed = (adata: any): boolean => {
+  const key = adata?.subTablePrimaryKey;
+  if (key != null && key in flatCollapsed.value) {
+    return !!flatCollapsed.value[key];
+  }
+  const st = flow.value?.nodeStates?.[key];
+  return st?.status === "done";
+};
+const toggleFlatCollapse = (adata: any) => {
+  const key = adata?.subTablePrimaryKey;
+  if (key != null) flatCollapsed.value[key] = !isFlatCollapsed(adata);
+};
+
+// 平铺段标题点击：设计态首次点击选中该段（管理栏增删作用于所选段），再次点击折叠
+const handleFlatHeadClick = (adata: any, idx: number) => {
+  if (props.isDesign && activeStepIndex.value !== idx) {
+    activeStepIndex.value = idx;
+    return;
+  }
+  toggleFlatCollapse(adata);
+};
+
+// 平铺段状态标签文案
+const flatStatusText = (adata: any): string => {
+  const st = flow.value?.nodeStates?.[adata?.subTablePrimaryKey];
+  if (st?.status === "done") {
+    return (
+      i18n("dyform.step.flatFilled") +
+      (st.assignee?.name ? ` · ${st.assignee.name}` : "")
+    );
+  }
+  if (st?.status === "active") return i18n("dyform.step.flatCurrent");
+  if (flow.value) return i18n("dyform.step.flatLocked");
+  return "";
+};
+
+// 平铺段状态标签样式类
+const flatTagState = (adata: any): string =>
+  flow.value?.nodeStates?.[adata?.subTablePrimaryKey]?.status || "";
+
+// 平铺流转记录条节点（张三 → 李四(当前) → 待定）
+const flowTrail = computed(() => {
+  if (!flatMode.value || !flow.value?.nodeStates) return [];
+  return Object.keys(flow.value.nodeStates).map((key) => {
+    const el = elements.value.find(
+      (e: any) => e.subTablePrimaryKey === key,
+    );
+    return {
+      key,
+      label: el?.label || key,
+      status: flow.value.nodeStates[key]?.status,
+      assignee: flow.value.nodeStates[key]?.assignee,
+    };
+  });
+});
+const trailAvatar = (node: any): string =>
+  (node.assignee?.name || "?").charAt(0);
+
+// 流程模式下初始定位到当前待办节点
+watch(
+  flow,
+  (f) => {
+    if (!f?.currentNode) return;
+    const idx = elements.value.findIndex(
+      (e: any) => e.subTablePrimaryKey === f.currentNode,
+    );
+    if (idx >= 0) activeStepIndex.value = idx;
+  },
+  { immediate: true },
+);
 
 // 是否每步必须完成才能进入下一步
 const mustCompleteStep = computed(
@@ -71,9 +162,9 @@ const stepDirection = computed(
   () => props.field?.preps?.direction || "horizontal",
 );
 
-// 是否显示步骤条：pager 风格强制隐藏
+// 是否显示步骤条：pager/flat 风格强制隐藏
 const showStepBar = computed(() => {
-  if (stepStyle.value === "pager") return false;
+  if (stepStyle.value === "pager" || flatMode.value) return false;
   return props.field?.preps?.showStepBar !== "N";
 });
 
@@ -82,18 +173,11 @@ const showNavButtons = computed(
   () => props.field?.preps?.showNavButtons !== "N",
 );
 
+// 平铺单页无上一步/下一步概念，隐藏导航栏
+const showNavBar = computed(() => showNavButtons.value && !flatMode.value);
+
 // 简洁模式
 const stepSimple = computed(() => props.field?.preps?.simple === "Y");
-
-// 完成状态
-const finishStatus = computed(
-  () => props.field?.preps?.finishStatus || "finish",
-);
-
-// 进行中状态
-const processStatus = computed(
-  () => props.field?.preps?.processStatus || "process",
-);
 
 // 居中对齐
 const alignCenter = computed(() => props.field?.preps?.alignCenter === "Y");
@@ -465,70 +549,171 @@ watch(
         </div>
       </div>
 
-      <!-- 步骤内容区域 -->
-      <div class="step-content-wrapper">
-        <div
-          v-for="(adata, idx) in elements"
-          :key="adata.subTablePrimaryKey"
-          v-show="idx === activeStepIndex"
-          class="step-pane"
-        >
-          <draggable
-            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-            @dragover="checkItem(adata)"
-            class="step-design"
-            :class="{ 'dragging-area': isDragging }"
-            group="starHorseGroup"
-            animation="100"
-            item-key="id"
-            ghostClass="ghost"
-            :list="adata['items']"
+      <!-- 平铺单页模式：流转记录条（有流程上下文时显示） -->
+      <div v-if="flatMode && flowTrail.length" class="flat-flow-trail">
+        <template v-for="(node, nIdx) in flowTrail" :key="node.key">
+          <svg
+            v-if="nIdx > 0"
+            class="trail-arrow"
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <template #item="{ element: data }">
-              <div
-                class="comp-item my-[5px]"
-                :data-field-id="data.id"
-                :style="{ marginTop: isContainer(data) ? '25px' : '10px' }"
-              >
-                <DesignItemWrapper
-                  :field="data"
-                  :isDesign="isDesign"
-                  :parentField="field"
-                  :disabled="disabled"
-                >
-                  <component
-                    :key="data.id"
-                    :field="data"
-                    :isDesign="isDesign"
-                    :disabled="disabled"
-                    :showFormItem="showFormItem"
-                    :formInfo="formInfo"
-                    :is="itemCheck(data)"
-                    :parentField="field"
-                    v-model:formData="formData"
-                  />
-                </DesignItemWrapper>
-              </div>
-            </template>
-          </draggable>
-
-          <!-- 快捷添加组件按钮 -->
-          <div v-if="isDesign" class="quick-add-bar">
-            <el-button
-              size="small"
-              type="info"
-              plain
-              @click.stop="quickAddItem(adata.items)"
-              icon="Plus"
-            >
-              {{ i18n("dyform.condition.addLeaf") }}
-            </el-button>
-          </div>
-        </div>
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+          <span class="trail-node" :class="`is-${node.status || 'pending'}`">
+            <span class="trail-avatar">{{ trailAvatar(node) }}</span>
+            <span class="trail-info">
+              <span class="trail-label">{{ node.label }}</span>
+              <span class="trail-name">{{
+                node.assignee?.name || i18n("dyform.step.flatLocked")
+              }}</span>
+            </span>
+          </span>
+        </template>
       </div>
 
-      <!-- 导航按钮：首尾页隐藏对应按钮 -->
-      <div v-if="showNavButtons" class="step-nav-bar">
+      <!-- 步骤内容区域：steps/pager 单段切换；flat 全部已到段平铺 -->
+      <div class="step-content-wrapper" :class="{ 'is-flat': flatMode }">
+        <template
+          v-for="(adata, idx) in elements"
+          :key="adata.subTablePrimaryKey"
+        >
+          <!-- flat 段标题栏（hidden 段不渲染标题） -->
+          <div
+            v-if="flatMode && segPermission(adata.subTablePrimaryKey) !== 'hidden'"
+            class="flat-section-head"
+            :class="{ 'is-active': isDesign && Number(idx) === activeStepIndex }"
+            @click="handleFlatHeadClick(adata, Number(idx))"
+          >
+            <svg
+              class="flat-caret"
+              :class="{ 'is-collapsed': isFlatCollapsed(adata) }"
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+            <span
+              v-if="editingId !== adata.subTablePrimaryKey"
+              class="flat-section-title editable-name"
+              @dblclick.stop="startEditName(adata)"
+              >{{ adata.label }}</span
+            >
+            <el-input
+              v-else
+              class="step-edit-input"
+              v-model="editingText"
+              size="small"
+              @blur="finishEditName(adata)"
+              @keyup.enter="finishEditName(adata)"
+              @click.stop
+              style="width: 120px"
+            />
+            <span
+              v-if="flatStatusText(adata)"
+              class="flat-section-tag"
+              :class="`is-${flatTagState(adata)}`"
+              >{{ flatStatusText(adata) }}</span
+            >
+          </div>
+
+          <!-- 段内容：flat 按权限+折叠控制；hidden 段不渲染（防数据泄露） -->
+          <div
+            v-if="!flatMode || segPermission(adata.subTablePrimaryKey) !== 'hidden'"
+            v-show="flatMode ? !isFlatCollapsed(adata) : idx === activeStepIndex"
+            class="step-pane"
+            :class="flatMode ? ['flat-section', `flat-${segPermission(adata.subTablePrimaryKey)}`] : []"
+          >
+            <draggable
+              @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+              @dragover="checkItem(adata)"
+              class="step-design"
+              :class="{ 'dragging-area': isDragging }"
+              group="starHorseGroup"
+              animation="100"
+              item-key="id"
+              ghostClass="ghost"
+              :list="adata['items']"
+            >
+              <template #item="{ element: data }">
+                <div
+                  class="comp-item my-[5px]"
+                  :data-field-id="data.id"
+                  :style="{ marginTop: isContainer(data) ? '25px' : '10px' }"
+                >
+                  <DesignItemWrapper
+                    :field="data"
+                    :isDesign="isDesign"
+                    :parentField="field"
+                    :disabled="segDisabled(adata.subTablePrimaryKey)"
+                  >
+                    <component
+                      :key="data.id"
+                      :field="data"
+                      :isDesign="isDesign"
+                      :disabled="segDisabled(adata.subTablePrimaryKey)"
+                      :showFormItem="showFormItem"
+                      :formInfo="formInfo"
+                      :is="itemCheck(data)"
+                      :parentField="field"
+                      v-model:formData="formData"
+                    />
+                  </DesignItemWrapper>
+                </div>
+              </template>
+            </draggable>
+
+            <!-- 快捷添加组件按钮 -->
+            <div v-if="isDesign" class="quick-add-bar">
+              <el-button
+                size="small"
+                type="info"
+                plain
+                @click.stop="quickAddItem(adata.items)"
+                icon="Plus"
+              >
+                {{ i18n("dyform.condition.addLeaf") }}
+              </el-button>
+            </div>
+          </div>
+
+          <!-- flat 未开始段：仅锁定占位，不渲染任何字段 -->
+          <div
+            v-if="flatMode && segPermission(adata.subTablePrimaryKey) === 'hidden'"
+            class="flat-locked"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <rect x="4" y="11" width="16" height="10" rx="2" />
+              <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+            </svg>
+            <span>{{ adata.label }}（{{ i18n("dyform.step.flatLocked") }}）</span>
+          </div>
+        </template>
+      </div>
+
+      <!-- 导航按钮：首尾页隐藏对应按钮（flat 模式无导航） -->
+      <div v-if="showNavBar" class="step-nav-bar">
         <el-button
           v-if="activeStepIndex > 0"
           size="default"
@@ -575,7 +760,9 @@ watch(
           {{
             stepStyle === "steps"
               ? i18n("dyform.step.styleSteps")
-              : i18n("dyform.step.stylePager")
+              : stepStyle === "pager"
+                ? i18n("dyform.step.stylePager")
+                : i18n("dyform.step.styleFlat")
           }}
           ｜ {{ i18n("dyform.step.sameFormHint") }}:
           {{
@@ -990,6 +1177,196 @@ watch(
     border-color: #409eff;
     background: #ecf5ff;
   }
+}
+
+// ==================== 平铺单页（flat）模式 ====================
+// 流转记录条：张三 → 李四(当前) → 待定
+.flat-flow-trail {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #fafcff;
+  border: 1px solid #ebeef5;
+  border-radius: 6px;
+
+  .trail-arrow {
+    color: #c0c4cc;
+    flex-shrink: 0;
+  }
+
+  .trail-node {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px 3px 4px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid #e4e7ed;
+    transition: all 0.25s ease;
+
+    .trail-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      background: #f4f4f5;
+      color: #909399;
+      flex-shrink: 0;
+    }
+
+    .trail-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+
+      .trail-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #606266;
+      }
+
+      .trail-name {
+        font-size: 11px;
+        color: #a8abb2;
+      }
+    }
+
+    // 当前节点高亮
+    &.is-active {
+      border-color: var(--star-horse-style, #409eff);
+      background: #ecf5ff;
+
+      .trail-avatar {
+        background: var(--star-horse-style, #409eff);
+        color: #fff;
+      }
+
+      .trail-name {
+        color: var(--star-horse-style, #409eff);
+      }
+    }
+
+    // 已完成节点
+    &.is-done {
+      .trail-avatar {
+        background: #f0f9eb;
+        color: #67c23a;
+      }
+    }
+  }
+}
+
+// flat 模式内容区：去掉外层虚线框，改为分段卡片纵列
+.step-content-wrapper.is-flat {
+  padding: 0;
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &:hover {
+    border-color: transparent;
+  }
+}
+
+// 段标题栏
+.flat-section-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f5f7fa;
+  border: 1px solid #ebeef5;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #ecf5ff;
+  }
+
+  &.is-active {
+    background: #ecf5ff;
+    border-color: var(--star-horse-style, #409eff);
+  }
+
+  .flat-caret {
+    color: #909399;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+
+    &.is-collapsed {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .flat-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #303133;
+  }
+
+  .flat-section-tag {
+    margin-left: auto;
+    font-size: 12px;
+    padding: 1px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+    background: #f4f4f5;
+    color: #909399;
+
+    &.is-done {
+      background: #f0f9eb;
+      color: #67c23a;
+    }
+
+    &.is-active {
+      background: #ecf5ff;
+      color: var(--star-horse-style, #409eff);
+    }
+
+    &.is-pending {
+      background: #f4f4f5;
+      color: #c0c4cc;
+    }
+  }
+}
+
+// flat 段内容：与标题栏拼接成卡片
+.step-pane.flat-section {
+  border-radius: 0 0 6px 6px;
+
+  // 当前可编辑段：左侧高亮边
+  &.flat-editable {
+    box-shadow: inset 3px 0 0 0 var(--star-horse-style, #409eff);
+  }
+
+  // 只读段：整体弱化
+  &.flat-readonly {
+    background: #fafafa;
+  }
+}
+
+// flat 未开始段锁定占位
+.flat-locked {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px dashed #e4e7ed;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #a8abb2;
+  background: #fafafa;
 }
 
 .dragging-area {
