@@ -156,6 +156,13 @@ const formActions = (): Array<ToolBtnType> => [
     auth: "none",
     label: i18n("dyform.toolbar.ruleConfig"),
   },
+  // 流程设计（平铺）：打开可视化流程设计器，在线设计表单绑定流程
+  {
+    icon: "flow",
+    key: "flowDesign",
+    auth: "none",
+    label: i18n("dyform.toolbar.flowDesign"),
+  },
   // 存为自定义组件（平铺）：将当前选中组件配置保存为第三方组件
   {
     icon: "component",

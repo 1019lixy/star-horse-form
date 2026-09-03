@@ -1,6 +1,6 @@
 <script setup lang="ts" name="FormPropertyPanel">
 import {derror, dinfo, dlog} from "@/utils/debugLog";
-import {computed, onActivated, onMounted, reactive, ref, watch} from "vue";
+import {computed, onActivated, onMounted, reactive, ref, unref, watch} from "vue";
 import {
   analysisCompDatas,
   commonField,
@@ -136,6 +136,7 @@ watch(
 const openFlowDesigner = () => {
   const flowDesign = getFlowDesignStore();
   const existed = formInfo.value?.flowConfigures?.process;
+  dlog("[FormPropertyPanel] openFlowDesigner, existed process:", !!existed, "flowConfigures:", formInfo.value?.flowConfigures);
   if (existed) {
     flowDesign.flowSetNode(JSON.parse(JSON.stringify(existed)));
   } else {
@@ -149,7 +150,8 @@ const openFlowDesigner = () => {
  * 约定对象名 flowConfigures = { mode: "design", process: 节点树 }。
  */
 const saveFlowDesign = () => {
-  const node = flowDesignerRef.value?.nodeData;
+  const node = unref(flowDesignerRef.value?.nodeData);
+  dlog("[FormPropertyPanel] saveFlowDesign, node:", !!node, "childNode:", !!node?.childNode);
   if (!node || !node.childNode) {
     warning(i18n("dyform.step.flowDesignEmpty"));
     return;
@@ -730,13 +732,13 @@ const bindModeField = {
           relationFields: ["abc"],
           func: (val) => {
             formInfo.value.flowBindMode = val["flowBindMode"];
-            if (val["flowBindMode"] == "design") {
-              formInfo.value.flowConfigures = {
-                ...(formInfo.value.flowConfigures || {}),
-                mode: "design",
-              };
-              openFlowDesigner();
-            }
+            // if (val["flowBindMode"] == "design") {
+            formInfo.value.flowConfigures = {
+              ...(formInfo.value.flowConfigures || {}),
+              mode: "design",
+            };
+            openFlowDesigner();
+            // }
           },
           matchFieldValue: "design"
         },
@@ -746,20 +748,20 @@ const bindModeField = {
 };
 const flowDefineIdField = {
   label: i18n("dyform.step.formFlowDefine"),
-  fieldName: "flowDefineId",
+  fieldName: "flowDefineIdList",
   type: "select",
   formVisible: false,
   actions: {
     change: (val: any) => {
-      if (val["flowDefineId"]) {
+      if (val["flowDefineIdList"]) {
         formInfo.value.flowConfigures = {
           mode: "reuse",
-          flowDefineId: val["flowDefineId"],
+          flowDefineIdList: val["flowDefineIdList"],
         };
       }
     },
   },
-  preps: {values: flowDefineOptions},
+  preps: {values: flowDefineOptions, multiple: true},
 };
 
 const starterFieldField = {
@@ -800,7 +802,7 @@ const flowBindingFields = [
   bindModeField,
   flowDefineIdField,
 
-  starterFieldField,
+  //starterFieldField,
 ];
 
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -1177,6 +1179,7 @@ defineExpose({
         :stopInitFormInfo="true"
         :saveBtnVisible="false"
         :mapBtnVisible="false"
+        :initialNode="formInfo?.flowConfigures?.process || {}"
     />
   </star-horse-panel>
 </template>

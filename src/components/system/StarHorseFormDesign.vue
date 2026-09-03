@@ -26,7 +26,8 @@ import {
   uploadRequest,
   warning,
 } from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
+import {getDesignFormStore, getFlowDesignStore} from "@/store/StoreManager";
+import {validateAllNodes} from "@/components/workflow/validator";
 import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
 import {i18n} from "@/lang";
@@ -77,6 +78,9 @@ const RuleConfigPanel = defineAsyncComponent(
 const SaveAsCustomCompDialog = defineAsyncComponent(
   () =>
     import("@/components/system/items/form/dialogs/SaveAsCustomCompDialog.vue"),
+);
+const FlowDesigner = defineAsyncComponent(
+  () => import("@/components/workflow/designer/FlowDesigner.vue"),
 );
 
 defineOptions({
@@ -196,6 +200,9 @@ const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 const formConfigDialogVisible = ref<boolean>(false);
 const ruleConfigDialogVisible = ref<boolean>(false);
+const flowDesignDialogVisible = ref<boolean>(false);
+const flowDesignerRef = ref();
+const flowDesigned = ref<boolean>(false);
 const saveAsCompDialogRef = ref();
 // ==================== 规则引擎上下文 ====================
 // 从 formInfo 提取表单主键作为规则引擎 formId
@@ -780,12 +787,38 @@ const actions = (action: ToolBtnType | string) => {
       // 打开规则配置面板（与当前表单绑定）
       ruleConfigDialogVisible.value = true;
       break;
+    case "flowDesign":
+      flowDesignDialogVisible.value = true;
+      break;
     case "saveAsComp":
       // 将当前选中组件存为自定义第三方组件
       saveAsCompDialogRef.value?.open();
       break;
   }
   emits("action", act);
+};
+
+/** 保存在线流程设计结果到 formInfo.flowConfigures */
+const saveFlowDesign = () => {
+  const node = unref(flowDesignerRef.value?.nodeData);
+  if (!node || !node.childNode) {
+    warning(i18n("dyform.step.flowDesignEmpty"));
+    return;
+  }
+  const errors = validateAllNodes(node);
+  if (errors.length > 0) {
+    warning(errors.map((e) => `[${e.nodeName}] ${e.errors.join("；")}`).join("\n"));
+    return;
+  }
+  designForm.formInfo.flowConfigures = {
+    mode: "design",
+    process: JSON.parse(JSON.stringify(node)),
+  };
+  designForm.formInfo.flowFlag = "Y";
+  designForm.formInfo.flowBindMode = "design";
+  flowDesigned.value = true;
+  flowDesignDialogVisible.value = false;
+  success(i18n("dyform.step.flowDesignStatus.done"));
 };
 
 const keyboardEvents = useKeyboardEvents(actions);
@@ -1241,6 +1274,22 @@ defineExpose({
     :formFields="ruleFormFields"
     :compList="list"
   />
+  <star-horse-panel
+      v-model="flowDesignDialogVisible"
+      :title="flowDesigned ? i18n('dyform.step.flowDesignerTitle.reedit') : i18n('dyform.step.flowDesignerTitle')"
+      :selfFunc="true"
+      :fullScreen="true"
+      @closeAction="flowDesignDialogVisible = false"
+      @merge="saveFlowDesign"
+  >
+    <FlowDesigner
+        ref="flowDesignerRef"
+        :stopInitFormInfo="true"
+        :saveBtnVisible="false"
+        :mapBtnVisible="false"
+        :initialNode="designForm.formInfo?.flowConfigures?.process || {}"
+    />
+  </star-horse-panel>
   <SaveAsCustomCompDialog
     ref="saveAsCompDialogRef"
     :currentComp="designForm.currentComp"

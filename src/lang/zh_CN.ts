@@ -4835,6 +4835,8 @@ export default {
   "dyform.step.flowDesignerCancel": "取 消",
   "dyform.step.flowDesignerSave": "完成设计",
   "dyform.step.flowDesignEmpty": "流程节点树为空，请先设计流程",
+  "dyform.step.flowDesignNotComplete": "流程设计不完整，请检查各节点配置后再提交",
+  "dyform.toolbar.flowDesign": "流程设计",
   // dialog/drawer/fieldset/descriptions/anchor 容器
   "dyform.container.dialog": "对话框",
   "dyform.container.dialogRemark":

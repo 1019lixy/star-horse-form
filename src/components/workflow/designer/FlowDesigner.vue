@@ -19,6 +19,7 @@ import { computed, onMounted, ref } from "vue";
 import html2canvas from "html2canvas";
 import { useFlowDesignStore } from "@/store/FlowDesign";
 import { piniaInstance } from "star-horse-lowcode";
+import { dlog } from "@/utils/debugLog";
 import { scale } from "@/components/workflow/utils/deviceUtil";
 import PrepIndex from "@/components/workflow/designer/preps/PrepIndex.vue";
 import "@/components/workflow/designer/styles/flow-designer.scss";
@@ -43,6 +44,11 @@ const props = defineProps({
   stopInitFormInfo: {
     type: Boolean,
     default: false,
+  },
+  /** 初始节点树（回显已有流程设计，如 formInfo.flowConfigures.process） */
+  initialNode: {
+    type: Object,
+    default: () => ({}),
   },
 });
 
@@ -76,10 +82,15 @@ const saveAsPng = async () => {
 };
 
 const init = () => {
+  dlog("[FlowDesigner] init() called, initialNode keys:", props.initialNode ? Object.keys(props.initialNode).length : "no prop");
   flowDesign.init(props.stopInitFormInfo);
-  if (!nodeData.value || Object.keys(nodeData.value).length == 0) {
+  if (props.initialNode && Object.keys(props.initialNode).length > 0) {
+    dlog("[FlowDesigner] init() restoring initialNode");
+    flowDesign.flowSetNode(props.initialNode);
+  } else if (!nodeData.value || Object.keys(nodeData.value).length == 0) {
     flowDesign.flowSetNode(null);
   }
+  dlog("[FlowDesigner] init() done, node childNode:", !!nodeData.value?.childNode);
 };
 
 onMounted(() => {

@@ -24,17 +24,17 @@ const starHorseFormDesignRef = ref();
 const loadMenu = (type: string, sysId: string) => {
   const userId = "";
   postRequest(
-    `system-config/system/menusinfo/permissionMenus/${userId}/${sysId}`,
-    {},
+      `system-config/system/menusinfo/permissionMenus/${userId}/${sysId}`,
+      {},
   );
 };
 const loadTableColumns = (
-  type: string,
-  dataSourceId: string,
-  tbName: string,
+    type: string,
+    dataSourceId: string,
+    tbName: string,
 ) => {
   getRequest(
-    `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tbName}`,
+      `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tbName}`,
   ).then((res: any) => {
     if (res.data.code != 200) {
       return;
@@ -53,10 +53,10 @@ const loadTableColumns = (
 
 // 静态数据源列表
 const dbListData: SelectOption[] = [
-  { name: "127.0.0.1(star_horse_devops)", value: "2" },
-  { name: "127.0.0.1(script_manage)", value: "8" },
-  { name: "127.0.0.1(star_horse_workflow)", value: "337537414606095357" },
-  { name: "127.0.0.1(star_horse_continuous)", value: "136" },
+  {name: "127.0.0.1(star_horse_devops)", value: "2"},
+  {name: "127.0.0.1(script_manage)", value: "8"},
+  {name: "127.0.0.1(star_horse_workflow)", value: "337537414606095357"},
+  {name: "127.0.0.1(star_horse_continuous)", value: "136"},
 ];
 
 /**
@@ -66,7 +66,7 @@ const api = apiInstance("userdb-manage", "userdb/dynamicForm");
 api.customerUrl1 = "/userdb-manage/userdb/dynamicForm/excelAnalysis";
 const configTemplateApi = apiInstance("userdb-manage", "userdb/configTemplate");
 configTemplateApi.customerUrl1 =
-  "/userdb-manage/userdb/configTemplate/listByCategory";
+    "/userdb-manage/userdb/configTemplate/listByCategory";
 const dbInfoApi = apiInstance("userdb-manage", "dbsearch/dbinfo");
 dbInfoApi.customerUrl1 = "/userdb-manage/dbsearch/dbinfo/openConn";
 dbInfoApi.customerUrl2 = "/userdb-manage/dbsearch/dbinfo/getDbInfoByUser";
@@ -102,28 +102,28 @@ const optional = ref<FormConfig>({
   },
   // 应用列表：loadSystemInfo 已返回 SelectOption[]，直接引用
   loadAppList: () =>
-    loadSystemInfo(
-      [{ propertyName: "statusCode", value: "1" }],
-      `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
-    ),
+      loadSystemInfo(
+          [{propertyName: "statusCode", value: "1"}],
+          `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
+      ),
   // 角色列表：loadRolesInfo 已返回 SelectOption[]，直接引用
   loadRolesList: () => loadRolesInfo([]),
   // 表字段：getRequest 返回原始响应，需要适配器提取 data.data 并映射字段
   loadTableColumns: createBiParamDataAdapter(
-    (dataSourceId, tableName) =>
-      getRequest(
-        `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tableName}`,
-      ),
-    { name: "comment", value: "fieldName" },
+      (dataSourceId, tableName) =>
+          getRequest(
+              `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tableName}`,
+          ),
+      {name: "comment", value: "fieldName"},
   ),
   // 静态数据源列表
   loadDbList: () => Promise.resolve(dbListData),
 });
 let route = useRoute();
 const loadFormData = async (
-  formId: any,
-  isParent: boolean,
-  isTemplate?: boolean,
+    formId: any,
+    isParent: boolean,
+    isTemplate?: boolean,
 ) => {
   await nextTick();
   let resultData: any = await loadData(api.loadByIdUrl! + "/" + formId, {});
@@ -142,6 +142,12 @@ const loadFormData = async (
   }
   if (dynamicFormData["relations"]) {
     dynamicFormData["relations"] = JSON.parse(dynamicFormData["relations"]);
+  }
+  if (dynamicFormData["flowDefineIds"]) {
+    dynamicFormData["flowConfigures"] = {
+      mode: "reuse",
+      flowDefineIds: dynamicFormData["flowDefineIds"].split(";")
+    }
   }
 
   let details = dynamicFormData["details"];
@@ -172,16 +178,16 @@ const loadFormData = async (
     details["updatedTime"] = undefined;
   } else {
     dynamicFormData["sysId"] =
-      route?.query?.["sysId"] ?? dynamicFormData["sysId"] ?? undefined;
+        route?.query?.["sysId"] ?? dynamicFormData["sysId"] ?? undefined;
   }
   dynamicFormData["details"] = {};
   const compList = JSON.parse(details?.content || "[]");
   const formData = JSON.parse(details?.fieldNames || "{}");
   starHorseFormDesignRef.value?.setFormInfo(
-    compList,
-    dynamicFormData,
-    formData,
-    true,
+      compList,
+      dynamicFormData,
+      formData,
+      true,
   );
 };
 /**
@@ -204,30 +210,30 @@ const changeDataHandle = (type: string, data: any) => {
 const saveData = (isDraft: boolean, data: any) => {
   load(i18n("dyform.sample.submitting"));
   postRequest(`${api.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`, data)
-    .then((res: any) => {
-      if (res.data.code != 200) {
-        warning(res.data.cnMessage);
-        return;
-      }
-      success(res.data.cnMessage);
-    })
-    .catch((err: any) => {
-      error(i18n("dyform.sample.operationError") + err);
-    })
-    .finally(() => {
-      closeLoad();
-    });
+      .then((res: any) => {
+        if (res.data.code != 200) {
+          warning(res.data.cnMessage);
+          return;
+        }
+        success(res.data.cnMessage);
+      })
+      .catch((err: any) => {
+        error(i18n("dyform.sample.operationError") + err);
+      })
+      .finally(() => {
+        closeLoad();
+      });
 };
 </script>
 
 <template>
   <StarHorseFormDesign
-    ref="starHorseFormDesignRef"
-    :optional="optional"
-    @loadMenu="loadMenu"
-    @saveData="saveData"
-    @changeDataHandle="changeDataHandle"
-    @loadTableColumns="loadTableColumns"
+      ref="starHorseFormDesignRef"
+      :optional="optional"
+      @loadMenu="loadMenu"
+      @saveData="saveData"
+      @changeDataHandle="changeDataHandle"
+      @loadTableColumns="loadTableColumns"
   />
 </template>
 

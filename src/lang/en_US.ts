@@ -4973,6 +4973,8 @@ If empty, the table information will be created in the current business database
   "dyform.step.flowDesignerCancel": "Cancel",
   "dyform.step.flowDesignerSave": "Finish Design",
   "dyform.step.flowDesignEmpty": "Process node tree is empty, please design the flow first",
+  "dyform.step.flowDesignNotComplete": "Flow design is incomplete, please check node configuration before submitting",
+  "dyform.toolbar.flowDesign": "Flow Design",
   // dialog/drawer/fieldset/descriptions/anchor containers
   "dyform.container.dialog": "Dialog",
   "dyform.container.dialogRemark":

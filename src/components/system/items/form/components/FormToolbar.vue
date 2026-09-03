@@ -53,6 +53,7 @@ const isDisabled = (item: ToolBtnType) => {
     "phone",
     "aiChat",
     "ruleConfig",
+    "flowDesign",
   ];
   if (!hasComponents.value && !alwaysEnabledKeys.includes(item.key)) {
     return true;
@@ -544,6 +545,27 @@ const doSave = (flag: boolean) => {
                   </defs>
                 </svg>
               </template>
+              <template v-else-if="item.icon === 'flow'">
+                <svg
+                  class="flow-toolbar-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  width="20"
+                  height="20"
+                >
+                  <rect x="3" y="3" width="6" height="5" rx="1" fill="url(#flow-grad)" />
+                  <rect x="15" y="3" width="6" height="5" rx="1" fill="url(#flow-grad)" />
+                  <rect x="9" y="16" width="6" height="5" rx="1" fill="url(#flow-grad)" />
+                  <path d="M6 8v3a2 2 0 002 2h8a2 2 0 002-2V8" stroke="url(#flow-grad)" stroke-width="1.5" fill="none" stroke-linecap="round" />
+                  <path d="M12 13v3" stroke="url(#flow-grad)" stroke-width="1.5" stroke-linecap="round" />
+                  <defs>
+                    <linearGradient id="flow-grad" x1="2" y1="2" x2="22" y2="22">
+                      <stop stop-color="#f59e0b" />
+                      <stop offset="1" stop-color="#ef4444" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </template>
               <template v-else>
                 <star-horse-icon :icon-class="item.icon" size="20px" />
               </template>
@@ -600,6 +622,10 @@ const doSave = (flag: boolean) => {
 
 <style lang="scss" scoped>
 .ai-toolbar-icon {
+  vertical-align: middle;
+}
+
+.flow-toolbar-icon {
   vertical-align: middle;
 }
 
