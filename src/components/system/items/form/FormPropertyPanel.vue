@@ -1,12 +1,11 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import {derror, dinfo, dlog} from "@/utils/debugLog";
+import {dinfo, dlog} from "@/utils/debugLog";
 import {computed, onActivated, onMounted, reactive, ref, unref, watch} from "vue";
 import {
   analysisCompDatas,
   commonField,
   createCondition,
   httpMethod,
-  loadData,
   orderBy,
   PageFieldInfo,
   postRequest,
@@ -14,32 +13,28 @@ import {
   warning,
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings.js";
-import {loadElementPlusIcon, loadSvgIcons,} from "@/api/star_horse_form_utils.js";
+import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
 import {FormConfig} from "@/components/types";
 import {i18n} from "@/lang/index.js";
 import {getDesignFormStore, getFlowDesignStore} from "@/store/StoreManager";
 import FlowDesigner from "@/components/workflow/designer/FlowDesigner.vue";
+import {designDataNames} from "@/api/form_utils";
 
 const props = defineProps<{
   optional: FormConfig;
 }>();
 let designForm = getDesignFormStore();
 let formInfo = computed(() => designForm.formInfo);
+const compList = computed(() => designForm.compList);
 const model = computed(() => props.optional?.model ?? "simple");
 let dynamicFormItemRef = ref();
 let dbList = ref<any>([]);
-let systemIconList = ref<SelectOption[]>([]);
 let relationDataList = ref<SelectOption[]>([]);
 let relationTypeList = ref<SelectOption[]>([
   {name: i18n("dyform.formProp.relation.11"), value: "11"},
   {name: i18n("dyform.formProp.relation.1n"), value: "1n"},
   {name: i18n("dyform.formProp.relation.n1"), value: "n1"},
   {name: i18n("dyform.formProp.relation.mn"), value: "mn"},
-]);
-let cloneDatasList = ref<SelectOption[]>([
-  {name: i18n("dyform.formProp.modelType.form"), value: "form"},
-  {name: i18n("dyform.formProp.modelType.authority"), value: "authority"},
-  {name: i18n("dyform.formProp.modelType.all"), value: "all"},
 ]);
 let dataSourceData = ref<any>();
 let requireAsteriskPositionList = ref<SelectOption[]>([
@@ -55,34 +50,18 @@ let formSizeList = ref<SelectOption[]>([
   {name: i18n("dyform.formProp.size.default"), value: "default"},
   {name: i18n("dyform.formProp.size.small"), value: "small"},
 ]);
-let dataLoadConditionList = ref<SelectOption[]>([]);
+
 let dynamicFieldList = ref<SelectOption[]>([]);
 let mainTableFieldList = ref<SelectOption[]>([]);
 let allTableFieldList = ref<SelectOption[]>([]);
 let orderByFieldList = ref<SelectOption[]>([]);
 let tableColumnsList = ref<SelectOption[]>([]);
-let authorityList = ref<SelectOption[]>([]);
 let eventTypeList = ref<SelectOption[]>([]);
-let primaryKeyPolicyList = ref<SelectOption[]>([]);
-let pageStyleList = ref<SelectOption[]>([]);
-let informationsList = ref<any>([]);
-let menusInfoList = ref<any>([]);
-let rolesList = ref<any>([]);
 const relationMsg = i18n("dyform.formProp.relation.helpMsg");
 const commonColumnsMsg = i18n("dyform.formProp.publicFields.helpMsg");
 const dbPositionMsg = i18n("dyform.formProp.dbName.helpMsg");
 const tableListMsg = i18n("dyform.formProp.relationField.helpMsg");
 
-const loadMenus = (sysId: string) => {
-  if (
-      props.optional?.loadMenuList &&
-      typeof props.optional.loadMenuList == "function"
-  ) {
-    props.optional?.loadMenuList(sysId).then((res: SelectOption[]) => {
-      menusInfoList.value = res;
-    });
-  }
-};
 let urlFieldVisible = ref<boolean>(false);
 
 /** 流程定义选项（表单级流程绑定 tab，外部注入或加载） */
@@ -169,57 +148,25 @@ const saveFlowDesign = () => {
 
 
 // ==================== 表单属性字段定义（按业务分组提取） ====================
-/** 基础属性字段 */
-const basicPropsFields = [
+/**
+ * 通用基础属性字段（与业务解耦，仅保留表单自身通用属性）。
+ * 菜单/权限/建表策略等强业务字段已从 lib 中移除，
+ * 接入方通过 FormConfig.formBasicProps 注入自定义字段（见 basicPropsFields）。
+ */
+const genericBasicPropsFields = [
   {
     label: i18n("dyform.formProp.tableName"),
     fieldName: "tbName",
     required: true,
     formVisible: true,
-    preps: {editDisabled: true, colspan: ["simple"].includes(model.value) ? 24 : 11},
+    preps: {editDisabled: true, colspan: ["simple"].includes(model.value) ? 24 : 12},
   },
   {
     label: i18n("dyform.formProp.primaryKey"),
     fieldName: "formId",
     required: true,
     formVisible: true,
-    preps: {editDisabled: true, colspan: ["simple"].includes(model.value) ? 24 : 11},
-  },
-  {
-    label: i18n("dyform.formProp.appName"),
-    fieldName: "sysId",
-    type: "tselect",
-    actions: {
-      change: (val: any) => {
-        loadMenus(val["sysId"]);
-      }
-    },
-    formVisible: ["full"].includes(model.value),
-    required: true,
-    preps: {checkStrictly: true, colspan: 8, data: informationsList},
-  },
-  {
-    label: i18n("dyform.formProp.createTable"),
-    fieldName: "createTable",
-    type: "switch",
-    defaultValue: "N",
-    formVisible: ["full"].includes(model.value),
-    preps: {colspan: 8, activeValue: "Y", inactiveValue: "N"},
-  },
-  {
-    label: i18n("dyform.formProp.checkDuplicate"),
-    fieldName: "checkDuplicate",
-    type: "switch",
-    defaultValue: "false",
-    formVisible: ["full"].includes(model.value),
-    preps: {colspan: 8},
-  },
-  {
-    label: i18n("dyform.formProp.primaryKeyStrategy"),
-    fieldName: "primaryKeyPolicy",
-    type: "select",
-    formVisible: ["full"].includes(model.value),
-    preps: {editDisabled: true, values: primaryKeyPolicyList, colspan: 8},
+    preps: {editDisabled: true, colspan: ["simple"].includes(model.value) ? 24 : 12},
   },
   {
     label: i18n("dyform.formProp.formIcon"),
@@ -227,102 +174,17 @@ const basicPropsFields = [
     type: "icon",
     defaultValue: "document",
     formVisible: true,
-    preps: {colspan: ["simple"].includes(model.value) ? 24 : 5, iconType: "user", values: loadSvgIcons()},
+    preps: {colspan: ["simple"].includes(model.value) ? 24 : 12, iconType: "user", values: loadSvgIcons()},
   },
-  {
-    label: i18n("dyform.formProp.createMenu"),
-    fieldName: "createMenu",
-    type: "switch",
-    defaultValue: "N",
-    formVisible: ["full"].includes(model.value),
-    preps: {
-      colspan: 12,
-      dataRelation: {
-        actionName: "change",
-        relationDetails: [
-          {
-            matchType: "eq",
-            controlCondition: "eqVisible",
-            relationFields: ["userGroupList", "parentMenuId", "buttonPermissionsList"],
-            matchFieldValue: "Y"
-          },
-        ],
-      },
-      activeValue: "Y", inactiveValue: "N",
-    },
-  },
-  {
-    label: i18n("dyform.formProp.authGroup"),
-    fieldName: "userGroupList",
-    type: "select",
-    formVisible: false,
-    listVisible: true,
-    preps: {colspan: 12, multiple: true, values: rolesList},
-  },
-  {
-    label: i18n("dyform.formProp.parentMenu"),
-    fieldName: "parentMenuId",
-    type: "tselect",
-    formVisible: false,
-    preps: {checkStrictly: true, colspan: 12, data: menusInfoList, props: {label: "menuName", value: "dataNo"}},
-  },
-  {
-    label: i18n("dyform.formProp.buttonAuth"),
-    fieldName: "buttonPermissionsList",
-    type: "select",
-    required: false,
-    formVisible: false,
-    listVisible: true,
-    preps: {multiple: true, colspan: 12, values: authorityList},
-  },
-  {
-    label: i18n("dyform.formProp.saveAsTemplate"),
-    fieldName: "templateFlag",
-    type: "switch",
-    defaultValue: 2,
-    formVisible: ["full"].includes(model.value),
-    preps: {activeValue: 1, inactiveValue: 2, colspan: 6},
-  },
-  {
-    label: i18n("dyform.formProp.cascadeDelete"),
-    helpMsg: i18n("dyform.formProp.cascadeDelete.helpMsg"),
-    fieldName: "deleteCascade",
-    type: "switch",
-    defaultValue: "Y",
-    formVisible: ["full"].includes(model.value),
-    preps: {colspan: 6, activeValue: "Y", inactiveValue: "N"},
-  },
-  {
-    label: i18n("dyform.formProp.cloneData"),
-    helpMsg: i18n("dyform.formProp.cloneData.helpMsg"),
-    fieldName: "cloneData",
-    type: "select",
-    formVisible: ["full"].includes(model.value),
-    preps: {colspan: 12, values: cloneDatasList},
-  },
-  {
-    label: i18n("dyform.formProp.pageStyle"),
-    fieldName: "pageStyle",
-    type: "select",
-    formVisible: ["default", "full"].includes(model.value),
-    preps: {
-      colspan: 8,
-      dataRelation: {
-        actionName: "change",
-        relationDetails: [
-          {matchType: "eq", controlCondition: "eqVisible", relationFields: ["dataLoadField"], matchFieldValue: "form"},
-        ],
-      },
-      values: pageStyleList,
-    },
-  },
-  {
-    label: i18n("dyform.formProp.loadCondition"),
-    fieldName: "dataLoadField",
-    type: "select",
-    formVisible: false,
-    preps: {colspan: 8, values: dataLoadConditionList},
-  },
+];
+/**
+ * 基础配置字段 = lib 通用字段 + 外部注入字段（FormConfig.formBasicProps）。
+ * 外部字段需自包含（options 数据、actions 均由外部提供），
+ * 支持 label/fieldName/type/defaultValue/required/formVisible/preps/actions 等标准结构。
+ */
+const basicPropsFields = [
+  ...genericBasicPropsFields,
+  ...(props.optional?.formBasicProps ?? []),
 ];
 /** 表单样式字段 */
 const otherPropsFields = [
@@ -601,14 +463,7 @@ const listCustomEventTable = {
         ],
         [
           {
-            label: i18n("dyform.formProp.operationAuth"),
-            fieldName: "authority",
-            type: "select",
-            required: true,
-            formVisible: true,
-            preps: {dataSource: "dict", urlOrDictName: "button_authority"}
-          },
-          {
+
             label: i18n("dyform.formProp.eventCategory"),
             fieldName: "eventType",
             type: "select",
@@ -732,13 +587,11 @@ const bindModeField = {
           relationFields: ["abc"],
           func: (val) => {
             formInfo.value.flowBindMode = val["flowBindMode"];
-            // if (val["flowBindMode"] == "design") {
             formInfo.value.flowConfigures = {
               ...(formInfo.value.flowConfigures || {}),
               mode: "design",
             };
             openFlowDesigner();
-            // }
           },
           matchFieldValue: "design"
         },
@@ -885,41 +738,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               containerType: "fieldset",
               containerFields: [
                 {
-                  title: i18n("dyform.formProp.relationConfig"),
-                  helpMsg: relationMsg,
-                  fieldList: [relationConfigTable],
-                  formVisible: model.value == "full",
-                  preps: {collapsible: true, innerCollapsed: false}
-                },
-                {
                   title: i18n("dyform.formProp.publicProps"),
                   helpMsg: commonColumnsMsg,
                   fieldList: publicPropsFields,
                   formVisible: ["default", "full"].includes(model.value),
-                  preps: {collapsible: true, innerCollapsed: false}
-                },
-              ],
-            },
-          ],
-        },
-        {
-          title: i18n("dyform.formProp.tabList"),
-          subTablePrimaryKey: "tab3",
-          fieldList: [
-            {
-              containerType: "fieldset",
-              containerFields: [
-                {
-                  title: i18n("dyform.formProp.listConfig"),
-                  helpMsg: tableListMsg,
-                  fieldList: [listConfigTable],
-                  formVisible: ["full"].includes(model.value),
-                  preps: {collapsible: true, innerCollapsed: false}
-                },
-                {
-                  title: i18n("dyform.formProp.listCustomEvent"),
-                  fieldList: [listCustomEventTable],
-                  formVisible: ["full"].includes(model.value),
                   preps: {collapsible: true, innerCollapsed: false}
                 },
                 {
@@ -934,9 +756,42 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         {
           title: i18n("dyform.step.formFlowBind"),
-          subTablePrimaryKey: "tab4",
+          subTablePrimaryKey: "tab3",
           fieldList: flowBindingFields,
         },
+        {
+          title: i18n("dyform.formProp.tabList"),
+          subTablePrimaryKey: "tab4",
+          fieldList: [
+            {
+              containerType: "fieldset",
+              containerFields: [
+                {
+                  title: i18n("dyform.formProp.relationConfig"),
+                  helpMsg: relationMsg,
+                  fieldList: [relationConfigTable],
+                  formVisible: model.value == "full",
+                  preps: {collapsible: true, innerCollapsed: false}
+                },
+                {
+                  title: i18n("dyform.formProp.listConfig"),
+                  helpMsg: tableListMsg,
+                  fieldList: [listConfigTable],
+                  formVisible: ["full"].includes(model.value),
+                  preps: {collapsible: true, innerCollapsed: false}
+                },
+                {
+                  title: i18n("dyform.formProp.listCustomEvent"),
+                  fieldList: [listCustomEventTable],
+                  formVisible: ["full"].includes(model.value),
+                  preps: {collapsible: true, innerCollapsed: false}
+                },
+
+              ],
+            },
+          ],
+        },
+
       ],
     },
   ],
@@ -944,47 +799,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
 const initData = async () => {
   if (
-      props.optional?.loadAppList &&
-      typeof props.optional.loadAppList == "function"
-  ) {
-    props.optional?.loadAppList()?.then((res: SelectOption[]) => {
-      informationsList.value = res;
-    });
-  }
-  if (
-      props.optional?.loadRolesList &&
-      typeof props.optional.loadRolesList == "function"
-  ) {
-    props.optional?.loadRolesList()?.then((res: SelectOption[]) => {
-      rolesList.value = res;
-    });
-  }
-  if (
       props.optional?.loadDicts &&
       typeof props.optional.loadDicts == "function"
   ) {
-    props.optional?.loadDicts("page_style")?.then((res: SelectOption[]) => {
-      pageStyleList.value = res;
-    });
-    props.optional
-        ?.loadDicts("button_authority")
-        ?.then((res: SelectOption[]) => {
-          dlog(res);
-          authorityList.value = res;
-        });
     props.optional?.loadDicts("event_type")?.then((res: SelectOption[]) => {
       eventTypeList.value = res;
     });
-    props.optional
-        ?.loadDicts("DATA_LOAD_CONDITION")
-        ?.then((res: SelectOption[]) => {
-          dataLoadConditionList.value = res;
-        });
-    props.optional
-        ?.loadDicts("PRIMARY_KEY_POLICY")
-        ?.then((res: SelectOption[]) => {
-          primaryKeyPolicyList.value = res;
-        });
   }
   if (
       props.optional?.loadDbList &&
@@ -994,11 +814,12 @@ const initData = async () => {
       dbList.value = res;
     });
   }
-  systemIconList.value = loadElementPlusIcon();
 };
 
 const analysisDynamicFields = async (formInfo: any) => {
-  const apiUrl =
+  debugger;
+  dynamicFieldList.value = designDataNames(compList.value);
+  /*const apiUrl =
       props.optional?.api?.basePrefix + "/analysisDynamicDatasourceFields";
   dlog(
       "[FormPropertyPanel] analysisDynamicFields called, apiUrl:",
@@ -1021,11 +842,11 @@ const analysisDynamicFields = async (formInfo: any) => {
   dlog(
       "[FormPropertyPanel] dynamicFieldList updated, length:",
       dynamicFieldList.value?.length,
-  );
+  );*/
 };
 const analysisMainFields = async () => {
-  let {fieldList} = analysisCompDatas(designForm.compList);
-  const selectDatas: SelectOption[] = fieldList
+  let datas = analysisCompDatas(compList.value);
+  const selectDatas: SelectOption[] = datas.fieldList
       ?.filter((item) => item.label)
       .map((item) => {
         return {
@@ -1035,6 +856,7 @@ const analysisMainFields = async () => {
       });
   mainTableFieldList.value = selectDatas;
   orderByFieldList.value = selectDatas;
+  dynamicFieldList.value = selectDatas;
   allTableFieldList.value = [
     ...mainTableFieldList.value,
     ...commonField().map((item: any) => {
@@ -1158,7 +980,6 @@ defineExpose({
 }
 </style>
 <template>
-  {{ flowDesignerVisible }}
   <star-horse-form
       label-position="right"
       :outerFormData="formInfo"

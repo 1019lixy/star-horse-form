@@ -1,7 +1,8 @@
 import {i18n} from "@/lang";
-import {uuid} from "star-horse-lowcode";
+import {analysisCompDatas, SelectOption, uuid} from "star-horse-lowcode";
 import camelcase from "camelcase";
 import {getDesignFormStore} from "@/store/StoreManager";
+import {dlog} from "@/utils/debugLog";
 
 /**
  * 检查对象是否需要创建
@@ -12,38 +13,38 @@ import {getDesignFormStore} from "@/store/StoreManager";
  * @param prefix 前缀
  */
 export function checkObject(
-  dataForm: any,
-  item: any,
-  index: number,
-  parentIndex: number,
-  prefix: string,
+    dataForm: any,
+    item: any,
+    index: number,
+    parentIndex: number,
+    prefix: string,
 ) {
-  return index + 1;
+    return index + 1;
 }
 
 export function getFormData(
-  item: any,
-  dataForm: any,
-  prefix: string,
-  parentIndex: number,
-  index: number,
+    item: any,
+    dataForm: any,
+    prefix: string,
+    parentIndex: number,
+    index: number,
 ) {
-  if (item.subFormFlag == "Y") {
-    if (item && item.subTableName) {
-      console.log("checkObject", item.subTableName);
-      if (!Object.keys(dataForm).includes(item.subTableName)) {
-        dataForm[item.subTableName] = [{}];
-      }
+    if (item.subFormFlag == "Y") {
+        if (item && item.subTableName) {
+            console.log("checkObject", item.subTableName);
+            if (!Object.keys(dataForm).includes(item.subTableName)) {
+                dataForm[item.subTableName] = [{}];
+            }
+        }
+        let dataIndex = getDataIndex(item, prefix, parentIndex, index);
+        let len = dataForm[item.subTableName].length;
+        if (dataIndex >= len) {
+            dataForm[item.subTableName].push({});
+            dataIndex = len - 1;
+        }
+        return dataForm[item.subTableName][dataIndex];
     }
-    let dataIndex = getDataIndex(item, prefix, parentIndex, index);
-    let len = dataForm[item.subTableName].length;
-    if (dataIndex >= len) {
-      dataForm[item.subTableName].push({});
-      dataIndex = len - 1;
-    }
-    return dataForm[item.subTableName][dataIndex];
-  }
-  return dataForm;
+    return dataForm;
 }
 
 /**
@@ -54,49 +55,55 @@ export function getFormData(
  * @param index
  */
 export function getDataIndex(
-  data: any,
-  prefix: string,
-  parentIndex: number,
-  index: number,
+    data: any,
+    prefix: string,
+    parentIndex: number,
+    index: number,
 ) {
-  let pronPrefix: number = 0;
-  if (prefix && prefix.length > 0) {
-    if (data.subFormFlag == "Y") {
-      pronPrefix = parentIndex > -1 ? 0 : index;
+    let pronPrefix: number = 0;
+    if (prefix && prefix.length > 0) {
+        if (data.subFormFlag == "Y") {
+            pronPrefix = parentIndex > -1 ? 0 : index;
+        } else {
+            pronPrefix = parentIndex;
+        }
+    } else if (data.subFormFlag == "Y") {
+        //如果父表大于0,说明当前是父表的子表，应该用父表的索引
+        pronPrefix = parentIndex > 0 ? parentIndex : index;
     } else {
-      pronPrefix = parentIndex;
+        pronPrefix = -1;
     }
-  } else if (data.subFormFlag == "Y") {
-    //如果父表大于0,说明当前是父表的子表，应该用父表的索引
-    pronPrefix = parentIndex > 0 ? parentIndex : index;
-  } else {
-    pronPrefix = -1;
-  }
-  return pronPrefix;
+    return pronPrefix;
 }
 
 // 快捷添加组件
 export const quickAddItem = (items: any[], hideLabel: boolean = false) => {
-  const uid = uuid();
-  const name = camelcase(["field", uid.substring(0, 6)]);
-  const label = i18n("dyform.condition.leafField") + (items.length + 1);
-  const newItem = {
-    id: "Id" + uid,
-    label: label,
-    fieldName: name,
-    compType: "formItem",
-    itemType: "input",
-    preps: {
-      id: "Id" + uid,
-      listVisible: true,
-      formVisible: true,
-      hideLabel: hideLabel,
-      name: name,
-      label: label,
-      itemNameLabel: label,
-    },
-  };
-  items.push(newItem);
-  const designForm = getDesignFormStore();
-  designForm.selectItem(newItem, newItem.itemType, "");
+    const uid = uuid();
+    const name = camelcase(["field", uid.substring(0, 6)]);
+    const label = i18n("dyform.condition.leafField") + (items.length + 1);
+    const newItem = {
+        id: "Id" + uid,
+        label: label,
+        fieldName: name,
+        compType: "formItem",
+        itemType: "input",
+        preps: {
+            id: "Id" + uid,
+            listVisible: true,
+            formVisible: true,
+            hideLabel: hideLabel,
+            name: name,
+            label: label,
+            itemNameLabel: label,
+        },
+    };
+    items.push(newItem);
+    const designForm = getDesignFormStore();
+    designForm.selectItem(newItem, newItem.itemType, "");
+};
+export const designDataNames = (dataList: any): SelectOption[] => {
+    const nameList: SelectOption[] = [];
+    const result = analysisCompDatas(dataList);
+    dlog(result);
+    return nameList
 };

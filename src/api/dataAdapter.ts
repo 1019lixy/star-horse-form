@@ -129,7 +129,7 @@ async function fetchAndMap<T = any>(
 /**
  * 创建无参数数据适配器
  *
- * 用于 loadAppList、loadRolesList、loadDbList 等不需要参数的回调场景。
+ * 用于 loadAppList、loadDbList 等不需要参数的回调场景。
  * 自动处理：Promise 包装、响应码校验、数据提取、字段映射。
  *
  * @example
@@ -137,11 +137,6 @@ async function fetchAndMap<T = any>(
  * loadAppList: createDataAdapter(
  *   () => loadSystemInfo(params, url),
  *   { name: 'sysName', value: 'idInformations' },
- * ),
- *
- * loadRolesList: createDataAdapter(
- *   () => loadRolesInfo([]),
- *   { name: 'roleName', value: 'idRolesinfo' },
  * ),
  * ```
  */
@@ -159,7 +154,7 @@ export function createDataAdapter<T = any>(
 /**
  * 创建带参数的数据适配器
  *
- * 用于 loadDicts、loadMenuList、loadTableColumns 等需要参数的回调场景。
+ * 用于 loadDicts、loadTableColumns 等需要参数的回调场景。
  * 自动处理：参数透传、Promise 包装、响应码校验、数据提取、字段映射。
  *
  * @example
@@ -172,12 +167,6 @@ export function createDataAdapter<T = any>(
  * loadTableColumns: createParamDataAdapter(
  *   (tableName) => getRequest(`/api/columns/${dsId}/${tableName}`),
  *   { name: 'comment', value: 'fieldName' },
- * ),
- *
- * loadMenuList: createParamDataAdapter(
- *   (appId) => permissionMenus({}, appId),
- *   { name: 'menuName', value: 'idMenusinfo' },
- *   { dataPath: 'data.data' },
  * ),
  * ```
  */

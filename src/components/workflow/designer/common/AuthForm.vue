@@ -3,7 +3,6 @@ import {onMounted, ref, watch} from "vue";
 import {loadData, warning} from "star-horse-lowcode";
 import {useVModel} from "@vueuse/core";
 import {FlowNodeEnums} from "@/components/workflow/enums/FlowNodeEnums";
-import {FormPreview} from "star-horse-form";
 
 const props = defineProps({
   compSize: {
@@ -95,11 +94,11 @@ watch(
       :source="3"
   >
     <star-horse-data-view
-      :dataFormat="()=>{}"
-      :field-list="currentData.tableFieldList"
-      :globalCondition="currentData.relationTables"
-      :dynamicForm="true"
-      :compUrl="currentData.dataUrl"
+        :dataFormat="()=>{}"
+        :field-list="currentData.tableFieldList"
+        :globalCondition="currentData.relationTables"
+        :dynamicForm="true"
+        :compUrl="currentData.dataUrl"
     />
 
   </star-horse-panel>

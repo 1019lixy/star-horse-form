@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {initApi, openDatabase, tableColumns,} from "@/components/system/items/utils/DbSearchUtils";
 import {i18n} from "@/lang";
 import {
@@ -15,14 +15,40 @@ import {
 } from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
 import {computed, ComputedRef, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
-import {FormConfig} from "@/components/types";
+import {ApiUrls} from "star-horse-lowcode";
 
 const props = defineProps({
-  optional: { type: Object as PropType<FormConfig> },
+  /** 数据库配置Api */
+  dbInfoApi: { type: Object as PropType<ApiUrls> },
+  /** 获取所有数据源信息 */
+  loadDbList: {
+    type: Function as PropType<() => Promise<SelectOption[]>>,
+  },
+  /** 获取字典数据 */
+  loadDicts: {
+    type: Function as PropType<(dictName: string) => Promise<SelectOption[]>>,
+  },
+  /** 是否批量创建页面 */
+  batchCreatePage: { type: Boolean, default: false },
+  /** 批量建表接口（batchCreateForm 使用 api.basePrefix） */
+  api: { type: Object as PropType<ApiUrls> },
+  /** 组件大小 */
+  compSize: { type: String, default: "default" },
+  /** 获取应用列表（批量创建页面-所属应用） */
+  loadAppList: {
+    type: Function as PropType<() => Promise<SelectOption[]>>,
+  },
+  /** 获取角色列表（批量创建页面-配置菜单-权限组） */
+  loadRolesList: {
+    type: Function as PropType<() => Promise<SelectOption[]>>,
+  },
+  /** 根据应用ID加载菜单（批量创建页面-配置菜单-上级菜单） */
+  loadMenuList: {
+    type: Function as PropType<(appId: string) => Promise<SelectOption[]>>,
+  },
 });
 let designForm = getDesignFormStore();
 let allFormDataList = computed(() => designForm.allFormDataList);
-let compSize = computed(() => props.optional?.compSize || "default");
 let dbIndex = ref<any>(null);
 let formData: ComputedRef<any> = computed(() => designForm.formData);
 let compList = computed(() => designForm.compList);
@@ -65,12 +91,11 @@ const createMenuFlag = ref<boolean>(false);
 const rolesList = ref<Array<SelectOption>>([]);
 const appinfoList = ref<SelectOption[]>([]);
 const menuList = ref<Array<SelectOption>>([]);
+const buttonPermissionsList = ref<Array<SelectOption>>([]);
 const pageStyleList = ref<Array<SelectOption>>([]);
 const dataLoadConditionList = ref<Array<SelectOption>>([]);
 const primaryKeyPolicyList = ref<Array<SelectOption>>([]);
-const buttonPermissionsList = ref<Array<SelectOption>>([]);
 const tableFieldInfo = ref<PageFieldInfo>({
-  // containerType: "table",
   containerFields: [
     {
       subTableName: "tableNameList",
@@ -245,7 +270,6 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
     ],
-
     [
       {
         label: i18n("dyform.utils.565"),
@@ -386,7 +410,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
   ],
 });
 let currentDataVisible = ref<boolean>(false);
-let tableDialogVisible = ref<boolean>(false);
+
 const contextOperation = async (evt: Event, data: any, _index: number) => {
   evt.preventDefault();
   evt.stopPropagation();
@@ -475,12 +499,10 @@ const filterData = () => {
     item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
+
 const loadMenuBySystemId = (systemId: string) => {
-  if (
-    props.optional?.loadMenuList &&
-    typeof props.optional.loadMenuList == "function"
-  ) {
-    props.optional?.loadMenuList(systemId).then((res: SelectOption[]) => {
+  if (props.loadMenuList && typeof props.loadMenuList == "function") {
+    props.loadMenuList(systemId).then((res: SelectOption[]) => {
       menuList.value = res;
     });
   }
@@ -488,48 +510,48 @@ const loadMenuBySystemId = (systemId: string) => {
 
 const init = async () => {
   if (
-    props.optional?.loadDbList &&
-    typeof props.optional.loadDbList == "function"
+    props.loadDbList &&
+    typeof props.loadDbList == "function"
   ) {
-    props.optional?.loadDbList()?.then((res: SelectOption[]) => {
+    props.loadDbList()?.then((res: SelectOption[]) => {
       dbList.value = res;
     });
   }
   if (
-    props.optional?.loadAppList &&
-    typeof props.optional.loadAppList == "function"
+    props.loadAppList &&
+    typeof props.loadAppList == "function"
   ) {
-    props.optional?.loadAppList()?.then((res: SelectOption[]) => {
+    props.loadAppList()?.then((res: SelectOption[]) => {
       appinfoList.value = res;
     });
   }
   if (
-    props.optional?.loadRolesList &&
-    typeof props.optional.loadRolesList == "function"
+    props.loadRolesList &&
+    typeof props.loadRolesList == "function"
   ) {
-    props.optional?.loadRolesList()?.then((res: SelectOption[]) => {
+    props.loadRolesList()?.then((res: SelectOption[]) => {
       rolesList.value = res;
     });
   }
   if (
-    props.optional?.loadDicts &&
-    typeof props.optional.loadDicts == "function"
+    props.loadDicts &&
+    typeof props.loadDicts == "function"
   ) {
-    props.optional?.loadDicts("page_style")?.then((res: SelectOption[]) => {
+    props.loadDicts("page_style")?.then((res: SelectOption[]) => {
       pageStyleList.value = res;
     });
-    props.optional
-      ?.loadDicts("DATA_LOAD_CONDITION")
+    props
+      .loadDicts("DATA_LOAD_CONDITION")
       ?.then((res: SelectOption[]) => {
         dataLoadConditionList.value = res;
       });
-    props.optional
-      ?.loadDicts("PRIMARY_KEY_POLICY")
+    props
+      .loadDicts("PRIMARY_KEY_POLICY")
       ?.then((res: SelectOption[]) => {
         primaryKeyPolicyList.value = res;
       });
-    props.optional
-      ?.loadDicts("button_authority")
+    props
+      .loadDicts("button_authority")
       ?.then((res: SelectOption[]) => {
         buttonPermissionsList.value = res;
       });
@@ -746,6 +768,7 @@ const onDataCopy = async (data: any) => {
   }
 };
 const configDialogVisible = ref<boolean>(false);
+let tableDialogVisible = ref<boolean>(false);
 const closeAction = () => {
   configDialogVisible.value = false;
   tableDialogVisible.value = false;
@@ -778,7 +801,7 @@ const configDataSubmit = (type: string) => {
     parentDialogType.value = type;
     let tempFormData = configFormRef.value.getFormData().value;
     configData.value = { ...tempFormData };
-    if (props.optional?.batchCreatePage) {
+    if (props.batchCreatePage) {
       let tableInfoList: any = [];
       tempFormData["tableNameList"]?.forEach((item: string) => {
         let findData = assignDataList.value?.find(
@@ -818,14 +841,14 @@ const execCreateData = (type: string) => {
   });
 };
 const doCreateData = (type: string) => {
-  if (!props.optional) {
+  if (!props.api) {
     warning(i18n("dyform.utils.577"));
     return;
   }
   //创建页面
   load(i18n("dyform.utils.578"));
   postRequest(
-    `${props.optional?.api?.basePrefix}/batchCreateForm`,
+    `${props.api?.basePrefix}/batchCreateForm`,
     configData.value,
   )
     .then((res: any) => {
@@ -849,7 +872,7 @@ onMounted(() => {
   init();
 });
 watch(
-  () => props.optional.dbInfoApi,
+  () => props.dbInfoApi,
   (val) => {
     if (val) {
       initApi(val);
@@ -881,6 +904,7 @@ defineExpose({});
     </star-horse-form>
   </star-horse-panel>
   <star-horse-panel
+
     :boxWidth="'40%'"
     :boxHeight="'60%'"
     v-model="currentDataVisible"

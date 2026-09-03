@@ -1,21 +1,18 @@
-<script setup lang="ts" name="FieldPanel">
-import {computed, PropType, ref} from "vue";
-import {loadData, operationConfirm, StarHorseIcon, success,} from "star-horse-lowcode";
+﻿<script setup lang="ts" name="FieldPanel">
+import {computed, PropType, ref, useSlots} from "vue";
+import {StarHorseIcon} from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
-import {fieldCopy, loadCustomComponents,} from "@/components/system/items/utils/FieldOperationUtils.js";
+import {fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
 import {i18n} from "@/lang/index.js";
 import {FormConfig} from "@/components/types";
 import OutlineTree from "@/components/system/items/form/components/OutlineTree.vue";
-import {deleteCustomComponent, deleteLocalCustomComponent,} from "@/api/custom_component_api";
-import {
-  SYSTEM_TEMPLATE_CATEGORIES,
-  SYSTEM_TEMPLATES,
-} from "@/components/system/items/form/composables/systemTemplates";
 
 const props = defineProps({
-  optional: { type: Object as PropType<FormConfig> },
+  optional: {type: Object as PropType<FormConfig>},
+  /** tab 显示顺序（按 name），未列出的 tab 追加在最后 */
+  tabOrder: {type: Array as PropType<string[]>, default: () => []},
 });
-const emits = defineEmits(["loadData", "applySystemTemplate"]);
+const slots = useSlots();
 const designForm = getDesignFormStore();
 const baseFormDataList = computed(() => designForm.formDataList);
 const baseContainerList = computed(() => designForm.containerDataList);
@@ -23,14 +20,12 @@ const baseSelfFormDataList = computed(() => designForm.selfFormDataList);
 const formQuery = ref<string>("");
 const containerQuery = ref<string>("");
 const selfQuery = ref<string>("");
-const myCompQuery = ref<string>("");
-const myContainerQuery = ref<string>("");
 const formDataList = computed(() => {
   if (!formQuery.value) {
     return baseFormDataList.value;
   }
   return baseFormDataList.value.filter((item) =>
-    item.itemName.toLowerCase().includes(formQuery.value.toLowerCase()),
+      item.itemName.toLowerCase().includes(formQuery.value.toLowerCase()),
   );
 });
 let containerList = computed(() => {
@@ -38,7 +33,7 @@ let containerList = computed(() => {
     return baseContainerList.value;
   }
   return baseContainerList.value.filter((item) =>
-    item.itemName.toLowerCase().includes(containerQuery.value.toLowerCase()),
+      item.itemName.toLowerCase().includes(containerQuery.value.toLowerCase()),
   );
 });
 let selfFormDataList = computed(() => {
@@ -46,86 +41,74 @@ let selfFormDataList = computed(() => {
     return baseSelfFormDataList.value;
   }
   return baseSelfFormDataList.value.filter((item) =>
-    item.itemName.toLowerCase().includes(selfQuery.value.toLowerCase()),
+      item.itemName.toLowerCase().includes(selfQuery.value.toLowerCase()),
   );
 });
-// 自定义组件子分类: 系统内置扩展组件(组件Tab中仅显示系统扩展,用户自定义组件移至"我的组件"Tab)
+// 自定义组件子分类: 系统内置扩展组件(仅显示系统扩展)
 const systemSelfList = computed(() =>
-  selfFormDataList.value.filter((item: any) => !item.isCustom),
+    selfFormDataList.value.filter((item: any) => !item.isCustom),
 );
-// 我的组件: 所有用户保存的自定义组件
-const allMyCustomList = computed(() =>
-  baseSelfFormDataList.value.filter((item: any) => item.isCustom),
-);
-// 我的组件-容器分类
-const myCustomContainers = computed(() => {
-  let list = allMyCustomList.value.filter(
-    (item: any) => item.compType === "container",
-  );
-  if (!myContainerQuery.value) return list;
-  return list.filter((item) =>
-    item.itemName.toLowerCase().includes(myContainerQuery.value.toLowerCase()),
-  );
-});
-// 我的组件-表单组件分类
-const myCustomFormItems = computed(() => {
-  let list = allMyCustomList.value.filter(
-    (item: any) => item.compType !== "container",
-  );
-  if (!myCompQuery.value) return list;
-  return list.filter((item) =>
-    item.itemName.toLowerCase().includes(myCompQuery.value.toLowerCase()),
-  );
-});
 let list = computed(() => designForm.compList);
 let tabModel = ref<string>("component");
 let activeNames = ref<string[]>(["a", "b", "c"]);
-let myCompNames = ref<string[]>(["mc", "mf"]);
-const model = computed(() => props.optional?.model ?? "simple");
 
-const tabList = computed(() => [
+interface TabItem {
+  name: string;
+  icon: string;
+  label: string;
+}
+
+/** 内置通用 tab（无强业务耦合） */
+const builtinTabs = computed<TabItem[]>(() => [
   {
     name: "component",
     icon: "component",
     label: i18n("dyform.tab.component"),
-    visible: true,
   },
-  {
-    name: "mycomp",
-    icon: "custom_component",
-    label: i18n("dyform.tab.mycomp"),
-    visible: true,
-  },
-  {
-    name: "outline",
-    icon: "dept",
-    label: i18n("dyform.tab.outline"),
-    visible: true,
-  },
-  {
-    name: "dbinfo",
-    icon: "database",
-    label: i18n("dyform.tab.dbinfo"),
-    visible: model.value === "full",
-  },
-  {
-    name: "template",
-    icon: "template",
-    label: i18n("dyform.tab.template"),
-    visible: true,
-  },
-  { name: "help", icon: "help", label: i18n("dyform.tab.help"), visible: true },
+  {name: "outline", icon: "dept", label: i18n("dyform.tab.outline")},
+  {name: "help", icon: "help", label: i18n("dyform.tab.help")},
 ]);
+
+/**
+ * 常用扩展 tab 的标题/图标映射（历史内置 tab 保持原样式），
+ * 未在此表中的 tab 以插槽名作为标题
+ */
+const builtinTabMeta: Record<string, {icon: string; label: string}> = {
+  mycomp: {icon: "custom_component", label: i18n("dyform.tab.mycomp")},
+  dbinfo: {icon: "database", label: i18n("dyform.tab.dbinfo")},
+  template: {icon: "template", label: i18n("dyform.tab.template")},
+};
+
+/**
+ * 插槽即 tab：模板中写入 <template #tab-xxx> 即自动生成名为 xxx 的 tab，
+ * 内置 tab（component/outline/help）也可通过同名插槽覆盖默认内容
+ */
+const extensionTabs = computed<TabItem[]>(() => {
+  const builtinNames = new Set(builtinTabs.value.map((tab) => tab.name));
+  return Object.keys(slots)
+      .filter((slotName) => slotName.startsWith("tab-"))
+      .map((slotName) => slotName.slice(4))
+      .filter((name) => name && !builtinNames.has(name))
+      .map((name) => ({
+        name,
+        icon: builtinTabMeta[name]?.icon ?? "other",
+        label: builtinTabMeta[name]?.label ?? name,
+      }));
+});
+
+/** 完整 tab 列表 = 内置 tab + 插槽扩展 tab（同名插槽覆盖内置 tab 内容），按 tabOrder 排序 */
+const allTabList = computed<TabItem[]>(() => {
+  const all = [...builtinTabs.value, ...extensionTabs.value];
+  if (!props.tabOrder?.length) return all;
+  const ordered = props.tabOrder
+      .map((name) => all.find((tab) => tab.name === name))
+      .filter((tab): tab is TabItem => !!tab);
+  const rest = all.filter((tab) => !props.tabOrder!.includes(tab.name));
+  return [...ordered, ...rest];
+});
 
 const switchTab = (name: string) => {
   tabModel.value = name;
-  if (name === "template" && props.optional?.api?.basePrefix) {
-    loadData(props.optional.api.basePrefix + "/loadTemplate", {}).then(
-      async (res: any) => {
-        templateList.value = res.data || [];
-      },
-    );
-  }
 };
 
 const toggleSection = (name: string) => {
@@ -134,15 +117,6 @@ const toggleSection = (name: string) => {
     activeNames.value.splice(idx, 1);
   } else {
     activeNames.value.push(name);
-  }
-};
-
-const toggleMyCompSection = (name: string) => {
-  const idx = myCompNames.value.indexOf(name);
-  if (idx > -1) {
-    myCompNames.value.splice(idx, 1);
-  } else {
-    myCompNames.value.push(name);
   }
 };
 
@@ -157,40 +131,7 @@ const onDataCopy = (data: any, type: string) => {
   designForm.setDraggingItem(mvData);
   return mvData;
 };
-const templateList = ref<any[]>([]);
-const loadFormData = (formId: any) => {
-  emits("loadData", formId);
-};
 
-const templateCategory = ref<string>("");
-const templateSearch = ref<string>("");
-const filteredSystemTemplates = computed(() => {
-  let list = SYSTEM_TEMPLATES;
-  if (templateCategory.value) {
-    list = list.filter((t) => t.category === templateCategory.value);
-  }
-  if (templateSearch.value) {
-    const q = templateSearch.value.toLowerCase();
-    list = list.filter(
-      (t) =>
-        t.name.toLowerCase().includes(q) ||
-        t.tags.some((tag) => tag.toLowerCase().includes(q)),
-    );
-  }
-  return list;
-});
-const applyTemplate = (template: any) => {
-  operationConfirm(i18n("dyform.template.apply.confirm"))
-    .then(() => {
-      emits("applySystemTemplate", template);
-    })
-    .catch(() => {});
-};
-
-const previewRefs = ref<any[]>([]);
-const createRef = (el: any) => {
-  previewRefs.value.push(el);
-};
 const addElement = (element: any, type: string) => {
   let mvData = fieldCopy(element, type);
   list.value.push(mvData);
@@ -201,681 +142,291 @@ const addElement = (element: any, type: string) => {
     designForm.selectItem(mvData, mvData["itemType"], "");
   }
 };
-
-// 根据组件compType选择正确的clone函数
-const onMyCompCopy = (data: any) => {
-  return onDataCopy(
-    data,
-    data.compType === "container" ? "container" : "formItem",
-  );
-};
-
-// 删除自定义组件
-const handleDeleteCustomComp = (element: any, e: Event) => {
-  e.stopPropagation();
-  e.preventDefault();
-  const compName = element.itemName || "";
-  operationConfirm(
-    i18n("dyform.customComp.delete.confirm").replace("{name}", compName),
-  )
-    .then(() => {
-      const id = element.idCustomComponent;
-      if (!id) return;
-      if (element.storageMode === "local") {
-        deleteLocalCustomComponent(id);
-        loadCustomComponents();
-        success(i18n("dyform.customComp.delete.success"));
-      } else {
-        deleteCustomComponent(id)
-          .then(() => {
-            loadCustomComponents();
-            success(i18n("dyform.customComp.delete.success"));
-          })
-          .catch(() => {});
-      }
-    })
-    .catch(() => {});
-};
 </script>
 <template>
   <div class="field-panel-root">
     <!-- Left Vertical Tabs -->
     <div class="field-sidebar-tabs">
       <button
-        v-for="tab in tabList"
-        :key="tab.name"
-        :class="['sidebar-tab', { active: tabModel === tab.name }]"
-        @click="switchTab(tab.name)"
-        v-show="tab.visible"
-        :title="tab.label"
+          v-for="tab in allTabList"
+          :key="tab.name"
+          :class="['sidebar-tab', { active: tabModel === tab.name }]"
+          @click="switchTab(tab.name)"
+          :title="tab.label"
       >
-        <star-horse-icon :icon-class="tab.icon" size="22px" />
+        <star-horse-icon :icon-class="tab.icon || 'other'" size="22px"/>
         <span class="sidebar-tab-label">{{ tab.label }}</span>
       </button>
       <div class="sidebar-spacer"></div>
     </div>
 
     <!-- Tab Content Area -->
+    <!--
+      插槽规则:
+      1. 外部扩展 tab 内容通过动态插槽 tab-{name} 提供
+      2. 内置 tab(component/outline/help)有默认内容,同名插槽可整体覆盖
+      3. 插槽作用域透出当前 tab 配置
+    -->
     <div class="field-panel-content">
-      <!-- Component Tab -->
-      <template v-if="tabModel === 'component'">
-        <el-scrollbar height="100%">
-          <div class="field-sections">
-            <!-- Layout Components -->
-            <div class="field-section">
-              <div class="section-header" @click="toggleSection('a')">
-                <div class="section-title">
-                  <star-horse-icon
-                    icon-class="container"
-                    size="18px"
-                    class="section-icon"
-                  />
-                  <span>{{ i18n("dyform.collapse.layout") }}</span>
-                </div>
-                <svg
-                  :class="[
+      <template v-for="tab in allTabList" :key="tab.name">
+        <template v-if="tabModel === tab.name">
+          <slot :name="`tab-${tab.name}`" :tab="tab">
+            <!-- Component Tab -->
+            <template v-if="tab.name === 'component'">
+              <el-scrollbar height="100%">
+                <div class="field-sections">
+                  <!-- Layout Components -->
+                  <div class="field-section">
+                    <div class="section-header" @click="toggleSection('a')">
+                      <div class="section-title">
+                        <star-horse-icon
+                            icon-class="container"
+                            size="18px"
+                            class="section-icon"
+                        />
+                        <span>{{ i18n("dyform.collapse.layout") }}</span>
+                      </div>
+                      <svg
+                          :class="[
                     'section-arrow',
                     { expanded: activeNames.includes('a') },
                   ]"
-                  viewBox="0 0 10 6"
-                  fill="none"
-                >
-                  <path
-                    d="M1 1L5 5L9 1"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div v-show="activeNames.includes('a')" class="section-body">
-                <div class="search-box">
-                  <el-input
-                    v-model="containerQuery"
-                    :placeholder="i18n('dyform.collapse.layout')"
-                    clearable
-                    size="small"
-                  >
-                    <template #prefix>
-                      <star-horse-icon iconClass="search" size="14px" />
-                    </template>
-                  </el-input>
-                </div>
-                <draggable
-                  :clone="onContainerCopy"
-                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                  :sort="false"
-                  animation="200"
-                  ghost-class="ghost"
-                  item-key="id"
-                  tag="div"
-                  class="field-grid"
-                  :list="containerList"
-                >
-                  <template #item="{ element }">
-                    <div
-                      class="field-card"
-                      @dblclick="addElement(element, 'container')"
-                      :title="element.itemName"
-                    >
-                      <star-horse-icon
-                        :icon-class="element.itemIcon"
-                        size="24px"
-                        class="field-card-icon"
-                      />
-                      <span class="field-card-name">{{
-                        element.itemName
-                      }}</span>
+                          viewBox="0 0 10 6"
+                          fill="none"
+                      >
+                        <path
+                            d="M1 1L5 5L9 1"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                      </svg>
                     </div>
-                  </template>
-                </draggable>
-              </div>
-            </div>
+                    <div v-show="activeNames.includes('a')" class="section-body">
+                      <div class="search-box">
+                        <el-input
+                            v-model="containerQuery"
+                            :placeholder="i18n('dyform.collapse.layout')"
+                            clearable
+                            size="small"
+                        >
+                          <template #prefix>
+                            <star-horse-icon iconClass="search" size="14px"/>
+                          </template>
+                        </el-input>
+                      </div>
+                      <draggable
+                          :clone="onContainerCopy"
+                          :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                          :sort="false"
+                          animation="200"
+                          ghost-class="ghost"
+                          item-key="id"
+                          tag="div"
+                          class="field-grid"
+                          :list="containerList"
+                      >
+                        <template #item="{ element }">
+                          <div
+                              class="field-card"
+                              @dblclick="addElement(element, 'container')"
+                              :title="element.itemName"
+                          >
+                            <star-horse-icon
+                                :icon-class="element.itemIcon"
+                                size="24px"
+                                class="field-card-icon"
+                            />
+                            <span class="field-card-name">{{
+                                element.itemName
+                              }}</span>
+                          </div>
+                        </template>
+                      </draggable>
+                    </div>
+                  </div>
 
-            <!-- Form Components -->
-            <div class="field-section">
-              <div class="section-header" @click="toggleSection('b')">
-                <div class="section-title">
-                  <star-horse-icon
-                    icon-class="form"
-                    size="18px"
-                    class="section-icon"
-                  />
-                  <span>{{ i18n("dyform.collapse.form") }}</span>
-                </div>
-                <svg
-                  :class="[
+                  <!-- Form Components -->
+                  <div class="field-section">
+                    <div class="section-header" @click="toggleSection('b')">
+                      <div class="section-title">
+                        <star-horse-icon
+                            icon-class="form"
+                            size="18px"
+                            class="section-icon"
+                        />
+                        <span>{{ i18n("dyform.collapse.form") }}</span>
+                      </div>
+                      <svg
+                          :class="[
                     'section-arrow',
                     { expanded: activeNames.includes('b') },
                   ]"
-                  viewBox="0 0 10 6"
-                  fill="none"
-                >
-                  <path
-                    d="M1 1L5 5L9 1"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div v-show="activeNames.includes('b')" class="section-body">
-                <div class="search-box">
-                  <el-input
-                    v-model="formQuery"
-                    :placeholder="i18n('dyform.collapse.form')"
-                    clearable
-                    size="small"
-                  >
-                    <template #prefix>
-                      <star-horse-icon iconClass="search" size="14px" />
-                    </template>
-                  </el-input>
-                </div>
-                <draggable
-                  :clone="onFormItemCopy"
-                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                  :sort="false"
-                  animation="200"
-                  ghost-class="ghost"
-                  item-key="key"
-                  tag="div"
-                  class="field-grid"
-                  :list="formDataList"
-                >
-                  <template #item="{ element }">
-                    <div
-                      class="field-card"
-                      @dblclick="addElement(element, 'item')"
-                      :title="element.itemName"
-                    >
-                      <star-horse-icon
-                        :icon-class="element.itemIcon"
-                        size="24px"
-                        class="field-card-icon"
-                      />
-                      <span class="field-card-name">{{
-                        element.itemName
-                      }}</span>
+                          viewBox="0 0 10 6"
+                          fill="none"
+                      >
+                        <path
+                            d="M1 1L5 5L9 1"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                      </svg>
                     </div>
-                  </template>
-                </draggable>
-              </div>
-            </div>
+                    <div v-show="activeNames.includes('b')" class="section-body">
+                      <div class="search-box">
+                        <el-input
+                            v-model="formQuery"
+                            :placeholder="i18n('dyform.collapse.form')"
+                            clearable
+                            size="small"
+                        >
+                          <template #prefix>
+                            <star-horse-icon iconClass="search" size="14px"/>
+                          </template>
+                        </el-input>
+                      </div>
+                      <draggable
+                          :clone="onFormItemCopy"
+                          :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                          :sort="false"
+                          animation="200"
+                          ghost-class="ghost"
+                          item-key="key"
+                          tag="div"
+                          class="field-grid"
+                          :list="formDataList"
+                      >
+                        <template #item="{ element }">
+                          <div
+                              class="field-card"
+                              @dblclick="addElement(element, 'item')"
+                              :title="element.itemName"
+                          >
+                            <star-horse-icon
+                                :icon-class="element.itemIcon"
+                                size="24px"
+                                class="field-card-icon"
+                            />
+                            <span class="field-card-name">{{
+                                element.itemName
+                              }}</span>
+                          </div>
+                        </template>
+                      </draggable>
+                    </div>
+                  </div>
 
-            <!-- Custom Components -->
-            <div class="field-section">
-              <div class="section-header" @click="toggleSection('c')">
-                <div class="section-title">
-                  <star-horse-icon
-                    icon-class="other"
-                    size="18px"
-                    class="section-icon"
-                  />
-                  <span>{{ i18n("dyform.collapse.custom") }}</span>
-                </div>
-                <svg
-                  :class="[
+                  <!-- Custom Components -->
+                  <div class="field-section">
+                    <div class="section-header" @click="toggleSection('c')">
+                      <div class="section-title">
+                        <star-horse-icon
+                            icon-class="other"
+                            size="18px"
+                            class="section-icon"
+                        />
+                        <span>{{ i18n("dyform.collapse.custom") }}</span>
+                      </div>
+                      <svg
+                          :class="[
                     'section-arrow',
                     { expanded: activeNames.includes('c') },
                   ]"
-                  viewBox="0 0 10 6"
-                  fill="none"
-                >
-                  <path
-                    d="M1 1L5 5L9 1"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div v-show="activeNames.includes('c')" class="section-body">
-                <div class="search-box">
-                  <el-input
-                    v-model="selfQuery"
-                    :placeholder="i18n('dyform.collapse.custom')"
-                    clearable
-                    size="small"
-                  >
-                    <template #prefix>
-                      <star-horse-icon iconClass="search" size="14px" />
-                    </template>
-                  </el-input>
-                </div>
-                <!-- 系统扩展组件子分组 -->
-                <div v-if="systemSelfList.length > 0" class="sub-section">
-                  <div class="sub-section-title">
-                    <star-horse-icon icon-class="other" size="14px" />
-                    <span>{{ i18n("dyform.collapse.systemExtend") }}</span>
-                  </div>
-                  <draggable
-                    :clone="onFormItemCopy"
-                    :group="{
+                          viewBox="0 0 10 6"
+                          fill="none"
+                      >
+                        <path
+                            d="M1 1L5 5L9 1"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div v-show="activeNames.includes('c')" class="section-body">
+                      <div class="search-box">
+                        <el-input
+                            v-model="selfQuery"
+                            :placeholder="i18n('dyform.collapse.custom')"
+                            clearable
+                            size="small"
+                        >
+                          <template #prefix>
+                            <star-horse-icon iconClass="search" size="14px"/>
+                          </template>
+                        </el-input>
+                      </div>
+                      <!-- 系统扩展组件子分组 -->
+                      <div v-if="systemSelfList.length > 0" class="sub-section">
+                        <div class="sub-section-title">
+                          <star-horse-icon icon-class="other" size="14px"/>
+                          <span>{{ i18n("dyform.collapse.systemExtend") }}</span>
+                        </div>
+                        <draggable
+                            :clone="onFormItemCopy"
+                            :group="{
                       name: 'starHorseGroup',
                       pull: 'clone',
                       put: false,
                     }"
-                    :sort="false"
-                    animation="200"
-                    ghost-class="ghost"
-                    item-key="key"
-                    tag="div"
-                    class="field-grid"
-                    :list="systemSelfList"
-                  >
-                    <template #item="{ element }">
-                      <div
-                        class="field-card"
-                        @dblclick="addElement(element, 'item')"
-                        :title="element.itemName"
-                      >
-                        <star-horse-icon
-                          :icon-class="element.itemIcon"
-                          size="24px"
-                          class="field-card-icon"
-                        />
-                        <span class="field-card-name">{{
-                          element.itemName
-                        }}</span>
+                            :sort="false"
+                            animation="200"
+                            ghost-class="ghost"
+                            item-key="key"
+                            tag="div"
+                            class="field-grid"
+                            :list="systemSelfList"
+                        >
+                          <template #item="{ element }">
+                            <div
+                                class="field-card"
+                                @dblclick="addElement(element, 'item')"
+                                :title="element.itemName"
+                            >
+                              <star-horse-icon
+                                  :icon-class="element.itemIcon"
+                                  size="24px"
+                                  class="field-card-icon"
+                              />
+                              <span class="field-card-name">{{
+                                  element.itemName
+                                }}</span>
+                            </div>
+                          </template>
+                        </draggable>
                       </div>
-                    </template>
-                  </draggable>
-                </div>
-                <el-empty
-                  v-if="systemSelfList.length === 0"
-                  :image-size="60"
-                  :description="i18n('dyform.collapse.custom')"
-                />
-                <div style="height: 40px"></div>
-              </div>
-            </div>
-          </div>
-        </el-scrollbar>
-      </template>
-
-      <!-- My Components Tab -->
-      <template v-if="tabModel === 'mycomp'">
-        <el-scrollbar height="100%">
-          <div class="field-sections">
-            <!-- 我的容器 -->
-            <div class="field-section">
-              <div class="section-header" @click="toggleMyCompSection('mc')">
-                <div class="section-title">
-                  <star-horse-icon
-                    icon-class="container"
-                    size="18px"
-                    class="section-icon"
-                  />
-                  <span>{{ i18n("dyform.collapse.myContainer") }}</span>
-                  <el-tag size="small" type="info" round>{{
-                    myCustomContainers.length
-                  }}</el-tag>
-                </div>
-                <svg
-                  :class="[
-                    'section-arrow',
-                    { expanded: myCompNames.includes('mc') },
-                  ]"
-                  viewBox="0 0 10 6"
-                  fill="none"
-                >
-                  <path
-                    d="M1 1L5 5L9 1"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div v-show="myCompNames.includes('mc')" class="section-body">
-                <div class="search-box">
-                  <el-input
-                    v-model="myContainerQuery"
-                    :placeholder="i18n('dyform.collapse.myContainer')"
-                    clearable
-                    size="small"
-                  >
-                    <template #prefix>
-                      <star-horse-icon iconClass="search" size="14px" />
-                    </template>
-                  </el-input>
-                </div>
-                <draggable
-                  v-if="myCustomContainers.length > 0"
-                  :clone="onMyCompCopy"
-                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                  :sort="false"
-                  animation="200"
-                  ghost-class="ghost"
-                  item-key="idCustomComponent"
-                  tag="div"
-                  class="field-grid"
-                  :list="myCustomContainers"
-                >
-                  <template #item="{ element }">
-                    <div
-                      class="field-card custom-card"
-                      @dblclick="
-                        addElement(
-                          element,
-                          element.compType === 'container'
-                            ? 'container'
-                            : 'item',
-                        )
-                      "
-                      :title="element.customDescription || element.itemName"
-                    >
-                      <el-tag
-                        v-if="element.storageMode === 'local'"
-                        size="small"
-                        type="warning"
-                        class="storage-badge"
-                        >L</el-tag
-                      >
-                      <el-tag
-                        v-else-if="element.isShared === 1"
-                        size="small"
-                        type="success"
-                        class="storage-badge"
-                        >S</el-tag
-                      >
-                      <star-horse-icon
-                        :icon-class="element.itemIcon"
-                        size="24px"
-                        class="field-card-icon"
+                      <el-empty
+                          v-if="systemSelfList.length === 0"
+                          :image-size="60"
+                          :description="i18n('dyform.collapse.custom')"
                       />
-                      <span class="field-card-name">{{
-                        element.itemName
-                      }}</span>
-                      <span
-                        class="card-delete-btn"
-                        @click="handleDeleteCustomComp(element, $event)"
-                        :title="i18n('dyform.customComp.delete')"
-                      >
-                        <star-horse-icon icon-class="dustbin" size="14px" />
-                      </span>
+                      <div style="height: 40px"></div>
                     </div>
-                  </template>
-                </draggable>
-                <el-empty
-                  v-else
-                  :image-size="60"
-                  :description="i18n('dyform.customComp.empty')"
+                  </div>
+                </div>
+              </el-scrollbar>
+            </template>
+            <!-- Outline Tab -->
+            <template v-else-if="tab.name === 'outline'">
+              <OutlineTree/>
+            </template>
+            <!-- Help Tab -->
+            <template v-else-if="tab.name === 'help'">
+              <div class="help-placeholder">
+                <star-horse-icon
+                    icon-class="help"
+                    size="48px"
+                    style="color: #c0c4cc"
                 />
+                <p class="help-text">{{ i18n("dyform.tab.help") }}</p>
               </div>
-            </div>
-
-            <!-- 我的表单组件 -->
-            <div class="field-section">
-              <div class="section-header" @click="toggleMyCompSection('mf')">
-                <div class="section-title">
-                  <star-horse-icon
-                    icon-class="form"
-                    size="18px"
-                    class="section-icon"
-                  />
-                  <span>{{ i18n("dyform.collapse.myFormComp") }}</span>
-                  <el-tag size="small" type="info" round>{{
-                    myCustomFormItems.length
-                  }}</el-tag>
-                </div>
-                <svg
-                  :class="[
-                    'section-arrow',
-                    { expanded: myCompNames.includes('mf') },
-                  ]"
-                  viewBox="0 0 10 6"
-                  fill="none"
-                >
-                  <path
-                    d="M1 1L5 5L9 1"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div v-show="myCompNames.includes('mf')" class="section-body">
-                <div class="search-box">
-                  <el-input
-                    v-model="myCompQuery"
-                    :placeholder="i18n('dyform.collapse.myFormComp')"
-                    clearable
-                    size="small"
-                  >
-                    <template #prefix>
-                      <star-horse-icon iconClass="search" size="14px" />
-                    </template>
-                  </el-input>
-                </div>
-                <draggable
-                  v-if="myCustomFormItems.length > 0"
-                  :clone="onMyCompCopy"
-                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                  :sort="false"
-                  animation="200"
-                  ghost-class="ghost"
-                  item-key="idCustomComponent"
-                  tag="div"
-                  class="field-grid"
-                  :list="myCustomFormItems"
-                >
-                  <template #item="{ element }">
-                    <div
-                      class="field-card custom-card"
-                      @dblclick="
-                        addElement(
-                          element,
-                          element.compType === 'container'
-                            ? 'container'
-                            : 'item',
-                        )
-                      "
-                      :title="element.customDescription || element.itemName"
-                    >
-                      <el-tag
-                        v-if="element.storageMode === 'local'"
-                        size="small"
-                        type="warning"
-                        class="storage-badge"
-                        >L</el-tag
-                      >
-                      <el-tag
-                        v-else-if="element.isShared === 1"
-                        size="small"
-                        type="success"
-                        class="storage-badge"
-                        >S</el-tag
-                      >
-                      <star-horse-icon
-                        :icon-class="element.itemIcon"
-                        size="24px"
-                        class="field-card-icon"
-                      />
-                      <span class="field-card-name">{{
-                        element.itemName
-                      }}</span>
-                      <span
-                        class="card-delete-btn"
-                        @click="handleDeleteCustomComp(element, $event)"
-                        :title="i18n('dyform.customComp.delete')"
-                      >
-                        <star-horse-icon icon-class="dustbin" size="14px" />
-                      </span>
-                    </div>
-                  </template>
-                </draggable>
-                <el-empty
-                  v-else
-                  :image-size="60"
-                  :description="i18n('dyform.customComp.empty')"
-                />
-              </div>
-            </div>
-            <div style="height: 40px"></div>
-          </div>
-        </el-scrollbar>
-      </template>
-
-      <!-- Outline Tab -->
-      <template v-if="tabModel === 'outline'">
-        <OutlineTree />
-      </template>
-
-      <!-- DB Info Tab -->
-      <template v-if="tabModel === 'dbinfo' && model === 'full'">
-        <db-list-comp :optional="optional" class="db-tab-content" />
-      </template>
-
-      <!-- Template Tab -->
-      <template v-if="tabModel === 'template'">
-        <div class="template-content">
-          <el-scrollbar height="100%">
-            <!-- System Templates -->
-            <div class="template-section">
-              <div class="template-section-title">
-                {{ i18n("dyform.template.system") }}
-              </div>
-              <div class="template-filter-bar">
-                <el-select
-                  v-model="templateCategory"
-                  size="small"
-                  clearable
-                  :placeholder="i18n('dyform.template.allCategory')"
-                  class="template-category-select"
-                >
-                  <el-option
-                    v-for="cat in SYSTEM_TEMPLATE_CATEGORIES"
-                    :key="cat"
-                    :label="cat"
-                    :value="cat"
-                  />
-                </el-select>
-                <el-input
-                  v-model="templateSearch"
-                  size="small"
-                  clearable
-                  :placeholder="i18n('dyform.template.search')"
-                  :prefix-icon="'Search'"
-                  class="template-search-input"
-                />
-              </div>
-              <div class="template-grid">
-                <div
-                  v-for="tpl in filteredSystemTemplates"
-                  :key="tpl.id"
-                  class="template-card"
-                  @click="applyTemplate(tpl)"
-                >
-                  <div class="template-card-header">
-                    <span class="template-card-name">{{ tpl.name }}</span>
-                    <el-tag size="small" type="info" effect="plain">{{
-                      tpl.category
-                    }}</el-tag>
-                  </div>
-                  <div class="template-card-desc">{{ tpl.description }}</div>
-                  <div class="template-card-tags">
-                    <el-tag
-                      v-for="tag in tpl.tags"
-                      :key="tag"
-                      size="small"
-                      type="info"
-                      effect="plain"
-                      >{{ tag }}</el-tag
-                    >
-                  </div>
-                  <div class="template-card-footer">
-                    <el-button size="small" type="primary" link icon="plus">
-                      {{ i18n("dyform.template.apply") }}
-                    </el-button>
-                  </div>
-                </div>
-              </div>
-              <el-empty
-                v-if="filteredSystemTemplates.length === 0"
-                :image-size="60"
-                :description="i18n('dyform.template.empty')"
-              />
-            </div>
-
-            <!-- Custom Templates -->
-            <div
-              class="template-section"
-              v-if="templateList && templateList.length > 0"
-            >
-              <div class="template-section-title">
-                {{ i18n("dyform.template.custom") }}
-              </div>
-              <el-card
-                class="temp-card"
-                style="margin-bottom: 10px !important"
-                v-for="item in templateList"
-                :key="item.idDynamicForm"
-              >
-                <div class="flex w-full flex-1 justify-center items-center">
-                  <el-popover placement="right" :width="500">
-                    <template #reference>
-                      <el-image :src="item.shortImages">
-                        <template #error>
-                          <star-horse-icon
-                            iconClass="empty_image"
-                            size="100px"
-                          />
-                        </template>
-                      </el-image>
-                    </template>
-                    <template #default>
-                      <form-preview
-                        :compSize="'small'"
-                        :formDisabled="true"
-                        :list="JSON.parse(item['details'].content || '[]')"
-                        :ref="createRef"
-                        class="flex w-full flex-1 justify-center items-center"
-                        v-if="item['details'].content"
-                      />
-                    </template>
-                  </el-popover>
-                </div>
-                <template #footer>
-                  <div class="flex items-center">
-                    <div
-                      class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap"
-                    >
-                      #{{ item.formName }}
-                    </div>
-                    <div class="flex-1 justify-end">
-                      <el-button
-                        size="small"
-                        link
-                        @click="loadFormData(item.idDynamicForm)"
-                        icon="plus"
-                        >{{ i18n("dyform.template.load") }}
-                      </el-button>
-                    </div>
-                  </div>
-                </template>
-              </el-card>
-            </div>
-          </el-scrollbar>
-        </div>
-      </template>
-
-      <!-- Help Tab -->
-      <template v-if="tabModel === 'help'">
-        <div class="help-placeholder">
-          <star-horse-icon
-            icon-class="help"
-            size="48px"
-            style="color: #c0c4cc"
-          />
-          <p class="help-text">{{ i18n("dyform.tab.help") }}</p>
-        </div>
+            </template>
+          </slot>
+        </template>
       </template>
     </div>
   </div>
@@ -1047,7 +598,7 @@ const handleDeleteCustomComp = (element: any, e: Event) => {
   background: #ffffff;
 }
 
-/* ====== Custom Sub-section (我的组件 / 系统扩展) ====== */
+/* ====== Custom Sub-section (系统扩展) ====== */
 .sub-section {
   margin-bottom: 12px;
 
@@ -1069,75 +620,6 @@ const handleDeleteCustomComp = (element: any, e: Event) => {
 
   :deep(.star-horse-icon) {
     color: #c0c4cc;
-  }
-}
-
-.custom-card {
-  position: relative;
-  background: linear-gradient(135deg, #f0f9ff 0%, #fafbfc 100%);
-  border-color: #d0e8ff;
-
-  &:hover {
-    background: linear-gradient(135deg, #e1f3ff 0%, #f0f7ff 100%);
-    border-color: var(--star-horse-style);
-
-    .card-delete-btn {
-      opacity: 1;
-      pointer-events: auto;
-    }
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 6px;
-    height: 6px;
-    background: var(--star-horse-style);
-    border-radius: 50%;
-    opacity: 0.6;
-  }
-}
-
-.storage-badge {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  font-size: 10px;
-  line-height: 1;
-  padding: 0 4px;
-  height: 14px;
-  min-width: 14px;
-  text-align: center;
-}
-
-.card-delete-btn {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(245, 108, 108, 0.9);
-  color: #fff;
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 0.15s ease,
-    background 0.15s ease;
-  z-index: 2;
-
-  :deep(.star-horse-icon) {
-    color: #fff;
-  }
-
-  &:hover {
-    background: rgba(245, 108, 108, 1);
   }
 }
 
@@ -1237,113 +719,6 @@ const handleDeleteCustomComp = (element: any, e: Event) => {
   border-radius: 8px;
 }
 
-/* ====== Template Tab ====== */
-.template-content {
-  height: 100%;
-  padding: 8px;
-}
-
-.temp-card {
-  width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  height: 250px !important;
-  box-shadow: none !important;
-  margin-bottom: 10px !important;
-  border: 1px solid #ebeef5;
-  border-radius: 8px;
-}
-
-.template-section {
-  margin-bottom: 16px;
-}
-
-.template-section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 8px;
-  padding-left: 4px;
-  border-left: 3px solid #409eff;
-}
-
-.template-filter-bar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.template-category-select {
-  width: 120px;
-  flex-shrink: 0;
-}
-
-.template-search-input {
-  flex: 1;
-}
-
-.template-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-}
-
-.template-card {
-  padding: 10px;
-  border: 1px solid #ebeef5;
-  border-radius: 6px;
-  cursor: pointer;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-}
-
-.template-card:hover {
-  border-color: #409eff;
-  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.12);
-}
-
-.template-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-
-.template-card-name {
-  font-size: 13px;
-  font-weight: 500;
-  color: #303133;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1;
-  margin-right: 8px;
-}
-
-.template-card-desc {
-  font-size: 12px;
-  color: #909399;
-  margin-bottom: 6px;
-  line-height: 1.4;
-}
-
-.template-card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 6px;
-}
-
-.template-card-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* ====== DB Tab ====== */
-.db-tab-content {
-  height: 100%;
-}
 
 /* ====== Help Tab ====== */
 .help-placeholder {

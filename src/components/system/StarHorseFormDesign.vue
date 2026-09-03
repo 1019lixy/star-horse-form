@@ -92,6 +92,8 @@ const props = defineProps({
     default: "idDynamicForm",
   },
   optional: { type: Object as PropType<FormConfig> },
+  /** FieldPanel 的 tab 显示顺序（按 tab name），未列出的 tab 追加在最后 */
+  tabOrder: { type: Array as PropType<string[]>, default: () => [] },
 });
 
 // 合并默认值：确保 FormConfig 中标记为可选的字段有合理回退
@@ -109,11 +111,8 @@ const resolvedConfig = computed(() => {
 });
 const emits = defineEmits([
   "changeDataHandle",
-  "loadData",
   "action",
   "saveData",
-  "loadMenu",
-  "loadTableColumns",
 ]);
 const formSocketInstance = ref<FormSocketService | null>(null);
 let designForm = getDesignFormStore();
@@ -1045,9 +1044,7 @@ const contextMenu = (evt: MouseEvent) => {
 const changeDataHandle = (type: string, data: any) => {
   emits("changeDataHandle", type, data);
 };
-const loadData = (data: any) => {
-  emits("loadData", data);
-};
+
 const applySystemTemplate = (template: any) => {
   setFormInfo(
     template.dataList || [],
@@ -1222,6 +1219,26 @@ const initStoreData = () => {
 const formShortKeySwitch = (disabled: boolean) => {
   designForm.setShortKeyDisabled(disabled);
 };
+/**
+ * 获取当前表单信息
+ */
+const getFormInfo = () => designForm.formInfo;
+/**
+ * 获取设计器组件列表
+ */
+const getCompList = () => designForm.compList;
+/**
+ * 获取表单数据
+ */
+const getFormData = () => designForm.formData;
+/**
+ * 一次性导出全部设计数据（表单信息 + 组件列表 + 表单数据）
+ */
+const getDesignData = () => ({
+  formInfo: designForm.formInfo,
+  compList: designForm.compList,
+  formData: designForm.formData,
+});
 defineExpose({
   validatePreviewForm,
   exportPreviewToHtml,
@@ -1231,6 +1248,10 @@ defineExpose({
   closeAction,
   initStoreData,
   formShortKeySwitch,
+  getFormInfo,
+  getCompList,
+  getFormData,
+  getDesignData,
 });
 </script>
 
@@ -1311,9 +1332,16 @@ defineExpose({
         <field-panel
           ref="fieldPanelRef"
           :optional="resolvedConfig"
-          @loadData="loadData"
-          @applySystemTemplate="applySystemTemplate"
-        />
+          :tabOrder="props.tabOrder"
+        >
+          <template
+            v-for="(_, slotName) in $slots"
+            :key="slotName"
+            #[slotName]="slotProps"
+          >
+            <slot :name="slotName" v-bind="slotProps ?? {}" />
+          </template>
+        </field-panel>
       </el-splitter-panel>
       <el-splitter-panel>
         <el-splitter layout="vertical" class="sh-splitter-vertical">
