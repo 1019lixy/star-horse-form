@@ -846,14 +846,7 @@ const analysisDynamicFields = async (formInfo: any) => {
 };
 const analysisMainFields = async () => {
   let datas = analysisCompDatas(compList.value);
-  const selectDatas: SelectOption[] = datas.fieldList
-      ?.filter((item) => item.label)
-      .map((item) => {
-        return {
-          name: item.label,
-          value: item.fieldName,
-        };
-      });
+  const selectDatas: SelectOption[] = datas.selectList;
   mainTableFieldList.value = selectDatas;
   orderByFieldList.value = selectDatas;
   dynamicFieldList.value = selectDatas;
