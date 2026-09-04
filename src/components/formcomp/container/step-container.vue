@@ -434,6 +434,40 @@ watch(
     });
   },
 );
+
+// ==================== 运行时：当前步骤上下文暴露 ====================
+/**
+ * 获取当前步骤的流程配置（供表单提交时携带给后端触发流程）。
+ * 返回 null 表示当前步骤未启用流程节点。
+ */
+const getCurrentStepFlowConfig = () => {
+  const el = elements.value[activeStepIndex.value];
+  if (!el) return null;
+  const fc = el.flowConfig;
+  if (!fc || fc.flowFlag !== "Y") return null;
+  return {
+    stepKey: el.subTablePrimaryKey,
+    stepName: el.label,
+    stepIndex: activeStepIndex.value,
+    flowConfig: fc,
+  };
+};
+
+/**
+ * 将当前步骤 key 写入 formData 的保留字段，供后端识别当前提交分段。
+ * 仅运行时（非设计态）且有流程上下文时写入。
+ */
+watch(
+  () => activeStepName.value,
+  (val) => {
+    if (!props.isDesign && val && formData.value && typeof formData.value === "object") {
+      (formData.value as any).__currentStepKey = val;
+    }
+  },
+  { immediate: true },
+);
+
+defineExpose({ getCurrentStepFlowConfig, activeStepIndex, activeStepName });
 </script>
 <template>
   <group-container

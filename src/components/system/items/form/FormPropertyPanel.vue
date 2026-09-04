@@ -817,8 +817,10 @@ const initData = async () => {
 };
 
 const analysisDynamicFields = async (formInfo: any) => {
-  debugger;
-  dynamicFieldList.value = designDataNames(compList.value);
+  if (!dynamicFieldList.value.length) {
+    dynamicFieldList.value = designDataNames(compList.value);
+  }
+  return dynamicFieldList.value;
   /*const apiUrl =
       props.optional?.api?.basePrefix + "/analysisDynamicDatasourceFields";
   dlog(
@@ -853,7 +855,7 @@ const analysisMainFields = async () => {
   allTableFieldList.value = [
     ...mainTableFieldList.value,
     ...commonField().map((item: any) => {
-      return {name: item.label, value: item.fieldName};
+      return {name: `${item.label}(${item.fieldName})`, value: item.fieldName};
     }),
   ];
   if (formInfo.value?.needCommonFields == "Y") {
@@ -918,6 +920,7 @@ const loadTableColumns = (tbName: any) => {
 const updateCompInfo = () => {
 };
 const getFormData = () => {
+  return dynamicFormItemRef.value.getFormData();
 };
 onMounted(() => {
   initData();

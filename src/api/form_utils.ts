@@ -2,7 +2,6 @@ import {i18n} from "@/lang";
 import {analysisCompDatas, SelectOption, uuid} from "star-horse-lowcode";
 import camelcase from "camelcase";
 import {getDesignFormStore} from "@/store/StoreManager";
-import {dlog} from "@/utils/debugLog";
 
 /**
  * 检查对象是否需要创建
@@ -102,8 +101,6 @@ export const quickAddItem = (items: any[], hideLabel: boolean = false) => {
     designForm.selectItem(newItem, newItem.itemType, "");
 };
 export const designDataNames = (dataList: any): SelectOption[] => {
-    const nameList: SelectOption[] = [];
     const result = analysisCompDatas(dataList);
-    dlog(result);
-    return nameList
+    return result?.selectList || [];
 };

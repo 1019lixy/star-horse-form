@@ -7,7 +7,7 @@
  * 用途选项由外部传入（可插拔），面板只负责渲染与收集，不硬编码业务语义。
  */
 import { computed } from "vue";
-import { uuid } from "star-horse-lowcode";
+import {SelectOption, uuid} from "star-horse-lowcode";
 import { i18n } from "@/lang";
 import type {
   BindableField,
@@ -22,7 +22,7 @@ const props = withDefaults(
     /** 绑定项列表（v-model） */
     modelValue?: NodeFieldBinding[];
     /** 可绑定字段 */
-    fields?: BindableField[];
+    fields?: SelectOption[];
     /** 用途选项（外部可扩展） */
     usageOptions?: FieldBindingUsageOption[];
     compSize?: string;
@@ -84,8 +84,8 @@ const removeBinding = (id: string) => {
 
 /** 字段变更时同步 fieldLabel 与默认 flowVar */
 const onFieldChange = (row: NodeFieldBinding) => {
-  const f = props.fields.find((x) => x.fieldName === row.fieldName);
-  row.fieldLabel = f?.label || row.fieldName;
+  const f = props.fields.find((x) => x.value === row.fieldName);
+  row.fieldLabel = f?.name || row.fieldName;
   if (!row.flowVar) row.flowVar = row.fieldName;
 };
 
@@ -117,9 +117,9 @@ const usageMeta = (usage: string) => usageOpts.value.find((o) => o.value === usa
           >
             <el-option
               v-for="f in fields"
-              :key="f.fieldName"
-              :label="`${f.label} (${f.fieldName})`"
-              :value="f.fieldName"
+              :key="f.value"
+              :label="f.name"
+              :value="f.value"
             />
           </el-select>
         </template>

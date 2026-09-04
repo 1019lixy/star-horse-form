@@ -3,10 +3,12 @@ import {
   apiInstance,
   closeLoad,
   deleteByIds,
-  error, FieldInfo,
+  error,
+  FieldInfo,
   getRequest,
   load,
   loadData,
+  loadGetData,
   postRequest,
   SelectOption,
   success,
@@ -17,13 +19,11 @@ import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
 import DbListComp from "@/components/system/items/utils/DbListComp.vue";
 import MyComponentsPanel from "@/components/system/items/form/panels/MyComponentsPanel.vue";
 import TemplatePanel from "@/components/system/items/form/panels/TemplatePanel.vue";
-import {nextTick, ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import {createBiParamDataAdapter, FormConfig} from "@/components/types";
 import {useRoute} from "vue-router";
 import {getUserInfo, loadDict, loadRolesInfo, loadSystemInfo, permissionMenus,} from "@/sample/utils/formapi";
 import {ServiceEnums} from "@/components/enums/ServiceEnums";
-import {FormPropField} from "@/components/types";
-import {onMounted} from "vue";
 
 const starHorseFormDesignRef = ref();
 
@@ -34,8 +34,23 @@ const dbListData: SelectOption[] = [
   {name: "127.0.0.1(script_manage)", value: "8"},
   {name: "127.0.0.1(star_horse_workflow)", value: "337537414606095357"},
   {name: "127.0.0.1(star_horse_continuous)", value: "136"},
+  {name: "127.0.0.1(quantity_manage)", value: "381167130139165693"},
 ];
-
+const dbConfigList = async (): Promise<SelectOption[]> => {
+  const {data, error} = await loadGetData(
+      "/userdb-manage/dbsearch/dbinfo/getDbInfoByUser",
+  );
+  if (error) {
+    warning(error);
+    return dbListData;
+  }
+  return data?.map((item: any) => {
+    return {
+      name: item.name,
+      value: item.configId + "",
+    };
+  });
+}
 /**
  * API 接口配置
  */
@@ -244,7 +259,18 @@ const optional = ref<FormConfig>({
       {name: "comment", value: "fieldName"},
   ),
   // 静态数据源列表
-  loadDbList: () => Promise.resolve(dbListData),
+  // loadDbList: () => Promise.resolve(dbListData),
+  loadDbList: () => {
+    return new Promise((executor, reject) => {
+      dbConfigList()
+          .then((res: any) => {
+            executor(res);
+          })
+          .catch((e) => {
+            reject(e);
+          });
+    });
+  },
   // 接入方自定义基础配置字段（见上方 formBasicProps 定义）
   formBasicProps: formBasicProps,
 });
@@ -383,10 +409,10 @@ const saveData = (isDraft: boolean, data: any) => {
       @changeDataHandle="changeDataHandle"
   >
     <template #tab-mycomp>
-      <MyComponentsPanel />
+      <MyComponentsPanel/>
     </template>
     <template #tab-dbinfo>
-      <DbListComp v-bind="dbListCompProps" />
+      <DbListComp v-bind="dbListCompProps"/>
     </template>
     <template #tab-template>
       <TemplatePanel

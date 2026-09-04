@@ -59,6 +59,7 @@ watch(
         <star-horse-icon iconClass="base_preps" size="14px" />
         <span>{{ i18n("dyform.propPanel.baseProps") }}</span>
       </button>
+      <!--||['box','dytable','gridtable'].includes(currentComp.itemType)-->
       <button
         v-if="currentComp?.compType == 'formItem'"
         :class="['property-tab', { active: prepActiveName === 'customer' }]"

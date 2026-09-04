@@ -459,8 +459,8 @@ watch(
                     preps: {
                       ...item.preps,
                       clearable: true,
-                      filterable: true,
-                    },
+                      filterable: true
+                    }
                   }"
                 />
               </div>
@@ -475,8 +475,8 @@ watch(
                   preps: {
                     ...item.preps,
                     clearable: true,
-                    filterable: true,
-                  },
+                    filterable: true
+                  }
                 }"
               />
             </template>

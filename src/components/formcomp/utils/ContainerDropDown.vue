@@ -7,22 +7,22 @@ import {i18n} from "@/lang";
 import {getDesignFormStore} from "@/store/StoreManager";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
 import {CellRubberBand} from "@/components/formcomp/utils/CellRubberBand";
-import {numberRangeItem, uuid, warning} from "star-horse-lowcode";
+import {analysisCompDatas, numberRangeItem, uuid, warning} from "star-horse-lowcode";
 import camelcase from "camelcase";
 
 const props = defineProps({
-  parentField: { type: Object as PropType<any> },
-  disabled: { type: Object as PropType<Boolean | String> },
-  field: { type: Object as PropType<any> },
-  isFirstRow: { type: Boolean, default: false },
-  isLastRow: { type: Boolean, default: false },
-  isFirstCol: { type: Boolean, default: false },
-  isLastCol: { type: Boolean, default: false },
-  size: { type: String, default: "small" },
-  rowIndex: { type: Number, default: -1 },
-  colIndex: { type: Number, default: -1 },
-  type: { type: String },
-  validBox: { type: Boolean, default: false },
+  parentField: {type: Object as PropType<any>},
+  disabled: {type: Object as PropType<Boolean | String>},
+  field: {type: Object as PropType<any>},
+  isFirstRow: {type: Boolean, default: false},
+  isLastRow: {type: Boolean, default: false},
+  isFirstCol: {type: Boolean, default: false},
+  isLastCol: {type: Boolean, default: false},
+  size: {type: String, default: "small"},
+  rowIndex: {type: Number, default: -1},
+  colIndex: {type: Number, default: -1},
+  type: {type: String},
+  validBox: {type: Boolean, default: false},
 });
 const cellInfo = computed(() => {
   const elements = props.parentField.preps.elements;
@@ -45,15 +45,15 @@ const checkMenuStatus = () => {
   const moveFlag = !props.field.items?.length;
   const elements = props.parentField.preps.elements;
   const lastRow = props.isFirstRow
-    ? 0
-    : elements[props.rowIndex - 1]?.columns.length;
+      ? 0
+      : elements[props.rowIndex - 1]?.columns.length;
   const currentRow = elements[props.rowIndex].columns.length;
   const nextRow = props.isLastRow
-    ? null
-    : elements[props.rowIndex + 1]?.columns.length;
+      ? null
+      : elements[props.rowIndex + 1]?.columns.length;
   const isFullColumn =
-    (props.type == "dytable" || props.type == "gridtable") &&
-    elements?.length == parseInt(props.field.rowspan);
+      (props.type == "dytable" || props.type == "gridtable") &&
+      elements?.length == parseInt(props.field.rowspan);
   //检查当前列所有小于改列的数据是否存在合并
   const hasMergeCol = () => {
     // const currentCol=elements[props.rowIndex].columns;
@@ -133,6 +133,7 @@ const handleTableCellCommand = (command: string) => {
       dataType: props.field?.dataType ?? "text",
       textContent: props.field?.textContent,
       visiblePlatform: "all",
+      labelForCfg: props.field?.labelForCfg ?? "none",
       configRowType: "currentRow",
     };
   } else if (command == "removeText") {
@@ -143,6 +144,7 @@ const handleTableCellCommand = (command: string) => {
     if (column) {
       column.staticData = false;
       column.dataType = "none";
+      column.labelForCfg = "none";
       column.textContent = "";
       column.visiblePlatform = "";
     }
@@ -176,26 +178,26 @@ let rubberFilling = false;
  */
 const startRubberSelect = () => {
   const containerId =
-    props.parentField?.preps?.id || props.parentField?.id || "";
+      props.parentField?.preps?.id || props.parentField?.id || "";
   const isContinuous = fieldForm.value.configRowType == "linkRows";
   //输入框中的行列号为 1-based（提交逻辑按 -1 取下标），框选器内部以 DOM 的 0-based 行列为准，
   //带入初始值时 -1 转换，回填结果时 +1 还原，保证框选所见与输入框/提交语义一致
   const toZeroBased = (list: any) =>
-    (list ?? [])
-      .map((v: any) => parseInt(v))
-      .filter((n: number) => !isNaN(n) && n > 0)
-      .map((n: number) => n - 1);
+      (list ?? [])
+          .map((v: any) => parseInt(v))
+          .filter((n: number) => !isNaN(n) && n > 0)
+          .map((n: number) => n - 1);
   //带入初始已选单元格：优先用上次框选的精确结果，否则按输入框行/列的笛卡尔积（手动输入语义）
   const initialCells = (() => {
     const precise = fieldForm.value.unlinkCells ?? [];
     if (precise.length > 0) {
       return precise.map((c: any) => ({row: c.row - 1, col: c.col - 1}));
     }
-    const cells: Array<{row: number; col: number}> = [];
+    const cells: Array<{ row: number; col: number }> = [];
     toZeroBased(fieldForm.value.unlinkRows).forEach((r: number) =>
-      toZeroBased(fieldForm.value.unlinkCols).forEach((c: number) =>
-        cells.push({row: r, col: c}),
-      ),
+        toZeroBased(fieldForm.value.unlinkCols).forEach((c: number) =>
+            cells.push({row: r, col: c}),
+        ),
     );
     return cells;
   })();
@@ -219,11 +221,11 @@ const startRubberSelect = () => {
       } else {
         rubberFilling = true;
         fieldForm.value.unlinkRows = [...new Set(rows.map((r) => r + 1))]
-          .sort((a, b) => a - b)
-          .map(String);
+            .sort((a, b) => a - b)
+            .map(String);
         fieldForm.value.unlinkCols = [...new Set(cols.map((c) => c + 1))]
-          .sort((a, b) => a - b)
-          .map(String);
+            .sort((a, b) => a - b)
+            .map(String);
         //精确单元格（1-based），提交时优先按其添加，避免行/列并集交叉扩散到未框选的格子
         fieldForm.value.unlinkCells = cells.map((c) => ({
           row: c.row + 1,
@@ -249,8 +251,8 @@ const startRubberSelect = () => {
     //进入框选模式的即时操作指引（提示条常驻，此消息用于强化引导）
     ElMessage.info({
       message: isContinuous
-        ? i18n("dyform.container.rubberContinuousTip")
-        : i18n("dyform.container.rubberDiscreteTip"),
+          ? i18n("dyform.container.rubberContinuousTip")
+          : i18n("dyform.container.rubberDiscreteTip"),
       duration: 4000,
       showClose: true,
     });
@@ -258,24 +260,24 @@ const startRubberSelect = () => {
 };
 //手动编辑行/列输入框后，框选产生的精确单元格失效（提交回退为输入框行/列的笛卡尔积语义）
 watch(
-  () => [fieldForm.value.unlinkRows, fieldForm.value.unlinkCols],
-  () => {
-    if (rubberFilling) {
-      return;
-    }
-    if (fieldForm.value.unlinkCells?.length) {
-      fieldForm.value.unlinkCells = [];
-    }
-  },
+    () => [fieldForm.value.unlinkRows, fieldForm.value.unlinkCols],
+    () => {
+      if (rubberFilling) {
+        return;
+      }
+      if (fieldForm.value.unlinkCells?.length) {
+        fieldForm.value.unlinkCells = [];
+      }
+    },
 );
 //切离非连续模式时精确单元格同样失效
 watch(
-  () => fieldForm.value.configRowType,
-  (v) => {
-    if (v != "unlinkRows" && fieldForm.value.unlinkCells?.length) {
-      fieldForm.value.unlinkCells = [];
-    }
-  },
+    () => fieldForm.value.configRowType,
+    (v) => {
+      if (v != "unlinkRows" && fieldForm.value.unlinkCells?.length) {
+        fieldForm.value.unlinkCells = [];
+      }
+    },
 );
 //框选明细（精确到 行: 列），与 unlinkRows/unlinkCols 输入框的并集展示互补
 const unlinkCellDetail = computed(() => {
@@ -287,14 +289,14 @@ const unlinkCellDetail = computed(() => {
     byRow.set(c.row, cols);
   });
   return [...byRow.keys()]
-    .sort((a, b) => a - b)
-    .map((row) => {
-      const cols = [...new Set(byRow.get(row))]
-        .sort((a, b) => a - b)
-        .join(",");
-      return `${i18n("dyform.container.rubberRowShort")}${row}: ${i18n("dyform.container.rubberColShort")}${cols}`;
-    })
-    .join("；");
+      .sort((a, b) => a - b)
+      .map((row) => {
+        const cols = [...new Set(byRow.get(row))]
+            .sort((a, b) => a - b)
+            .join(",");
+        return `${i18n("dyform.container.rubberRowShort")}${row}: ${i18n("dyform.container.rubberColShort")}${cols}`;
+      })
+      .join("；");
 });
 const operationCell = (endCol: number, endRow: number, columns: any) => {
   const elements = props.parentField.preps.elements;
@@ -317,6 +319,7 @@ const operationCellText = (column: any, fieldForm: any) => {
   column["staticData"] = column["dataType"] != "none";
   column["visiblePlatform"] = column["visiblePlatform"] ?? "all";
   column["textContent"] = fieldForm["textContent"];
+  column["labelForCfg"] = fieldForm["labelForCfg"] ?? "none";
 };
 const submitAction = () => {
   const elements = props.parentField.preps.elements;
@@ -367,6 +370,7 @@ const submitAction = () => {
     }
   } else if (currentCommand.value === "addText") {
     const configRowType = fieldForm.value.configRowType ?? "currentRow";
+    if (!labelForCfg()) return;
     let unlinkRows = fieldForm.value.unlinkRows ?? [];
     if (configRowType == "linkRows") {
       const linkRowsMin = fieldForm.value.linkRowsMin;
@@ -416,11 +420,49 @@ const changeItem = (item: any) => {
     },
   };
 };
+const labelForCfg = () => {
+  const labelForCfg = fieldForm.value.labelForCfg ?? "none";
+  const elements = props.parentField.preps.elements;
+  let element = elements[props.rowIndex];
+  let columns = element.columns;
+  const content = fieldForm.value.textContent;
+  if (labelForCfg == "rightComp") {
+    columns[props.colIndex + 1]?.items?.forEach(item => {
+      item.preps.label = content;
+    });
+  } else if (labelForCfg == "belowComp") {
+    elements[props.rowIndex + 1]?.columns[props.colIndex].items?.forEach(item => {
+      item.preps.label = content;
+    });
+  } else if (labelForCfg == "choiceComp") {
+    const choiceCompList = fieldForm.value.choiceCompList;
+    if (!choiceCompList || choiceCompList.length == 0) {
+      warning(i18n("dyform.container.warning.selectComponent"));
+      return false;
+    }
+    const choiceSet = new Set(choiceCompList);
+    for (let i = 0; i < elements.length; i++) {
+      columns = elements[i].columns;
+      if (!columns) continue;
+      for (let j = 0; j < columns.length; j++) {
+        const col = columns[j];
+        if (!col.items) continue;
+        for (const item of col.items) {
+          const name = item.preps?.name;
+          if (name && choiceSet.has(name)) {
+            item.preps.label = content;
+          }
+        }
+      }
+    }
+  }
+  return true;
+};
 const addCompOperation = (column: any, item: any, suffix: string) => {
   if (column.cellVisible) {
     const listItems = Array.isArray(item)
-      ? item.map((i) => JSON.parse(JSON.stringify(i)))
-      : [JSON.parse(JSON.stringify(item))];
+        ? item.map((i) => JSON.parse(JSON.stringify(i)))
+        : [JSON.parse(JSON.stringify(item))];
     for (let i = 0; i < listItems.length; i++) {
       const id = uuid();
       const tempItem = listItems[i];
@@ -471,9 +513,9 @@ const compAddOperation = (type: string) => {
       columns = element.columns;
       for (let j = linkColsMin - 1; j < linkColsMax; j++) {
         if (
-          fieldForm.value.copyCurrentItem &&
-          i == props.rowIndex &&
-          j == props.colIndex
+            fieldForm.value.copyCurrentItem &&
+            i == props.rowIndex &&
+            j == props.colIndex
         ) {
           continue;
         }
@@ -494,16 +536,16 @@ const compAddOperation = (type: string) => {
         }
         columns = element.columns;
         if (
-          fieldForm.value.copyCurrentItem &&
-          tempRow == props.rowIndex &&
-          tempCol == props.colIndex
+            fieldForm.value.copyCurrentItem &&
+            tempRow == props.rowIndex &&
+            tempCol == props.colIndex
         ) {
           continue;
         }
         addCompOperation(
-          columns[tempCol],
-          currentItem.value,
-          tempRow + "" + tempCol,
+            columns[tempCol],
+            currentItem.value,
+            tempRow + "" + tempCol,
         );
       }
     } else {
@@ -521,16 +563,16 @@ const compAddOperation = (type: string) => {
           //注意：col 已经是值（如 "3"），直接解析即可，之前误用值当索引导致取错列
           const tempCol = parseInt(col) - 1;
           if (
-            fieldForm.value.copyCurrentItem &&
-            tempRow == props.rowIndex &&
-            tempCol == props.colIndex
+              fieldForm.value.copyCurrentItem &&
+              tempRow == props.rowIndex &&
+              tempCol == props.colIndex
           ) {
             continue;
           }
           addCompOperation(
-            columns[tempCol],
-            currentItem.value,
-            tempRow + "" + tempCol,
+              columns[tempCol],
+              currentItem.value,
+              tempRow + "" + tempCol,
           );
         }
       }
@@ -540,6 +582,9 @@ const compAddOperation = (type: string) => {
   }
   close();
 };
+const dynamicComps = () => {
+  return analysisCompDatas([props.parentField])?.selectList;
+}
 const init = () => {
   if (props.type == "gridtable") {
     gridtableAction(props, buttonControl.value);
@@ -551,74 +596,74 @@ onMounted(() => {
   init();
 });
 watch(
-  () => props.field,
-  () => {
-    checkMenuStatus();
-  },
-  { deep: true, immediate: true },
+    () => props.field,
+    () => {
+      checkMenuStatus();
+    },
+    {deep: true, immediate: true},
 );
 watch(
-  () => props.parentField,
-  () => {
-    if (props.type == "gridtable") {
-      gridtableAction(props, buttonControl.value);
-    } else {
-      tableAction(props, buttonControl.value, props.type);
-    }
-  },
-  {
-    immediate: false,
-    deep: true,
-  },
+    () => props.parentField,
+    () => {
+      if (props.type == "gridtable") {
+        gridtableAction(props, buttonControl.value);
+      } else {
+        tableAction(props, buttonControl.value, props.type);
+      }
+    },
+    {
+      immediate: false,
+      deep: true,
+    },
 );
 </script>
 
 <template>
   <star-horse-panel
-    box-width="50%"
-    box-height="60%"
-    :source="2"
-    :full-screen="false"
-    :title="i18n('form.changeComponent')"
-    :self-func="true"
-    v-model="componentVisible"
-    @merge="compAddOperation"
-    @closeAction="close"
+      box-width="50%"
+      box-height="60%"
+      :source="2"
+      :full-screen="false"
+      :title="i18n('form.changeComponent')"
+      :self-func="true"
+      v-model="componentVisible"
+      @merge="compAddOperation"
+      @closeAction="close"
   >
     <el-splitter>
       <el-splitter-panel size="40%">
-        <field-list @selectData="changeItem" />
+        <field-list @selectData="changeItem"/>
       </el-splitter-panel>
       <el-splitter-panel>
         <el-form v-model="fieldForm" label-position="top">
           <el-descriptions column="1" border label-width="120px">
             <el-descriptions-item
-              v-if="currentItem"
-              :label="i18n('dyform.container.selectedComponent')"
+                v-if="currentItem"
+                :label="i18n('dyform.container.selectedComponent')"
             >
               <el-tag type="primary">{{ currentItem.label }}</el-tag>
             </el-descriptions-item>
             <el-descriptions-item
-              :label="i18n('dyform.container.sameConfigRows')"
+                :label="i18n('dyform.container.sameConfigRows')"
             >
               <el-select v-model="fieldForm.configRowType">
                 <el-option
-                  :label="i18n('dyform.container.currentCell')"
-                  value="currentRow"
+                    :label="i18n('dyform.container.currentCell')"
+                    value="currentRow"
                 />
                 <el-option
-                  :label="i18n('dyform.container.continuous')"
-                  value="linkRows"
+                    :label="i18n('dyform.container.continuous')"
+                    value="linkRows"
                 />
                 <el-option
-                  :label="i18n('dyform.container.nonContinuous')"
-                  value="unlinkRows"
+                    :label="i18n('dyform.container.nonContinuous')"
+                    value="unlinkRows"
                 />
               </el-select>
             </el-descriptions-item>
             <el-descriptions-item
-              :label="i18n('dyform.container.rubberSelect')"
-              v-if="
+                :label="i18n('dyform.container.rubberSelect')"
+                v-if="
                 fieldForm.configRowType == 'linkRows' ||
                 fieldForm.configRowType == 'unlinkRows'
               "
@@ -628,63 +673,63 @@ watch(
                   {{ i18n("dyform.container.rubberSelect") }}
                 </el-button>
                 <span class="rubber-select-tip">{{
-                  fieldForm.configRowType == "linkRows"
-                    ? i18n("dyform.container.rubberSelectTipLink")
-                    : i18n("dyform.container.rubberSelectTipUnlink")
-                }}</span>
+                    fieldForm.configRowType == "linkRows"
+                        ? i18n("dyform.container.rubberSelectTipLink")
+                        : i18n("dyform.container.rubberSelectTipUnlink")
+                  }}</span>
               </div>
             </el-descriptions-item>
             <el-descriptions-item
-              :label="i18n('dyform.container.copyCurrentComponent')"
-              v-if="
+                :label="i18n('dyform.container.copyCurrentComponent')"
+                v-if="
                 currentCell?.items?.length > 0 &&
                 fieldForm.configRowType != 'currentRow'
               "
             >
-              <el-switch v-model="fieldForm.copyCurrentItem" />
+              <el-switch v-model="fieldForm.copyCurrentItem"/>
             </el-descriptions-item>
             <el-descriptions-item
-              :label="i18n('dyform.container.linkRows')"
-              v-if="fieldForm.configRowType == 'linkRows'"
+                :label="i18n('dyform.container.linkRows')"
+                v-if="fieldForm.configRowType == 'linkRows'"
             >
               <number-range-item
-                :field="{
+                  :field="{
                   fieldName: 'linkRows',
                   preps: {},
                 }"
-                v-model:formData="fieldForm"
+                  v-model:formData="fieldForm"
               />
             </el-descriptions-item>
             <el-descriptions-item
-              :label="i18n('dyform.container.linkCols')"
-              prop="linkCols"
-              v-if="fieldForm.configRowType == 'linkRows'"
+                :label="i18n('dyform.container.linkCols')"
+                prop="linkCols"
+                v-if="fieldForm.configRowType == 'linkRows'"
             >
               <number-range-item
-                :field="{
+                  :field="{
                   fieldName: 'linkCols',
                   preps: {},
                 }"
-                v-model:formData="fieldForm"
+                  v-model:formData="fieldForm"
               />
             </el-descriptions-item>
             <el-descriptions-item
-              :label="i18n('dyform.container.unlinkRows')"
-              prop="unlinkRows"
-              v-if="fieldForm.configRowType == 'unlinkRows'"
+                :label="i18n('dyform.container.unlinkRows')"
+                prop="unlinkRows"
+                v-if="fieldForm.configRowType == 'unlinkRows'"
             >
-              <el-input-tag v-model="fieldForm.unlinkRows" />
+              <el-input-tag v-model="fieldForm.unlinkRows"/>
             </el-descriptions-item>
             <el-descriptions-item
-              :label="i18n('dyform.container.unlinkCols')"
-              prop="unlinkCols"
-              v-if="fieldForm.configRowType == 'unlinkRows'"
+                :label="i18n('dyform.container.unlinkCols')"
+                prop="unlinkCols"
+                v-if="fieldForm.configRowType == 'unlinkRows'"
             >
-              <el-input-tag v-model="fieldForm.unlinkCols" />
+              <el-input-tag v-model="fieldForm.unlinkCols"/>
             </el-descriptions-item>
             <el-descriptions-item
-              :label="i18n('dyform.container.rubberDetailLabel')"
-              v-if="
+                :label="i18n('dyform.container.rubberDetailLabel')"
+                v-if="
                 fieldForm.configRowType == 'unlinkRows' &&
                 fieldForm.unlinkCells?.length
               "
@@ -692,18 +737,18 @@ watch(
               <span class="rubber-cell-detail">{{ unlinkCellDetail }}</span>
             </el-descriptions-item>
             <el-descriptions-item
-              label-position="left"
-              :label="i18n('dyform.props.hideLabel')"
-              prop="hideLabel"
+                label-position="left"
+                :label="i18n('dyform.props.hideLabel')"
+                prop="hideLabel"
             >
-              <el-switch v-model="fieldForm.hideLabel" />
+              <el-switch v-model="fieldForm.hideLabel"/>
             </el-descriptions-item>
             <el-descriptions-item
-              label-position="left"
-              :label="i18n('dyform.props.required')"
-              prop="required"
+                label-position="left"
+                :label="i18n('dyform.props.required')"
+                prop="required"
             >
-              <el-switch v-model="fieldForm.required" />
+              <el-switch v-model="fieldForm.required"/>
             </el-descriptions-item>
           </el-descriptions>
         </el-form>
@@ -711,349 +756,386 @@ watch(
     </el-splitter>
   </star-horse-panel>
   <star-horse-panel
-    :title="i18n('dyform.container.editStaticText')"
-    :self-func="true"
-    :hide-full-screen-icon="true"
-    @merge="submitAction"
-    @closeAction="close"
-    v-model="staticDataConfigDialog"
-    box-width="40%"
+      :title="i18n('dyform.container.editStaticText')"
+      :self-func="true"
+      :hide-full-screen-icon="true"
+      @merge="submitAction"
+      @closeAction="close"
+      v-model="staticDataConfigDialog"
+      box-width="40%"
   >
     <el-form v-model="fieldForm">
-      <el-form-item
-        :label="i18n('dyform.container.visiblePlatform')"
-        prop="visiblePlatform"
-      >
-        <el-radio-group v-model="fieldForm.visiblePlatform">
-          <el-radio label="PC" value="pc" />
-          <el-radio label="App" value="app" />
-          <el-radio :label="i18n('dyform.container.all')" value="all" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item
-        :label="i18n('dyform.container.sameConfigRows')"
-        prop="sameConfigRows"
-      >
-        <el-select v-model="fieldForm.configRowType">
-          <el-option
-            :label="i18n('dyform.container.currentRow')"
-            value="currentRow"
-          />
-          <el-option
-            :label="i18n('dyform.container.continuousRow')"
-            value="linkRows"
-          />
-          <el-option
-            :label="i18n('dyform.container.nonContinuousRow')"
-            value="unlinkRows"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item
-        :label="i18n('dyform.container.linkRows')"
-        prop="linkRows"
-        v-if="fieldForm.configRowType == 'linkRows'"
-      >
-        <number-range-item
-          :field="{
+      <el-descriptions column="1" border label-width="120px">
+        <el-descriptions-item :label="i18n('dyform.container.visiblePlatform')">
+          <el-form-item
+              prop="visiblePlatform"
+          >
+            <el-radio-group v-model="fieldForm.visiblePlatform">
+              <el-radio label="PC" value="pc"/>
+              <el-radio label="App" value="app"/>
+              <el-radio :label="i18n('dyform.container.all')" value="all"/>
+            </el-radio-group>
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item :label="i18n('dyform.container.sameConfigRows')">
+          <el-form-item
+
+              prop="sameConfigRows"
+          >
+            <el-select v-model="fieldForm.configRowType">
+              <el-option
+                  :label="i18n('dyform.container.currentRow')"
+                  value="currentRow"
+              />
+              <el-option
+                  :label="i18n('dyform.container.continuousRow')"
+                  value="linkRows"
+              />
+              <el-option
+                  :label="i18n('dyform.container.nonContinuousRow')"
+                  value="unlinkRows"
+              />
+            </el-select>
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item v-if="fieldForm.configRowType == 'linkRows'" :label="i18n('dyform.container.linkRows')">
+          <el-form-item
+              prop="linkRows"
+          >
+            <number-range-item
+                :field="{
             fieldName: 'linkRows',
             preps: {},
           }"
-          v-model:formData="fieldForm"
-        />
-      </el-form-item>
-      <el-form-item
-        :label="i18n('dyform.container.unlinkRows')"
-        prop="unlinkRows"
-        v-if="fieldForm.configRowType == 'unlinkRows'"
-      >
-        <el-input-tag v-model="fieldForm.unlinkRows" />
-      </el-form-item>
-      <el-form-item :label="i18n('dyform.container.textType')" prop="dataType">
-        <el-radio-group v-model="fieldForm.dataType">
-          <el-radio label="Text" value="text" />
-          <el-radio label="Html" value="html" />
-          <el-radio :label="i18n('dyform.container.none')" value="none" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item
-        :label="i18n('dyform.container.textContent')"
-        prop="textContent"
-      >
-        <el-input
-          type="textarea"
-          v-model="fieldForm.textContent"
-          v-if="fieldForm.dataType == 'text'"
-        />
-        <htmleditor-item
-          v-if="fieldForm.dataType == 'html'"
-          :formData="fieldForm"
-          :field="{
+                v-model:formData="fieldForm"
+            />
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item :label="i18n('dyform.container.unlinkRows')"
+                              v-if="fieldForm.configRowType == 'unlinkRows'">
+          <el-form-item
+              prop="unlinkRows"
+
+          >
+            <el-input-tag v-model="fieldForm.unlinkRows"/>
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item :label="i18n('dyform.container.textType')">
+          <el-form-item prop="dataType">
+            <el-radio-group v-model="fieldForm.dataType">
+              <el-radio label="Text" value="text"/>
+              <el-radio label="Html" value="html"/>
+              <el-radio :label="i18n('dyform.container.none')" value="none"/>
+            </el-radio-group>
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item v-if="fieldForm.dataType=='text'" :label="i18n('dyform.labelFor.bindLabel')">
+          <el-form-item prop="labelForCfg">
+            <el-radio-group v-model="fieldForm.labelForCfg">
+              <el-radio :label="i18n('dyform.container.none')" value="none"/>
+              <el-radio :label="i18n('dyform.labelFor.rightComp')" value="rightComp"/>
+              <el-radio :label="i18n('dyform.labelFor.belowComp')" value="belowComp"/>
+              <el-radio :label="i18n('dyform.labelFor.choiceComp')" value="choiceComp"/>
+            </el-radio-group>
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item v-if="fieldForm.labelForCfg=='choiceComp'" :label="i18n('dyform.labelFor.choiceComp')">
+          <el-form-item prop="choiceCompList">
+            <datapicker-item
+                :formData="fieldForm"
+                :field="{
+                   fieldName: 'choiceCompList',
+                   preps:{
+                     multiple:true,
+                     data: dynamicComps()
+                   }
+                  }"
+            />
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item :label="i18n('dyform.container.textContent')">
+          <el-form-item
+              prop="textContent"
+          >
+            <el-input
+                type="textarea"
+                v-model="fieldForm.textContent"
+                v-if="fieldForm.dataType == 'text'"
+            />
+            <htmleditor-item
+                v-if="fieldForm.dataType == 'html'"
+                :formData="fieldForm"
+                :field="{
             fieldName: 'textContent',
           }"
-        />
-      </el-form-item>
+            />
+          </el-form-item>
+
+        </el-descriptions-item>
+      </el-descriptions>
+
+
     </el-form>
   </star-horse-panel>
   <star-horse-panel
-    :title="i18n('ui.operation')"
-    :self-func="true"
-    :hide-full-screen-icon="true"
-    @merge="submitAction"
-    @closeAction="close"
-    v-model="configDialog"
-    box-width="40%"
+      :title="i18n('ui.operation')"
+      :self-func="true"
+      :hide-full-screen-icon="true"
+      @merge="submitAction"
+      @closeAction="close"
+      v-model="configDialog"
+      box-width="40%"
   >
     <el-form v-model="fieldForm">
       <el-form-item
-        :label="i18n('dyform.utils.434')"
-        prop="colHeight"
-        v-if="currentCommand == 'rowConfig'"
+          :label="i18n('dyform.utils.434')"
+          prop="colHeight"
+          v-if="currentCommand == 'rowConfig'"
       >
-        <el-input v-model="fieldForm.colHeight" />
+        <el-input v-model="fieldForm.colHeight"/>
       </el-form-item>
       <el-form-item
-        :label="i18n('dyform.utils.435')"
-        prop="colWidth"
-        v-if="currentCommand == 'colConfig'"
+          :label="i18n('dyform.utils.435')"
+          prop="colWidth"
+          v-if="currentCommand == 'colConfig'"
       >
-        <el-input v-model="fieldForm.colWidth" />
+        <el-input v-model="fieldForm.colWidth"/>
       </el-form-item>
       <el-form-item
-        :label="i18n('dyform.container.sameConfigRows')"
-        prop="sameConfigRows"
-        v-if="currentCommand == 'cellConfig'"
+          :label="i18n('dyform.container.sameConfigRows')"
+          prop="sameConfigRows"
+          v-if="currentCommand == 'cellConfig'"
       >
         <el-select v-model="fieldForm.configRowType">
           <el-option
-            :label="i18n('dyform.container.currentRow')"
-            value="currentRow"
+              :label="i18n('dyform.container.currentRow')"
+              value="currentRow"
           />
           <el-option
-            :label="i18n('dyform.container.continuousRow')"
-            value="linkRows"
+              :label="i18n('dyform.container.continuousRow')"
+              value="linkRows"
           />
           <el-option
-            :label="i18n('dyform.container.nonContinuousRow')"
-            value="unlinkRows"
+              :label="i18n('dyform.container.nonContinuousRow')"
+              value="unlinkRows"
           />
         </el-select>
       </el-form-item>
       <el-form-item
-        :label="i18n('dyform.container.linkRows')"
-        prop="linkRows"
-        v-if="fieldForm.configRowType == 'linkRows'"
+          :label="i18n('dyform.container.linkRows')"
+          prop="linkRows"
+          v-if="fieldForm.configRowType == 'linkRows'"
       >
         <number-range-item
-          :field="{
+            :field="{
             fieldName: 'linkRows',
             preps: {},
           }"
-          v-model:formData="fieldForm"
+            v-model:formData="fieldForm"
         />
       </el-form-item>
       <el-form-item
-        :label="i18n('dyform.container.unlinkRows')"
-        prop="unlinkRows"
-        v-if="fieldForm.configRowType == 'unlinkRows'"
+          :label="i18n('dyform.container.unlinkRows')"
+          prop="unlinkRows"
+          v-if="fieldForm.configRowType == 'unlinkRows'"
       >
-        <el-input-tag v-model="fieldForm.unlinkRows" />
+        <el-input-tag v-model="fieldForm.unlinkRows"/>
       </el-form-item>
       <el-form-item
-        :label="i18n('dyform.utils.436')"
-        prop="rowspan"
-        v-if="
+          :label="i18n('dyform.utils.436')"
+          prop="rowspan"
+          v-if="
           (type == 'dytable' || type == 'gridtable') &&
           currentCommand == 'cellConfig'
         "
       >
         <el-input-number
-          min="1"
-          step="1"
-          :max="cellInfo.maxRow"
-          v-model="fieldForm.rowspan"
+            min="1"
+            step="1"
+            :max="cellInfo.maxRow"
+            v-model="fieldForm.rowspan"
         />
-        <help :message="i18n('dyform.utils.437')" />
+        <help :message="i18n('dyform.utils.437')"/>
       </el-form-item>
       <el-form-item
-        :label="i18n('dyform.utils.438')"
-        prop="colspan"
-        v-if="currentCommand == 'cellConfig'"
+          :label="i18n('dyform.utils.438')"
+          prop="colspan"
+          v-if="currentCommand == 'cellConfig'"
       >
         <el-input-number
-          min="1"
-          step="1"
-          :max="type == 'dytable' || type == 'gridtable' ? cellInfo.maxCol : 24"
-          v-model="fieldForm.colspan"
+            min="1"
+            step="1"
+            :max="type == 'dytable' || type == 'gridtable' ? cellInfo.maxCol : 24"
+            v-model="fieldForm.colspan"
         />
         <help
-          :message="i18n('dyform.utils.439')"
-          v-if="type == 'dytable' || type == 'gridtable'"
+            :message="i18n('dyform.utils.439')"
+            v-if="type == 'dytable' || type == 'gridtable'"
         />
       </el-form-item>
     </el-form>
   </star-horse-panel>
   <el-dropdown
-    trigger="click"
-    :disabled="disabled"
-    @command="handleTableCellCommand"
-    :size="size"
+      trigger="click"
+      :disabled="disabled"
+      @command="handleTableCellCommand"
+      :size="size"
   >
-    <star-horse-icon icon-class="menu" style="color: var(--star-horse-white)" />
+    <star-horse-icon icon-class="menu" style="color: var(--star-horse-white)"/>
     <template #dropdown>
       <el-dropdown-menu style="max-height: 400px; overflow-y: auto">
         <el-dropdown-item command="addText">
-          <star-horse-icon iconClass="edit" />
+          <star-horse-icon iconClass="edit"/>
           {{ i18n("ui.addText") }}
         </el-dropdown-item>
         <el-dropdown-item command="removeText">
-          <star-horse-icon iconClass="delete" />
+          <star-horse-icon iconClass="delete"/>
           {{ i18n("ui.removeText") }}
         </el-dropdown-item>
         <el-dropdown-item command="colConfig" divided>
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.colConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="rowConfig">
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.rowConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="cellConfig">
-          <star-horse-icon iconClass="config" />
+          <star-horse-icon iconClass="config"/>
           {{ i18n("ui.cellConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="addComp">
-          <star-horse-icon iconClass="add" />
+          <star-horse-icon iconClass="add"/>
           {{ i18n("ui.addComp") }}
         </el-dropdown-item>
 
         <el-dropdown-item divided command="insertLeftCol">
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.insertLeftCol") }}
         </el-dropdown-item>
         <el-dropdown-item command="insertRightCol">
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.insertRightCol") }}
         </el-dropdown-item>
         <el-dropdown-item command="insertAboveRow">
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.insertAboveRow") }}
         </el-dropdown-item>
         <el-dropdown-item command="insertBelowRow">
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.insertBelowRow") }}
         </el-dropdown-item>
 
         <el-dropdown-item
-          command="mergeLeftCol"
-          :disabled="buttonControl.mergeLeftColDisabled"
-          divided
+            command="mergeLeftCol"
+            :disabled="buttonControl.mergeLeftColDisabled"
+            divided
         >
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.mergeLeftCell") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="mergeRightCol"
-          :disabled="buttonControl.mergeRightColDisabled"
+            command="mergeRightCol"
+            :disabled="buttonControl.mergeRightColDisabled"
         >
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.mergeRightCell") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="mergeWholeRow"
-          :disabled="buttonControl.mergeWholeRowDisabled"
+            command="mergeWholeRow"
+            :disabled="buttonControl.mergeWholeRowDisabled"
         >
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.mergeWholeRow") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="mergeAboveRow"
-          v-if="type != 'box' || validBox"
-          :disabled="buttonControl.mergeAboveRowDisabled"
-          divided
+            command="mergeAboveRow"
+            v-if="type != 'box' || validBox"
+            :disabled="buttonControl.mergeAboveRowDisabled"
+            divided
         >
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.mergeAboveCell") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="mergeBelowRow"
-          v-if="type != 'box' || validBox"
-          :disabled="buttonControl.mergeBelowRowDisabled"
+            command="mergeBelowRow"
+            v-if="type != 'box' || validBox"
+            :disabled="buttonControl.mergeBelowRowDisabled"
         >
-          <star-horse-icon iconClass="document" />
+          <star-horse-icon iconClass="document"/>
           {{ i18n("ui.mergeBelowCell") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="mergeWholeCol"
-          v-if="type != 'box' || validBox"
-          :disabled="buttonControl.mergeWholeColDisabled"
+            command="mergeWholeCol"
+            v-if="type != 'box' || validBox"
+            :disabled="buttonControl.mergeWholeColDisabled"
         >
-          <star-horse-icon iconClass="plus" />
+          <star-horse-icon iconClass="plus"/>
           {{ i18n("ui.mergeWholeCol") }}
         </el-dropdown-item>
 
         <el-dropdown-item
-          command="undoMergeRow"
-          v-if="type != 'box' || validBox"
-          :disabled="buttonControl.undoMergeRowDisabled"
-          divided
+            command="undoMergeRow"
+            v-if="type != 'box' || validBox"
+            :disabled="buttonControl.undoMergeRowDisabled"
+            divided
         >
-          <star-horse-icon iconClass="undo" />
+          <star-horse-icon iconClass="undo"/>
           {{ i18n("ui.undoMergeRow") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="undoMergeCol"
-          :disabled="buttonControl.undoMergeColDisabled"
+            command="undoMergeCol"
+            :disabled="buttonControl.undoMergeColDisabled"
         >
-          <star-horse-icon iconClass="undo" />
+          <star-horse-icon iconClass="undo"/>
           {{ i18n("ui.undoMergeCol") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="resetMerge"
-          :disabled="buttonControl.resetMergeDisabled"
+            command="resetMerge"
+            :disabled="buttonControl.resetMergeDisabled"
         >
-          <star-horse-icon iconClass="reset" />
+          <star-horse-icon iconClass="reset"/>
           {{ i18n("ui.resetMerge") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="addCellAfter"
-          v-if="type == 'box'"
-          :disabled="buttonControl.addCellAfterDisabled"
-          divided
+            command="addCellAfter"
+            v-if="type == 'box'"
+            :disabled="buttonControl.addCellAfterDisabled"
+            divided
         >
-          <star-horse-icon iconClass="add" />
+          <star-horse-icon iconClass="add"/>
           {{ i18n("ui.addCellAfter") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="addCellBefore"
-          v-if="type == 'box'"
-          :disabled="buttonControl.addCellBeforeDisabled"
+            command="addCellBefore"
+            v-if="type == 'box'"
+            :disabled="buttonControl.addCellBeforeDisabled"
         >
-          <star-horse-icon iconClass="add" />
+          <star-horse-icon iconClass="add"/>
           {{ i18n("ui.addCellBefore") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="deleteWholeCol"
-          v-if="type != 'box'"
-          :disabled="buttonControl.deleteWholeColDisabled"
-          divided
+            command="deleteWholeCol"
+            v-if="type != 'box'"
+            :disabled="buttonControl.deleteWholeColDisabled"
+            divided
         >
-          <star-horse-icon iconClass="delete" />
+          <star-horse-icon iconClass="delete"/>
           {{ i18n("ui.deleteWholeCol") }}
         </el-dropdown-item>
         <el-dropdown-item
-          command="deleteWholeRow"
-          :disabled="buttonControl.deleteWholeRowDisabled"
+            command="deleteWholeRow"
+            :disabled="buttonControl.deleteWholeRowDisabled"
         >
-          <star-horse-icon iconClass="delete" />
+          <star-horse-icon iconClass="delete"/>
           {{ i18n("ui.deleteWholeRow") }}
         </el-dropdown-item>
         <el-dropdown-item
-          v-if="type == 'box'"
-          command="deleteCurrentCol"
-          :disabled="buttonControl.deleteWholeColDisabled"
+            v-if="type == 'box'"
+            command="deleteCurrentCol"
+            :disabled="buttonControl.deleteWholeColDisabled"
         >
-          <star-horse-icon iconClass="delete" />
+          <star-horse-icon iconClass="delete"/>
           {{ i18n("ui.deleteCurrentCol") }}
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -1065,16 +1147,19 @@ watch(
 :deep(.field-item) {
   cursor: pointer;
 }
+
 .rubber-select-entry {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+
   .rubber-select-tip {
     font-size: 12px;
     color: #909399;
   }
 }
+
 .rubber-cell-detail {
   font-size: 12px;
   color: #67c23a;

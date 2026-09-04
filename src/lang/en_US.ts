@@ -4955,6 +4955,11 @@ If empty, the table information will be created in the current business database
   "dyform.step.formFlowDefinePlaceholder": "Select a flow definition",
   "dyform.step.formFlowStarterField": "Starter Field",
   "dyform.step.formFlowStarterFieldPlaceholder": "Pick a person field in the form as flow starter",
+  "dyform.step.flowParamBinding": "Param Binding",
+  "dyform.step.flowParamBindingRemark":
+    "Bind flow params to form fields in this section; values are resolved on submit and passed to the flow engine",
+  "dyform.step.flowParamName": "Flow Param",
+  "dyform.step.flowSelectDefineFirst": "Select a flow definition first",
   "dyform.step.flowProcessNode": "Process Node Tree",
   "dyform.step.flowProcessNodeRemark":
     "Design process node tree (JSON editor), submitted with the form; parsable by the ported workflow core logic",
@@ -5576,6 +5581,10 @@ If empty, the table information will be created in the current business database
   "dyform.container.collapsedClickExpand": "Collapsed · Click to expand",
   "dyform.container.expand": "Expand",
   "dyform.container.collapse": "Collapse",
+  "dyform.labelFor.bindLabel": "Text Bind To Component",
+  "dyform.labelFor.rightComp": "Right Component",
+  "dyform.labelFor.belowComp": "Below Component",
+  "dyform.labelFor.choiceComp": "Choice Components",
   /**
    * Form Designer
    */

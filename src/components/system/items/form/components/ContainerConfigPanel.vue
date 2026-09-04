@@ -1,57 +1,65 @@
 <script setup lang="ts">
 import {computed, onMounted, reactive, ref, watch} from "vue";
 import {i18n} from "@/lang";
-import type {ItemType} from "star-horse-lowcode";
-import {uuid, StarHorseDataSelector} from "star-horse-lowcode";
+import {analysisCompDatas, ItemType, SelectOption, StarHorseDataSelector, uuid} from "star-horse-lowcode";
 import {deepClone} from "@/api/system";
 import {formContainer} from "@/components/system/items/form/composables/formContainer";
 import FlowNodeConfigPanel from "@/components/system/items/form/components/FlowNodeConfigPanel.vue";
+import type {FlowDefineOption, FlowParam,} from "@/components/workflow/types";
 
-defineOptions({ name: "ContainerConfigPanel" });
+defineOptions({name: "ContainerConfigPanel"});
 
 const props = withDefaults(
-  defineProps<{
-    currentItemType: string;
-    compSize?: string;
-  }>(),
-  { compSize: "default" },
+    defineProps<{
+      currentItemType: string;
+      compSize?: string;
+      /** 已有流程定义选项（透传给 FlowNodeConfigPanel reuse 模式） */
+      flowDefineOptions?: FlowDefineOption[];
+      /** 加载流程参数（透传给 FlowNodeConfigPanel reuse 模式） */
+      loadFlowParams?: (flowDefineId: string) => Promise<FlowParam[]>;
+    }>(),
+    {
+      compSize: "default",
+      flowDefineOptions: () => [],
+      loadFlowParams: undefined,
+    },
 );
 
 const emit = defineEmits<{ (e: "inited"): void }>();
 
 // ==================== 从 formContainer 读取当前容器配置 ====================
 const containerDef = computed(() =>
-  formContainer.find((c) => c.itemType === props.currentItemType),
+    formContainer.find((c) => c.itemType === props.currentItemType),
 );
 const ownFields = computed<ItemType[]>(() => containerDef.value?.fields || []);
 const advancedFields = computed<ItemType[]>(
-  () => containerDef.value?.advancedFields || [],
+    () => containerDef.value?.advancedFields || [],
 );
 const prepFields = computed<ItemType[]>(() => containerDef.value?.preps || []);
 const hasOwnProps = computed(
-  () => ownFields.value.length > 0 || advancedFields.value.length > 0,
+    () => ownFields.value.length > 0 || advancedFields.value.length > 0,
 );
 const hasElements = computed(() => prepFields.value.length > 0);
 const propsModel = ref("elements");
 // 判断栅格型：preps 中存在 fieldType === "gridColumns"
 const gridFieldDef = computed(() =>
-  prepFields.value.find((f) => f.fieldType === "gridColumns"),
+    prepFields.value.find((f) => f.fieldType === "gridColumns"),
 );
 const isGrid = computed(() => !!gridFieldDef.value);
 const gridColDefs = computed<any[]>(
-  () => gridFieldDef.value?.configParams || [],
+    () => gridFieldDef.value?.configParams || [],
 );
 
 // 列表展示字段（排除 gridColumns 类型）+ 展开行字段
 const listFields = computed(() =>
-  prepFields.value.filter((f) => f.fieldType !== "gridColumns"),
+    prepFields.value.filter((f) => f.fieldType !== "gridColumns"),
 );
 const expandFields = computed(() =>
-  listFields.value.filter((f) => isSpecialField(f)),
+    listFields.value.filter((f) => isSpecialField(f)),
 );
 // 公共字段：前几个常规字段（label/subTablePrimaryKey/subFormFlag/subTableName/mapping）
 const commonListFields = computed(() =>
-  listFields.value.filter((f) => !isSpecialField(f)),
+    listFields.value.filter((f) => !isSpecialField(f)),
 );
 const hasExpand = computed(() => expandFields.value.length > 0 || isGrid.value);
 const showAdvanced = ref(false);
@@ -86,8 +94,8 @@ const parseOptions = (selectValues: any): { name: string; value: any }[] => {
 const switchValues = (f: ItemType): { active: any; inactive: any } => {
   const cp = f.configParams?.[0];
   if (cp && cp.activeValue !== undefined)
-    return { active: cp.activeValue, inactive: cp.inactiveValue };
-  return { active: true, inactive: false };
+    return {active: cp.activeValue, inactive: cp.inactiveValue};
+  return {active: true, inactive: false};
 };
 
 /** 从 configParams 读取字段联动：subFormFlag=Y 时显示哪些字段 */
@@ -106,7 +114,7 @@ const isFieldVisible = (fieldName: string, row: any): boolean => {
   for (const [ctrlField, showFields] of Object.entries(showFieldsMap.value)) {
     if (showFields.includes(fieldName)) {
       const cp = prepFields.value.find((f) => f.fieldName === ctrlField)
-        ?.configParams?.[0];
+          ?.configParams?.[0];
       if (cp && row[ctrlField] !== cp.activeValue) return false;
     }
   }
@@ -127,32 +135,16 @@ const selectorProps = (f: ItemType) => {
 
 /** 流程节点配置面板字段（flowNode 类型特殊渲染，不进常规 descriptions） */
 const flowNodeFields = computed(() =>
-  listFields.value.filter((f) => f.fieldType === "flowNode"),
+    listFields.value.filter((f) => f.fieldType === "flowNode"),
 );
 
 /**
  * 递归提取分段内的可绑定字段（叶子组件的 fieldName+label），
  * 供流程节点配置面板做字段绑定与"表单字段取人"下拉
  */
-const extractFields = (items: any[]): { fieldName: string; label: string }[] => {
-  const out: { fieldName: string; label: string }[] = [];
-  const walk = (list: any[]) => {
-    (list || []).forEach((el) => {
-      if (el?.fieldName) {
-        out.push({ fieldName: el.fieldName, label: el.label || el.fieldName });
-      }
-      // 容器递归：box/tab 等的 items、gridtable 的列 items、嵌套容器的 elements
-      if (Array.isArray(el.items)) walk(el.items);
-      if (Array.isArray(el.columns)) {
-        el.columns.forEach((c: any) => walk(c?.items || []));
-      }
-      if (Array.isArray(el.elements)) {
-        el.elements.forEach((e: any) => walk(e?.items || []));
-      }
-    });
-  };
-  walk(items || []);
-  return out;
+const extractFields = (items: any[]): SelectOption[] => {
+  let datas = analysisCompDatas(items);
+  return datas.selectList;
 };
 
 // ==================== 数据 ====================
@@ -188,7 +180,7 @@ const createNewElement = () => {
     if (f.defaultValues !== undefined && f.defaultValues !== "")
       el[f.fieldName] = f.defaultValues;
     else if (f.fieldType === "switch") {
-      const { active } = switchValues(f);
+      const {active} = switchValues(f);
       el[f.fieldName] = active;
     } else if (f.fieldType === "number") el[f.fieldName] = undefined;
     else if (f.fieldType === "userSelector") el[f.fieldName] = [];
@@ -252,6 +244,7 @@ let currentDataKey = "elements";
 
 /** flowNode 字段缺省配置结构（新建分段与旧数据补齐共用） */
 const createFlowCfg = () => ({
+  mode: "design" as const,
   flowFlag: "N",
   paramFields: [],
   assigneeType: "starter_pick",
@@ -283,22 +276,22 @@ const setFormData = (data: any) => {
 };
 
 const getFormData = () => {
-  const result: any = { ...containerProps };
+  const result: any = {...containerProps};
   if (hasElements.value) result[currentDataKey] = localElements.value;
-  return { value: result };
+  return {value: result};
 };
 
-defineExpose({ setFormData, getFormData });
+defineExpose({setFormData, getFormData});
 
 onMounted(() => emit("inited"));
 watch(
-  () => props.currentItemType,
-  () => {
-    showAdvanced.value = false;
-    if (!hasElements.value) propsModel.value = "props";
-    else propsModel.value = "elements";
-  },
-  { immediate: true },
+    () => props.currentItemType,
+    () => {
+      showAdvanced.value = false;
+      if (!hasElements.value) propsModel.value = "props";
+      else propsModel.value = "elements";
+    },
+    {immediate: true},
 );
 </script>
 <template>
@@ -308,18 +301,18 @@ watch(
       <!-- ====== 子项列表 ====== -->
       <el-tab-pane v-if="hasElements" name="elements">
         <template #label
-          ><span class="section-title">{{
+        ><span class="section-title">{{
             i18n("dyform.container.cfg.elementsConfig")
           }}</span></template
         >
         <el-table
-          :data="localElements"
-          :fit="true"
-          style="width: 100%"
-          border
-          :size="compSize"
-          row-key="id"
-          max-height="400"
+            :data="localElements"
+            :fit="true"
+            style="width: 100%"
+            border
+            :size="compSize"
+            row-key="id"
+            max-height="400"
         >
           <el-table-column v-if="hasExpand" type="expand" width="38">
             <template #default="{ row }">
@@ -327,70 +320,70 @@ watch(
                 <!-- 特殊字段（应用 showFields 联动；flowNode 类型面板单独渲染） -->
                 <template v-if="expandFields.length">
                   <el-descriptions
-                    :title="i18n('dyform.container.cfg.specialParams')"
-                    border
-                    column="2"
-                    direction="horizontal"
-                    label-width="150px"
+                      :title="i18n('dyform.container.cfg.specialParams')"
+                      border
+                      column="2"
+                      direction="horizontal"
+                      label-width="150px"
                   >
                     <el-descriptions-item
-                      v-for="f in expandFields.filter(
+                        v-for="f in expandFields.filter(
                         (x) =>
                           x.fieldType !== 'flowNode' &&
                           isFieldVisible(x.fieldName, row),
                       )"
-                      :key="f.fieldName"
-                      label-align="right"
+                        :key="f.fieldName"
+                        label-align="right"
                     >
                       <template #label>
                         <span
-                          :title="f.remark"
-                          style="cursor: help; text-decoration: underline dotted"
-                          >{{ f.label }}</span
+                            :title="f.remark"
+                            style="cursor: help; text-decoration: underline dotted"
+                        >{{ f.label }}</span
                         >
                       </template>
                       <el-input
-                        v-if="f.fieldType === 'input'"
-                        v-model="row[f.fieldName]"
-                        :size="compSize"
+                          v-if="f.fieldType === 'input'"
+                          v-model="row[f.fieldName]"
+                          :size="compSize"
                       />
                       <el-input-number
-                        v-else-if="f.fieldType === 'number'"
-                        v-model="row[f.fieldName]"
-                        :size="compSize"
-                        controls-position="right"
+                          v-else-if="f.fieldType === 'number'"
+                          v-model="row[f.fieldName]"
+                          :size="compSize"
+                          controls-position="right"
                       />
                       <el-switch
-                        v-else-if="f.fieldType === 'switch'"
-                        v-model="row[f.fieldName]"
-                        :active-value="switchValues(f).active"
-                        :inactive-value="switchValues(f).inactive"
+                          v-else-if="f.fieldType === 'switch'"
+                          v-model="row[f.fieldName]"
+                          :active-value="switchValues(f).active"
+                          :inactive-value="switchValues(f).inactive"
                       />
                       <el-select
-                        v-else-if="f.fieldType === 'select'"
-                        v-model="row[f.fieldName]"
-                        :size="compSize"
-                        clearable
-                        filterable
+                          v-else-if="f.fieldType === 'select'"
+                          v-model="row[f.fieldName]"
+                          :size="compSize"
+                          clearable
+                          filterable
                       >
                         <el-option
-                          v-for="opt in parseOptions(f.selectValues)"
-                          :key="opt.value"
-                          :label="opt.name"
-                          :value="opt.value"
+                            v-for="opt in parseOptions(f.selectValues)"
+                            :key="opt.value"
+                            :label="opt.name"
+                            :value="opt.value"
                         />
                       </el-select>
                       <!-- 人员/编码选择器：经办人、抄送人等，支持手输与列表选择 -->
                       <StarHorseDataSelector
-                        v-else-if="f.fieldType === 'userSelector'"
-                        v-model="row[f.fieldName]"
-                        v-bind="selectorProps(f)"
-                        :comp-size="compSize"
-                        allow-create
-                        :placeholder="
+                          v-else-if="f.fieldType === 'userSelector'"
+                          v-model="row[f.fieldName]"
+                          v-bind="selectorProps(f)"
+                          :comp-size="compSize"
+                          allow-create
+                          :placeholder="
                           i18n('dyform.step.flowSelectorTip')
                         "
-                        style="width: 100%"
+                          style="width: 100%"
                       />
                     </el-descriptions-item>
                   </el-descriptions>
@@ -399,64 +392,66 @@ watch(
                 <!-- 流程节点配置面板：传入当前分段字段列表，组件内完成字段绑定+流转设置 -->
                 <template v-if="flowNodeFields.length">
                   <FlowNodeConfigPanel
-                    v-for="f in flowNodeFields"
-                    :key="f.fieldName"
-                    v-model="row[f.fieldName]"
-                    :fields="extractFields(row.items)"
-                    :node-key="row.subTablePrimaryKey"
-                    :node-name="row.label"
-                    :comp-size="compSize"
-                    style="margin-top: 12px"
+                      v-for="f in flowNodeFields"
+                      :key="f.fieldName"
+                      v-model="row[f.fieldName]"
+                      :fields="extractFields(row.items)"
+                      :node-key="row.subTablePrimaryKey"
+                      :node-name="row.label"
+                      :comp-size="compSize"
+                      :flow-define-options="props.flowDefineOptions"
+                      :load-flow-params="props.loadFlowParams"
+                      style="margin-top: 12px"
                   />
                 </template>
                 <!-- 栅格列配置 -->
                 <template v-if="isGrid">
                   <div class="grid-col-section">
                     <div
-                      v-for="(col, ci) in row.columns"
-                      :key="col.id"
-                      class="grid-col-block"
+                        v-for="(col, ci) in row.columns"
+                        :key="col.id"
+                        class="grid-col-block"
                     >
                       <el-descriptions
-                        border
-                        :title="i18n('dyform.container.cfg.column') + (ci + 1)"
-                        :column="3"
-                        :size="compSize"
+                          border
+                          :title="i18n('dyform.container.cfg.column') + (ci + 1)"
+                          :column="3"
+                          :size="compSize"
                       >
                         <template #extra>
                           <el-button
-                            :size="compSize"
-                            type="danger"
-                            plain
-                            icon="Delete"
-                            @click="removeColumn(row, ci)"
+                              :size="compSize"
+                              type="danger"
+                              plain
+                              icon="Delete"
+                              @click="removeColumn(row, ci)"
                           />
                         </template>
                         <el-descriptions-item
-                          v-for="d in gridColDefs"
-                          :key="d.fieldName"
-                          :label="d.label"
+                            v-for="d in gridColDefs"
+                            :key="d.fieldName"
+                            :label="d.label"
                         >
                           <el-input-number
-                            v-model="col[d.fieldName]"
-                            :min="d.min"
-                            :max="d.max"
-                            :step="d.step || 1"
-                            :size="compSize"
-                            controls-position="right"
-                            style="width: 100%"
+                              v-model="col[d.fieldName]"
+                              :min="d.min"
+                              :max="d.max"
+                              :step="d.step || 1"
+                              :size="compSize"
+                              controls-position="right"
+                              style="width: 100%"
                           />
                         </el-descriptions-item>
                       </el-descriptions>
                     </div>
                   </div>
                   <el-button
-                    :size="compSize"
-                    type="primary"
-                    plain
-                    icon="Plus"
-                    @click="addColumn(row)"
-                    style="margin-top: 8px"
+                      :size="compSize"
+                      type="primary"
+                      plain
+                      icon="Plus"
+                      @click="addColumn(row)"
+                      style="margin-top: 8px"
                   >
                     {{ i18n("dyform.container.cfg.addColumn") }}
                   </el-button>
@@ -464,42 +459,42 @@ watch(
               </div>
             </template>
           </el-table-column>
-          <el-table-column type="index" label="#" width="45" align="center" />
+          <el-table-column type="index" label="#" width="45" align="center"/>
           <el-table-column
-            v-for="f in commonListFields"
-            :key="f.fieldName"
-            :label="f.label"
+              v-for="f in commonListFields"
+              :key="f.fieldName"
+              :label="f.label"
           >
             <template #default="{ row }">
               <template v-if="isFieldVisible(f.fieldName, row)">
                 <el-input
-                  v-if="f.fieldType === 'input'"
-                  v-model="row[f.fieldName]"
-                  :size="compSize"
+                    v-if="f.fieldType === 'input'"
+                    v-model="row[f.fieldName]"
+                    :size="compSize"
                 />
                 <el-input-number
-                  v-else-if="f.fieldType === 'number'"
-                  v-model="row[f.fieldName]"
-                  :size="compSize"
-                  controls-position="right"
+                    v-else-if="f.fieldType === 'number'"
+                    v-model="row[f.fieldName]"
+                    :size="compSize"
+                    controls-position="right"
                 />
                 <el-switch
-                  v-else-if="f.fieldType === 'switch'"
-                  v-model="row[f.fieldName]"
-                  :active-value="switchValues(f).active"
-                  :inactive-value="switchValues(f).inactive"
+                    v-else-if="f.fieldType === 'switch'"
+                    v-model="row[f.fieldName]"
+                    :active-value="switchValues(f).active"
+                    :inactive-value="switchValues(f).inactive"
                 />
                 <el-select
-                  v-else-if="f.fieldType === 'select'"
-                  v-model="row[f.fieldName]"
-                  :size="compSize"
-                  style="width: 100%"
+                    v-else-if="f.fieldType === 'select'"
+                    v-model="row[f.fieldName]"
+                    :size="compSize"
+                    style="width: 100%"
                 >
                   <el-option
-                    v-for="opt in parseOptions(f.selectValues)"
-                    :key="opt.value"
-                    :label="opt.name"
-                    :value="opt.value"
+                      v-for="opt in parseOptions(f.selectValues)"
+                      :key="opt.value"
+                      :label="opt.name"
+                      :value="opt.value"
                   />
                 </el-select>
               </template>
@@ -507,101 +502,103 @@ watch(
             </template>
           </el-table-column>
           <el-table-column
-            v-if="isGrid"
-            :label="i18n('dyform.container.cfg.columnCount')"
-            align="center"
+              v-if="isGrid"
+              :label="i18n('dyform.container.cfg.columnCount')"
+              align="center"
           >
             <template #default="{ row }">{{
-              row.columns?.length ?? 0
-            }}</template>
+                row.columns?.length ?? 0
+              }}
+            </template>
           </el-table-column>
           <el-table-column
-            :label="i18n('dyform.container.cfg.operations')"
-            width="160"
-            fixed="right"
-            align="center"
+              :label="i18n('dyform.container.cfg.operations')"
+              width="160"
+              fixed="right"
+              align="center"
           >
             <template #default="{ $index }">
               <el-button-group>
                 <el-button
-                  :size="compSize"
-                  icon="Top"
-                  :disabled="$index === 0"
-                  @click="moveUp($index)"
+                    :size="compSize"
+                    icon="Top"
+                    :disabled="$index === 0"
+                    @click="moveUp($index)"
                 />
                 <el-button
-                  :size="compSize"
-                  icon="Bottom"
-                  :disabled="$index === localElements.length - 1"
-                  @click="moveDown($index)"
+                    :size="compSize"
+                    icon="Bottom"
+                    :disabled="$index === localElements.length - 1"
+                    @click="moveDown($index)"
                 />
                 <el-button
-                  :size="compSize"
-                  type="danger"
-                  icon="Delete"
-                  @click="removeElement($index)"
+                    :size="compSize"
+                    type="danger"
+                    icon="Delete"
+                    @click="removeElement($index)"
                 />
               </el-button-group>
             </template>
           </el-table-column>
         </el-table>
         <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="addElement"
-          style="margin-top: 10px; width: 100%"
+            type="primary"
+            plain
+            icon="Plus"
+            @click="addElement"
+            style="margin-top: 10px; width: 100%"
         >
           {{ i18n("dyform.container.cfg.addElement") }}
         </el-button>
       </el-tab-pane>
       <el-tab-pane name="props">
         <template #label
-          ><span class="section-title">{{
+        ><span class="section-title">{{
             i18n("dyform.container.cfg.ownProps")
           }}</span></template
         >
         <el-descriptions border label-width="150px">
           <el-descriptions-item
-            v-for="f in [...ownFields, ...advancedFields]"
-            :key="f.fieldName"
+              v-for="f in [...ownFields, ...advancedFields]"
+              :key="f.fieldName"
           >
             <template #label>
               <label class="prop-label"
-                >{{ f.label
+              >{{
+                  f.label
                 }}<span v-if="f.required" class="required-mark">*</span></label
               >
             </template>
 
             <el-input
-              v-if="f.fieldType === 'input'"
-              v-model="containerProps[f.fieldName]"
-              :size="compSize"
+                v-if="f.fieldType === 'input'"
+                v-model="containerProps[f.fieldName]"
+                :size="compSize"
             />
             <el-input-number
-              v-else-if="f.fieldType === 'number'"
-              v-model="containerProps[f.fieldName]"
-              :size="compSize"
-              controls-position="right"
-              style="width: 100%"
+                v-else-if="f.fieldType === 'number'"
+                v-model="containerProps[f.fieldName]"
+                :size="compSize"
+                controls-position="right"
+                style="width: 100%"
             />
             <el-switch
-              v-else-if="f.fieldType === 'switch'"
-              v-model="containerProps[f.fieldName]"
+                v-else-if="f.fieldType === 'switch'"
+                v-model="containerProps[f.fieldName]"
             />
             <el-select
-              v-else-if="f.fieldType === 'select'"
-              v-model="containerProps[f.fieldName]"
-              :size="compSize"
-              style="width: 100%"
-              clearable
-              filterable
+                v-else-if="f.fieldType === 'select'"
+                v-model="containerProps[f.fieldName]"
+                :size="compSize"
+                style="width: 100%"
+                clearable
+                filterable
             >
               <el-option
-                v-for="opt in parseOptions(f.selectValues)"
-                :key="opt.value"
-                :label="opt.name"
-                :value="opt.value"
+                  v-for="opt in parseOptions(f.selectValues)"
+                  :key="opt.value"
+                  :label="opt.name"
+                  :value="opt.value"
               />
             </el-select>
           </el-descriptions-item>
@@ -609,7 +606,7 @@ watch(
       </el-tab-pane>
     </el-tabs>
   </div>
-  <el-empty v-else :description="i18n('dyform.container.cfg.unsupported')" />
+  <el-empty v-else :description="i18n('dyform.container.cfg.unsupported')"/>
 </template>
 <style lang="scss" scoped>
 .container-cfg-panel {
@@ -674,7 +671,7 @@ watch(
 
   :deep(.el-descriptions__title) {
     font-size: 13px;
-    padding:0 15px;
+    padding: 0 15px;
   }
 
   :deep(.el-descriptions__body) {

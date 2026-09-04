@@ -441,6 +441,8 @@ watch(
         ref="containerPrepRef"
         :currentItemType="currentItemType"
         :compSize="compSize"
+        :flow-define-options="props.optional?.flowDefineOptions"
+        :load-flow-params="props.optional?.loadFlowParams"
         @inited="setContainerData"
     />
   </star-horse-panel>

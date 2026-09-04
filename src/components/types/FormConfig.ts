@@ -113,4 +113,11 @@ export interface FormConfig {
      * 加载流程定义列表（表单级流程绑定用，外部注入加载能力）
      */
     loadFlowDefines?: () => Promise<SelectOption[]>;
+    /**
+     * 加载流程定义的参数列表（分段流程 reuse 模式用，外部注入加载能力）
+     * @param flowDefineId 流程定义 ID
+     */
+    loadFlowParams?: (flowDefineId: string) => Promise<
+        { name: string; label?: string; required?: boolean; description?: string; type?: string }[]
+    >;
 }

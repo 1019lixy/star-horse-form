@@ -82,3 +82,44 @@ export interface NodeFieldBindingConfig {
   /** 绑定项列表 */
   bindings: NodeFieldBinding[];
 }
+
+// ==================== 流程节点双模式（配置节点 / 绑定已有流程） ====================
+
+/** 流程节点绑定模式 */
+export type FlowNodeMode =
+  | "design" /** 在线配置节点：字段绑定 + 流转设置 */
+  | "reuse"; /** 绑定已有流程定义：选择流程 → 参数与表单字段映射 */
+
+/** 已有流程定义的参数描述（由 loadFlowParams 加载） */
+export interface FlowParam {
+  /** 参数名 */
+  name: string;
+  /** 参数显示名 */
+  label?: string;
+  /** 是否必填 */
+  required?: boolean;
+  /** 参数描述 */
+  description?: string;
+  /** 参数类型 */
+  type?: string;
+}
+
+/** 流程参数与表单字段的绑定项（reuse 模式） */
+export interface FlowParamBinding {
+  /** 绑定项唯一标识 */
+  id: string;
+  /** 流程参数名 */
+  param: string;
+  /** 绑定的表单字段名 */
+  fieldName: string;
+  /** 是否必填（冗余存储 FlowParam.required，便于回显） */
+  required?: boolean;
+}
+
+/** 流程定义选项（供 reuse 模式下拉选择） */
+export interface FlowDefineOption {
+  /** 流程定义 ID / key */
+  value: string;
+  /** 流程定义名称 */
+  label: string;
+}
