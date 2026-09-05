@@ -335,12 +335,19 @@ watch(
                         :key="f.fieldName"
                         label-align="right"
                     >
+
                       <template #label>
+                        <div class="flex flex-row items-center justify-between">
+                          <label>
                         <span
                             :title="f.remark"
                             style="cursor: help; text-decoration: underline dotted"
                         >{{ f.label }}</span
                         >
+                            <div v-if="f.required" style="color: var(--el-color-danger)">*</div>
+                          </label>
+                          <help :message="f.helpMsg" v-if="f.helpMsg"/>
+                        </div>
                       </template>
                       <el-input
                           v-if="f.fieldType === 'input'"
@@ -563,11 +570,14 @@ watch(
               :key="f.fieldName"
           >
             <template #label>
-              <label class="prop-label"
-              >{{
-                  f.label
-                }}<span v-if="f.required" class="required-mark">*</span></label
-              >
+              <div class="flex flex-row items-center justify-between">
+                <label class="prop-label"
+                >{{
+                    f.label
+                  }}<span v-if="f.required" class="required-mark">*</span></label
+                >
+                <help :message="f.helpMsg" v-if="f.helpMsg"/>
+              </div>
             </template>
 
             <el-input

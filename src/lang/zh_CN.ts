@@ -4841,7 +4841,15 @@ export default {
     "dyform.step.flowDesignerSave": "完成设计",
     "dyform.step.flowDesignEmpty": "流程节点树为空，请先设计流程",
     "dyform.step.flowDesignNotComplete": "流程设计不完整，请检查各节点配置后再提交",
+    "dyform.step.segments":"阶段权限",
+    "dyform.step.segments.helpMsg":"当前阶段对其他阶段的操作权限",
+    "dyform.step.editable":"可编辑",
+    "dyform.step.readonly":"只读",
+    "dyform.step.hidden":"隐藏",
+    // "dyform.step.mustCompleteStep":"需先完成当前阶段",
+    "dyform.step.mustCompleteStep.helpMsg":"必须完成当前阶段才能进入下一阶段",
     "dyform.toolbar.flowDesign": "流程设计",
+
     // dialog/drawer/fieldset/descriptions/anchor 容器
     "dyform.container.dialog": "对话框",
     "dyform.container.dialogRemark":

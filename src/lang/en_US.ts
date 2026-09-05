@@ -4979,6 +4979,13 @@ If empty, the table information will be created in the current business database
   "dyform.step.flowDesignerSave": "Finish Design",
   "dyform.step.flowDesignEmpty": "Process node tree is empty, please design the flow first",
   "dyform.step.flowDesignNotComplete": "Flow design is incomplete, please check node configuration before submitting",
+  "dyform.step.segments":"Stage Permission",
+  "dyform.step.segments.helpMsg":"Permissions for operating other stages from current stage",
+  "dyform.step.editable":"Editable",
+  "dyform.step.readonly":"Read Only",
+  "dyform.step.hidden":"Invisible",
+  // "dyform.step.mustCompleteStep":"Complete current stage to proceed",
+  "dyform.step.mustCompleteStep.helpMsg":"The current stage must be completed before proceeding to the next stage.",
   "dyform.toolbar.flowDesign": "Flow Design",
   // dialog/drawer/fieldset/descriptions/anchor containers
   "dyform.container.dialog": "Dialog",
