@@ -4,6 +4,14 @@ import {i18n} from "@/lang";
 /** 公共子项字段（元素型容器共享） */
 const elementCommonFields: ItemType[] = [
   {
+    label: i18n("queryBuilder.tab.sort"),
+    fieldName: "dataIndex",
+    fieldType: "number",
+    required: true,
+    category: 1,
+    configParams: [],
+  },
+  {
     label: i18n("dyform.container.cfg.displayName"),
     fieldName: "label",
     fieldType: "input",

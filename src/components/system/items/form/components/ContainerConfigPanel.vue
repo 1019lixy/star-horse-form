@@ -67,6 +67,7 @@ const showAdvanced = ref(false);
 /** 判断是否为特殊字段（非常规公共字段） */
 const isSpecialField = (f: ItemType): boolean => {
   const commonNames = [
+    "dataIndex",
     "label",
     "subTablePrimaryKey",
     "subFormFlag",
@@ -182,6 +183,9 @@ const createNewElement = () => {
     else if (f.fieldType === "switch") {
       const {active} = switchValues(f);
       el[f.fieldName] = active;
+    } else if (f.fieldName === "dataIndex") {
+      // 排序字段为空时默认取行序号（新增行即将追加到末尾，序号为 length+1）
+      el[f.fieldName] = idx;
     } else if (f.fieldType === "number") el[f.fieldName] = undefined;
     else if (f.fieldType === "userSelector") el[f.fieldName] = [];
     else if (f.fieldType === "flowNode") el[f.fieldName] = createFlowCfg();
@@ -263,6 +267,12 @@ const setFormData = (data: any) => {
   } else {
     localElements.value = [];
   }
+  // dataIndex 为空时默认取行序号（与 # 序号列一致，从 1 开始）
+  localElements.value.forEach((el: any, i: number) => {
+    if (el.dataIndex === undefined || el.dataIndex === null || el.dataIndex === "") {
+      el.dataIndex = i + 1;
+    }
+  });
   // 旧模板分段缺 flowConfig 时补齐缺省结构，保证面板 v-model 绑定到有效响应式对象
   if (flowNodeFields.value.length) {
     localElements.value.forEach((el: any) => {
