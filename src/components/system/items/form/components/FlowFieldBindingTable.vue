@@ -36,15 +36,12 @@ const props = withDefaults(
 );
 const emit = defineEmits(["update:modelValue"]);
 
-/** 默认用途选项（外部未传时兜底） */
+/** 默认用途选项（外部未传时兜底）。usage 值与后端 NodeTypeEnums.code 一一对应 */
 const defaultUsageOptions = computed<FieldBindingUsageOption[]>(() => [
   { value: "param", label: i18n("dyform.step.usageParam"), multiple: true, needFlowVar: true },
-  { value: "assignee", label: i18n("dyform.step.usageAssignee"), multiple: true },
-  { value: "cc", label: i18n("dyform.step.usageCc"), multiple: true },
-  { value: "notice", label: i18n("dyform.step.usageNotice"), multiple: true },
-  { value: "condition", label: i18n("dyform.step.usageCondition"), multiple: true },
-  { value: "title", label: i18n("dyform.step.usageTitle"), multiple: false },
-  { value: "urgency", label: i18n("dyform.step.usageUrgency"), multiple: false },
+  { value: "ApprovalNode", label: i18n("dyform.step.usageAssignee"), multiple: true },
+  { value: "HandleNode", label: i18n("dyform.step.usageHandle"), multiple: true },
+  { value: "CopyerNode", label: i18n("dyform.step.usageCc"), multiple: true },
 ]);
 
 const usageOpts = computed(() =>
@@ -57,6 +54,17 @@ const valueModeOptions = [
   { value: "expression", label: i18n("dyform.step.valueModeExpression") },
   { value: "constant", label: i18n("dyform.step.valueModeConstant") },
 ];
+
+/** 抄送通知时机（仅 CopyerNode 行使用）：node=执行到节点才通知，full=全程通知 */
+const ccVisibleTypeOptions = [
+  { value: "full", label: i18n("dyform.step.ccVisibleTypeFull") },
+  { value: "node", label: i18n("dyform.step.ccVisibleTypeNode") },
+];
+
+/** 是否配置了抄送绑定（决定"通知时机"列是否显示） */
+const hasCopyerBinding = computed(() =>
+  bindings.value.some((b) => b.usage === "CopyerNode"),
+);
 
 const bindings = computed<NodeFieldBinding[]>(() => props.modelValue || []);
 
@@ -152,6 +160,27 @@ const usageMeta = (usage: string) => usageOpts.value.find((o) => o.value === usa
               :value="opt.value"
             />
           </el-select>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-if="hasCopyerBinding"
+        :label="i18n('dyform.step.ccVisibleType')"
+        min-width="110"
+      >
+        <template #default="{ row }">
+          <el-select
+            v-if="row.usage === 'CopyerNode'"
+            v-model="row.ccVisibleType"
+            filterable
+          >
+            <el-option
+              v-for="opt in ccVisibleTypeOptions"
+              :key="opt.value"
+              :label="opt.label"
+              :value="opt.value"
+            />
+          </el-select>
+          <span v-else class="text-muted">—</span>
         </template>
       </el-table-column>
       <el-table-column

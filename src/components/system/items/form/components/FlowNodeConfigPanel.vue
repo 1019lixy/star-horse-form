@@ -92,6 +92,19 @@ const migrateParamFields = (c: any) => {
   delete c.paramFields;
 };
 
+/** 旧版 usage 值迁移为 NodeTypeEnums.code */
+const migrateUsage = (c: any) => {
+  if (!Array.isArray(c.fieldBindings)) return;
+  const map: Record<string, string> = {
+    assignee: "ApprovalNode",
+    handle: "HandleNode",
+    cc: "CopyerNode",
+  };
+  for (const b of c.fieldBindings) {
+    if (b && typeof b.usage === "string" && map[b.usage]) b.usage = map[b.usage];
+  }
+};
+
 /** 流程节点配置对象（父级传入的响应式引用，直接维护其属性） */
 const cfg = computed<any>(() => {
   const c = props.modelValue;
@@ -107,6 +120,7 @@ watch(
         return;
       }
       migrateParamFields(c);
+      migrateUsage(c);
       if (c.mode !== "design" && c.mode !== "reuse") c.mode = "design";
       if (c.flowFlag !== "Y" && c.flowFlag !== "N") c.flowFlag = "N";
       if (!Array.isArray(c.fieldBindings)) c.fieldBindings = [];
@@ -175,12 +189,12 @@ const rejectPolicyOptions = [
   {name: i18n("dyform.step.rejectToPrev"), value: "to_prev"},
 ];
 
-/** 经办人字段候选：usage=assignee 的绑定字段 + 全部字段（去重） */
+/** 经办人字段候选：usage=ApprovalNode 的绑定字段 + 全部字段（去重） */
 const assigneeFieldOptions = computed(() => {
   const seen = new Set<any>();
   const out: SelectOption[] = [];
   fieldBindings.value.forEach((b) => {
-    if (b.usage === "assignee" && b.fieldName && !seen.has(b.fieldName)) {
+    if (b.usage === "ApprovalNode" && b.fieldName && !seen.has(b.fieldName)) {
       seen.add(b.fieldName);
       const f = props.fields.find((x) => x.value === b.fieldName);
       out.push({value: b.fieldName, name: f?.name || b.fieldName});

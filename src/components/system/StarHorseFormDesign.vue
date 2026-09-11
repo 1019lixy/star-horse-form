@@ -872,7 +872,7 @@ const init = async () => {
   // 初始化自定义组件接口配置
   initCustomCompApi(
     resolvedConfig.value?.customCompApi,
-    resolvedConfig.value?.api?.basePrefix,
+    resolvedConfig.value?.api?.appName,
   );
   // 加载自定义第三方组件
   loadCustomComponents();

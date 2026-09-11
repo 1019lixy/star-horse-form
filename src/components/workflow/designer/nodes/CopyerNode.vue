@@ -85,6 +85,12 @@ onMounted(() => {
               </el-tooltip>
             </span>
             <span v-else class="hint-title">设置此节点</span>
+            <span
+              v-if="node.ccEnabled"
+              class="cc-visible-tag"
+            >
+              {{ node.ccVisibleType === "node" ? "仅节点执行时通知" : "全程通知" }}
+            </span>
           </div>
           <!-- 错误提示 -->
           <el-tooltip
@@ -112,3 +118,14 @@ onMounted(() => {
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+.cc-visible-tag {
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 11px;
+  line-height: 18px;
+  color: var(--el-color-primary);
+  background: var(--el-color-primary-light-9);
+  border-radius: 3px;
+}
+</style>

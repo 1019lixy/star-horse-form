@@ -160,6 +160,10 @@ const copyerNodePreps = () => {
     ],
     privilege: "readonly",
     operations: {},
+    /** 启用抄送通知（与后端 NodeInfo.ccEnabled 同名同构） */
+    ccEnabled: true,
+    /** 通知时机：full=全程通知（流程启动/审批结束等），node=执行到节点才通知（与 NodeInfo.ccVisibleType 同构） */
+    ccVisibleType: "full",
     content: null,
   };
 };

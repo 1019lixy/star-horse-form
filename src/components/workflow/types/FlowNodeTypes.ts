@@ -12,15 +12,19 @@
  *   渲染与收集，具体业务语义由消费方（流程引擎/后端）解释。
  */
 
-/** 内置字段绑定用途 */
+/**
+ * 字段绑定用途。
+ *
+ * usage 值与后端 NodeTypeEnums.code 一一对应，前后端不做转换：
+ * - "param" 为业务流程参数，不对应节点
+ * - 其余值即节点类型 code（ApprovalNode/HandleNode/CopyerNode），
+ *   表示该字段作为对应类型节点的人员来源，后端直接按此值生成节点
+ */
 export type FieldBindingUsage =
   | "param" /** 作为流程参数传递 */
-  | "assignee" /** 作为审批人/办理人来源 */
-  | "cc" /** 作为抄送人来源 */
-  | "notice" /** 作为通知接收人来源 */
-  | "condition" /** 作为分支条件字段 */
-  | "title" /** 作为流程标题来源 */
-  | "urgency" /** 作为催办优先级来源 */;
+  | "ApprovalNode" /** 审批人来源 */
+  | "HandleNode" /** 办理人来源 */
+  | "CopyerNode" /** 抄送人来源 */;
 
 /** 字段取值方式 */
 export type FieldValueMode =
@@ -45,6 +49,8 @@ export interface NodeFieldBinding {
   flowVar?: string;
   /** 是否必填（该字段在节点提交时是否必填） */
   required?: boolean;
+  /** 抄送通知时机（usage=CopyerNode 时使用）：node=执行到节点才通知，full=全程通知（流程启动/审批结束等）；默认 full */
+  ccVisibleType?: "node" | "full";
   /** 取值表达式（valueMode=expression 时使用） */
   expression?: string;
   /** 常量值（valueMode=constant 时使用） */

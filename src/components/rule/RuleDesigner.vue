@@ -2396,7 +2396,7 @@ const loadFormVariables = async () => {
   if (!fid) return;
   try {
     const res = await ruleVariableApi.listByFormId(fid);
-    if (res.data.code === 0 && Array.isArray(res.data.data)) {
+    if (res.data.code === 200 && Array.isArray(res.data.data)) {
       const existing = new Map(
         (ruleData.variables || []).map((v) => [v.field, v]),
       );
@@ -2469,7 +2469,7 @@ const doSave = async () => {
     if (id) await ruleDefinitionApi.updateRule(ruleData);
     else {
       const r = await ruleDefinitionApi.saveRule(ruleData);
-      if (r.data.code === 0) {
+      if (r.data.code === 200) {
         id = r.data.data;
         ruleData.idRuleDefinition = id;
       }
