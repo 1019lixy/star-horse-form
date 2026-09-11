@@ -1,32 +1,44 @@
-<script setup lang="ts" name="FormPropertyPanel">
-import {dinfo, dlog} from "@/utils/debugLog";
-import {computed, onActivated, onMounted, reactive, ref, watch} from "vue";
+<script setup lang="ts" name="PublishFormDialog">
+import {dinfo} from "@/utils/debugLog";
+import {computed, nextTick, onActivated, onMounted, reactive, ref, watch} from "vue";
 import {
-  analysisCompDatas,
+  apiInstance,
   commonField,
+  ContainerFieldInfo,
   createCondition,
+  FieldInfo,
   httpMethod,
   orderBy,
   PageFieldInfo,
   postRequest,
   SelectOption,
-
   warning,
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings.js";
-import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
+import {Config} from "@/api/settings";
+import {loadSvgIcons} from "@/api/star_horse_form_utils";
 import {FormConfig} from "@/components/types";
-import {i18n} from "@/lang/index.js";
+import {i18n} from "@/lang";
 import {getDesignFormStore} from "@/store/StoreManager";
 import {designDataNames} from "@/api/form_utils";
-
+import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
+const api = apiInstance("userdb-manage", "userdb/dynamicForm");
 const props = defineProps<{
-  optional: FormConfig;
+  modelValue?: boolean;
+  optional?: FormConfig;
+  advancedTabs?: ContainerFieldInfo[];
+  formBasicProps?: FieldInfo[];
+}>();
+const emits = defineEmits<{
+  (e: "close"): void;
+  (e: "update:modelValue"): void;
+  (e: "save", isDraft: boolean, formInfo: any): void;
 }>();
 let designForm = getDesignFormStore();
 let formInfo = computed(() => designForm.formInfo);
 const compList = computed(() => designForm.compList);
 const model = computed(() => props.optional?.model ?? "simple");
+let compSize = computed(() => props.optional?.compSize ?? "default");
+
 let dynamicFormItemRef = ref();
 let dbList = ref<any>([]);
 let relationDataList = ref<SelectOption[]>([]);
@@ -65,7 +77,6 @@ const tableListMsg = i18n("dyform.formProp.relationField.helpMsg");
 let urlFieldVisible = ref<boolean>(false);
 
 
-
 // ==================== 表单属性字段定义（按业务分组提取） ====================
 /**
  * 通用基础属性字段（与业务解耦，仅保留表单自身通用属性）。
@@ -96,6 +107,7 @@ const genericBasicPropsFields = [
     preps: {colspan: ["simple"].includes(model.value) ? 24 : 12, iconType: "user", values: loadSvgIcons()},
   },
 ];
+
 /**
  * 基础配置字段 = lib 通用字段 + 外部注入字段（FormConfig.formBasicProps）。
  * 外部字段需自包含（options 数据、actions 均由外部提供），
@@ -103,7 +115,7 @@ const genericBasicPropsFields = [
  */
 const basicPropsFields = [
   ...genericBasicPropsFields,
-  ...(props.optional?.formBasicProps ?? []),
+  ...(props.formBasicProps ?? []),
 ];
 /** 表单样式字段 */
 const otherPropsFields = [
@@ -467,7 +479,7 @@ const listSortFieldTable = {
   ],
 };
 
-const currentTab=ref<string>("");
+const currentTab = ref<string>("");
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
@@ -502,7 +514,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {
         mustCompleteTab: false
       },
-      actions:{
+      actions: {
         tabChange: (val: any) => {
           currentTab.value = val;
         }
@@ -603,65 +615,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ],
         },
         // 接入方扩展 Tab（FormConfig.advancedProps）：lib 只留位置，内容全部外部注入
-        ...(props.optional?.advancedProps ?? []),
+        ...(props.advancedTabs ?? []),
 
       ],
     },
   ],
 });
 
-const initData = async () => {
-  if (
-      props.optional?.loadDicts &&
-      typeof props.optional.loadDicts == "function"
-  ) {
-    props.optional?.loadDicts("event_type")?.then((res: SelectOption[]) => {
-      eventTypeList.value = res;
-    });
-  }
-  if (
-      props.optional?.loadDbList &&
-      typeof props.optional.loadDbList == "function"
-  ) {
-    props.optional?.loadDbList()?.then((res) => {
-      dbList.value = res;
-    });
-  }
-};
 
 const analysisDynamicFields = async (formInfo: any) => {
   if (!dynamicFieldList.value.length) {
     dynamicFieldList.value = designDataNames(compList.value);
   }
   return dynamicFieldList.value;
-  /*const apiUrl =
-      props.optional?.api?.basePrefix + "/analysisDynamicDatasourceFields";
-  dlog(
-      "[FormPropertyPanel] analysisDynamicFields called, apiUrl:",
-      apiUrl,
-  );
-  let reData = await loadData(apiUrl, formInfo);
-  dlog(
-      "[FormPropertyPanel] loadData result:",
-      JSON.stringify({
-        error: reData.error,
-        dataLength: reData.data?.length,
-        data: reData.data,
-      }),
-  );
-  if (reData.error) {
-    derror("[FormPropertyPanel] loadData error:", reData.error);
-    return;
-  }
-  dynamicFieldList.value = reData.data;
-  dlog(
-      "[FormPropertyPanel] dynamicFieldList updated, length:",
-      dynamicFieldList.value?.length,
-  );*/
 };
 const analysisMainFields = async () => {
-  let datas = analysisCompDatas(compList.value);
-  const selectDatas: SelectOption[] = datas.selectList;
+  const selectDatas: SelectOption[] = designDataNames(compList.value);
   mainTableFieldList.value = selectDatas;
   orderByFieldList.value = selectDatas;
   dynamicFieldList.value = selectDatas;
@@ -678,10 +647,6 @@ const analysisMainFields = async () => {
 let currentDataSourceId = ref<string>("");
 //获取同数据源下的表,用来配置对应的关系
 const loadSameDataSourceTables = (formInfo: any) => {
-  if (!props.optional?.api?.listConditionUrl) {
-    warning(i18n("dyform.formProp.listConditionUrl.warning"));
-    return;
-  }
   let params: any = [];
   formInfo["relations"] = [];
   currentDataSourceId.value = formInfo["datasourceConfigId"];
@@ -692,7 +657,7 @@ const loadSameDataSourceTables = (formInfo: any) => {
           formInfo["datasourceConfigId"] ? "eq" : "is",
       ),
   );
-  postRequest(props.optional?.api?.listConditionUrl!, {
+  postRequest(api.listConditionUrl!, {
     fieldList: params,
   }).then((res: any) => {
     relationDataList.value = [];
@@ -720,6 +685,88 @@ const loadTableColumns = (tbName: any) => {
         tableColumnsList.value = columns;
       });
 };
+/**
+ * 创建表单信息
+ */
+const createFormInfo = () => {
+  let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
+  dynameForm!["relations"] =
+      dynameForm["relations"] && dynameForm["relations"] instanceof Array
+          ? JSON.stringify(dynameForm["relations"])
+          : dynameForm["relations"];
+  dynameForm!["details"] = {};
+  dynameForm!["details"]["content"] = JSON.stringify(compList.value);
+  dynameForm!["details"]["fieldNames"] = "{}";
+  // 流程绑定数据转换由接入方通过 optional.transformFlowConfigures 注入
+  if (props.optional?.transformFlowConfigures) {
+    props.optional.transformFlowConfigures(dynameForm);
+  }
+  return dynameForm;
+};
+let isSubmit = ref<boolean>(true);
+const closeAction = () => {
+  emits("close");
+};
+const doSave = async (isDraft: boolean = false) => {
+  if (!isDraft) {
+    // 流程校验由接入方通过 optional.validateFlowDesign 注入
+    const flowErr = props.optional?.validateFlowDesign?.(formInfo.value) ?? null;
+    if (flowErr) {
+      warning(flowErr);
+      return;
+    }
+  }
+  let formData = dynamicFormItemRef.value.getFormData();
+  designForm.setFormInfo(formData.value);
+  if (!isSubmit.value) {
+    closeAction();
+    return;
+  }
+
+  let flag = false;
+  await nextTick();
+  if (!isDraft) {
+    let errMessage = validDynamicFormCompParams(compList.value, true);
+    if (errMessage) {
+      warning(errMessage);
+      return;
+    }
+  }
+  await dynamicFormItemRef.value.$refs.starHorseFormRef.validate(
+      (evt: boolean) => {
+        flag = evt;
+      },
+  );
+  if (!flag) {
+    warning(i18n("dyform.dialog.414"));
+    return;
+  }
+  emits("save", isDraft, createFormInfo());
+};
+
+const submitAnalysisDynamicFields = (submit: boolean) => {
+  isSubmit.value = submit;
+  console.log("[ConfigDialog] analysisDynamicFields called, submit:", submit);
+  // 等待 el-dialog 内容渲染完成后再调用
+  const tryCall = () => {
+    nextTick(() => {
+      if (dynamicFormItemRef.value) {
+        console.log(
+            "[ConfigDialog] formPropertyRef available, calling analysisDynamicFields",
+        );
+        analysisDynamicFields(createFormInfo());
+      } else {
+        console.log(
+            "[ConfigDialog] formPropertyRef is null, retrying in 50ms...",
+        );
+        // el-dialog 的 destroy-on-close 可能导致组件还未挂载，延迟重试
+        setTimeout(tryCall, 50);
+      }
+    });
+  };
+  tryCall();
+};
+const dialogVisible = defineModel("modelValue");
 
 /**
  * 表单更新的时候，更新表单的属性
@@ -746,6 +793,7 @@ onMounted(() => {
       dbList.value = res;
     });
   }
+  analysisMainFields();
 });
 onActivated(() => {
   dinfo("onActivated");
@@ -765,7 +813,7 @@ watch(
 
 defineExpose({
   getFormData,
-  analysisDynamicFields,
+  submitAnalysisDynamicFields,
   currentTab,
   allTableFieldList,
 });
@@ -777,12 +825,37 @@ defineExpose({
 
 </style>
 <template>
-  <star-horse-form
-      label-position="right"
-      :outerFormData="formInfo"
-      :fieldList="tableFieldList"
-      ref="dynamicFormItemRef"
-  />
-  <!-- 接入方扩展内容（流程绑定参数表、在线设计弹窗等）：lib 只留位置 -->
-  <slot name="property-panel-extra" :currentTab="currentTab" :allTableFieldList="allTableFieldList"/>
+  <star-horse-panel
+      v-model="dialogVisible"
+      @closeAction="closeAction"
+      :selfFunc="true"
+      :compSize="compSize"
+      @merge="() => doSave(false)"
+      boxHeight="70%"
+      :title="i18n('dyform.config.dialog.title')"
+  >
+    <star-horse-form
+        label-position="right"
+        :outerFormData="formInfo"
+        :fieldList="tableFieldList"
+        ref="dynamicFormItemRef"
+    />
+    <template #extend>
+      <el-button
+          @click="() => doSave(true)"
+          style="
+          background: var(--star-horse-style);
+          color: var(--star-horse-white);
+        "
+          :size="compSize"
+      >
+        <star-horse-icon
+            icon-class="short_save"
+            cursor="pointer"
+            style="color: var(--star-horse-white)"
+        />
+        {{ i18n("dyform.config.draft.save") }}
+      </el-button>
+    </template>
+  </star-horse-panel>
 </template>

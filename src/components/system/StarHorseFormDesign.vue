@@ -50,29 +50,24 @@ import JSON5 from "json5";
 import {quickAddItem} from "@/api/form_utils";
 import type {Content} from "vanilla-jsoneditor";
 import {createJSONEditor, isTextContent, toJSONContent,} from "vanilla-jsoneditor";
-import {
-  initContainerDimensions,
-  loadCustomComponents,
-} from "@/components/system/items/utils/FieldOperationUtils";
+import {initContainerDimensions, loadCustomComponents,} from "@/components/system/items/utils/FieldOperationUtils";
 import {initCustomCompApi} from "@/api/custom_component_api";
 import {hasOpenDialog} from "@/api/keyboard-event-utils";
 import {appEndpoints} from "@/api/app_config";
 // 对话框类组件改为异步加载，减小首屏 bundle
 const CodeDialog = defineAsyncComponent(
-  () => import("@/components/system/items/form/dialogs/CodeDialog.vue"),
+    () => import("@/components/system/items/form/dialogs/CodeDialog.vue"),
 );
 const BatchEditDialog = defineAsyncComponent(
-  () => import("@/components/system/items/form/dialogs/BatchEditDialog.vue"),
+    () => import("@/components/system/items/form/dialogs/BatchEditDialog.vue"),
 );
 const PreviewDialog = defineAsyncComponent(
-  () => import("@/components/system/items/form/dialogs/PreviewDialog.vue"),
+    () => import("@/components/system/items/form/dialogs/PreviewDialog.vue"),
 );
 const FieldLayerDrawer = defineAsyncComponent(
-  () => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"),
+    () => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"),
 );
-const ConfigDialog = defineAsyncComponent(
-  () => import("@/components/system/items/form/dialogs/ConfigDialog.vue"),
-);
+
 // 业务扩展（AI/规则/流程/存为组件）已剥离为 extensions/ 下自包含组件，
 // 由接入方通过 #toolbar-extra 插槽按需引入，设计器内不再内置。
 
@@ -84,9 +79,9 @@ const props = defineProps({
     type: String,
     default: "idDynamicForm",
   },
-  optional: { type: Object as PropType<FormConfig> },
+  optional: {type: Object as PropType<FormConfig>},
   /** FieldPanel 的 tab 显示顺序（按 tab name），未列出的 tab 追加在最后 */
-  tabOrder: { type: Array as PropType<string[]>, default: () => [] },
+  tabOrder: {type: Array as PropType<string[]>, default: () => []},
 });
 
 // 合并默认值：确保 FormConfig 中标记为可选的字段有合理回退
@@ -97,7 +92,7 @@ const resolvedConfig = computed(() => {
     model: opt.model ?? "simple",
     primaryKey: pk,
     forbiddenSystemItems: opt.forbiddenSystemItems ?? false,
-    shotProps: opt.shotProps ?? { label: "formName", value: pk },
+    shotProps: opt.shotProps ?? {label: "formName", value: pk},
     compSize: opt.compSize ?? "default",
     ...opt,
     flowDefineOptions: loadedFlowDefineOptions.value.length
@@ -128,7 +123,7 @@ let configStore = getGlobalConfigStore();
 
 
 let compSize = computed(
-  () => configStore.configFormInfo?.buttonSize || Config.compSize,
+    () => configStore.configFormInfo?.buttonSize || Config.compSize,
 );
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
@@ -166,8 +161,9 @@ let cacheData = ref<any>([]);
 const propertyRef = ref();
 const isSubmit = ref(false);
 const configDialogRef = ref();
-let shortKeySwitch: Function = () => {};
-const { dialogStates, openDialog, closeAllDialogs } = useDialogManager();
+let shortKeySwitch: Function = () => {
+};
+const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
 const isCooperationMode = computed(() => formInfo.value?.cooperation === "Y");
 
 
@@ -181,7 +177,8 @@ const destroyEditor = () => {
   if (jsonEditorInstance) {
     try {
       jsonEditorInstance.destroy();
-    } catch (_) {}
+    } catch (_) {
+    }
     jsonEditorInstance = null;
   }
 };
@@ -193,7 +190,7 @@ const initEditor = () => {
     jsonEditorInstance = createJSONEditor({
       target: codeEditorTarget.value,
       props: {
-        content: { json: currentJsonData },
+        content: {json: currentJsonData},
         mode: "text" as any,
         mainMenuBar: true,
         navigationBar: false,
@@ -202,7 +199,8 @@ const initEditor = () => {
           if (isTextContent(content)) {
             try {
               currentJsonData = JSON.parse(content.text);
-            } catch (_) {}
+            } catch (_) {
+            }
           } else {
             currentJsonData = content.json;
           }
@@ -260,13 +258,14 @@ const applyCodeChanges = () => {
       if (typeof currentJsonData === "string") {
         try {
           data = JSON.parse(currentJsonData);
-        } catch (_) {}
+        } catch (_) {
+        }
       }
     }
   }
   if (!Array.isArray(data)) {
     try {
-      const parsed = toJSONContent({ text: String(data) } as any);
+      const parsed = toJSONContent({text: String(data)} as any);
       data = parsed.json;
     } catch (_) {
       warning(i18n("dyform.design.warning.jsonArrayRequired"));
@@ -284,7 +283,7 @@ const applyCodeChanges = () => {
     success(i18n("dyform.design.importSuccess"));
   } catch (e: any) {
     warning(
-      i18n("dyform.design.warning.applyFailed") +
+        i18n("dyform.design.warning.applyFailed") +
         (e?.message || i18n("dyform.design.warning.unknownError")),
     );
   }
@@ -294,7 +293,7 @@ const applyCodeChanges = () => {
 const resetCodeEditor = () => {
   currentJsonData = JSON.parse(JSON.stringify(list.value));
   if (jsonEditorInstance) {
-    jsonEditorInstance.set({ json: currentJsonData });
+    jsonEditorInstance.set({json: currentJsonData});
   }
 };
 
@@ -308,7 +307,7 @@ const formatCodeEditor = () => {
     } else {
       parsed = content.json;
     }
-    jsonEditorInstance.set({ text: JSON.stringify(parsed, null, 2) });
+    jsonEditorInstance.set({text: JSON.stringify(parsed, null, 2)});
   } catch (_) {
     warning(i18n("dyform.design.warning.jsonFormatError"));
   }
@@ -328,48 +327,45 @@ const messageSubscriptions = ref<string[]>([]);
 const isSyncing = ref<boolean>(false);
 
 watch(
-  () => currentItemId.value,
-  (newVal, oldVal) => {
-    console.log("Current item changed:", oldVal, "->", newVal);
+    () => currentItemId.value,
+    (newVal, oldVal) => {
+      console.log("Current item changed:", oldVal, "->", newVal);
 
-    if (!isCooperationMode.value) {
-      return;
-    }
+      if (!isCooperationMode.value) {
+        return;
+      }
 
-    if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
-      console.log("WebSocket not connected, skipping component lock/unlock");
-      return;
-    }
-
-    // 当组件切换时，解锁旧组件
-    if (oldVal && oldVal !== newVal) {
-      unlockComponentById(oldVal);
-    }
-
-    // 锁定新组件
-    if (newVal) {
-      lockComponent(newVal);
-    }
-  },
-  { immediate: true },
+      if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
+        console.log("WebSocket not connected, skipping component lock/unlock");
+        return;
+      }
+      // 当组件切换时，解锁旧组件
+      if (oldVal && oldVal !== newVal) {
+        unlockComponentById(oldVal);
+      }
+      // 锁定新组件
+      if (newVal) {
+        lockComponent(newVal);
+      }
+    },
+    {immediate: true},
 );
 
 watch(
-  () => formInfo.value?.cooperation,
-  (newVal, oldVal) => {
-    console.log("Cooperation mode changed:", oldVal, "->", newVal);
-
-    if (newVal === "Y" && oldVal !== "Y") {
-      // 切换到协作模式，初始化 WebSocket
-      initWebSocketService();
-    } else if (newVal !== "Y" && oldVal === "Y") {
-      // 切换到非协作模式，断开 WebSocket
-      if (formSocketInstance.value) {
-        formSocketInstance.value.disconnect();
-        formSocketInstance.value = null;
+    () => formInfo.value?.cooperation,
+    (newVal, oldVal) => {
+      console.log("Cooperation mode changed:", oldVal, "->", newVal);
+      if (newVal === "Y" && oldVal !== "Y") {
+        // 切换到协作模式，初始化 WebSocket
+        initWebSocketService();
+      } else if (newVal !== "Y" && oldVal === "Y") {
+        // 切换到非协作模式，断开 WebSocket
+        if (formSocketInstance.value) {
+          formSocketInstance.value.disconnect();
+          formSocketInstance.value = null;
+        }
       }
-    }
-  },
+    },
 );
 const subscribeToMessages = () => {
   if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
@@ -383,10 +379,10 @@ const subscribeToMessages = () => {
   messageSubscriptions.value = [];
 
   const privateSubscription = formSocketInstance.value.subscribeToGroupMessages(
-    (message: any) => {
-      handleIncomingMessage(message);
-    },
-    currentFormId.value,
+      (message: any) => {
+        handleIncomingMessage(message);
+      },
+      currentFormId.value,
   );
   if (privateSubscription) {
     messageSubscriptions.value.push(privateSubscription);
@@ -402,23 +398,23 @@ const handleIncomingMessage = (message: any) => {
         console.log("Component locked successfully:", message.compId);
         // 如果是自己锁定的组件，不需要添加编辑用户信息
         if (
-          message.userInfo &&
-          message.userInfo.userId !== currentUserInfo.value.userId
+            message.userInfo &&
+            message.userInfo.userId !== currentUserInfo.value.userId
         ) {
           designForm.addCurrentCompEditUserInfo(
-            message.compId,
-            message.userInfo,
+              message.compId,
+              message.userInfo,
           );
         }
       } else {
         console.error(
-          "Component lock failed:",
-          message.compId,
-          message.message,
+            "Component lock failed:",
+            message.compId,
+            message.message,
         );
         // 显示锁定失败的提示
         warning(
-          `${i18n("dyform.design.ws.comp")} ${message.compId} ${i18n("dyform.design.ws.lockedBy")} ${message.userInfo?.name || i18n("dyform.design.ws.otherUser")}`,
+            `${i18n("dyform.design.ws.comp")} ${message.compId} ${i18n("dyform.design.ws.lockedBy")} ${message.userInfo?.name || i18n("dyform.design.ws.otherUser")}`,
         );
       }
       break;
@@ -446,8 +442,8 @@ const handleIncomingMessage = (message: any) => {
         // 跳过自己的锁定状态，只显示其他用户的编辑状态
         if (message.userInfo.userId !== currentUserInfo.value.userId) {
           designForm.addCurrentCompEditUserInfo(
-            message.compId,
-            message.userInfo,
+              message.compId,
+              message.userInfo,
           );
         }
       }
@@ -460,7 +456,6 @@ const initWebSocketService = () => {
     console.log("非协作模式，跳过WebSocket初始化");
     return;
   }
-
   try {
     console.log("Initializing WebSocket service");
     formSocketInstance.value = new FormSocketService({
@@ -493,23 +488,23 @@ const initWebSocketService = () => {
 
     console.log("Attempting to connect to WebSocket server");
     formSocketInstance.value
-      .connect()
-      .then((connected) => {
-        if (connected) {
-          isConnected.value = true;
-          connectionStatus.value = i18n("dyform.design.ws.connected");
-          console.log("WebSocket服务连接成功");
-        } else {
+        .connect()
+        .then((connected) => {
+          if (connected) {
+            isConnected.value = true;
+            connectionStatus.value = i18n("dyform.design.ws.connected");
+            console.log("WebSocket服务连接成功");
+          } else {
+            isConnected.value = false;
+            connectionStatus.value = i18n("dyform.design.ws.connectFailed");
+            console.error("WebSocket服务连接失败");
+          }
+        })
+        .catch((error) => {
+          console.error("WebSocket连接过程中出错:", error);
           isConnected.value = false;
-          connectionStatus.value = i18n("dyform.design.ws.connectFailed");
-          console.error("WebSocket服务连接失败");
-        }
-      })
-      .catch((error) => {
-        console.error("WebSocket连接过程中出错:", error);
-        isConnected.value = false;
-        connectionStatus.value = i18n("dyform.design.ws.connectError");
-      });
+          connectionStatus.value = i18n("dyform.design.ws.connectError");
+        });
 
     console.log("WebSocket服务初始化完成");
   } catch (error) {
@@ -622,7 +617,7 @@ const operExportFile = () => {
     // 格式化JSON
     const jsonString = JSON.stringify(exportData, null, 2);
     // 创建Blob对象
-    const blob = new Blob([jsonString], { type: "application/json" });
+    const blob = new Blob([jsonString], {type: "application/json"});
     // 创建下载链接
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -644,7 +639,7 @@ const operExportFile = () => {
 const actions = (action: ToolBtnType | string) => {
   // 兼容键盘快捷键传入字符串（keyInfo.action）与工具栏传入对象两种形式
   const act: ToolBtnType =
-    typeof action === "string" ? ({ key: action } as ToolBtnType) : action;
+      typeof action === "string" ? ({key: action} as ToolBtnType) : action;
   switch (act.key) {
     case "formConfig":
       formConfigDialogVisible.value = true;
@@ -690,9 +685,6 @@ const actions = (action: ToolBtnType | string) => {
       reOrUnDoFlag.value = true;
       designForm.redo();
       break;
-    case "save":
-      tableEdit(true);
-      break;
     case "pad":
     case "phone":
     case "pc":
@@ -734,24 +726,24 @@ const init = async () => {
     designForm.setAllFormDataList(allFormDataList);
   }
   if (
-    resolvedConfig.value?.containerList &&
-    typeof resolvedConfig.value.containerList == "function"
+      resolvedConfig.value?.containerList &&
+      typeof resolvedConfig.value.containerList == "function"
   ) {
     resolvedConfig.value.containerList().then((res: CompType[]) => {
       designForm.addContainerList(res);
     });
   }
   if (
-    resolvedConfig.value?.itemList &&
-    typeof resolvedConfig.value.itemList == "function"
+      resolvedConfig.value?.itemList &&
+      typeof resolvedConfig.value.itemList == "function"
   ) {
     resolvedConfig.value.itemList().then((res: CompType[]) => {
       designForm.addFormDataList(res);
     });
   }
   if (
-    resolvedConfig.value?.extendItemList &&
-    typeof resolvedConfig.value.extendItemList == "function"
+      resolvedConfig.value?.extendItemList &&
+      typeof resolvedConfig.value.extendItemList == "function"
   ) {
     resolvedConfig.value.extendItemList().then((res: CompType[]) => {
       designForm.addSelfFormDataList(res);
@@ -759,8 +751,8 @@ const init = async () => {
   }
   // 初始化自定义组件接口配置
   initCustomCompApi(
-    resolvedConfig.value?.customCompApi,
-    resolvedConfig.value?.api?.appName,
+      resolvedConfig.value?.customCompApi,
+      resolvedConfig.value?.api?.appName,
   );
   // 加载自定义第三方组件
   loadCustomComponents();
@@ -774,16 +766,6 @@ const init = async () => {
   }
 };
 
-const tableEdit = async (submit: boolean) => {
-  isSubmit.value = submit;
-  openDialog("configDialogVisible");
-  designForm.setShortKeyDisabled(true);
-  await nextTick(() => {
-    if (configDialogRef.value) {
-      configDialogRef.value.analysisDynamicFields(submit);
-    }
-  });
-};
 const closeAction = () => {
   designForm.setIsEdit(true);
   designForm.setPreviewVisible(false);
@@ -798,12 +780,12 @@ const closeAction = () => {
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
     operationConfirm(i18n("dyform.design.newConfirmMsg")).then(
-      (res: boolean) => {
-        if (res) {
-          designForm.clearAll(flag);
-          delCacheData(cacheName);
-        }
-      },
+        (res: boolean) => {
+          if (res) {
+            designForm.clearAll(flag);
+            delCacheData(cacheName);
+          }
+        },
     );
   } else {
     designForm.clearAll(flag);
@@ -838,9 +820,9 @@ const onDragAdd = async (_evt: Event, dataList?: Array<any>) => {
     designForm.selectItem(temp, temp["itemType"], "");
   } else {
     designForm.selectItem(
-      draggingItem.value,
-      draggingItem.value["itemType"],
-      "",
+        draggingItem.value,
+        draggingItem.value["itemType"],
+        "",
     );
   }
   // 仅在协作模式下同步数据到其他用户，且不在同步过程中
@@ -935,19 +917,14 @@ const changeDataHandle = (type: string, data: any) => {
 
 const applySystemTemplate = (template: any) => {
   setFormInfo(
-    template.dataList || [],
-    template.formInfo || {},
-    template.formData || {},
-    true,
+      template.dataList || [],
+      template.formInfo || {},
+      template.formData || {},
+      true,
   );
   success(i18n("dyform.template.apply.success"));
 };
-const saveData = (isDraft: boolean, formData: any) => {
-  emits("saveData", isDraft, formData);
-  setTimeout(() => {
-    dialogStates.value.configDialogVisible = false;
-  }, 500);
-};
+
 onActivated(() => {
   designForm.setIsEdit(true);
   shortKeySwitch(true);
@@ -966,27 +943,27 @@ onBeforeUnmount(() => {
 });
 
 const listWatcher = watch(
-  () => list.value,
-  debounce((val: any) => {
-    designForm.removePromise();
-    designForm.setRefresh();
-    // reOrUnDoFlag 为 true 表示本次变化由撤销/重做触发，不写入历史记录
-    designForm.addHistoryRecord(reOrUnDoFlag.value);
-    reOrUnDoFlag.value = false;
-    userOperation.setFormInstance(dynamicFormRef);
-    userOperation.setFormData(formData);
-    userOperation.addFormItemList(val);
-    setCacheData(cacheName, {
-      dataList: val,
-      formInfo: unref(formInfo),
-    });
-  }, 500),
-  {
-    immediate: false,
-    deep: true,
-    // flush: 'post' 让 watch 在 DOM 更新后触发，避免阻塞用户输入
-    flush: "post",
-  },
+    () => list.value,
+    debounce((val: any) => {
+      designForm.removePromise();
+      designForm.setRefresh();
+      // reOrUnDoFlag 为 true 表示本次变化由撤销/重做触发，不写入历史记录
+      designForm.addHistoryRecord(reOrUnDoFlag.value);
+      reOrUnDoFlag.value = false;
+      userOperation.setFormInstance(dynamicFormRef);
+      userOperation.setFormData(formData);
+      userOperation.addFormItemList(val);
+      setCacheData(cacheName, {
+        dataList: val,
+        formInfo: unref(formInfo),
+      });
+    }, 500),
+    {
+      immediate: false,
+      deep: true,
+      // flush: 'post' 让 watch 在 DOM 更新后触发，避免阻塞用户输入
+      flush: "post",
+    },
 );
 
 onMounted(async () => {
@@ -1041,18 +1018,18 @@ const lockComponent = (compId: string) => {
   }
 
   formSocketInstance.value.lockComponent(
-    compId,
-    currentFormId.value,
-    currentUserInfo.value,
+      compId,
+      currentFormId.value,
+      currentUserInfo.value,
   );
 };
 
 // 解锁组件
 const unlockComponentById = (compId: string) => {
   if (
-    !formSocketInstance.value ||
-    !formSocketInstance.value.isConnected() ||
-    !compId
+      !formSocketInstance.value ||
+      !formSocketInstance.value.isConnected() ||
+      !compId
   ) {
     return;
   }
@@ -1076,10 +1053,10 @@ const nodeList = () => {
   return list.value;
 };
 const setFormInfo = (
-  nodeList: Array<any>,
-  formInfo: any,
-  formData: any,
-  isEdit: boolean,
+    nodeList: Array<any>,
+    formInfo: any,
+    formData: any,
+    isEdit: boolean,
 ) => {
   initStoreData();
   designForm.setFormInfo(formInfo);
@@ -1144,52 +1121,42 @@ defineExpose({
 </script>
 
 <template>
-  <ConfigDialog
-    ref="configDialogRef"
-    :visible="dialogStates.configDialogVisible"
-    :optional="resolvedConfig"
-    @save="saveData"
-    @close="closeAction"
-  >
-    <template v-if="$slots['property-panel-extra']" #property-panel-extra="slotProps">
-      <slot name="property-panel-extra" v-bind="slotProps"/>
-    </template>
-  </ConfigDialog>
+
   <CodeDialog
-    :visible="dialogStates.codeDialogVisible"
-    :optional="resolvedConfig"
-    @close="closeAction"
-    @save="codeDoSave"
+      :visible="dialogStates.codeDialogVisible"
+      :optional="resolvedConfig"
+      @close="closeAction"
+      @save="codeDoSave"
   />
   <BatchEditDialog
-    :visible="dialogStates.batchEditFieldVisible"
-    :compSize="compSize"
-    @close="closeAction"
-    @save="closeAction"
+      :visible="dialogStates.batchEditFieldVisible"
+      :compSize="compSize"
+      @close="closeAction"
+      @save="closeAction"
   />
   <PreviewDialog
-    :visible="isPreview"
-    :compSize="compSize"
-    :list="list"
-    :currentPageClass="currentPageClass"
-    @close="closeAction"
-    ref="previewDialogRef"
+      :visible="isPreview"
+      :compSize="compSize"
+      :list="list"
+      :currentPageClass="currentPageClass"
+      @close="closeAction"
+      ref="previewDialogRef"
   />
-  <PageConfig v-model="formConfigDialogVisible"> </PageConfig>
+  <PageConfig v-model="formConfigDialogVisible"></PageConfig>
   <FieldLayerDrawer
-    v-model:visible="dialogStates.formFieldLayer"
-    :operType="operType"
+      v-model:visible="dialogStates.formFieldLayer"
+      :operType="operType"
   />
 
   <div class="sh-form-design-root">
     <FormToolbar
-      :list="list"
-      :currentPageStyle="currentPageStyle"
-      :cacheData="cacheData"
-      @action="actions"
-      @changeRole="changeRole"
-      @cacheRestore="cacheDataRestore"
-      :optional="resolvedConfig"
+        :list="list"
+        :currentPageStyle="currentPageStyle"
+        :cacheData="cacheData"
+        @action="actions"
+        @changeRole="changeRole"
+        @cacheRestore="cacheDataRestore"
+        :optional="resolvedConfig"
     >
       <!-- 业务扩展插槽透传：AI/规则/流程/存为组件等自包含扩展组件 -->
       <template v-if="$slots['toolbar-extra']" #toolbar-extra>
@@ -1199,16 +1166,16 @@ defineExpose({
     <el-splitter class="sh-splitter">
       <el-splitter-panel collapsible size="320" min="220" max="450">
         <field-panel
-          ref="fieldPanelRef"
-          :optional="resolvedConfig"
-          :tabOrder="props.tabOrder"
+            ref="fieldPanelRef"
+            :optional="resolvedConfig"
+            :tabOrder="props.tabOrder"
         >
           <template
-            v-for="(_, slotName) in $slots"
-            :key="slotName"
-            #[slotName]="slotProps"
+              v-for="(_, slotName) in $slots"
+              :key="slotName"
+              #[slotName]="slotProps"
           >
-            <slot :name="slotName" v-bind="slotProps ?? {}" />
+            <slot :name="slotName" v-bind="slotProps ?? {}"/>
           </template>
         </field-panel>
       </el-splitter-panel>
@@ -1222,71 +1189,71 @@ defineExpose({
                   <div class="mode-switcher-bar">
                     <div class="mode-switcher">
                       <button
-                        :class="[
+                          :class="[
                           'mode-btn',
                           { active: designMode === 'design' },
                         ]"
-                        @click="setMode('design')"
+                          @click="setMode('design')"
                       >
                         <svg
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          width="14"
-                          height="14"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            width="14"
+                            height="14"
                         >
                           <rect
-                            x="1"
-                            y="1"
-                            width="6"
-                            height="6"
-                            rx="1"
-                            stroke="currentColor"
-                            stroke-width="1.3"
+                              x="1"
+                              y="1"
+                              width="6"
+                              height="6"
+                              rx="1"
+                              stroke="currentColor"
+                              stroke-width="1.3"
                           />
                           <rect
-                            x="9"
-                            y="1"
-                            width="6"
-                            height="6"
-                            rx="1"
-                            stroke="currentColor"
-                            stroke-width="1.3"
+                              x="9"
+                              y="1"
+                              width="6"
+                              height="6"
+                              rx="1"
+                              stroke="currentColor"
+                              stroke-width="1.3"
                           />
                           <rect
-                            x="1"
-                            y="9"
-                            width="14"
-                            height="6"
-                            rx="1"
-                            stroke="currentColor"
-                            stroke-width="1.3"
+                              x="1"
+                              y="9"
+                              width="14"
+                              height="6"
+                              rx="1"
+                              stroke="currentColor"
+                              stroke-width="1.3"
                           />
                         </svg>
                         {{ i18n("dyform.action.designMode") }}
                       </button>
                       <button
-                        :class="['mode-btn', { active: designMode === 'code' }]"
-                        @click="setMode('code')"
+                          :class="['mode-btn', { active: designMode === 'code' }]"
+                          @click="setMode('code')"
                       >
                         <svg
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          width="14"
-                          height="14"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            width="14"
+                            height="14"
                         >
                           <path
-                            d="M5 3L1 8L5 13"
-                            stroke="currentColor"
-                            stroke-width="1.3"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                              d="M5 3L1 8L5 13"
+                              stroke="currentColor"
+                              stroke-width="1.3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
                           />
                           <path
-                            d="M11 3L15 8L11 13"
-                            stroke="currentColor"
-                            stroke-width="1.3"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                              d="M11 3L15 8L11 13"
+                              stroke="currentColor"
+                              stroke-width="1.3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
                           />
                         </svg>
                         {{ i18n("dyform.action.codeMode") }}
@@ -1295,16 +1262,19 @@ defineExpose({
                     <!-- Code mode actions -->
                     <div v-if="designMode === 'code'" class="mode-actions">
                       <el-button size="small" @click="formatCodeEditor">{{
-                        i18n("dyform.design.format")
-                      }}</el-button>
+                          i18n("dyform.design.format")
+                        }}
+                      </el-button>
                       <el-button size="small" @click="resetCodeEditor">{{
-                        i18n("dyform.design.reset")
-                      }}</el-button>
+                          i18n("dyform.design.reset")
+                        }}
+                      </el-button>
                       <el-button
-                        size="small"
-                        type="primary"
-                        @click="applyCodeChanges"
-                        >{{ i18n("dyform.design.applyChanges") }}</el-button
+                          size="small"
+                          type="primary"
+                          @click="applyCodeChanges"
+                      >{{ i18n("dyform.design.applyChanges") }}
+                      </el-button
                       >
                     </div>
                   </div>
@@ -1312,31 +1282,31 @@ defineExpose({
                   <!-- Design Mode -->
                   <template v-if="designMode === 'design'">
                     <FormDesigner
-                      :list="list"
-                      :form-data="formData"
-                      :form-info="formInfo"
-                      :is-dragging="isDragging"
-                      :current-page-class="currentPageClass"
-                      @drag-add="onDragAdd"
-                      @context-menu="contextMenu"
-                      @select-component="onComponentSelect"
-                      ref="dynamicFormRef"
+                        :list="list"
+                        :form-data="formData"
+                        :form-info="formInfo"
+                        :is-dragging="isDragging"
+                        :current-page-class="currentPageClass"
+                        @drag-add="onDragAdd"
+                        @context-menu="contextMenu"
+                        @select-component="onComponentSelect"
+                        ref="dynamicFormRef"
                     />
                     <FormMenuShot
-                      ref="formListRef"
-                      v-if="Object.keys(resolvedConfig?.api || {}).length > 0"
-                      @change="changeDataHandle"
-                      :dataUrl="resolvedConfig?.api"
-                      :prop="resolvedConfig?.shotProps"
-                      :primaryKey="resolvedConfig?.primaryKey"
+                        ref="formListRef"
+                        v-if="Object.keys(resolvedConfig?.api || {}).length > 0"
+                        @change="changeDataHandle"
+                        :dataUrl="resolvedConfig?.api"
+                        :prop="resolvedConfig?.shotProps"
+                        :primaryKey="resolvedConfig?.primaryKey"
                     />
                   </template>
 
                   <!-- Code Mode -->
                   <div
-                    v-else
-                    class="code-mode-editor"
-                    ref="codeEditorTarget"
+                      v-else
+                      class="code-mode-editor"
+                      ref="codeEditorTarget"
                   ></div>
 
                   <div class="main-copyright">
@@ -1345,17 +1315,17 @@ defineExpose({
                 </div>
               </el-splitter-panel>
               <el-splitter-panel
-                collapsible
-                :size="340"
-                min="260"
-                max="500"
-                class="sh-property-panel"
-                v-if="list.length > 0 && designMode === 'design'"
+                  collapsible
+                  :size="340"
+                  min="260"
+                  max="500"
+                  class="sh-property-panel"
+                  v-if="list.length > 0 && designMode === 'design'"
               >
                 <el-scrollbar class="sh-property-scrollbar">
                   <property-panel
-                    ref="propertyRef"
-                    :optional="resolvedConfig"
+                      ref="propertyRef"
+                      :optional="resolvedConfig"
                   />
                 </el-scrollbar>
               </el-splitter-panel>

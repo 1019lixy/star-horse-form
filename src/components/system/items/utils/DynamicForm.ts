@@ -134,14 +134,7 @@ const formActions = (): Array<ToolBtnType> => [
     label: i18n("dyform.action.preview"),
     shortcut: "Ctrl+P",
   },
-  // 保存（平铺）
-  {
-    icon: "save",
-    key: "save",
-    auth: "none",
-    label: i18n("dyform.action.save"),
-    shortcut: "Ctrl+S",
-  },
+
   // 业务扩展按钮（AI 助手 / 规则配置 / 流程设计 / 存为组件）已剥离，
   // 由接入方通过 #toolbar-extra 插槽放入自包含扩展组件（extensions/AiChatButton 等），
   // 按钮与功能随组件同步引入/移除。
