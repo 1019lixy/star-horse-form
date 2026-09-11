@@ -159,8 +159,7 @@ const doSave = (flag: boolean) => {
     <div class="toolbar-left">
       <!-- 工具条分组：文件(下拉) | 编辑(下拉) | 撤销/重做(平铺) | 风格(下拉) | 校验 | 预览 | 保存 -->
       <div class="toolbar-group">
-        <template v-for="(item, index) in allActions" :key="'tb_' + index">
-          <!-- 组间分隔符（独立渲染，不参与按钮的 v-if 链） -->
+        <template v-for="(item, index) in allActions" :key="'tb_' + index">          <!-- 组间分隔符（独立渲染，不参与按钮的 v-if 链） -->
           <div
             v-if="showDividerBefore(item, index)"
             class="toolbar-divider"
@@ -573,6 +572,9 @@ const doSave = (flag: boolean) => {
           </el-tooltip>
         </template>
       </div>
+
+      <!-- 扩展按钮插槽：接入方放入自包含扩展组件（AI/规则/流程/存为组件等） -->
+      <slot name="toolbar-extra"></slot>
     </div>
 
     <div class="toolbar-right">

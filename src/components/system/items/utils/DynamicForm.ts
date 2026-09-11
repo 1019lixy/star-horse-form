@@ -142,34 +142,9 @@ const formActions = (): Array<ToolBtnType> => [
     label: i18n("dyform.action.save"),
     shortcut: "Ctrl+S",
   },
-  // AI 助手（平铺）
-  {
-    icon: "ai",
-    key: "aiChat",
-    auth: "none",
-    label: i18n("dyform.aiChat.title"),
-  },
-  // 规则配置（平铺）：打开规则引擎管理面板，与当前表单绑定
-  {
-    icon: "rule",
-    key: "ruleConfig",
-    auth: "none",
-    label: i18n("dyform.toolbar.ruleConfig"),
-  },
-  // 流程设计（平铺）：打开可视化流程设计器，在线设计表单绑定流程
-  {
-    icon: "flow",
-    key: "flowDesign",
-    auth: "none",
-    label: i18n("dyform.toolbar.flowDesign"),
-  },
-  // 存为自定义组件（平铺）：将当前选中组件配置保存为第三方组件
-  {
-    icon: "component",
-    key: "saveAsComp",
-    auth: "none",
-    label: i18n("dyform.action.saveAsComp"),
-  },
+  // 业务扩展按钮（AI 助手 / 规则配置 / 流程设计 / 存为组件）已剥离，
+  // 由接入方通过 #toolbar-extra 插槽放入自包含扩展组件（extensions/AiChatButton 等），
+  // 按钮与功能随组件同步引入/移除。
 ];
 const shortKeyHelpMessage = (): string => `
 ${i18n("dyform.help.shortcuts")}：

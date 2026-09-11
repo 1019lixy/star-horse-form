@@ -19,6 +19,12 @@ import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
 import DbListComp from "@/components/system/items/utils/DbListComp.vue";
 import MyComponentsPanel from "@/components/system/items/form/panels/MyComponentsPanel.vue";
 import TemplatePanel from "@/components/system/items/form/panels/TemplatePanel.vue";
+// 业务扩展按钮（自包含组件，放入 #toolbar-extra 插槽）
+import AiChatButton from "@/components/system/items/form/extensions/AiChatButton.vue";
+import RuleConfigButton from "@/components/system/items/form/extensions/RuleConfigButton.vue";
+import FlowDesignButton from "@/components/system/items/form/extensions/FlowDesignButton.vue";
+import SaveAsCompButton from "@/components/system/items/form/extensions/SaveAsCompButton.vue";
+import FlowBindingTab, {useFlowBinding} from "@/components/system/items/form/extensions/FlowBindingTab.vue";
 import {nextTick, onMounted, ref} from "vue";
 import {createBiParamDataAdapter, FormConfig} from "@/components/types";
 import {useRoute} from "vue-router";
@@ -273,8 +279,12 @@ const loadFlowParams = async (
     description: undefined,
   }));
 };
+const optional = ref<FormConfig>({});
+// ==================== 流程绑定扩展（自包含 composable + 组件） ====================
+// useFlowBinding 创建流程绑定全部状态和 Tab 字段定义，延迟求值 optional 打破循环依赖
+const flowBinding = useFlowBinding(() => optional.value);
 
-const optional = ref<FormConfig>({
+optional.value ={
   model: "full",
   api: api,
   configTemplateApi: configTemplateApi,
@@ -311,7 +321,36 @@ const optional = ref<FormConfig>({
   // 流程绑定回调：流程定义列表 + 流程参数加载
   loadFlowDefines,
   loadFlowParams,
-});
+  // 流程绑定校验 + 数据转换（由 FlowBindingTab composable 提供）
+  validateFlowDesign: flowBinding.validateFlowDesign,
+  transformFlowConfigures: flowBinding.transformFlowConfigures,
+  // 保存弹窗扩展 Tab：流程绑定 Tab（composable 提供）+ 自定义演示 Tab
+  advancedProps: [
+    flowBinding.tabConfig,
+    {
+      title: i18n("dyform.formProp.formDesc"),
+      subTablePrimaryKey: "tabExtDesc",
+      fieldList: [
+        {
+          label: i18n("dyform.formProp.formDesc"),
+          fieldName: "formDescription",
+          type: "textarea",
+          formVisible: true,
+          preps: {colspan: 24, rows: 4},
+        },
+        {
+          label: i18n("dyform.formProp.showInHeader"),
+          fieldName: "showDescriptionInHeader",
+          type: "switch",
+          defaultValue: "N",
+          formVisible: true,
+          preps: {colspan: 12, activeValue: "Y", inactiveValue: "N"},
+        },
+      ],
+    },
+  ],
+};
+
 // ==================== 插槽组件专用配置（与设计器核心配置分离） ====================
 const dbListCompProps = {
   dbInfoApi: dbInfoApi,
@@ -446,6 +485,20 @@ const saveData = (isDraft: boolean, data: any) => {
       @saveData="saveData"
       @changeDataHandle="changeDataHandle"
   >
+    <template #toolbar-extra>
+      <AiChatButton/>
+      <RuleConfigButton :optional="optional"/>
+      <FlowDesignButton/>
+      <SaveAsCompButton :optional="optional"/>
+    </template>
+    <template #property-panel-extra="{ currentTab, allTableFieldList }">
+      <FlowBindingTab
+          :state="flowBinding.state"
+          :currentTab="currentTab"
+          :allTableFieldList="allTableFieldList"
+          :compSize="optional?.compSize"
+      />
+    </template>
     <template #tab-mycomp>
       <MyComponentsPanel/>
     </template>

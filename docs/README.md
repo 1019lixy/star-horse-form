@@ -21,6 +21,7 @@ node docs/build-html.cjs
 | [快速上手](./getting-started.md) | 安装、全局配置、最小可用示例、FormConfig 速查 |
 | [架构总览](./architecture.md) | 模块划分、目录结构、与 star-horse-lowcode 的关系、数据流 |
 | [表单设计器](./form-designer.md) | StarHorseFormDesign 的 props/emits/expose、FormConfig 全字段、设计器面板体系、自定义组件接入 |
+| [设计器扩展架构](./extensions.md) | 工具栏扩展、属性面板扩展、流程绑定扩展、自定义扩展开发指南、完整接入示例 |
 | [规则引擎设计器](./rule-engine-designer.md) | RuleDesigner、8 种节点类型、useRuleEngine/useFormRuleRuntime、RuleExecutor、触发事件、字段控制指令、后端对接 |
 | [布局容器](./containers.md) | formcomp/container 全部容器组件（box/dytable/gridtable/card/collapse/tab/table/step/anchor/splitter/fieldset/group/descriptions/dialog/drawer/condition） |
 | [通用页面模板](./commonpage.md) | 16 个通用页面组件 + useCommonPage composable |
@@ -50,6 +51,12 @@ node docs/build-html.cjs
 ## 快速链接
 
 - [FormConfig 完整字段表](./form-designer.md#formconfig-完整字段表)
+- [设计器扩展架构](./extensions.md)
+- [工具栏扩展（#toolbar-extra）](./extensions.md#一工具栏扩展toolbar-extra)
+- [属性面板扩展（advancedProps）](./extensions.md#二属性面板扩展advancedprops--property-panel-extra)
+- [流程绑定接入指南](./extensions.md#三流程绑定扩展--flowbindingtab)
+- [自定义扩展开发指南](./extensions.md#四自定义扩展开发指南)
+- [完整接入示例](./extensions.md#五完整接入示例)
 - [8 种规则节点类型](./rule-engine-designer.md#节点类型定义)
 - [5 种触发事件](./rule-engine-designer.md#触发事件)
 - [字段控制指令 FieldAction](./rule-engine-designer.md#字段控制指令-fieldaction)

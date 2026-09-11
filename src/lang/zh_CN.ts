@@ -3823,6 +3823,8 @@ export default {
         "将表单模型和权限等在上面选中数据库中生成相同的数据,\n目标数据库上必须要有所需的表，将克隆失败",
     "dyform.formProp.pageStyle": "页面风格",
     "dyform.formProp.loadCondition": "数据加载条件",
+    "dyform.formProp.formDesc": "表单说明",
+    "dyform.formProp.showInHeader": "头部展示说明",
     "dyform.formProp.relationConfig": "映射关系配置",
     "dyform.formProp.relationTable": "关联表",
     "dyform.formProp.relationType": "映射关系",

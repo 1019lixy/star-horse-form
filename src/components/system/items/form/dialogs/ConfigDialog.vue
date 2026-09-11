@@ -6,7 +6,7 @@ import {warning} from "star-horse-lowcode";
 import FormPropertyPanel from "@/components/system/items/form/FormPropertyPanel.vue";
 import {FormConfig} from "@/components/types";
 import {getDesignFormStore} from "@/store/StoreManager";
-import {validateAllNodes} from "@/components/workflow/validator";
+
 
 const props = defineProps<{
   visible: boolean;
@@ -28,24 +28,6 @@ const closeAction = () => {
   emits("close");
 };
 /**
- * 校验流程设计完整性：启用流程且为在线设计模式时，检查节点树是否完整。
- * @returns 错误消息，null 表示通过
- */
-const validateFlowDesign = (data: any): string | null => {
-  if (data?.flowFlag != "Y" || data?.flowBindMode != "design") {
-    return null;
-  }
-  const process = data?.flowConfigures?.process;
-  if (!process || !process.childNode) {
-    return i18n("dyform.step.flowDesignNotComplete");
-  }
-  const errors = validateAllNodes(process);
-  if (errors.length > 0) {
-    return errors.map((e) => `[${e.nodeName}] ${e.errors.join("；")}`).join("\n");
-  }
-  return null;
-};
-/**
  * 创建表单信息
  */
 const createFormInfo = () => {
@@ -57,21 +39,17 @@ const createFormInfo = () => {
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(list.value);
   dynameForm!["details"]["fieldNames"] = "{}";
-  const fc = dynameForm["flowConfigures"];
-  if (fc) {
-    if (fc.mode == "reuse" && fc.flowDefineId) {
-      dynameForm["flowDefineIds"] = Array.isArray(fc.flowDefineId) ? fc.flowDefineId.join(";") : fc.flowDefineId;
-    } else if (fc.mode == "design" && fc.process) {
-      dynameForm["pendingFlowProcess"] = JSON.stringify(fc.process);
-    }
-    delete dynameForm["flowConfigures"];
+  // 流程绑定数据转换由接入方通过 optional.transformFlowConfigures 注入
+  if (props.optional?.transformFlowConfigures) {
+    props.optional.transformFlowConfigures(dynameForm);
   }
   return dynameForm;
 };
 let isSubmit = ref<boolean>(true);
 const doSave = async (isDraft: boolean = false) => {
   if (!isDraft) {
-    const flowErr = validateFlowDesign(formInfo.value);
+    // 流程校验由接入方通过 optional.validateFlowDesign 注入
+    const flowErr = props.optional?.validateFlowDesign?.(formInfo.value) ?? null;
     if (flowErr) {
       warning(flowErr);
       return;
@@ -150,7 +128,11 @@ defineExpose({
       boxHeight="70%"
       :title="i18n('dyform.config.dialog.title')"
   >
-    <FormPropertyPanel ref="formPropertyRef" :optional="optional"/>
+    <FormPropertyPanel ref="formPropertyRef" :optional="optional">
+      <template v-if="$slots['property-panel-extra']" #property-panel-extra="slotProps">
+        <slot name="property-panel-extra" v-bind="slotProps"/>
+      </template>
+    </FormPropertyPanel>
     <template #extend>
       <el-button
           @click="() => doSave(true)"

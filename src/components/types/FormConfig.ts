@@ -2,6 +2,19 @@ import {ApiUrls, CompType, FieldInfo, SelectOption} from "star-horse-lowcode";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 
 /**
+ * 保存弹窗（表单属性面板）扩展 Tab 定义。
+ * fieldList 为 star-horse-form 字段定义，支持 containerType 嵌套容器。
+ */
+export interface FormExtraTab {
+    /** Tab 标题 */
+    title: string;
+    /** Tab 唯一标识，用于 tab 切换 key */
+    subTablePrimaryKey?: string;
+    /** Tab 内字段定义 */
+    fieldList: FieldInfo[] | any[];
+}
+
+/**
 
  * warning:返回Promise的函数，请勿更改为直接返回数据
  */
@@ -101,9 +114,11 @@ export interface FormConfig {
      */
     formBasicProps?: FieldInfo[];
     /**
-     * 新增表单属性Tab
+     * 保存弹窗（表单属性面板）的自定义扩展 Tab（外部注入）。
+     * 每个 entry 渲染为属性面板中的一个新 Tab，字段结构与 star-horse-form 一致。
+     * lib 只留位置，Tab 内容（字段/数据/联动）全部由接入方定义。
      */
-    advancedProps?: FieldInfo[];
+    advancedProps?: FormExtraTab[];
     /**
 
      * 流程定义选项（表单级流程绑定用，外部直接注入静态列表）
@@ -120,4 +135,16 @@ export interface FormConfig {
     loadFlowParams?: (flowDefineId: string) => Promise<
         { name: string; label?: string; required?: boolean; description?: string; type?: string }[]
     >;
+    /**
+     * 保存前校验流程设计完整性（外部注入）。
+     * 返回错误消息字符串表示校验失败，返回 null 表示通过。
+     * 未配置时跳过流程校验。
+     */
+    validateFlowDesign?: (data: any) => string | null;
+    /**
+     * 保存前转换流程绑定数据为后端格式（外部注入）。
+     * 在 ConfigDialog.createFormInfo 中调用，直接修改 data 对象。
+     * 未配置时跳过流程数据转换。
+     */
+    transformFlowConfigures?: (data: any) => void;
 }

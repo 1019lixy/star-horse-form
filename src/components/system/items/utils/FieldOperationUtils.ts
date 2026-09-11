@@ -307,3 +307,56 @@ export function loadCustomComponents() {
       console.error("加载数据库自定义组件失败:", err);
     });
 }
+
+/**
+ * Post-process imported container data: ensure box/dytable containers have
+ * correct rowNums & columnNums in preps (and top-level) derived from their
+ * actual elements grid structure.
+ * 供设计器与扩展组件（如 AI 生成表单）共同使用。
+ */
+export function initContainerDimensions(comps: any[]) {
+  if (!Array.isArray(comps)) return;
+  for (const comp of comps) {
+    // Recurse into nested containers (card, tab, collapse, splitter, condition)
+    if (comp.compType === "container" && comp.preps?.elements) {
+      for (const element of comp.preps.elements) {
+        // tab/collapse/card/splitter elements have .items
+        if (element.items && Array.isArray(element.items)) {
+          initContainerDimensions(element.items);
+        }
+        // box/dytable elements have .columns[].items
+        if (element.columns && Array.isArray(element.columns)) {
+          for (const col of element.columns) {
+            if (col.items && Array.isArray(col.items)) {
+              initContainerDimensions(col.items);
+            }
+          }
+        }
+      }
+    }
+    // Also handle condition containers with children
+    if (comp.children && Array.isArray(comp.children)) {
+      initContainerDimensions(comp.children);
+    }
+    // Fix box/dytable/gridtable dimensions
+    if (
+      comp.compType === "container" &&
+      (comp.itemType === "box" ||
+        comp.itemType === "dytable" ||
+        comp.itemType === "gridtable")
+    ) {
+      const elements = comp.preps?.elements;
+      if (Array.isArray(elements) && elements.length > 0) {
+        const rows = elements.length;
+        const cols = elements[0]?.columns?.length || 1;
+        // Set in preps (read by property panel)
+        if (!comp.preps) comp.preps = {};
+        comp.preps.rowNums = rows;
+        comp.preps.columnNums = cols;
+        // Set at top-level (fallback for property panel)
+        comp.rowNums = rows;
+        comp.columnNums = cols;
+      }
+    }
+  }
+}

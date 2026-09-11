@@ -27,12 +27,12 @@ import {
   uploadRequest,
   warning,
 } from "star-horse-lowcode";
-import {getDesignFormStore, getFlowDesignStore} from "@/store/StoreManager";
-import {validateAllNodes} from "@/components/workflow/validator";
+import {getDesignFormStore} from "@/store/StoreManager";
+
 import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
 import {i18n} from "@/lang";
-import {extractFieldMetaList} from "@/components/rule/useFormRuleRuntime";
+
 import {Config} from "@/api/settings";
 import FormToolbar from "@/components/system/items/form/components/FormToolbar.vue";
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
@@ -50,7 +50,10 @@ import JSON5 from "json5";
 import {quickAddItem} from "@/api/form_utils";
 import type {Content} from "vanilla-jsoneditor";
 import {createJSONEditor, isTextContent, toJSONContent,} from "vanilla-jsoneditor";
-import {loadCustomComponents} from "@/components/system/items/utils/FieldOperationUtils";
+import {
+  initContainerDimensions,
+  loadCustomComponents,
+} from "@/components/system/items/utils/FieldOperationUtils";
 import {initCustomCompApi} from "@/api/custom_component_api";
 import {hasOpenDialog} from "@/api/keyboard-event-utils";
 import {appEndpoints} from "@/api/app_config";
@@ -70,19 +73,8 @@ const FieldLayerDrawer = defineAsyncComponent(
 const ConfigDialog = defineAsyncComponent(
   () => import("@/components/system/items/form/dialogs/ConfigDialog.vue"),
 );
-const AiDialog = defineAsyncComponent(
-  () => import("@/components/system/items/utils/AiDialog.vue"),
-);
-const RuleConfigPanel = defineAsyncComponent(
-  () => import("@/components/system/items/form/components/RuleConfigPanel.vue"),
-);
-const SaveAsCustomCompDialog = defineAsyncComponent(
-  () =>
-    import("@/components/system/items/form/dialogs/SaveAsCustomCompDialog.vue"),
-);
-const FlowDesigner = defineAsyncComponent(
-  () => import("@/components/workflow/designer/FlowDesigner.vue"),
-);
+// 业务扩展（AI/规则/流程/存为组件）已剥离为 extensions/ 下自包含组件，
+// 由接入方通过 #toolbar-extra 插槽按需引入，设计器内不再内置。
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -134,57 +126,6 @@ let designForm = getDesignFormStore();
 let userOperation = getSelfOperationStore();
 let configStore = getGlobalConfigStore();
 
-/**
- * Post-process imported container data: ensure box/dytable containers have
- * correct rowNums & columnNums in preps (and top-level) derived from their
- * actual elements grid structure.
- */
-const initContainerDimensions = (comps: any[]) => {
-  if (!Array.isArray(comps)) return;
-  for (const comp of comps) {
-    // Recurse into nested containers (card, tab, collapse, splitter, condition)
-    if (comp.compType === "container" && comp.preps?.elements) {
-      for (const element of comp.preps.elements) {
-        // tab/collapse/card/splitter elements have .items
-        if (element.items && Array.isArray(element.items)) {
-          initContainerDimensions(element.items);
-        }
-        // box/dytable elements have .columns[].items
-        if (element.columns && Array.isArray(element.columns)) {
-          for (const col of element.columns) {
-            if (col.items && Array.isArray(col.items)) {
-              initContainerDimensions(col.items);
-            }
-          }
-        }
-      }
-    }
-    // Also handle condition containers with children
-    if (comp.children && Array.isArray(comp.children)) {
-      initContainerDimensions(comp.children);
-    }
-    // Fix box/dytable/gridtable dimensions
-    if (
-      comp.compType === "container" &&
-      (comp.itemType === "box" ||
-        comp.itemType === "dytable" ||
-        comp.itemType === "gridtable")
-    ) {
-      const elements = comp.preps?.elements;
-      if (Array.isArray(elements) && elements.length > 0) {
-        const rows = elements.length;
-        const cols = elements[0]?.columns?.length || 1;
-        // Set in preps (read by property panel)
-        if (!comp.preps) comp.preps = {};
-        comp.preps.rowNums = rows;
-        comp.preps.columnNums = cols;
-        // Set at top-level (fallback for property panel)
-        comp.rowNums = rows;
-        comp.columnNums = cols;
-      }
-    }
-  }
-};
 
 let compSize = computed(
   () => configStore.configFormInfo?.buttonSize || Config.compSize,
@@ -213,29 +154,7 @@ const fieldPanelRef = ref();
 const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 const formConfigDialogVisible = ref<boolean>(false);
-const ruleConfigDialogVisible = ref<boolean>(false);
-const flowDesignDialogVisible = ref<boolean>(false);
-const flowDesignerRef = ref();
-const flowDesigned = ref<boolean>(false);
-const saveAsCompDialogRef = ref();
-// ==================== 规则引擎上下文 ====================
-// 从 formInfo 提取表单主键作为规则引擎 formId
-const ruleFormId = computed(() => {
-  const pk =
-    resolvedConfig.value?.primaryKey ?? props.primaryKey ?? "idDynamicForm";
-  return formInfo.value?.[pk] || formInfo.value?.formId || "";
-});
-// 从 compList 提取字段元数据列表，供规则设计器 FieldSelector 使用
-const ruleFormFields = computed(() => {
-  const fields = extractFieldMetaList(list.value || []);
-  console.log(
-    "[StarHorseFormDesign] ruleFormFields computed | compList.length=",
-    list.value?.length,
-    "| fields.length=",
-    fields.length,
-  );
-  return fields;
-});
+
 let reOrUnDoFlag = ref<boolean>(false);
 let currentPageStyle = ref<any>({
   label: i18n("dyform.design.pageStyle.pc"),
@@ -250,7 +169,7 @@ const configDialogRef = ref();
 let shortKeySwitch: Function = () => {};
 const { dialogStates, openDialog, closeAllDialogs } = useDialogManager();
 const isCooperationMode = computed(() => formInfo.value?.cooperation === "Y");
-const aiDialogVisible = ref<boolean>(false);
+
 
 // ── Design/Code Mode Toggle ──
 const designMode = ref<"design" | "code">("design");
@@ -371,15 +290,6 @@ const applyCodeChanges = () => {
   }
 };
 
-const applyAiForm = (dataList: any[]) => {
-  if (!Array.isArray(dataList) || dataList.length === 0) return;
-  const parsed = deepClone(dataList);
-  initContainerDimensions(parsed);
-  designForm.setCompList(parsed);
-  if (designMode.value === "code") {
-    switchToCodeMode();
-  }
-};
 
 const resetCodeEditor = () => {
   currentJsonData = JSON.parse(JSON.stringify(list.value));
@@ -794,45 +704,8 @@ const actions = (action: ToolBtnType | string) => {
     case "export":
       operExportFile();
       break;
-    case "aiChat":
-      aiDialogVisible.value = true;
-      break;
-    case "ruleConfig":
-      // 打开规则配置面板（与当前表单绑定）
-      ruleConfigDialogVisible.value = true;
-      break;
-    case "flowDesign":
-      flowDesignDialogVisible.value = true;
-      break;
-    case "saveAsComp":
-      // 将当前选中组件存为自定义第三方组件
-      saveAsCompDialogRef.value?.open();
-      break;
   }
   emits("action", act);
-};
-
-/** 保存在线流程设计结果到 formInfo.flowConfigures */
-const saveFlowDesign = () => {
-  const node = unref(flowDesignerRef.value?.nodeData);
-  if (!node || !node.childNode) {
-    warning(i18n("dyform.step.flowDesignEmpty"));
-    return;
-  }
-  const errors = validateAllNodes(node);
-  if (errors.length > 0) {
-    warning(errors.map((e) => `[${e.nodeName}] ${e.errors.join("；")}`).join("\n"));
-    return;
-  }
-  designForm.formInfo.flowConfigures = {
-    mode: "design",
-    process: JSON.parse(JSON.stringify(node)),
-  };
-  designForm.formInfo.flowFlag = "Y";
-  designForm.formInfo.flowBindMode = "design";
-  flowDesigned.value = true;
-  flowDesignDialogVisible.value = false;
-  success(i18n("dyform.step.flowDesignStatus.done"));
 };
 
 const keyboardEvents = useKeyboardEvents(actions);
@@ -1277,7 +1150,11 @@ defineExpose({
     :optional="resolvedConfig"
     @save="saveData"
     @close="closeAction"
-  />
+  >
+    <template v-if="$slots['property-panel-extra']" #property-panel-extra="slotProps">
+      <slot name="property-panel-extra" v-bind="slotProps"/>
+    </template>
+  </ConfigDialog>
   <CodeDialog
     :visible="dialogStates.codeDialogVisible"
     :optional="resolvedConfig"
@@ -1303,35 +1180,7 @@ defineExpose({
     v-model:visible="dialogStates.formFieldLayer"
     :operType="operType"
   />
-  <AiDialog v-model:dialogVisible="aiDialogVisible" @applyForm="applyAiForm" />
-  <RuleConfigPanel
-    v-model="ruleConfigDialogVisible"
-    :formId="ruleFormId"
-    :formFields="ruleFormFields"
-    :compList="list"
-  />
-  <star-horse-panel
-      v-model="flowDesignDialogVisible"
-      :title="flowDesigned ? i18n('dyform.step.flowDesignerTitle.reedit') : i18n('dyform.step.flowDesignerTitle')"
-      :selfFunc="true"
-      :fullScreen="true"
-      @closeAction="flowDesignDialogVisible = false"
-      @merge="saveFlowDesign"
-  >
-    <FlowDesigner
-        ref="flowDesignerRef"
-        :stopInitFormInfo="true"
-        :saveBtnVisible="false"
-        :mapBtnVisible="false"
-        :initialNode="designForm.formInfo?.flowConfigures?.process || {}"
-    />
-  </star-horse-panel>
-  <SaveAsCustomCompDialog
-    ref="saveAsCompDialogRef"
-    :currentComp="designForm.currentComp"
-    :optional="resolvedConfig"
-    @saved="loadCustomComponents"
-  />
+
   <div class="sh-form-design-root">
     <FormToolbar
       :list="list"
@@ -1341,7 +1190,12 @@ defineExpose({
       @changeRole="changeRole"
       @cacheRestore="cacheDataRestore"
       :optional="resolvedConfig"
-    />
+    >
+      <!-- 业务扩展插槽透传：AI/规则/流程/存为组件等自包含扩展组件 -->
+      <template v-if="$slots['toolbar-extra']" #toolbar-extra>
+        <slot name="toolbar-extra"></slot>
+      </template>
+    </FormToolbar>
     <el-splitter class="sh-splitter">
       <el-splitter-panel collapsible size="320" min="220" max="450">
         <field-panel

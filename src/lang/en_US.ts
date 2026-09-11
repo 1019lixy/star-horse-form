@@ -3932,6 +3932,8 @@ If empty, the table information will be created in the current business database
     "Generate the same data for the form model and permissions in the selected database above.\nThe target database must have the required tables, otherwise cloning will fail",
   "dyform.formProp.pageStyle": "Page Style",
   "dyform.formProp.loadCondition": "Data Loading Condition",
+  "dyform.formProp.formDesc": "Form Description",
+  "dyform.formProp.showInHeader": "Show Description in Header",
   "dyform.formProp.relationConfig": "Mapping Relation Configuration",
   "dyform.formProp.relationTable": "Related Table",
   "dyform.formProp.relationType": "Mapping Relation",
