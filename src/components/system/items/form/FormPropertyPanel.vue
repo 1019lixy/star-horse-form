@@ -10,6 +10,7 @@ import {
   PageFieldInfo,
   postRequest,
   SelectOption,
+  uuid,
   warning,
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings.js";
@@ -18,6 +19,8 @@ import {FormConfig} from "@/components/types";
 import {i18n} from "@/lang/index.js";
 import {getDesignFormStore, getFlowDesignStore} from "@/store/StoreManager";
 import FlowDesigner from "@/components/workflow/designer/FlowDesigner.vue";
+import FlowParamBindingTable from "@/components/system/items/form/components/FlowParamBindingTable.vue";
+import type {FlowParam, FlowParamBinding} from "@/components/workflow/types";
 import {designDataNames} from "@/api/form_utils";
 
 const props = defineProps<{
@@ -390,7 +393,7 @@ const listConfigTable = {
         {
           label: i18n("dyform.formProp.fieldInfo"),
           fieldName: "fieldName",
-          type: "select",
+          type: "tselect",
           formVisible: true,
           required: true,
           preps: {values: dynamicFieldList}
@@ -524,7 +527,7 @@ const listSortFieldTable = {
         {
           label: i18n("dyform.formProp.sortField"),
           fieldName: "fieldName",
-          type: "select",
+          type: "tselect",
           required: true,
           formVisible: true,
           preps: {values: orderByFieldList}
@@ -564,14 +567,6 @@ const bindModeField = {
   defaultValue: "reuse",
   helpMsg: i18n("dyform.step.flowBindMode.helpMsg"),
   formVisible: false,
-  actions: {
-    change: (val: any) => {
-      dlog(val);
-      // StarHorseForm 的 outerFormData 是单向拷贝，字段值需同步回 formInfo，
-      // 否则面板底部的流程在线设计入口（v-show 依赖 formInfo.flowBindMode）无法联动显示
-
-    },
-  },
   preps: {
     values: [
       {name: i18n("dyform.step.flowBindMode.reuse"), value: "reuse"},
@@ -601,29 +596,83 @@ const bindModeField = {
 };
 const flowDefineIdField = {
   label: i18n("dyform.step.formFlowDefine"),
-  fieldName: "flowDefineIdList",
+  fieldName: "flowDefineId",
   type: "select",
   formVisible: false,
   actions: {
     change: (val: any) => {
-      if (val["flowDefineIdList"]) {
+      if (val["flowDefineId"]) {
         formInfo.value.flowConfigures = {
           mode: "reuse",
-          flowDefineIdList: val["flowDefineIdList"],
+          flowDefineId: val["flowDefineId"],
+          flowParamBindings: formInfo.value.flowConfigures?.flowParamBindings || [],
         };
+        loadFormFlowParams(val["flowDefineId"]);
+      } else {
+        formFlowParams.value = [];
+        formFlowParamBindings.value = [];
       }
     },
   },
-  preps: {values: flowDefineOptions, multiple: true},
+  preps: {values: flowDefineOptions},
 };
 
-const starterFieldField = {
-  label: i18n("dyform.step.formFlowStarterField"),
-  fieldName: "starterField",
-  type: "select",
-  formVisible: false,
-  preps: {values: starterFieldOptions},
+
+// ==================== 表单级流程参数绑定（reuse 模式） ====================
+/** 当前选中流程定义的参数列表 */
+let formFlowParams = ref<FlowParam[]>([]);
+/** 流程参数与表单字段绑定列表 */
+let formFlowParamBindings = ref<FlowParamBinding[]>([]);
+/** 参数加载中 */
+let formFlowParamsLoading = ref(false);
+
+
+/**
+ * 加载流程定义的参数列表（通过外部注入的 loadFlowParams 回调）。
+ * 回显时以已有绑定为基准，新选流程时自动生成空绑定。
+ */
+const loadFormFlowParams = async (flowDefineId: string) => {
+  if (!flowDefineId || !props.optional?.loadFlowParams) {
+    formFlowParams.value = [];
+    return;
+  }
+  formFlowParamsLoading.value = true;
+  try {
+    const params = await props.optional.loadFlowParams(flowDefineId);
+    formFlowParams.value = params || [];
+    const existing = formInfo.value?.flowConfigures?.flowParamBindings || [];
+    formFlowParamBindings.value = formFlowParams.value.map((p) => {
+      const old = existing.find((b) => b.param === p.name);
+      return {
+        id: old?.id || uuid(),
+        param: p.name,
+        fieldName: old?.fieldName || "",
+        required: !!p.required,
+      };
+    });
+    syncFlowParamBindings();
+  } catch {
+    formFlowParams.value = [];
+  } finally {
+    formFlowParamsLoading.value = false;
+  }
 };
+
+/** 同步参数绑定到 formInfo.flowConfigures */
+const syncFlowParamBindings = () => {
+  if (!formInfo.value.flowConfigures) {
+    formInfo.value.flowConfigures = {mode: "reuse"};
+  }
+  formInfo.value.flowConfigures.flowParamBindings = formFlowParamBindings.value;
+};
+
+/** 表单级 reuse 模式 + 已选流程时显示参数绑定 */
+const showFormFlowParamBinding = computed(
+    () =>
+        formInfo.value?.flowFlag === "Y" &&
+        formInfo.value?.flowBindMode === "reuse" &&
+        !!formInfo.value?.flowDefineId,
+);
 const flowBindingFields = [
   {
     label: i18n("dyform.step.flowFlag"),
@@ -657,7 +706,7 @@ const flowBindingFields = [
 
   //starterFieldField,
 ];
-
+const currentTab=ref<string>("");
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
@@ -691,6 +740,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       containerType: "tab",
       preps: {
         mustCompleteTab: false
+      },
+      actions:{
+        tabChange: (val: any) => {
+          currentTab.value = val;
+        }
       },
       containerFields: [
         {
@@ -896,13 +950,7 @@ const loadSameDataSourceTables = (formInfo: any) => {
   });
 };
 
-//赋值
-const relationChange = (row: any) => {
-  let tableId = row.tableId;
-  let fdata = dataSourceData.value.find((item: any) => item.formId == tableId);
-  row["formName"] = fdata?.formName;
-  row["tbName"] = fdata?.tbName;
-};
+
 const loadTableColumns = (tbName: any) => {
   if (!tbName) {
     return;
@@ -937,6 +985,7 @@ onMounted(() => {
     formInfo.value.flowFlag = "Y";
     if (flowConfigures.mode == "reuse" && flowConfigures.flowDefineId) {
       formInfo.value.flowDefineId = flowConfigures.flowDefineId;
+      loadFormFlowParams(flowConfigures.flowDefineId);
     }
     if (flowConfigures.mode == "design" && flowConfigures.process) {
       flowDesigned.value = true;
@@ -959,6 +1008,18 @@ watch(
       flush: "post",
     },
 );
+
+/** 参数绑定变化时同步到 flowConfigures */
+watch(
+    () => formFlowParamBindings.value,
+    () => {
+      if (showFormFlowParamBinding.value) {
+        syncFlowParamBindings();
+      }
+    },
+    {deep: true},
+);
+
 defineExpose({
   getFormData,
   analysisDynamicFields,
@@ -974,6 +1035,24 @@ defineExpose({
   border-top: 1px solid var(--el-border-color-lighter);
   text-align: center;
 }
+
+.form-flow-param-binding {
+  padding: 8px 16px;
+  border-top: 1px solid var(--el-border-color-lighter);
+
+  .ffpb-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--el-text-color-regular);
+    margin-bottom: 8px;
+  }
+
+  .ffpb-tip {
+    font-size: 12px;
+    color: var(--el-text-color-placeholder);
+    margin-left: 8px;
+  }
+}
 </style>
 <template>
   <star-horse-form
@@ -982,6 +1061,20 @@ defineExpose({
       :fieldList="tableFieldList"
       ref="dynamicFormItemRef"
   />
+  <!-- 表单级流程参数绑定（reuse 模式）：选流程后显示参数与表单字段映射表 -->
+  <div v-if="showFormFlowParamBinding&&currentTab=='tab3'" class="form-flow-param-binding">
+    <div class="ffpb-title">
+      {{ i18n("dyform.step.flowParamBinding") }}
+      <span class="ffpb-tip">{{ i18n("dyform.step.flowParamBindingRemark") }}</span>
+    </div>
+    <FlowParamBindingTable
+        v-model="formFlowParamBindings"
+        :params="formFlowParams"
+        :fields="allTableFieldList"
+        :comp-size="props.optional?.compSize ?? 'default'"
+        :loading="formFlowParamsLoading"
+    />
+  </div>
   <!-- 流程在线设计对话框：节点树写入 formInfo.flowConfigures 随表单提交 -->
   <star-horse-panel
       v-model="flowDesignerVisible"

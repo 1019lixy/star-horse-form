@@ -26,7 +26,10 @@ import {computed, ref, watch} from "vue";
 import {SelectOption, StarHorseDataSelector, uuid} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import FlowFieldBindingTable from "@/components/system/items/form/components/FlowFieldBindingTable.vue";
+import FlowParamBindingTable from "@/components/system/items/form/components/FlowParamBindingTable.vue";
 import type {
+
+  BindableField,
   FieldBindingUsageOption,
   FlowDefineOption,
   FlowNodeMode,
@@ -71,6 +74,7 @@ const defaultCfg = () => ({
   assigneeType: "starter_pick",
   assigneeField: "",
   assigneeValue: [],
+
   ccValue: [],
   visibleScope: "prev_and_self",
   rejectPolicy: "to_prev",
@@ -128,8 +132,9 @@ watch(
       if (typeof c.assigneeField !== "string") c.assigneeField = "";
       if (!Array.isArray(c.assigneeValue)) c.assigneeValue = [];
       if (!Array.isArray(c.ccValue)) c.ccValue = [];
-      if (!c.visibleScope) c.visibleScope = "prev_and_self";
-      if (!c.rejectPolicy) c.rejectPolicy = "to_prev";
+    if (!c.visibleScope) c.visibleScope = "prev_and_self";
+    if (!c.rejectPolicy) c.rejectPolicy = "to_prev";
+
       if (typeof c.flowDefineId !== "string") c.flowDefineId = "";
       if (!Array.isArray(c.flowParamBindings)) c.flowParamBindings = [];
     },
@@ -184,10 +189,11 @@ const visibleScopeOptions = [
 ];
 
 const rejectPolicyOptions = [
-  {name: i18n("dyform.step.rejectNone"), value: "none"},
-  {name: i18n("dyform.step.rejectToStarter"), value: "to_starter"},
-  {name: i18n("dyform.step.rejectToPrev"), value: "to_prev"},
+  { name: i18n("dyform.step.rejectNone"), value: "none" },
+  { name: i18n("dyform.step.rejectToStarter"), value: "to_starter" },
+  { name: i18n("dyform.step.rejectToPrev"), value: "to_prev" },
 ];
+
 
 /** 经办人字段候选：usage=ApprovalNode 的绑定字段 + 全部字段（去重） */
 const assigneeFieldOptions = computed(() => {
@@ -333,6 +339,7 @@ const flowParamBindings = computed<FlowParamBinding[]>({
         </div>
 
         <el-form label-width="110px" :size="compSize" class="fnc-form">
+
           <el-form-item :label="i18n('dyform.step.assigneeType')">
             <el-select v-model="cfg.assigneeType" filterable>
               <el-option
@@ -436,7 +443,7 @@ const flowParamBindings = computed<FlowParamBinding[]>({
               <el-option
                   v-for="opt in flowDefineOptions"
                   :key="opt.value"
-                  :label="opt.label"
+                  :label="opt.label || opt.name"
                   :value="opt.value"
               />
             </el-select>
@@ -454,52 +461,15 @@ const flowParamBindings = computed<FlowParamBinding[]>({
               }}</span>
           </div>
 
-          <el-table
-              v-loading="flowParamsLoading"
-              :data="flowParamBindings"
-              :size="compSize"
-              border
-              class="fnc-param-table"
-          >
-            <el-table-column
-                :label="i18n('dyform.step.flowParamName')"
-                prop="param"
-                min-width="120"
-            >
-              <template #default="{ row }">
-                <span>{{ row.param }}</span>
-                <el-tag
-                    v-if="row.required"
-                    :size="compSize"
-                    type="danger"
-                    class="fnc-required-tag"
-                >*
-                </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column
-                :label="i18n('dyform.step.bindFieldLabel')"
-                min-width="160"
-            >
-              <template #default="{ row }">
-                <el-select
-                    v-model="row.fieldName"
-                    filterable
-                    clearable
-                    :placeholder="i18n('dyform.step.assigneeFieldPlaceholder')"
-                    :size="compSize"
-                >
-                  <el-option
-                      v-for="f in fields"
-                      :key="f.fieldName"
-                      :label="`${f.label} (${f.fieldName})`"
-                      :value="f.fieldName"
-                  />
-                </el-select>
-              </template>
-            </el-table-column>
-          </el-table>
+          <FlowParamBindingTable
+              v-model="flowParamBindings"
+              :params="flowParams"
+              :fields="fields"
+              :comp-size="compSize"
+              :loading="flowParamsLoading"
+          />
         </template>
+
 
         <el-empty
             v-else
@@ -566,11 +536,4 @@ const flowParamBindings = computed<FlowParamBinding[]>({
   }
 }
 
-.fnc-param-table {
-  margin-top: 4px;
-
-  .fnc-required-tag {
-    margin-left: 4px;
-  }
-}
 </style>

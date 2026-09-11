@@ -238,6 +238,42 @@ const formBasicProps: FieldInfo[] = [
   },
 ];
 
+// ==================== 流程绑定回调（接入方自行实现，lib 只提供通道） ====================
+const FLOW_OPERATION_PREFIX = "/flow-engine/workflow/flowDefine";
+const PARAMS_PREFIX = "/flow-engine/workflow/processNode";
+
+const loadFlowDefines = async (): Promise<SelectOption[]> => {
+  const res = await postRequest(`${FLOW_OPERATION_PREFIX}/pageList`, {
+    pageNum: 1,
+    pageSize: 400,
+  });
+  if (res?.data?.code !== 200) return [];
+  const list = res.data.data?.dataList;
+  return list.map((item: any) => ({
+    name: item.name || item.flowName,
+    value: item.flowDeploymentId,
+  }));
+};
+
+const loadFlowParams = async (
+    flowDefineId: string,
+): Promise<
+    { name: string; label?: string; required?: boolean; description?: string; type?: string }[]
+> => {
+  const res = await postRequest(`${PARAMS_PREFIX}/loadByDefineId`, {
+    item: flowDefineId
+  });
+  if (res?.data?.code !== 200) return [];
+  const list = res.data.data || [];
+  return list.map((item: any) => ({
+    name: item.nodeKey,
+    label: item.nodeName,
+    required: false,
+    type: item.nodeType,
+    description: undefined,
+  }));
+};
+
 const optional = ref<FormConfig>({
   model: "full",
   api: api,
@@ -259,7 +295,6 @@ const optional = ref<FormConfig>({
       {name: "comment", value: "fieldName"},
   ),
   // 静态数据源列表
-  // loadDbList: () => Promise.resolve(dbListData),
   loadDbList: () => {
     return new Promise((executor, reject) => {
       dbConfigList()
@@ -273,6 +308,9 @@ const optional = ref<FormConfig>({
   },
   // 接入方自定义基础配置字段（见上方 formBasicProps 定义）
   formBasicProps: formBasicProps,
+  // 流程绑定回调：流程定义列表 + 流程参数加载
+  loadFlowDefines,
+  loadFlowParams,
 });
 // ==================== 插槽组件专用配置（与设计器核心配置分离） ====================
 const dbListCompProps = {

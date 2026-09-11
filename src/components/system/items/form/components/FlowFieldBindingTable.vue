@@ -10,6 +10,7 @@ import { computed } from "vue";
 import {SelectOption, uuid} from "star-horse-lowcode";
 import { i18n } from "@/lang";
 import type {
+  ApproveMode,
   BindableField,
   FieldBindingUsageOption,
   NodeFieldBinding,
@@ -61,9 +62,24 @@ const ccVisibleTypeOptions = [
   { value: "node", label: i18n("dyform.step.ccVisibleTypeNode") },
 ];
 
+/** 审批方式（仅 ApprovalNode/HandleNode 行使用） */
+const approveModeOptions = [
+  { value: "or", label: i18n("dyform.step.approveModeOr") },
+  { value: "sequential", label: i18n("dyform.step.approveModeSequential") },
+  { value: "all", label: i18n("dyform.step.approveModeAll") },
+];
+
+/** usage 是否为审批/办理节点（需要配置审批方式） */
+const isApproveUsage = (usage: string) => usage === "ApprovalNode" || usage === "HandleNode";
+
 /** 是否配置了抄送绑定（决定"通知时机"列是否显示） */
 const hasCopyerBinding = computed(() =>
   bindings.value.some((b) => b.usage === "CopyerNode"),
+);
+
+/** 是否配置了审批/办理绑定（决定"审批方式"列是否显示） */
+const hasApproveBinding = computed(() =>
+  bindings.value.some((b) => isApproveUsage(b.usage)),
 );
 
 const bindings = computed<NodeFieldBinding[]>(() => props.modelValue || []);
@@ -81,6 +97,7 @@ const addBinding = () => {
     valueMode: "direct",
     flowVar: "",
     required: false,
+    approveMode: "or" as ApproveMode,
   });
   sync(list);
 };
@@ -160,6 +177,27 @@ const usageMeta = (usage: string) => usageOpts.value.find((o) => o.value === usa
               :value="opt.value"
             />
           </el-select>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-if="hasApproveBinding"
+        :label="i18n('dyform.step.approveMode')"
+        min-width="110"
+      >
+        <template #default="{ row }">
+          <el-select
+            v-if="isApproveUsage(row.usage)"
+            v-model="row.approveMode"
+            filterable
+          >
+            <el-option
+              v-for="opt in approveModeOptions"
+              :key="opt.value"
+              :label="opt.label"
+              :value="opt.value"
+            />
+          </el-select>
+          <span v-else class="text-muted">—</span>
         </template>
       </el-table-column>
       <el-table-column

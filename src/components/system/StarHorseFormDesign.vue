@@ -22,6 +22,7 @@ import {
   getSelfOperationStore,
   load,
   operationConfirm,
+  SelectOption,
   success,
   uploadRequest,
   warning,
@@ -107,7 +108,21 @@ const resolvedConfig = computed(() => {
     shotProps: opt.shotProps ?? { label: "formName", value: pk },
     compSize: opt.compSize ?? "default",
     ...opt,
+    flowDefineOptions: loadedFlowDefineOptions.value.length
+        ? loadedFlowDefineOptions.value
+        : opt.flowDefineOptions,
   } as FormConfig;
+});
+
+/** 统一加载流程定义选项，供表单级与分段级流程绑定共享 */
+const loadedFlowDefineOptions = ref<SelectOption[]>([]);
+onMounted(() => {
+  const opt = props.optional ?? {};
+  if (!opt.flowDefineOptions?.length && opt.loadFlowDefines) {
+    opt.loadFlowDefines().then((list) => {
+      loadedFlowDefineOptions.value = list || [];
+    });
+  }
 });
 const emits = defineEmits([
   "changeDataHandle",

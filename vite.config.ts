@@ -15,6 +15,7 @@ const systemHost: string = "http://localhost:8749/";
 const userDbHost: string = "http://localhost:7758/";
 const wbrtcHost: string = "https://192.168.120.7:8443/";
 const gatewayHost: string = "http://localhost:7780/";
+const workflowHost: string = "http://localhost:8999/";
 const isGateway: boolean = true;
 const env: string = "-dev";
 const rewrite = (path: string, name: string) => {
@@ -118,7 +119,12 @@ export default defineConfig((mode) => {
           rewrite: (path: string) => rewrite(path, "system-config"),
           ws: true,
         },
-
+        "/flow-engine": {
+          target: isGateway ? gatewayHost : workflowHost,
+          changeOrigin: true,
+          rewrite: (path: string) => rewrite(path, "flow-engine"),
+          ws: true,
+        },
         "/userdb-manage": {
           target: isGateway ? gatewayHost : userDbHost,
           changeOrigin: true,

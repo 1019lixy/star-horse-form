@@ -51,6 +51,8 @@ export interface NodeFieldBinding {
   required?: boolean;
   /** 抄送通知时机（usage=CopyerNode 时使用）：node=执行到节点才通知，full=全程通知（流程启动/审批结束等）；默认 full */
   ccVisibleType?: "node" | "full";
+  /** 审批方式（usage=ApprovalNode/HandleNode 时使用）：或签/顺序签/全部审批，默认 or */
+  approveMode?: ApproveMode;
   /** 取值表达式（valueMode=expression 时使用） */
   expression?: string;
   /** 常量值（valueMode=constant 时使用） */
@@ -96,6 +98,12 @@ export type FlowNodeMode =
   | "design" /** 在线配置节点：字段绑定 + 流转设置 */
   | "reuse"; /** 绑定已有流程定义：选择流程 → 参数与表单字段映射 */
 
+/** 审批方式：多审批人时的流转策略 */
+export type ApproveMode =
+  | "or" /** 或签：任一审批人通过即进入下一节点（默认） */
+  | "sequential" /** 顺序签：按顺序依次审批 */
+  | "all"; /** 全部审批：所有审批人都通过才进入下一节点 */
+
 /** 已有流程定义的参数描述（由 loadFlowParams 加载） */
 export interface FlowParam {
   /** 参数名 */
@@ -122,10 +130,12 @@ export interface FlowParamBinding {
   required?: boolean;
 }
 
-/** 流程定义选项（供 reuse 模式下拉选择） */
+/** 流程定义选项（供 reuse 模式下拉选择，兼容 SelectOption 的 name 字段） */
 export interface FlowDefineOption {
   /** 流程定义 ID / key */
   value: string;
   /** 流程定义名称 */
   label: string;
+  /** 兼容 SelectOption.name */
+  name?: string;
 }
