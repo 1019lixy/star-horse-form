@@ -87,7 +87,7 @@ import { configureWorkflow } from "star-horse-form";
 configureWorkflow({
   debug: true,
   loadFormColumns: async (formId) => (await api.post("/analysisMainTableFieldsByIds", [formId])).data.data,
-  saveProcess: async (formInfo, type) => (await api.post("/flowdefinition/saveOrDeployProcess", { ...formInfo, submitType: type })).data,
+  saveProcess: async (formInfo, type) => (await api.post("/flowDefine/saveOrDeployProcess", { ...formInfo, submitType: type })).data,
 });
 ```
 
