@@ -47,7 +47,7 @@ const paramsValid = async () => {
     props.formProps[key] = formData[key];
   }
   props.formProps["redirect"] = true;
-  props.formProps["dataUrl"] = {
+  props.formProps["apiEndpoints"] = {
     redirect: true,
     env: formData["env"],
     host: formData["host"],

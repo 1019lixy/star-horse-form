@@ -28,7 +28,7 @@ const {
   relationTables,
   tableFieldList,
   searchFormData,
-  dataUrl,
+  apiEndpoints,
   extBtns,
   dialogProps,
   onFormDataLoaded,
@@ -129,7 +129,7 @@ watch(
           @refresh="dataRecall"
           @dataLoaded="onFormDataLoaded"
           @beforeSubmit="handleBeforeSubmit"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :preview="preview"
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
@@ -146,7 +146,7 @@ watch(
           :preview="preview"
           :globalCondition="relationTables"
           :dynamicForm="true"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
         />
       </star-horse-panel>
 
@@ -173,7 +173,7 @@ watch(
                   "
                   :formData="{ fieldList: tableFieldList.searchItemList }"
                   :preview="preview"
-                  :compUrl="dataUrl"
+                  :apiEndpoints="apiEndpoints"
                 />
               </div>
             </div>
@@ -186,7 +186,7 @@ watch(
                 :isDynamic="true"
                 :preview="preview"
                 :extendBtns="extBtns"
-                :compUrl="dataUrl"
+                :apiEndpoints="apiEndpoints"
                 :btnPermissions="DEFAULT_BTN_PERMISSIONS"
                 :showBatchField="true"
                 :dataFormat="dataFormat"
@@ -221,7 +221,7 @@ watch(
               >
                 <star-horse-form
                   @refresh="detailDataRecall"
-                  :compUrl="dataUrl"
+                  :apiEndpoints="apiEndpoints"
                   :preview="preview"
                   :fieldList="detailFieldList"
                   :primary-key="primaryKey"
@@ -236,7 +236,7 @@ watch(
                   :primaryKey="primaryKey"
                   :isDynamic="true"
                   :preview="preview"
-                  :compUrl="dataUrl"
+                  :apiEndpoints="apiEndpoints"
                   :btnPermissions="DEFAULT_BTN_PERMISSIONS"
                   :showBatchField="true"
                   :dataFormat="detailDataFormat"

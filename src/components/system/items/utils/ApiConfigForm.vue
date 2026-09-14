@@ -70,13 +70,7 @@ const apiValid = async () => {
     }
     const code = result.code ?? result?.data?.code;
     const message = result.cnMessage ?? result.message ?? result?.data?.message;
-    if (
-      code !== 200 &&
-      code !== 0 &&
-      code !== "0" &&
-      code !== "200" &&
-      code !== "success"
-    ) {
+    if ( code !== 200) {
       const errorMsg = message || i18n("dyform.apiConfig.error.codeMismatch");
       error(errorMsg);
       return;

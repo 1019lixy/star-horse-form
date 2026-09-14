@@ -98,7 +98,7 @@ watch(
         :field-list="currentData.tableFieldList"
         :globalCondition="currentData.relationTables"
         :dynamicForm="true"
-        :compUrl="currentData.dataUrl"
+        :apiEndpoints="currentData.apiEndpoints"
     />
 
   </star-horse-panel>

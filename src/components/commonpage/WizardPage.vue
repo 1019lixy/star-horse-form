@@ -23,7 +23,7 @@ const {
   rules,
   relationTables,
   tableFieldList,
-  dataUrl,
+  apiEndpoints,
   dialogProps,
   ruleFormId,
   onFormDataLoaded,
@@ -147,7 +147,7 @@ const setFormRef = (el: any, idx: number) => {
             v-for="(step, idx) in steps"
             v-show="idx === currentStep"
             :key="idx"
-            :compUrl="dataUrl"
+            :apiEndpoints="apiEndpoints"
             :preview="preview"
             :fieldList="step.fieldList"
             :primary-key="primaryKey"

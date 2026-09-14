@@ -3122,7 +3122,7 @@ const preview = ref(false);  // 预览模式
   props: CommonPageProps;
   formRef: Ref&lt;any&gt;;
   enableOnChange?: boolean;      // 是否启用 ON_CHANGE 规则引擎（300ms 防抖 watch formData）
-  defaultDataUrl?: ApiUrls;      // 默认数据源 URL
+  defaultApiEndpoints?: ApiUrls;      // 默认数据源 URL
   autoLoad?: boolean;            // 加载完成后是否自动调用 tableRef.loadByPage
   tableRef?: Ref&lt;any&gt;;
 }
@@ -3150,7 +3150,7 @@ const preview = ref(false);  // 预览模式
   relationTables,   // Ref&lt;any&gt;
   tableFieldList,   // Ref&lt;{ fieldList, stopAutoLoad }&gt;
   searchFormData,   // Ref&lt;SearchFields&gt;
-  dataUrl,          // Ref&lt;ApiUrls&gt;
+  apiEndpoints,          // Ref&lt;ApiUrls&gt;
   dateFields,       // Ref&lt;string[]&gt;
   fieldMappingList, // Ref&lt;any[]&gt;
   dataSource,       // Ref&lt;any&gt;

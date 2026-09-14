@@ -38,7 +38,7 @@ export interface CommonPageOptions {
   /** 是否启用 ON_CHANGE 规则引擎（300ms 防抖 watch formData） */
   enableOnChange?: boolean;
   /** 默认数据源 URL */
-  defaultDataUrl?: ApiUrls;
+  defaultApiEndpoints?: ApiUrls;
   /** 加载完成后是否自动调用 tableRef.loadByPage */
   autoLoad?: boolean;
   tableRef?: Ref<any>;
@@ -57,7 +57,7 @@ export const useCommonPage = (options: CommonPageOptions) => {
     props,
     formRef,
     enableOnChange = false,
-    defaultDataUrl,
+    defaultApiEndpoints,
     autoLoad = false,
     tableRef,
   } = options;
@@ -70,7 +70,7 @@ export const useCommonPage = (options: CommonPageOptions) => {
   const relationTables = ref<any>({});
   const tableFieldList = ref<any>({ fieldList: [], stopAutoLoad: true });
   const searchFormData = ref<SearchFields | any>({ fieldList: [] });
-  const dataUrl = ref<ApiUrls>(defaultDataUrl ?? apiInstance("", ""));
+  const apiEndpoints = ref<ApiUrls>(defaultApiEndpoints ?? apiInstance("", ""));
   const dateFields = ref<string[]>([]);
   const fieldMappingList = ref<any>([]);
   const dataSource = ref<any>({});
@@ -257,7 +257,7 @@ export const useCommonPage = (options: CommonPageOptions) => {
     relationTables,
     tableFieldList,
     searchFormData,
-    dataUrl,
+    apiEndpoints,
     dateFields,
     fieldMappingList,
     dataSource,

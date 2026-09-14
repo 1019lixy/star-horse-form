@@ -30,6 +30,7 @@ const relationComps = [
   "dialog-input",
   "icon",
   "datapicker",
+  "workorder",
 ];
 
 /** 不显示联动策略的组件类型 */

@@ -29,7 +29,7 @@ const {
   rules,
   relationTables,
   tableFieldList,
-  dataUrl,
+  apiEndpoints,
   dialogProps,
   onFormDataLoaded,
   handleBeforeSubmit,
@@ -42,7 +42,7 @@ const {
 } = useCommonPage({
   props,
   formRef: detailFormRef,
-  defaultDataUrl: apiInstance(appEndpoints.gatewayServiceName, "consumer/api"),
+  defaultApiEndpoints: apiInstance(appEndpoints.gatewayServiceName, "consumer/api"),
   enableOnChange: true,
 });
 
@@ -75,7 +75,7 @@ const handlePrint = () => window.print();
           @refresh="dataRecall"
           @dataLoaded="onFormDataLoaded"
           @beforeSubmit="handleBeforeSubmit"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :preview="preview"
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
@@ -114,7 +114,7 @@ const handlePrint = () => window.print();
           @refresh="dataRecall"
           @dataLoaded="onFormDataLoaded"
           @beforeSubmit="handleBeforeSubmit"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :preview="preview"
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
@@ -129,7 +129,7 @@ const handlePrint = () => window.print();
           :field-list="tableFieldList"
           :dataFormat="dataFormat"
           :preview="preview"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :globalCondition="relationTables"
           :dynamicForm="true"
         />

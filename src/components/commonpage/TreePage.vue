@@ -30,7 +30,7 @@ const {
   relationTables,
   tableFieldList,
   searchFormData,
-  dataUrl,
+  apiEndpoints,
   extBtns,
   dialogProps,
   onFormDataLoaded,
@@ -130,7 +130,7 @@ const dataRecallTree = (formData: any, result: any) => {
           @refresh="dataRecallTree"
           @dataLoaded="onFormDataLoaded"
           @beforeSubmit="handleBeforeSubmit"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :preview="preview"
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
@@ -147,7 +147,7 @@ const dataRecallTree = (formData: any, result: any) => {
           :preview="preview"
           :globalCondition="relationTables"
           :dynamicForm="true"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
         />
       </star-horse-panel>
 
@@ -233,7 +233,7 @@ const dataRecallTree = (formData: any, result: any) => {
                 "
                 :formData="{ fieldList: tableFieldList.searchItemList }"
                 :preview="preview"
-                :compUrl="dataUrl"
+                :apiEndpoints="apiEndpoints"
               />
             </div>
           </div>
@@ -245,7 +245,7 @@ const dataRecallTree = (formData: any, result: any) => {
             :isDynamic="true"
             :preview="preview"
             :extendBtns="extBtns"
-            :compUrl="dataUrl"
+            :apiEndpoints="apiEndpoints"
             :btnPermissions="DEFAULT_BTN_PERMISSIONS"
             :showBatchField="true"
             :dataFormat="dataFormat"

@@ -17,9 +17,11 @@ const designForm = getDesignFormStore();
 const baseFormDataList = computed(() => designForm.formDataList);
 const baseContainerList = computed(() => designForm.containerDataList);
 const baseSelfFormDataList = computed(() => designForm.selfFormDataList);
+const baseMesFormDataList = computed(() => designForm.mesFormDataList);
 const formQuery = ref<string>("");
 const containerQuery = ref<string>("");
 const selfQuery = ref<string>("");
+const mesQuery = ref<string>("");
 const formDataList = computed(() => {
   if (!formQuery.value) {
     return baseFormDataList.value;
@@ -48,9 +50,17 @@ let selfFormDataList = computed(() => {
 const systemSelfList = computed(() =>
     selfFormDataList.value.filter((item: any) => !item.isCustom),
 );
+let mesFormDataList = computed(() => {
+  if (!mesQuery.value) {
+    return baseMesFormDataList.value;
+  }
+  return baseMesFormDataList.value.filter((item) =>
+      item.itemName.toLowerCase().includes(mesQuery.value.toLowerCase()),
+  );
+});
 let list = computed(() => designForm.compList);
 let tabModel = ref<string>("component");
-let activeNames = ref<string[]>(["a", "b", "c"]);
+let activeNames = ref<string[]>(["a", "b", "c", "d"]);
 
 interface TabItem {
   name: string;
@@ -403,6 +413,84 @@ const addElement = (element: any, type: string) => {
                           v-if="systemSelfList.length === 0"
                           :image-size="60"
                           :description="i18n('dyform.collapse.custom')"
+                      />
+                      <div style="height: 40px"></div>
+                    </div>
+                  </div>
+
+                  <!-- MES Components -->
+                  <div class="field-section">
+                    <div class="section-header" @click="toggleSection('d')">
+                      <div class="section-title">
+                        <star-horse-icon
+                            icon-class="setting"
+                            size="18px"
+                            class="section-icon"
+                        />
+                        <span>{{ i18n("dyform.collapse.mes") }}</span>
+                      </div>
+                      <svg
+                          :class="[
+                    'section-arrow',
+                    { expanded: activeNames.includes('d') },
+                  ]"
+                          viewBox="0 0 10 6"
+                          fill="none"
+                      >
+                        <path
+                            d="M1 1L5 5L9 1"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div v-show="activeNames.includes('d')" class="section-body">
+                      <div class="search-box">
+                        <el-input
+                            v-model="mesQuery"
+                            :placeholder="i18n('dyform.collapse.mes')"
+                            clearable
+                            size="small"
+                        >
+                          <template #prefix>
+                            <star-horse-icon iconClass="search" size="14px"/>
+                          </template>
+                        </el-input>
+                      </div>
+                      <draggable
+                          :clone="onFormItemCopy"
+                          :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                          :sort="false"
+                          animation="200"
+                          ghost-class="ghost"
+                          item-key="key"
+                          tag="div"
+                          class="field-grid"
+                          :list="mesFormDataList"
+                      >
+                        <template #item="{ element }">
+                          <div
+                              class="field-card"
+                              @dblclick="addElement(element, 'item')"
+                              :title="element.itemName"
+                          >
+                            <star-horse-icon
+                                :icon-class="element.itemIcon"
+                                size="24px"
+                                class="field-card-icon"
+                            />
+                            <span class="field-card-name">{{
+                                element.itemName
+                              }}</span>
+                          </div>
+                        </template>
+                      </draggable>
+                      <el-empty
+                          v-if="mesFormDataList.length === 0"
+                          :image-size="60"
+                          :description="i18n('dyform.collapse.mes')"
                       />
                       <div style="height: 40px"></div>
                     </div>

@@ -19,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const dataUrl = apiInstance(appEndpoints.gatewayServiceName, "consumer/api");
+const apiEndpoints = apiInstance(appEndpoints.gatewayServiceName, "consumer/api");
 
 const tableFieldList = ref<PageFieldInfo | any>({
   fieldList: [],
@@ -77,7 +77,7 @@ watch(
         :field-list="tableFieldList"
         :dataFormat="dataFormat"
         :preview="preview"
-        :compUrl="dataUrl"
+        :apiEndpoints="apiEndpoints"
       />
     </el-card>
   </div>

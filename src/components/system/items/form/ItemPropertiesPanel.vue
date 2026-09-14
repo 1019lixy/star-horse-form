@@ -265,7 +265,7 @@ const resetForm = () => {
 const resetDataSourceForm = () => {
   formProps.value["dataSource"] = "data";
   formProps.value["httpMethod"] = null;
-  formProps.value["urlOrDictName"] = null;
+  formProps.value["dictCode"] = null;
   formProps.value["queryParams"] = [];
   formProps.value["values"] = [];
 };

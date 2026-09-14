@@ -64,7 +64,7 @@ interface CommonPageOptions {
   props: CommonPageProps;
   formRef: Ref<any>;
   enableOnChange?: boolean;      // 是否启用 ON_CHANGE 规则引擎（300ms 防抖 watch formData）
-  defaultDataUrl?: ApiUrls;      // 默认数据源 URL
+  defaultApiEndpoints?: ApiUrls;      // 默认数据源 URL
   autoLoad?: boolean;            // 加载完成后是否自动调用 tableRef.loadByPage
   tableRef?: Ref<any>;
 }
@@ -96,7 +96,7 @@ const {
   relationTables,   // Ref<any>
   tableFieldList,   // Ref<{ fieldList, stopAutoLoad }>
   searchFormData,   // Ref<SearchFields>
-  dataUrl,          // Ref<ApiUrls>
+  apiEndpoints,          // Ref<ApiUrls>
   dateFields,       // Ref<string[]>
   fieldMappingList, // Ref<any[]>
   dataSource,       // Ref<any>

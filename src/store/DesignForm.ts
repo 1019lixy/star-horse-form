@@ -8,6 +8,7 @@ export const useDesignFormStore = defineStore("designForm", () => {
   const containerDataList = ref<CompType[]>([]);
   const formDataList = ref<CompType[]>([]);
   const selfFormDataList = ref<CompType[]>([]);
+  const mesFormDataList = ref<CompType[]>([]);
   const allFormDataList = ref<Array<any>>([]);
   const formInfo = ref<any>({});
   const compList = ref<Array<any>>([]);
@@ -227,6 +228,16 @@ export const useDesignFormStore = defineStore("designForm", () => {
       selfFormDataList.value.push(list);
     }
   };
+  const setMesFormDataList = (list: CompType[]) => {
+    mesFormDataList.value = list;
+  };
+  const addMesFormDataList = (list: CompType[]) => {
+    if (Array.isArray(list)) {
+      mesFormDataList.value = [...mesFormDataList.value, ...list];
+    } else {
+      mesFormDataList.value.push(list);
+    }
+  };
   const setAllFormDataList = (list: CompType[]) => {
     allFormDataList.value = list;
   };
@@ -333,6 +344,7 @@ export const useDesignFormStore = defineStore("designForm", () => {
     containerDataList,
     formDataList,
     selfFormDataList,
+    mesFormDataList,
     allFormDataList,
     currentCompCategory,
     currentItemId,
@@ -357,12 +369,14 @@ export const useDesignFormStore = defineStore("designForm", () => {
     setSelfFormDataList,
     setFormDataList,
     setContainerList,
+    setMesFormDataList,
     setParentContainer,
     getParentContainer,
     getParentCompType,
     addSelfFormDataList,
     addContainerList,
     addFormDataList,
+    addMesFormDataList,
     addHistoryRecord,
     redo,
     undo,

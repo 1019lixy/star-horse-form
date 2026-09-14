@@ -8,7 +8,7 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  dataUrl: {
+  apiEndpoints: {
     type: Object as PropType<ApiUrls>,
   },
   compSize: {
@@ -152,7 +152,7 @@ const dataChange = (menu: any) => {
 };
 const rmvData = (menu: any) => {
   operationConfirm(i18n("dyform.utils.619")).then(() => {
-    postRequest(props.dataUrl?.deleteUrl!, [menu[props.primaryKey]]).then(
+    postRequest(props.apiEndpoints?.deleteUrl!, [menu[props.primaryKey]]).then(
       (res) => {
         if (res.data.code !== 200) {
           warning(res.data.cnMessage);
@@ -219,7 +219,7 @@ defineExpose({
         :rmv-title="i18n('dyform.utils.621')"
         :btnTitle="i18n('dyform.utils.622')"
         :autoLoad="true"
-        :compUrl="dataUrl"
+        :apiEndpoints="apiEndpoints"
         :compSize="compSize"
       />
     </div>

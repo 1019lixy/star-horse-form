@@ -31,6 +31,7 @@ const dataSourceComps = [
   "dialog-input",
   "icon",
   "datapicker",
+  "workorder",
 ];
 
 /** 不显示数据源配置的组件类型 */

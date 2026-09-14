@@ -13,7 +13,7 @@ const props = defineProps({
     required: true,
   },
 });
-let dataUrl = ref<ApiUrls>(apiInstance("", ""));
+let apiEndpoints = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 const formPageRef = ref();
 const tableFieldList = ref<any>({
@@ -146,7 +146,7 @@ watch(
     <template v-else-if="hasData">
       <el-card class="inner_content">
         <star-horse-form
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :dynamicForm="true"
           ref="formPageRef"
           :preview="preview"

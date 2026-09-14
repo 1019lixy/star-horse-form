@@ -62,7 +62,7 @@ export async function validInterface(
     }
   }
   const dataSource = temp["dataSource"];
-  const urlOrDictName = temp["urlOrDictName"];
+  const dictCode = temp["dictCode"];
   const queryParams = temp["queryParams"];
   const customParams = temp["customParams"];
   let validErrorMsg: string = "";
@@ -121,7 +121,7 @@ export async function validInterface(
       dataList = validResult.data;
     }
   } else if (dataSource == "dict") {
-    const dicts = await dictData(urlOrDictName);
+    const dicts = await dictData(dictCode);
     if (Object.keys(dicts || {}).length == 0) {
       flag = false;
       validErrorMsg = i18n("dyform.utils.448");
@@ -817,7 +817,7 @@ export function paramsFields(
     },
   ];
   const otherField: FieldInfo[] = [];
-  const fieldInfos: string[] = ["dataUrl", "orderby", "fieldList", "needField"];
+  const fieldInfos: string[] = ["apiEndpoints", "orderby", "fieldList", "needField"];
   for (const index in currentData) {
     const temp = currentData[index];
     if (!fieldInfos.includes(temp.fieldName)) {
@@ -909,7 +909,7 @@ const fieldMap: any = reactive({
         listVisible: true,
         preps: {
           primaryKey: "idDynamicForm",
-          dataUrl: {
+          apiEndpoints: {
             pageListUrl: appEndpoints.formDesignPageListUrl,
           },
           needField: [
@@ -1230,7 +1230,7 @@ export function relationDataField(preps: any, model: string) {
                 formVisible: false,
                 preps: {
                   dataSource: "dict",
-                  urlOrDictName: "field_type",
+                  dictCode: "field_type",
                 },
               },
               {

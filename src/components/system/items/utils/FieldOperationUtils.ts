@@ -200,15 +200,19 @@ export function compFieldInit() {
     const itemsRes = allData?.filter((item: any) => item.category === 1) || [];
     const selfItemsRes =
       allData?.filter((item: any) => item.category === 3) || [];
+    const mesItemsRes =
+      allData?.filter((item: any) => item.category === 4) || [];
 
     // 处理数据，保持原有逻辑
     assignData(containerRes);
     assignData(itemsRes);
     assignData(selfItemsRes);
+    assignData(mesItemsRes);
 
     getDesignFormStore().setContainerList(containerRes);
     getDesignFormStore().setFormDataList(itemsRes);
     getDesignFormStore().setSelfFormDataList(selfItemsRes);
+    getDesignFormStore().setMesFormDataList(mesItemsRes);
     getDesignFormStore().setAllFormDataList(allFormDataList);
   });
 }

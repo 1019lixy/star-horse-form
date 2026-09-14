@@ -119,8 +119,8 @@ export interface InternalApiDataSource {
 export interface DictDataSource {
   /** 数据源类型，固定为 "dict" */
   dataSource: "dict";
-  /** 字典编码 */
-  urlOrDictName: string;
+  /** 字典编码（唯一职责；原 urlOrDictName 一名多义已废除，硬切换） */
+  dictCode: string;
   /** 选项标签字段名 */
   label?: string;
 }
@@ -257,7 +257,7 @@ export interface UnifiedDataSource {
   customParams?: string;
 
   // ── 字典字段 (dataSource = "dict") ──
-  urlOrDictName?: string;
+  dictCode?: string;
 
   // ── 第三方接口字段 (dataSource = "thirdParty") ──
   apiDataSource?: ThirdPartyDataSource;
@@ -447,7 +447,7 @@ export interface FormPropsDataSourceMixin {
   customParams?: string;
 
   // ── 字典 ──
-  urlOrDictName?: string;
+  dictCode?: string;
 
   // ── 第三方接口数据源 ──
   apiDataSource?: ThirdPartyDataSource;

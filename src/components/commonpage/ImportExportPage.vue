@@ -18,7 +18,7 @@ const importLoading = ref(false);
 const exportColumns = ref<string[]>([]);
 const exportLoading = ref(false);
 
-const { isLoading, hasData, errorMsg, tableFieldList, dataUrl } = useCommonPage(
+const { isLoading, hasData, errorMsg, tableFieldList, apiEndpoints } = useCommonPage(
   {
     props,
     formRef: ref(null) as any,

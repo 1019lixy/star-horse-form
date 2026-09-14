@@ -1,6 +1,5 @@
 import {i18n} from "@/lang";
 import {appEndpoints} from "@/api/app_config";
-import {ref} from "vue";
 import {dataType, httpMethod, searchMatchList, SelectOption,} from "star-horse-lowcode";
 
 /**
@@ -90,7 +89,6 @@ export function createRequestTab(
       loadInterface: () => {},
       loadMethods: () => {},
     };
-  const tabHide = ref<boolean>(false);
   return {
     title: title,
     subTablePrimaryKey: subTableName,
@@ -138,9 +136,6 @@ export function createRequestTab(
       ],
       {
         fieldName: "a",
-        preps: {
-          hideTabs: tabHide,
-        },
         containerType: "tab",
         containerFields: [
           {
@@ -516,6 +511,52 @@ export function createDataSourceResponseTab() {
           preps: { colspan: 12 },
         },
       ],
+      [
+        {
+          label: i18n("dyform.apiSource.hasChildren"),
+          fieldName: "hasChildren",
+          type: "switch",
+          defaultValue: false,
+          helpMsg: i18n("dyform.apiSource.hasChildren.helpMsg"),
+          formVisible: true,
+          listVisible: true,
+          preps: {
+            colspan: 12,
+            dataRelation: {
+              actionName: "change",
+              relationDetails: [
+                {
+                  matchType: "eq",
+                  controlCondition: "eqVisible",
+                  relationFields: ["childrenField"],
+                  matchFieldValue: true,
+                },
+              ],
+            },
+          },
+        },
+        {
+          label: i18n("dyform.apiSource.childrenField"),
+          fieldName: "childrenField",
+          defaultValue: "children",
+          helpMsg: i18n("dyform.apiSource.childrenField.helpMsg"),
+          formVisible: false,
+          listVisible: true,
+          preps: { colspan: 12 },
+        },
+      ],
+      [
+        {
+          label: i18n("dyform.apiSource.onlyParseConfigured"),
+          fieldName: "onlyParseConfigured",
+          type: "switch",
+          defaultValue: true,
+          helpMsg: i18n("dyform.apiSource.onlyParseConfigured.helpMsg"),
+          formVisible: true,
+          listVisible: true,
+          preps: { colspan: 12 },
+        },
+      ],
     ],
   };
 }
@@ -672,9 +713,66 @@ export function createApiConfig(
     mode === "dataSource"
       ? createDataSourceResponseTab()
       : createLinkageResponseTab(formFields || []);
+  const authTab = createRequestTab(
+    i18n("dyform.apiConfig.tab.authConfig"),
+    i18nPrefix,
+    "authInfo",
+    defaultMethod,
+    false,
+    interfaceUtils,
+    formFields,
+  );
+  const isolationTab = createAreaIsolation();
+
+  // 直连模式(proxy=false)下隐藏仅代理后端才用到的配置：代理接口 proxyUrl / 出参配置 / 认证 / 隔离
+  // 走代理(proxy=true，默认)则全部保留；请求接口配置(apiInfo)始终保留
+  // 采用容器级 dataRelation(controlTarget=container)声明式控制(同 CronTaskUiDemo)，
+  // 各 tab 通过 subTablePrimaryKey 定位；默认隐藏、proxy=true 时 eqVisible 显示，
+  // 因此初始加载(proxy=false 已存配置)与交互切换均能正确显隐
+  const conditionalTabs = [
+    responseTab,
+    authTab,
+    isolationTab,
+  ];
+  // 默认隐藏：仅代理模式才显示这些 tab 及 proxyUrl
+  responseTab.formVisible = false;
+  authTab.formVisible = false;
+  isolationTab.formVisible = false;
+  const buildProxyContainerRelation = () => {
+    return {
+      actionName: "change",
+      relationDetails: [
+        {
+          matchType: "eq",
+          controlCondition: "eqVisible",
+          relationFields: ["proxyUrl"],
+          matchFieldValue: true,
+        },
+        {
+          matchType: "eq",
+          controlCondition: "eqVisible",
+          controlTarget: "container" as const,
+          relationFields: conditionalTabs.map((t) => t.subTablePrimaryKey),
+          matchFieldValue: true,
+        },
+      ],
+    };
+  };
 
   return {
     fieldList: [
+      {
+        label: i18n("dyform.apiSource.proxy"),
+        fieldName: "proxy",
+        type: "switch",
+        defaultValue: true,
+        helpMsg: i18n("dyform.apiSource.proxy.helpMsg"),
+        formVisible: true,
+        preps: {
+          colspan: 24,
+          dataRelation: buildProxyContainerRelation(),
+        },
+      },
       {
         label: i18n("dyform.apiSource.proxyUrl"),
         fieldName: "proxyUrl",
@@ -683,7 +781,7 @@ export function createApiConfig(
           "\n\n" +
           i18n("dyform.apiConfig.helpMsg.configGuide"),
         defaultValue: appEndpoints.apiLinkageProxyUrl,
-        formVisible: true,
+        formVisible: false,
         required: true,
       },
       {
@@ -697,6 +795,39 @@ export function createApiConfig(
         preps: {
           multiple: true,
           values: formFields,
+        },
+      },
+      {
+        label: i18n("dyform.apiSource.pageSize"),
+        fieldName: "pageSize",
+        type: "number",
+        helpMsg: i18n("dyform.apiSource.pageSize.helpMsg"),
+        defaultValue: 0,
+        formVisible: true,
+      },
+      {
+        label: i18n("dyform.apiSource.responseMode"),
+        fieldName: "responseMode",
+        type: "radio",
+        defaultValue: "options",
+        helpMsg: i18n("dyform.apiSource.responseMode.helpMsg"),
+        formVisible: true,
+        preps: {
+          colspan: 24,
+          values: [
+            {
+              name: i18n("dyform.apiSource.responseMode.options"),
+              value: "options",
+            },
+            {
+              name: i18n("dyform.apiSource.responseMode.mapping"),
+              value: "mapping",
+            },
+            {
+              name: i18n("dyform.apiSource.responseMode.list"),
+              value: "list",
+            },
+          ],
         },
       },
       {
@@ -717,16 +848,8 @@ export function createApiConfig(
             formFields,
           ),
           responseTab,
-          createRequestTab(
-            i18n("dyform.apiConfig.tab.authConfig"),
-            i18nPrefix,
-            "authInfo",
-            defaultMethod,
-            false,
-            interfaceUtils,
-            formFields,
-          ),
-          createAreaIsolation(),
+          authTab,
+          isolationTab,
         ],
       },
     ],

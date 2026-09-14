@@ -25,7 +25,7 @@ const props = defineProps({
 });
 const starHorseTableCompRef = ref();
 const tabPageFormRef = ref();
-let dataUrl = ref<ApiUrls>(apiInstance("", ""));
+let apiEndpoints = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields | any>({});
 const tableFieldList = ref<any>({
@@ -187,7 +187,7 @@ watch(
           :dynamicForm="true"
           :preview="preview"
           :field-list="tableFieldList"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
         />
       </star-horse-panel>
       <el-card class="inner_content">
@@ -206,7 +206,7 @@ watch(
               @dataLoaded="onFormDataLoaded"
               @beforeSubmit="handleBeforeSubmit"
               :dynamicForm="true"
-              :compUrl="dataUrl"
+              :apiEndpoints="apiEndpoints"
               :formInfo="formInfo"
               :preview="preview"
               :fieldList="tableFieldList"
@@ -228,7 +228,7 @@ watch(
                       starHorseTableCompRef?.createSearchParams(data)
                   "
                   :formData="searchFormData"
-                  :compUrl="dataUrl"
+                  :apiEndpoints="apiEndpoints"
                 />
               </div>
             </div>
@@ -236,7 +236,7 @@ watch(
               ref="starHorseTableCompRef"
               :fieldList="tableFieldList"
               :primaryKey="primaryKey"
-              :compUrl="dataUrl"
+              :apiEndpoints="apiEndpoints"
               :globalConfig="relationTables"
               :isDynamic="true"
               :preview="preview"

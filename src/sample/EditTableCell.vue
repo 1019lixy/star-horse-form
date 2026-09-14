@@ -4,7 +4,7 @@ import {i18n} from "@/lang";
 
 import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from "star-horse-lowcode";
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/systemParams");
+const apiEndpoints: ApiUrls = apiInstance("system-config", "system/systemParams");
 //主键
 const primaryKey = "idSystemParams";
 const systemParamsRef = ref();
@@ -102,7 +102,7 @@ onDeactivated(() => {
     >
       <star-horse-form
         @refresh="systemParamsRef?.loadByPage()"
-        :compUrl="dataUrl"
+        :apiEndpoints="apiEndpoints"
         :fieldList="tableFieldList"
         :rules="rules"
       />
@@ -115,7 +115,7 @@ onDeactivated(() => {
       <star-horse-data-view
         :dataFormat="dataFormat"
         :field-list="tableFieldList"
-        :compUrl="dataUrl"
+        :apiEndpoints="apiEndpoints"
       />
     </star-horse-panel>
     <div class="search-content">
@@ -123,7 +123,7 @@ onDeactivated(() => {
         <star-horse-search-comp
           @searchData="(data: any) => systemParamsRef?.createSearchParams(data)"
           :formData="searchFormData"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
         />
       </div>
     </div>
@@ -132,7 +132,7 @@ onDeactivated(() => {
         ref="systemParamsRef"
         :fieldList="tableFieldList"
         :primaryKey="primaryKey"
-        :compUrl="dataUrl"
+        :apiEndpoints="apiEndpoints"
         :help-msg="i18n('dyform.sample.systemParamHelp')"
         :dataFormat="dataFormat"
       />

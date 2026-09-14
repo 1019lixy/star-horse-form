@@ -113,10 +113,10 @@ export function validDynamicFormCompParams(
     const itemType = temp.itemType;
     if (itemType == "dialog-input" || itemType == "page-select") {
       const temp = "\n【" + name + i18n("dyform.utils.612");
-      if (!preps.dataUrl?.host) {
+      if (!preps.apiEndpoints?.host) {
         msg += i18n("dyform.utils.613");
       }
-      if (!preps.dataUrl?.pageListUrl) {
+      if (!preps.apiEndpoints?.pageListUrl) {
         msg += i18n("dyform.utils.614");
       }
 
@@ -133,7 +133,7 @@ export function validDynamicFormCompParams(
       if (
         (!preps.values || preps.values?.length <= 0) &&
         !preps.interfaceUrl &&
-        !preps.urlOrDictName &&
+        !preps.dictCode &&
         !preps.apiDataSource
       ) {
         msg = "\n【" + name + i18n("dyform.utils.617");

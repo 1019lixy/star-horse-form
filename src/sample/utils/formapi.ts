@@ -999,7 +999,7 @@ export async function compDynamicData(preps: any) {
   const temp = preps;
   let reDataList: SelectOption[] = [];
   const dataSource = temp["dataSource"];
-  const urlOrDictName = temp["urlOrDictName"];
+  const dictCode = temp["dictCode"];
   //如果已经有数据了，就不再请求
   if (preps["values"] && preps["values"].length > 0) {
     return preps["values"];
@@ -1007,7 +1007,7 @@ export async function compDynamicData(preps: any) {
   if (dataSource == "url") {
     reDataList = await dynamicUrlOperation(preps);
   } else if (dataSource == "dict") {
-    const dicts = await dictData(urlOrDictName);
+    const dicts = await dictData(dictCode);
     if (Object.keys(dicts).length == 0) {
       error("数据字典可能未配置");
     } else {

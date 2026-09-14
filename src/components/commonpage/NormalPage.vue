@@ -24,7 +24,7 @@ const props = defineProps({
 const normalPageRef = ref();
 const normalFormRef = ref();
 let relationTables = ref<any>({});
-let dataUrl = ref<ApiUrls>();
+let apiEndpoints = ref<ApiUrls>();
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields | any>({ fieldList: [] });
 const tableFieldList = ref<any>({
@@ -186,7 +186,7 @@ watch(
           @refresh="dataRecall"
           @dataLoaded="onFormDataLoaded"
           @beforeSubmit="handleBeforeSubmit"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :preview="preview"
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
@@ -203,7 +203,7 @@ watch(
           :preview="preview"
           :globalCondition="relationTables"
           :dynamicForm="true"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
         />
       </star-horse-panel>
       <div
@@ -215,7 +215,7 @@ watch(
             @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
             :formData="{ fieldList: tableFieldList.searchItemList }"
             :preview="preview"
-            :compUrl="dataUrl"
+            :apiEndpoints="apiEndpoints"
           />
         </div>
       </div>
@@ -228,7 +228,7 @@ watch(
           :isDynamic="true"
           :preview="preview"
           :extendBtns="extBtns"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :btnPermissions="{
             add: 'add',
             edit: 'edit',

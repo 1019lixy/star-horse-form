@@ -23,7 +23,7 @@ const props = defineProps({
 });
 const starHorseTableCompRef = ref();
 const ftFormRef = ref();
-const dataUrl = ref<ApiUrls>(apiInstance("", ""));
+const apiEndpoints = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields | any>({});
 const tableFieldList = ref<PageFieldInfo>({
@@ -215,7 +215,7 @@ defineExpose({
           @refresh="dataRecall"
           @dataLoaded="onFormDataLoaded"
           @beforeSubmit="handleBeforeSubmit"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :preview="preview"
           :fieldList="tableFieldList"
           :rules="rules"
@@ -240,7 +240,7 @@ defineExpose({
           :dataFormat="dataFormat"
           :preview="preview"
           :field-list="tableFieldList"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
         />
       </star-horse-panel>
       <div class="search_content" v-if="searchFormData.fieldList?.length > 0">
@@ -250,7 +250,7 @@ defineExpose({
               (data: any) => starHorseTableCompRef?.createSearchParams(data)
             "
             :formData="searchFormData"
-            :compUrl="dataUrl"
+            :apiEndpoints="apiEndpoints"
           />
         </div>
       </div>
@@ -259,7 +259,7 @@ defineExpose({
           ref="starHorseTableCompRef"
           :fieldList="tableFieldList"
           :primaryKey="primaryKey"
-          :compUrl="dataUrl"
+          :apiEndpoints="apiEndpoints"
           :preview="preview"
           :btnPermissions="{
             add: 'add',

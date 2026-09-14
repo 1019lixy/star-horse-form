@@ -122,12 +122,12 @@ const isFieldVisible = (fieldName: string, row: any): boolean => {
   return true;
 };
 
-/** userSelector 字段的可选项（dataUrl 配置在字段 configParams，未配置时允许手输） */
+/** userSelector 字段的可选项（apiEndpoints 配置在字段 configParams，未配置时允许手输） */
 const selectorProps = (f: ItemType) => {
   const cp = f.configParams?.[0] || {};
   return {
     multiple: !!cp.multiple,
-    dataUrl: cp.dataUrl,
+    apiEndpoints: cp.apiEndpoints,
     params: cp.params,
     displayName: cp.displayName || "name",
     displayValue: cp.displayValue || "value",

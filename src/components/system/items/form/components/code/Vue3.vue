@@ -21,7 +21,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = "${props.formInfo.formId}";
 let appName=i18n("dyform.code.needManualAdd");
 let interfacePrefix=i18n("dyform.code.needManualAdd");
-const dataUrl: ApiUrls =apiInstance(appNmae,interfacePrefix);
+const apiEndpoints: ApiUrls =apiInstance(appNmae,interfacePrefix);
 const initData = async () => {
 };
 const ${convertToCamelCase(props.formInfo.tbName)}Ref = ref();
@@ -44,19 +44,19 @@ onMounted(() => {
 <template>
 <div class="flex flex-col h-full overflow-hidden">
 <star-horse-panel :isShowBtnContinue="true" v-model="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form  @refresh="${convertToCamelCase(props.formInfo.tbName)}Ref?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"\/>
+    <star-horse-form  @refresh="${convertToCamelCase(props.formInfo.tbName)}Ref?.loadByPage()" :apiEndpoints="apiEndpoints" :fieldList="tableFieldList" :rules="rules"\/>
   <\/star-horse-panel>
   <star-horse-panel v-model="dialogProps.viewVisible" :dialogProps="dialogProps"  :source="3">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"\/>
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :apiEndpoints="apiEndpoints"\/>
   <\/star-horse-panel>
   <div class="search-content">
    <div class="search_btn">
       <star-horse-search-comp   @searchData="(data:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref?.createSearchParams(data)" :formData="searchFormData"
-                              :compUrl="dataUrl"\/>
+                              :apiEndpoints="apiEndpoints"\/>
     <\/div>
    <\/div>
   <el-card class="inner_content">
-    <star-horse-table-comp    ref="${convertToCamelCase(props.formInfo.tbName)}Ref" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp    ref="${convertToCamelCase(props.formInfo.tbName)}Ref" :fieldList="tableFieldList" :primaryKey="primaryKey" :apiEndpoints="apiEndpoints"
                            :dataFormat="dataFormat"\/>
   <\/el-card>
   <\/div>

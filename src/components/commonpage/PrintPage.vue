@@ -16,11 +16,11 @@ const printFormRef = ref();
 const printTime = ref(new Date().toLocaleString());
 const printTitle = ref("");
 
-const { isLoading, hasData, errorMsg, tableFieldList, dataFormat, dataUrl } =
+const { isLoading, hasData, errorMsg, tableFieldList, dataFormat, apiEndpoints } =
   useCommonPage({
     props,
     formRef: printFormRef,
-    defaultDataUrl: apiInstance(appEndpoints.gatewayServiceName, "consumer/api"),
+    defaultApiEndpoints: apiInstance(appEndpoints.gatewayServiceName, "consumer/api"),
   });
 
 const buildPrintTitle = () => {
@@ -68,7 +68,7 @@ const handlePrint = () => {
               :field-list="tableFieldList"
               :dataFormat="dataFormat"
               :preview="preview"
-              :compUrl="dataUrl"
+              :apiEndpoints="apiEndpoints"
               :dynamicForm="true"
             />
           </div>

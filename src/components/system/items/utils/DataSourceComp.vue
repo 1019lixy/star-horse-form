@@ -123,7 +123,7 @@ const staticFields: FieldInfo[] | any = [
       {
         subTableName: "values",
         importInfo: {
-          importDataUrl: props.optional?.api
+          importapiEndpoints: props.optional?.api
             ? `${props.optional.api.basePrefix}/importStaticDataSource`
             : "",
           downloadTemplateUrl: props.optional?.api

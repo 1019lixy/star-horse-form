@@ -28,7 +28,7 @@ const {
   rules,
   relationTables,
   tableFieldList,
-  dataUrl,
+  apiEndpoints,
   dialogProps,
   onFormDataLoaded,
   handleBeforeSubmit,
@@ -164,7 +164,7 @@ const handleTransfer = async () => {
           <el-tab-pane :label="i18n('commonPage.approval.form')" name="form">
             <div class="tab-body">
               <star-horse-form
-                :compUrl="dataUrl"
+                :apiEndpoints="apiEndpoints"
                 :preview="preview"
                 :fieldList="tableFieldList"
                 :primary-key="primaryKey"
