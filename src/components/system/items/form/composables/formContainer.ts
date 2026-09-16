@@ -1063,6 +1063,17 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
+        label: i18n("dyform.step.expandEditedStep"),
+        fieldName: "expandEditedStep",
+        fieldType: "switch",
+        required: false,
+        defaultValues: "N",
+        helpMsg: i18n("dyform.step.expandEditedStepHelpMsg"),
+        remark: i18n("dyform.step.expandEditedStepRemark"),
+        category: 2,
+        configParams: [],
+      },
+      {
         label: i18n("dyform.step.simple"),
         fieldName: "simple",
         fieldType: "switch",
