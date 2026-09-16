@@ -119,7 +119,7 @@ defineExpose({ open, close });
   <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('dyform.customComp.save.title')"
-    :selfFunc="true"
+    :userAction="true"
     @merge="handleSave"
     @closeAction="close"
     boxWidth="40%"

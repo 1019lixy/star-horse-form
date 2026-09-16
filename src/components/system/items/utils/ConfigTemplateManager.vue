@@ -198,7 +198,7 @@ defineExpose({ openSaveDialog, openLoadDialog });
   <star-horse-panel
     v-model="saveDialogVisible"
     :title="i18n('dyform.template.save')"
-    :selfFunc="true"
+    :userAction="true"
     @merge="handleSave"
     @closeAction="closeSaveDialog"
     boxWidth="30%"
@@ -248,7 +248,7 @@ defineExpose({ openSaveDialog, openLoadDialog });
   <star-horse-panel
     v-model="loadDialogVisible"
     :title="i18n('dyform.template.load')"
-    :selfFunc="true"
+    :userAction="true"
     @merge="handleLoad"
     @closeAction="closeLoadDialog"
     boxWidth="40%"
@@ -318,7 +318,7 @@ defineExpose({ openSaveDialog, openLoadDialog });
   <star-horse-panel
     v-model="previewVisible"
     :title="i18n('dyform.template.preview')"
-    :selfFunc="true"
+    :userAction="true"
     @closeAction="closePreviewDialog"
     boxWidth="35%"
   >

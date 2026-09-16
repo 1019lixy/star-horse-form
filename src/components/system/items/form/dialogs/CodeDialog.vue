@@ -34,7 +34,7 @@ const codeDoSave = () => {
   <star-horse-panel
     v-model="dialogVisible"
     @closeAction="closeAction"
-    :selfFunc="true"
+    :userAction="true"
     :source="3"
     :full-screen="true"
     :compSize="props.optional?.compSize ?? 'default'"

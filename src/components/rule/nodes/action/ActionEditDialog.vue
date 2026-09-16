@@ -5,7 +5,7 @@
       action ? i18n('rule.dialog.editAction') : i18n('rule.dialog.addAction')
     "
     boxWidth="600px"
-    :selfFunc="true"
+    :userAction="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >

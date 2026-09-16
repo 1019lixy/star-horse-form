@@ -5,7 +5,6 @@ import {
     analysisCompDatas,
     compDynamicData,
     dataType,
-    dictData,
     error,
     FieldInfo,
     httpMethod,
@@ -120,16 +119,7 @@ export async function validInterface(
       validSuccessMsg = i18n("dyform.utils.447");
       dataList = validResult.data;
     }
-  } else if (dataSource == "dict") {
-    const dicts = await dictData(dictCode);
-    if (Object.keys(dicts || {}).length == 0) {
-      flag = false;
-      validErrorMsg = i18n("dyform.utils.448");
-    } else {
-      dataList = dicts;
-      validSuccessMsg = i18n("dyform.utils.447");
-    }
-  } else {
+  }  else {
     //静态数据
     const datas = temp["values"] as SelectOption[];
     if (Object.keys(datas || {}).length == 0) {

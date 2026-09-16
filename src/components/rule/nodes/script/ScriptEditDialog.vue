@@ -4,7 +4,7 @@
     :title="i18n('rule.dialog.scriptEdit')"
     boxWidth="680px"
     boxHeight="auto"
-    :selfFunc="true"
+    :userAction="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >

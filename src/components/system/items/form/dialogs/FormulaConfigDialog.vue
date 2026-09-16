@@ -228,7 +228,7 @@ defineExpose({ open, close });
     :title="i18n('dyform.formula.title')"
     @closeAction="close"
     @merge="close"
-    :selfFunc="true"
+    :userAction="true"
     boxWidth="640px"
   >
     <el-form label-width="90px" label-position="right">

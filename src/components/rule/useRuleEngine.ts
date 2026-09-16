@@ -424,7 +424,7 @@ export const useRuleEngine = () => {
    * 适用场景：表单按钮的点击事件需要由规则引擎统一处理（如动态显隐/赋值/选项更新等）。
    *
    * 注意：此方法仅做规则引擎执行与应用，
-   * 与 shplugin ItemRelationEventUtils.buttonAction 的自定义代码、actions、selfFunc 逻辑互不干扰。
+   * 与 shplugin ItemRelationEventUtils.buttonAction 的自定义代码、actions、userAction 逻辑互不干扰。
    * 在 shplugin buttonAction 内部，仅当按钮配置 ruleEngineConfig.formId 且无自定义代码/actions 时才会调用此路径。
    *
    * @param formId 表单ID

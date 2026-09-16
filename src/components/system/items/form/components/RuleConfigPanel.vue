@@ -326,7 +326,7 @@ watch(mode, (m) => {
         ? i18n('rule.configPanel.title')
         : i18n('rule.configPanel.title.designer')
     "
-    :selfFunc="true"
+    :userAction="true"
     boxWidth="80%"
     boxHeight="85%"
     @closeAction="mode === 'designer' ? handleDesignerClose() : closeAction()"

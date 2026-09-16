@@ -3,7 +3,7 @@
       v-model="dialogVisible"
       :title="i18n('rule.dialog.httpCallConfig')"
       boxWidth="900px"
-      :selfFunc="true"
+      :userAction="true"
       @closeAction="handleClose"
       @merge="handleSave"
   >

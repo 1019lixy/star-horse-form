@@ -5,6 +5,7 @@ import {dynamicFormContextMenuData, getParentComp, moveDownItem, moveUpItem, rem
 import {hasOpenDialog} from "@/api/keyboard-event-utils";
 import {getDesignFormStore} from "@/store/StoreManager";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import {syncCompSource} from "@/components/system/items/utils/FieldOperationUtils";
 import {isMobile, warning} from "star-horse-lowcode";
 
 const props = defineProps({
@@ -79,6 +80,8 @@ const changeItem = (item: any) => {
     ...props.field["preps"],
     itemNameLabel: item.itemName,
   };
+  // "我的组件": 用其配置快照覆盖preps并同步来源标识,避免误取同名系统组件参数
+  syncCompSource(props.field, item);
   close();
   selectData(props.field);
 };
@@ -110,7 +113,7 @@ onBeforeUnmount(() => {
     :source="3"
     :full-screen="false"
     :title="i18n('form.changeComponent')"
-    :self-func="true"
+    :userAction="true"
     v-model="componentVisible"
     @closeAction="close"
   >

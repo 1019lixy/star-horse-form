@@ -439,7 +439,7 @@ defineExpose({
     @merge="preOrPendValid"
     @closeAction="emit('close')"
     @resetForm="resetDataSourceForm"
-    :selfFunc="true"
+    :userAction="true"
     box-height="80%"
   >
     <div class="pre-or-pend-body">

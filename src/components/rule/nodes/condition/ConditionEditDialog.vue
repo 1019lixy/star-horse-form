@@ -7,7 +7,7 @@
         : i18n('rule.dialog.addCondition')
     "
     boxWidth="580px"
-    :selfFunc="true"
+    :userAction="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >

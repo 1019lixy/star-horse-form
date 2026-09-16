@@ -53,7 +53,7 @@ defineExpose({
     @merge="buttonEventMerge"
     @closeAction="emit('close')"
     @resetForm="buttonEventReset"
-    :selfFunc="true"
+    :userAction="true"
   >
     <star-horse-form
       :outerFormData="formProps"

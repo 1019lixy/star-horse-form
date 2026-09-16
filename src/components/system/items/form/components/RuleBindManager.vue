@@ -300,7 +300,7 @@ const coveredCount = computed(
   <star-horse-panel
     v-model="coverageVisible"
     :title="i18n('rule.bindManager.coverage.title')"
-    :selfFunc="true"
+    :userAction="true"
     boxWidth="60%"
     boxHeight="70%"
     @closeAction="coverageVisible = false"
@@ -367,7 +367,7 @@ const coveredCount = computed(
   <star-horse-panel
     v-model="bindDialogVisible"
     :title="i18n('rule.bindManager.bind.title')"
-    :selfFunc="true"
+    :userAction="true"
     boxWidth="60%"
     boxHeight="70%"
     @closeAction="bindDialogVisible = false"
@@ -448,7 +448,7 @@ const coveredCount = computed(
   <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('rule.bindManager.title')"
-    :selfFunc="true"
+    :userAction="true"
     boxWidth="70%"
     boxHeight="75%"
     @closeAction="closeAction"

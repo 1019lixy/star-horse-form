@@ -119,7 +119,7 @@ watch(
           ? i18n('dyform.propPanel.baseProps')
           : i18n('dyform.propPanel.customProps')
       "
-      :selfFunc="true"
+      :userAction="true"
       size="40%"
       @closeAction="panelDialogVisible = false"
     >

@@ -120,7 +120,7 @@ onMounted(() => {
         i18n('dyform.container.dialogDefaultBtn')
       "
       :boxWidth="field.preps['boxWidth'] || '50%'"
-      :selfFunc="true"
+      :userAction="true"
       :close-on-click-modal="
         field.preps['closeOnClickModal'] !== undefined
           ? field.preps['closeOnClickModal']

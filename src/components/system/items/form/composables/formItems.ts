@@ -42,7 +42,7 @@ const labelContent: ItemType | any = (itemType: string) => {
           title: i18n("dyform.item.4"),
           props: {
             dialogVisible: true,
-            selfFunc: true,
+            userAction: true,
           },
           content: {
             type: StarHorseForm,

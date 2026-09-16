@@ -30,7 +30,7 @@ watch(
   <star-horse-panel
     v-model="dialogVisible"
     @closeAction="closeAction"
-    :selfFunc="true"
+    :userAction="true"
     :compSize="compSize"
     @merge="() => emit('save')"
     :title="i18n('dyform.batch.edit.title')"

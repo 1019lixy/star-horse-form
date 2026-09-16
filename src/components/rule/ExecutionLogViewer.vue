@@ -49,7 +49,7 @@
       :title="i18n('rule.log.executionDetail')"
       boxWidth="800px"
       boxHeight="80%"
-      :selfFunc="true"
+      :userAction="true"
       @closeAction="detailVisible = false"
     >
       <div v-if="currentLog" class="log-detail">

@@ -176,7 +176,7 @@
       :title="currentRuleId ? '编辑规则' : '新建规则'"
       boxWidth="95%"
       boxHeight="90vh"
-      :selfFunc="true"
+      :userAction="true"
       @closeAction="designerVisible = false"
       @merge="handleRuleSaved"
     >

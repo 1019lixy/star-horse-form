@@ -88,7 +88,7 @@ watch(
   <star-horse-panel
       v-model="isPreview"
       @closeAction="closeAction"
-      :selfFunc="true"
+      :userAction="true"
       :compSize="compSize"
       :title="'表单预览'"
       :source="3"
@@ -106,7 +106,7 @@ watch(
       v-model="formAuthorityVisible"
       @merge="editFormAutority"
       @closeAction="closeAction"
-      :selfFunc="true"
+      :userAction="true"
       :compSize="compSize"
       :title="'设置表单权限'"
       :source="3"

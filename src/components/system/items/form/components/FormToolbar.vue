@@ -120,7 +120,7 @@ const doSave = (flag: boolean) => {
   <star-horse-panel
     v-model="cooperationConfigVisible"
     @closeAction="cooperationConfigVisible = false"
-    :selfFunc="true"
+    :userAction="true"
     compSize="default"
     @merge="() => doSave(false)"
     boxHeight="30%"

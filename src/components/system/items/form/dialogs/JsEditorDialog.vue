@@ -43,7 +43,7 @@ const hmsg: string = `
     @merge="emit('close')"
     @closeAction="emit('close')"
     @resetForm="emit('close')"
-    :selfFunc="true"
+    :userAction="true"
     boxHeight="80%"
   >
     <el-tabs v-model="codeTab">

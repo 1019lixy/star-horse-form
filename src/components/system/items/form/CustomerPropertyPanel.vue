@@ -102,6 +102,22 @@ const assignPrep = () => {
     let selfFormDatas = unref(selfFormDataList);
     let containers = unref(containerList);
 
+    // 当前实例为"我的组件"时,优先按idCustomComponent精确匹配配置定义,
+    // 避免因itemType与同名系统组件相同而误命中系统组件的参数
+    const currentComp = designForm.currentComp;
+    if (currentComp?.isCustom && currentComp?.idCustomComponent) {
+      for (let key in selfFormDatas) {
+        let temp = selfFormDatas[key];
+        if (
+          temp.isCustom &&
+          temp.idCustomComponent === currentComp.idCustomComponent
+        ) {
+          assignValue(temp);
+          return temp;
+        }
+      }
+    }
+
     let isContainer = currentCompCategory.value == "container";
     if (isContainer) {
       for (let key in containers) {
@@ -334,7 +350,7 @@ watch(
       v-model="userDefinePrepsVisible"
       :title="i18n('dyform.params.dialog.title')"
       :isBatch="false"
-      :selfFunc="true"
+      :userAction="true"
       boxHeight="60%"
       @merge="handleDialogClose"
       @closeAction="handleDialogClose"

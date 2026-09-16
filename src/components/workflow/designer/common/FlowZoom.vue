@@ -2,7 +2,7 @@
   <star-horse-panel
       v-model="dataDialogVisible"
       @closeAction="dataDialogVisible = false"
-      :selfFunc="true"
+      :userAction="true"
       :boxWidth="'45%'"
       :full-screen="false"
       :compSize="flowCommon.size"

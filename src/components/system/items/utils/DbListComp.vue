@@ -888,7 +888,7 @@ defineExpose({});
   <star-horse-panel
     v-model="tableDialogVisible"
     @closeAction="tableDialogVisible = false"
-    :selfFunc="true"
+    :userAction="true"
     :isShowBtnContinue="false"
     @resetForm="configData = { columns: 1 }"
     @merge="execCreateData"
@@ -908,7 +908,7 @@ defineExpose({});
     :boxWidth="'40%'"
     :boxHeight="'60%'"
     v-model="currentDataVisible"
-    :selfFunc="true"
+    :userAction="true"
     :userBtn="dynamicBtn()"
     @resetForm="dataReset"
     @closeAction="tableOperClose"
@@ -965,7 +965,7 @@ defineExpose({});
   <star-horse-panel
     v-model="configDialogVisible"
     @closeAction="closeAction"
-    :selfFunc="true"
+    :userAction="true"
     :isShowBtnContinue="true"
     @resetForm="configData = { columns: 1 }"
     @merge="configDataSubmit"

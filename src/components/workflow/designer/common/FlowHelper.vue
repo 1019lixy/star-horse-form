@@ -128,7 +128,7 @@ const onClose = () => {
     v-model="processVariableVisible"
     @merge="submitVariable"
     @closeAction="onClose"
-    :selfFunc="true"
+    :userAction="true"
     compSize="default"
     :title="'配置流程变量'"
   >

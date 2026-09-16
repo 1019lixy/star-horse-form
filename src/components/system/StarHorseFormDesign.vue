@@ -43,7 +43,6 @@ import {useDialogManager} from "@/components/system/items/form/composables/useDi
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 import {formContainer} from "@/components/system/items/form/composables/formContainer";
 import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems";
-import {mesExtendItems} from "@/components/system/items/form/composables/mesExtendItems";
 import {formItems} from "@/components/system/items/form/composables/formItems";
 import {FormConfig} from "@/components/types";
 import {FormSocketService} from "@/components/system/items/FormSocketService";
@@ -721,11 +720,9 @@ const init = async () => {
     assignData(formContainer);
     assignData(formItems);
     assignData(formExtendItems);
-    assignData(mesExtendItems);
     designForm.setContainerList(formContainer);
     designForm.setFormDataList(formItems);
     designForm.setSelfFormDataList(formExtendItems);
-    designForm.setMesFormDataList(mesExtendItems);
     designForm.setAllFormDataList(allFormDataList);
   }
   if (

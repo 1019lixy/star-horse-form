@@ -286,7 +286,7 @@ onMounted(() => {
               <star-horse-data-selector
                 multiple
                 v-model="node.noHanderApproverIds"
-                :dataUrl="dataList.interOrDict"
+                :apiEndpoints="dataList.interOrDict"
                 :displayName="dataList.displayName"
                 :displayValue="dataList.displayValue"
                 :params="dataList.params"

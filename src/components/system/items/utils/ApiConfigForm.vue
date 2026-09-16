@@ -96,7 +96,7 @@ defineExpose({ submitValid, setFormData, getFormData });
   <star-horse-panel
     v-model="visible"
     @closeAction="() => (visible = false)"
-    :selfFunc="true"
+    :userAction="true"
     @merge="apiValid"
     :title="i18n('dyform.apiConfig.btn.verify')"
     boxHeight="90%"

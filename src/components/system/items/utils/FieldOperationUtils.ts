@@ -39,6 +39,39 @@ const getDefaultVal = (type: string) => {
 };
 
 /**
+ * 同步组件来源标识与配置快照到目标实例。
+ *
+ * 更换/添加组件时,若来源是"我的组件"(isCustom),需把其保存的配置快照
+ * (prepSnapshot)写回目标实例的preps,并打上来源标识,使属性面板能按
+ * idCustomComponent精确匹配到"我的组件"的配置定义,而非误命中同名系统组件。
+ * 若来源是系统组件,清除目标实例上可能残留的自定义来源标识。
+ *
+ * 排除实例专属字段(id/name/label/itemNameLabel),避免覆盖实例身份。
+ *
+ * @param target 目标实例(将被原地修改),需已存在preps对象
+ * @param source 来源组件(物料区选中项,含isCustom/prepSnapshot等)
+ */
+export function syncCompSource(target: any, source: any) {
+  delete target.isCustom;
+  delete target.idCustomComponent;
+  delete target.prepSnapshot;
+  delete target.storageMode;
+  delete target.isShared;
+  if (!source?.isCustom || !source.prepSnapshot) return;
+  const excludeKeys = ["id", "name", "label", "itemNameLabel"];
+  for (const key in source.prepSnapshot) {
+    if (!excludeKeys.includes(key)) {
+      target.preps[key] = source.prepSnapshot[key];
+    }
+  }
+  target.isCustom = true;
+  target.idCustomComponent = source.idCustomComponent;
+  target.prepSnapshot = source.prepSnapshot;
+  if (source.storageMode) target.storageMode = source.storageMode;
+  if (source.isShared !== undefined) target.isShared = source.isShared;
+}
+
+/**
  * 复制字段
  * @param data
  * @param type
@@ -76,15 +109,8 @@ export function fieldCopy(data: any, type: string) {
   mvData["compType"] = type;
   mvData["fieldName"] = mvData.preps["name"];
   mvData["itemType"] = reData.itemType;
-  // 自定义组件: 用配置快照覆盖默认preps(保留实例专属字段)
-  if (reData.isCustom && reData.prepSnapshot) {
-    const excludeKeys = ["id", "name", "label", "itemNameLabel"];
-    for (const key in reData.prepSnapshot) {
-      if (!excludeKeys.includes(key)) {
-        mvData.preps[key] = reData.prepSnapshot[key];
-      }
-    }
-  }
+  // 自定义组件: 用配置快照覆盖默认preps并同步来源标识(保留实例专属字段)
+  syncCompSource(mvData, reData);
   if (
     reData.itemType == "box" ||
     reData.itemType == "dytable" ||
@@ -200,19 +226,15 @@ export function compFieldInit() {
     const itemsRes = allData?.filter((item: any) => item.category === 1) || [];
     const selfItemsRes =
       allData?.filter((item: any) => item.category === 3) || [];
-    const mesItemsRes =
-      allData?.filter((item: any) => item.category === 4) || [];
 
     // 处理数据，保持原有逻辑
     assignData(containerRes);
     assignData(itemsRes);
     assignData(selfItemsRes);
-    assignData(mesItemsRes);
 
     getDesignFormStore().setContainerList(containerRes);
     getDesignFormStore().setFormDataList(itemsRes);
     getDesignFormStore().setSelfFormDataList(selfItemsRes);
-    getDesignFormStore().setMesFormDataList(mesItemsRes);
     getDesignFormStore().setAllFormDataList(allFormDataList);
   });
 }

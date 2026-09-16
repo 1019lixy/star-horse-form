@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {
   createCondition,
-  dictData,
   postRequest,
   StarHorseDataSelector,
   uuid,
 } from "star-horse-lowcode";
+import {  dictData} from "@/api/star_horse_form_utils";
 import { computed, onMounted, ref } from "vue";
 import { FlowNodeEnums } from "@/components/workflow/enums/FlowNodeEnums";
 import Help from "@/components/workflow/designer/common/Help.vue";
@@ -72,7 +72,7 @@ const changeApproveType = (group: any) => {
       });
     } else {
       group.dataList = {
-        dataUrl: reData?.interOrDict,
+        apiEndpoints: reData?.interOrDict,
         displayName: reData?.fieldName,
         displayValue: reData?.fieldValue,
         params: reData?.params ? JSON.parse(reData?.params) : [],

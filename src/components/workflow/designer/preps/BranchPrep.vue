@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { flowCommon } from "@/components/workflow/utils/flowCommon";
 import {
-  dictData,
+
   piniaInstance,
   searchMatchList,
   SelectOption,
   uuid,
 } from "star-horse-lowcode";
+import {  dictData} from "@/api/star_horse_form_utils";
 import { computed, ModelRef, onMounted, ref, watch } from "vue";
 import { useFlowDesignStore } from "@/store/FlowDesign";
 import BasePrep from "@/components/workflow/designer/preps/BasePrep.vue";

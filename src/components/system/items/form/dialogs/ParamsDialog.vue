@@ -118,7 +118,7 @@ defineExpose({
     @merge="paramsValid"
     @closeAction="emit('close')"
     @resetForm="resetDataSourceForm"
-    :selfFunc="true"
+    :userAction="true"
   >
     <star-horse-form
       ref="paramsConfigRef"

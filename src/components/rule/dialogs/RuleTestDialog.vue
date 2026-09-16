@@ -4,7 +4,7 @@
     :title="i18n('rule.dialog.ruleTestExecution')"
     boxWidth="780px"
     boxHeight="80%"
-    :selfFunc="true"
+    :userAction="true"
     @closeAction="handleClose"
     @merge="handleClose"
   >

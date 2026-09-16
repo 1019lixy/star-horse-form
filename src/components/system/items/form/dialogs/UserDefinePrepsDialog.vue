@@ -99,7 +99,7 @@ defineExpose({
     @merge="dataSubmit"
     @closeAction="emit('close')"
     @resetForm="resetDataSourceForm"
-    :selfFunc="true"
+    :userAction="true"
     :boxHeight="'40%'"
   >
     <star-horse-form ref="paramsConfigRef" :fieldList="formInfo" />

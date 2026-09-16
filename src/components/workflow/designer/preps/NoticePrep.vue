@@ -127,8 +127,8 @@
 <script setup lang="ts">
 import { flowCommon } from "@/components/workflow/utils/flowCommon";
 import { ModelRef, onMounted, ref } from "vue";
+import {  dictData} from "@/api/star_horse_form_utils";
 import {
-  dictData,
   FieldInfo,
   piniaInstance,
   warning,

@@ -121,7 +121,7 @@ onMounted(() => {
       "
       :direction="field.preps['direction'] || 'rtl'"
       :size="field.preps['drawerSize'] || '40%'"
-      :selfFunc="true"
+      :userAction="true"
       :modal="field.preps['modal'] !== undefined ? field.preps['modal'] : true"
       :close-on-click-modal="
         field.preps['closeOnClickModal'] !== undefined

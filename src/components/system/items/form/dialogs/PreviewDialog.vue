@@ -55,7 +55,7 @@ defineExpose({
     v-model="dialogVisible"
     @closeAction="closeAction"
     box-height="80%"
-    :selfFunc="true"
+    :userAction="true"
     :compSize="compSize"
     :fullScreen="true"
     :title="i18n('dyform.preview.dialog.title')"

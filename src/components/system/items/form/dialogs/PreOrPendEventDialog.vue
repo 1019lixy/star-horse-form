@@ -188,7 +188,7 @@ watch(
     @merge="handleSubmit"
     @closeAction="handleClose"
     @resetForm="handleClose"
-    :selfFunc="true"
+    :userAction="true"
     box-height="80%"
   >
     <div class="pre-or-pend-event">

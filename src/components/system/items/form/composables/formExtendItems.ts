@@ -46,7 +46,7 @@ export const formExtendItems: CompType[] = [
       },
       {
         label: i18n("dyform.extend.349"),
-        fieldName: "dataUrl",
+        fieldName: "apiEndpoints",
         fieldType: "input",
         required: true,
         selectValues: "",

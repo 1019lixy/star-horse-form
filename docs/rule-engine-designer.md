@@ -676,7 +676,7 @@ async triggerButtonClick(
 ): Promise<RuleExecutionOutcome>
 ```
 
-> 与 shplugin `buttonAction` 的自定义代码、actions、selfFunc 逻辑互不干扰。仅当按钮配置 `ruleEngineConfig.formId` 且无自定义代码/actions 时才会调用此路径。
+> 与 shplugin `buttonAction` 的自定义代码、actions、userAction 逻辑互不干扰。仅当按钮配置 `ruleEngineConfig.formId` 且无自定义代码/actions 时才会调用此路径。
 
 #### executeRule
 

@@ -323,7 +323,7 @@ watch(() => flowBindingFormRef.value?.getFormData()?.value, (value) => {
         :title="flowDesigned
         ? i18n('dyform.step.flowDesignerTitle.reedit')
         : i18n('dyform.step.flowDesignerTitle')"
-        :selfFunc="true"
+        :userAction="true"
         :fullScreen="true"
         @closeAction="flowDesignerVisible = false"
         @merge="saveFlowDesign"

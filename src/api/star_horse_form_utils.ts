@@ -1,8 +1,9 @@
-import {SelectOption, warning} from "star-horse-lowcode";
+import {postRequest, SelectOption, warning} from "star-horse-lowcode";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import {markRaw} from "vue";
 import {formIcons} from "@/assets/form_icons";
 import {i18n} from "@/lang";
+import {ServiceEnums} from "@/components/enums/ServiceEnums";
 
 /**
  * 自定义的svg图标（模块级缓存 + markRaw，避免被 Vue 响应式代理后
@@ -84,3 +85,33 @@ function fallbackCopyText(text: string): Promise<boolean> {
   });
 }
 
+/**
+ * 获取数据字典
+ * @param dictName
+ * @returns {Promise<unknown>}
+ */
+export async function dictData(dictName: string) {
+  let redata: Array<SelectOption> = [];
+  const param = {
+    fieldList: [{ propertyName: "dictType", value: dictName ?? "public" }],
+  };
+  await postRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}dictinfo/getAllByCondition`,
+      param,
+  )
+      .then((res) => {
+        if (res?.data?.code != 200) {
+          console.log(res.data.cnMessage);
+        } else {
+          const resdata = res?.data?.data;
+          redata = resdata?.map((item: any) => {
+            return {
+              name: item.dictName,
+              value: item.dictCode,
+            };
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  return redata;
+}

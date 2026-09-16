@@ -960,7 +960,7 @@ onBeforeUnmount(() => {
     <star-horse-panel
       v-model="showSettings"
       :title="i18n('dyform.aiChat.settingsTitle')"
-      :selfFunc="true"
+      :userAction="true"
       style="z-index: 3000"
       @closeAction="closeSettings"
       @merge="closeSettings"
@@ -1029,7 +1029,7 @@ onBeforeUnmount(() => {
     <star-horse-panel
       v-model="showProfileForm"
       :title="editingProfile?.idAiConfig ? '编辑配置' : '添加配置'"
-      :selfFunc="true"
+      :userAction="true"
       @closeAction="closeProfileForm"
       @merge="saveProfile"
       style="z-index: 3000"

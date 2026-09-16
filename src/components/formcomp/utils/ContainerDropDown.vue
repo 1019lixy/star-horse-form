@@ -6,6 +6,7 @@ import {tableAction as gridtableAction} from "@/components/formcomp/container/gr
 import {i18n} from "@/lang";
 import {getDesignFormStore} from "@/store/StoreManager";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import {syncCompSource} from "@/components/system/items/utils/FieldOperationUtils";
 import {CellRubberBand} from "@/components/formcomp/utils/CellRubberBand";
 import {analysisCompDatas, numberRangeItem, uuid, warning} from "star-horse-lowcode";
 import camelcase from "camelcase";
@@ -419,6 +420,8 @@ const changeItem = (item: any) => {
       label: item.itemName,
     },
   };
+  // "我的组件": 用其配置快照覆盖preps并同步来源标识,避免误取同名系统组件参数
+  syncCompSource(currentItem.value, item);
 };
 const labelForCfg = () => {
   const labelForCfg = fieldForm.value.labelForCfg ?? "none";
@@ -625,7 +628,7 @@ watch(
       :source="2"
       :full-screen="false"
       :title="i18n('form.changeComponent')"
-      :self-func="true"
+      :userAction="true"
       v-model="componentVisible"
       @merge="compAddOperation"
       @closeAction="close"
@@ -757,7 +760,7 @@ watch(
   </star-horse-panel>
   <star-horse-panel
       :title="i18n('dyform.container.editStaticText')"
-      :self-func="true"
+      :userAction="true"
       :hide-full-screen-icon="true"
       @merge="submitAction"
       @closeAction="close"
@@ -879,7 +882,7 @@ watch(
   </star-horse-panel>
   <star-horse-panel
       :title="i18n('ui.operation')"
-      :self-func="true"
+      :userAction="true"
       :hide-full-screen-icon="true"
       @merge="submitAction"
       @closeAction="close"

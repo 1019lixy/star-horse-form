@@ -122,7 +122,7 @@ defineExpose({
   <star-horse-panel
       v-model="dialogVisible"
       @closeAction="closeAction"
-      :selfFunc="true"
+      :userAction="true"
       :compSize="compSize"
       @merge="() => doSave(false)"
       boxHeight="70%"

@@ -14,7 +14,7 @@
     v-model="edgeLabelDialogVisible"
     :title="i18n('rule.msg.editEdgeLabel')"
     boxWidth="500px"
-    :selfFunc="true"
+    :userAction="true"
     @closeAction="edgeLabelDialogVisible = false"
     @merge="handleEdgeLabelSave"
   >

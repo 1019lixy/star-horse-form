@@ -565,7 +565,7 @@ const rubberEditApply = () => {
     :source="3"
     :full-screen="false"
     :title="i18n('form.addComponent')"
-    :self-func="true"
+    :userAction="true"
     v-model="componentVisible"
     @closeAction="close"
   >
@@ -583,7 +583,7 @@ const rubberEditApply = () => {
     :source="1"
     :full-screen="false"
     :title="i18n('dyform.container.boxAddCompTitle')"
-    :self-func="true"
+    :userAction="true"
     v-model="rubberAddVisible"
     @merge="rubberAddSubmit"
     @closeAction="rubberAddClose"
@@ -638,7 +638,7 @@ const rubberEditApply = () => {
     :source="3"
     :full-screen="false"
     :title="i18n('dyform.container.boxEditPropsTitle')"
-    :self-func="true"
+    :userAction="true"
     v-model="rubberEditVisible"
     @closeAction="rubberEditClose"
   >

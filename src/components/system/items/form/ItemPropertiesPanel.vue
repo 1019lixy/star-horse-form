@@ -375,7 +375,7 @@ watch(
       @merge="buttonEventMerge"
       @closeAction="closeAction"
       @resetForm="buttonEventReset"
-      :selfFunc="true"
+      :userAction="true"
   >
     <star-horse-form
         :outerFormData="formProps"
@@ -395,7 +395,7 @@ watch(
       @merge="dataRelationMerge"
       @closeAction="closeAction"
       @resetForm="dataRelationReset"
-      :selfFunc="true"
+      :userAction="true"
       boxHeight="80%"
   >
     <link-policy-comp
@@ -415,7 +415,7 @@ watch(
       @merge="submitValid"
       @closeAction="closeAction"
       @resetForm="resetDataSourceForm"
-      :selfFunc="true"
+      :userAction="true"
       boxHeight="80%"
   >
     <data-source-comp
@@ -435,13 +435,13 @@ watch(
       @merge="containerAction"
       @closeAction="closeAction"
       @resetForm="resetForm"
-      :selfFunc="true"
+      :userAction="true"
   >
     <ContainerConfigPanel
         ref="containerPrepRef"
         :currentItemType="currentItemType"
         :compSize="compSize"
-        :flow-define-options="props.optional?.flowDefineOptions"
+        :flowDefineOptions="props.optional?.flowDefineOptions"
         :load-flow-params="props.optional?.loadFlowParams"
         @inited="setContainerData"
     />

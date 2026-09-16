@@ -57,7 +57,7 @@ const saveFlowDesign = () => {
       :title="flowDesigned
         ? i18n('dyform.step.flowDesignerTitle.reedit')
         : i18n('dyform.step.flowDesignerTitle')"
-      :selfFunc="true"
+      :userAction="true"
       :fullScreen="true"
       @closeAction="flowDesignDialogVisible = false"
       @merge="saveFlowDesign"
