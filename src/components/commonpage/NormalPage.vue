@@ -220,6 +220,7 @@ watch(
         </div>
       </div>
       <el-card class="inner_content">
+
         <star-horse-table-comp
           ref="normalPageRef"
           :fieldList="tableFieldList"
