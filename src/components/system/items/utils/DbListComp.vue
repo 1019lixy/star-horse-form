@@ -744,7 +744,7 @@ const onDataCopy = async (data: any) => {
         readonly: false,
         required: false,
         searchVisible: false,
-        size: compSize.value,
+        size: props.compSize,
 
         label: i18n("dyform.container.329"),
         templateDownFlag: false,

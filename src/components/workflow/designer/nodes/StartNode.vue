@@ -14,7 +14,7 @@
 </template>
 <script setup lang="ts">
 import { FlowNodeEnums } from "@/components/workflow/enums/FlowNodeEnums";
-import AddNode from "@/components/workflow/designer/nodes/AddNode";
+import AddNode from "@/components/workflow/designer/nodes/AddNode.vue";
 defineOptions({
   name: "StartNode",
 });

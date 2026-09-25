@@ -107,7 +107,7 @@ const assignPrep = () => {
     const currentComp = designForm.currentComp;
     if (currentComp?.isCustom && currentComp?.idCustomComponent) {
       for (let key in selfFormDatas) {
-        let temp = selfFormDatas[key];
+        let temp: any = selfFormDatas[key];
         if (
           temp.isCustom &&
           temp.idCustomComponent === currentComp.idCustomComponent

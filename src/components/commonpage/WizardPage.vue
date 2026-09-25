@@ -49,9 +49,9 @@ const parseStepFields = (el: any): any => {
       if (col && Array.isArray(col.items)) comps = comps.concat(col.items);
     }
   }
-  let fl = analysisCompDatas(comps);
+  let fl:any = analysisCompDatas(comps);
   if (props.currentPageClass == "main-design-phone") {
-    fl = convertCompToAppComps(fl);
+    fl = convertCompToAppComps(fl as any);
   }
   return fl;
 };

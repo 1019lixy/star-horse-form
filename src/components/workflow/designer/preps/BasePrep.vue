@@ -4,8 +4,8 @@ import { computed, reactive, ref, unref } from "vue";
 import { useFlowDesignStore } from "@/store/FlowDesign";
 
 interface BasePrepProps {
-  source: any;
-  dataForm: boolean;
+  source?: any;
+  dataForm?: boolean;
 }
 
 const props = withDefaults(defineProps<BasePrepProps>(), {

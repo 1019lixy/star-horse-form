@@ -42,8 +42,8 @@ export interface RuleValidationResult {
 export interface RuleRuntimeOptions {
   /** 表单ID，用于调用 executeByForm */
   formId: Ref<string> | string;
-  /** 表单字段列表（compList / formInfo） */
-  formFields: Ref<any[]>;
+  /** 表单字段列表（compList / formInfo），可能为 PageFieldInfo 结构或字段数组 */
+  formFields: Ref<any>;
   /** 表单数据（响应式 formData） */
   formData: Ref<Record<string, any>>;
   /** 是否启用规则引擎（默认 true） */

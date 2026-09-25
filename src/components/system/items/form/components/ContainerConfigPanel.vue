@@ -257,6 +257,8 @@ const createFlowCfg = () => ({
   ccValue: [],
   visibleScope: "prev_and_self",
   rejectPolicy: "to_prev",
+  // 分段内审批/办理任务完成时是否向抄送人推送通知；默认 true 保持现状
+  ccNotifyOnTaskComplete: true,
 });
 
 const setFormData = (data: any) => {

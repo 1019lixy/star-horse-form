@@ -134,6 +134,7 @@ watch(
       if (!Array.isArray(c.ccValue)) c.ccValue = [];
     if (!c.visibleScope) c.visibleScope = "prev_and_self";
     if (!c.rejectPolicy) c.rejectPolicy = "to_prev";
+    if (typeof c.ccNotifyOnTaskComplete !== "boolean") c.ccNotifyOnTaskComplete = true;
 
       if (typeof c.flowDefineId !== "string") c.flowDefineId = "";
       if (!Array.isArray(c.flowParamBindings)) c.flowParamBindings = [];
@@ -198,7 +199,7 @@ const rejectPolicyOptions = [
 /** 经办人字段候选：usage=ApprovalNode 的绑定字段 + 全部字段（去重） */
 const assigneeFieldOptions = computed(() => {
   const seen = new Set<any>();
-  const out: SelectOption[] = [];
+  const out: any[] = [];
   fieldBindings.value.forEach((b) => {
     if (b.usage === "ApprovalNode" && b.fieldName && !seen.has(b.fieldName)) {
       seen.add(b.fieldName);
@@ -397,6 +398,17 @@ const flowParamBindings = computed<FlowParamBinding[]>({
                 :placeholder="i18n('dyform.step.ccValueRemark')"
                 style="width: 100%"
             />
+          </el-form-item>
+
+          <el-form-item :label="i18n('dyform.step.ccNotifyOnTaskComplete')">
+            <el-switch
+                v-model="cfg.ccNotifyOnTaskComplete"
+                :active-value="true"
+                :inactive-value="false"
+            />
+            <div class="flow-cfg-tip">
+              {{ i18n("dyform.step.ccNotifyOnTaskCompleteRemark") }}
+            </div>
           </el-form-item>
 
           <el-form-item :label="i18n('dyform.step.visibleScope')">

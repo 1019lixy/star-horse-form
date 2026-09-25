@@ -12,4 +12,4 @@ export {default as RuleConfigButton} from "./items/form/extensions/RuleConfigBut
 export {default as FlowDesignButton} from "./items/form/extensions/FlowDesignButton.vue";
 export {default as SaveAsCompButton} from "./items/form/extensions/SaveAsCompButton.vue";
 // ==================== 流程绑定扩展（composable + 组件，通过 advancedProps + #property-panel-extra 引入） ====================
-export {default as FlowBindingTab, useFlowBinding} from "./items/form/extensions/FlowBindingTab.vue";
+export {default as FlowBindingTab} from "./items/form/extensions/FlowBindingTab.vue";

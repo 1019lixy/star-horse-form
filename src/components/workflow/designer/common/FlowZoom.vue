@@ -223,11 +223,11 @@ const dataDoSave = () => {
   formInfo.validate((valid: boolean) => {
     if (valid) {
       let formData = basicInfoRef.value.$refs.flowFormRef.getFormData();
-      doSaveData(formData, operType, null,(data: any) => {
-        if (!data.code) {
+      doSaveData(formData, operType, {
+        onSuccess: () => {
           flowDesign.init();
           dataDialogVisible.value = false;
-        }
+        },
       });
     }
   });
@@ -243,7 +243,7 @@ const controlScale = () => {
 };
 const handleWheel = (e: WheelEvent) => {
   e.preventDefault();
-  if (e.wheelDelta < 0) {
+  if (e.deltaY > 0) {
     onZoomOut();
   } else {
     onZoomIn();

@@ -94,7 +94,7 @@ const parseMapping = (raw: any): Record<string, string> => {
 
 const printData = computed<Record<string, any>>(() => {
   const mapping = parseMapping(preps.value.dataMapping);
-  const source = formData.value || {};
+  const source = (formData.value || {}) as Record<string, any>;
   const keys = Object.keys(mapping);
   if (keys.length === 0) {
     const result: Record<string, any> = {};

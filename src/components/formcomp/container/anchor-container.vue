@@ -132,7 +132,7 @@ onBeforeUnmount(() => {
       >
         <div class="section-header-design">
           <span v-if="showSectionNumber" class="section-index">{{
-            idx + 1
+            Number(idx) + 1
           }}</span>
           <star-horse-icon
             v-if="adata.anchorIcon"
@@ -142,7 +142,7 @@ onBeforeUnmount(() => {
           <span class="section-title">{{
             adata.anchorTitle ||
             adata.label ||
-            i18n("dyform.container.anchorSection") + " " + (idx + 1)
+            i18n("dyform.container.anchorSection") + " " + (Number(idx) + 1)
           }}</span>
         </div>
         <draggable
@@ -215,7 +215,7 @@ onBeforeUnmount(() => {
         >
           <div class="section-title-bar">
             <span v-if="showSectionNumber" class="section-dot">{{
-              idx + 1
+              Number(idx) + 1
             }}</span>
             <star-horse-icon
               v-if="adata.anchorIcon"
@@ -225,7 +225,7 @@ onBeforeUnmount(() => {
             <span class="section-name">{{
               adata.anchorTitle ||
               adata.label ||
-              i18n("dyform.container.anchorSection") + " " + (idx + 1)
+              i18n("dyform.container.anchorSection") + " " + (Number(idx) + 1)
             }}</span>
           </div>
           <div class="section-items">

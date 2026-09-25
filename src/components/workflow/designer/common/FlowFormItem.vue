@@ -31,7 +31,7 @@ const props = defineProps({
 let relationTables = ref<any>({});
 
 const errorMsg = ref("数据加载中");
-let searchFormData = ref<SearchFields>({});
+let searchFormData = ref<SearchFields>({ fieldList: [] });
 const tableFieldList = ref<any>({
   fieldList: [],
 });

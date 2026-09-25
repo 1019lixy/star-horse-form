@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import {
   computed,
-  defineModel,
-  defineOptions,
   ModelRef,
   ref,
   watch,

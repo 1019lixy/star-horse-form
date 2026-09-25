@@ -4933,6 +4933,9 @@ If empty, the table information will be created in the current business database
   "dyform.step.rejectNone": "Not Allowed",
   "dyform.step.rejectToStarter": "Reject to Starter",
   "dyform.step.rejectToPrev": "Reject to Previous Node",
+  "dyform.step.ccNotifyOnTaskComplete": "CC on Task Complete",
+  "dyform.step.ccNotifyOnTaskCompleteRemark":
+    "On (default): push CC notifications when this segment's task completes; Off: skip CC on task-complete events. Process-end CC is unaffected.",
   "dyform.step.flowSelectorTip":
     "Type account/code directly (Enter to confirm), or select from list after configuring a data API",
   "dyform.step.flowBindingUsage": "Usage",

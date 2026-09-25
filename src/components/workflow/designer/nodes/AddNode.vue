@@ -110,7 +110,7 @@ const addNode = async (item: any) => {
     item.nodeCode == FlowNodeEnums.SUGGEST_NODE
   ) {
     // 当审批节点下添加意见分支,就不允许添加其他类型的节点了
-    flowDesign.flowUpdateNode({ currentNode, field: "addable", value: false });
+    flowDesign.flowUpdateNode({ currNode: currentNode, field: "addable", value: false });
   }
 };
 const init = async () => {};

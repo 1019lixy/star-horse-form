@@ -71,7 +71,8 @@ const handleMouseDown = (e: MouseEvent) => {
 };
 const handleMouseMove = (e: MouseEvent) => {
   if (mouseDown.value) {
-    const directionY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+    const mozE = e as any;
+    const directionY = e.movementY || mozE.mozMovementY || mozE.webkitMovementY || 0;
     if (
       directionY >= 0 &&
       flowMapMsk.value.offsetHeight + top.value < flowMap.value.offsetHeight

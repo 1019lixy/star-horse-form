@@ -4795,6 +4795,9 @@ export default {
     "dyform.step.rejectNone": "不可驳回",
     "dyform.step.rejectToStarter": "驳回到发起人",
     "dyform.step.rejectToPrev": "驳回上一节点",
+    "dyform.step.ccNotifyOnTaskComplete": "任务完成时推送抄送",
+    "dyform.step.ccNotifyOnTaskCompleteRemark":
+        "开启（默认）：本分段任务完成时会向已有抄送人推送通知；关闭：跳过任务完成事件抄送，流程结束抄送不受影响",
     "dyform.step.flowSelectorTip":
         "可直接输入账号/编码（回车确认），或配置数据接口后从列表选择",
     "dyform.step.flowBindingUsage": "用途",

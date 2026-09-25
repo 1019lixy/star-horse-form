@@ -53,7 +53,7 @@ onMounted(() => {
   >
     <el-button
       class="listener-close"
-      @click="delListener(index)"
+      @click="delListener(Number(index))"
       plain
       circle
       icon="CircleClose"

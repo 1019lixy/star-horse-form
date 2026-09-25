@@ -2,7 +2,6 @@
 import { computed, reactive, ref } from "vue";
 import { useFlowDesignStore } from "@/store/FlowDesign";
 import {
-  PageFieldInfo,
   piniaInstance,
 } from "star-horse-lowcode";
 import FlowHelperPanel from "@/components/workflow/designer/common/FlowHelperPanel.vue";
@@ -14,7 +13,7 @@ const processVariablesRef = ref();
 let processVariableVisible = ref<boolean>(false);
 let panelVisible = ref<boolean>(false);
 
-const processVariablesFields = reactive<PageFieldInfo>({
+const processVariablesFields = reactive<any>({
   fieldList: [],
 containerFields: [
     {

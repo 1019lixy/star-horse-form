@@ -79,6 +79,7 @@ const scanner = useScanner({
   historySize: Number(preps.value.historySize) || 20,
   soundTip: preps.value.soundTip !== false && preps.value.soundTip !== "false",
 });
+const history = scanner.history;
 
 const writeField = (key: string, value: any) => {
   if (key && formData.value) {

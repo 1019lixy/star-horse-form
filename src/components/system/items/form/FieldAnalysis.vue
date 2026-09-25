@@ -31,9 +31,10 @@ const needBigLengthComp: Array<string> = [
   "markdown",
 ];
 const itemKey = (item: any) => {
-  if (item.name) {
+  if (item && item.name) {
     item.name = camelCase(item.name);
   }
+  return item?.name ?? "";
 };
 onMounted(() => {
   let preps = props.field.preps;
@@ -111,7 +112,7 @@ const handleNameBlur = async () => {
         v-for="(leafItem, leafIndex) in field.items || field.preps.items || []"
       >
         <FieldAnalysis
-          :index="index + leafIndex + 1"
+          :index="Number(index) + Number(leafIndex) + 1"
           :field="leafItem"
           :container="container + '>' + (field.preps.label || field.label)"
         />
@@ -133,7 +134,7 @@ const handleNameBlur = async () => {
       <template v-for="sitem1 in sitem['columns']">
         <template v-for="(sitem2, sindex) in sitem1.items">
           <FieldAnalysis
-            :index="index + sindex + 1"
+            :index="Number(index) + Number(sindex) + 1"
             :field="sitem2"
             :container="container + '>' + field.preps.label"
           />
@@ -141,7 +142,7 @@ const handleNameBlur = async () => {
       </template>
       <template v-for="(sitem2, sindex) in sitem.items">
         <FieldAnalysis
-          :index="index + sindex + 1"
+          :index="Number(index) + Number(sindex) + 1"
           :field="sitem2"
           :container="container + '>' + field.preps.label"
         />

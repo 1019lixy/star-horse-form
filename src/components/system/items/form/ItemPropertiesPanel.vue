@@ -441,7 +441,7 @@ watch(
         ref="containerPrepRef"
         :currentItemType="currentItemType"
         :compSize="compSize"
-        :flowDefineOptions="props.optional?.flowDefineOptions"
+        :flowDefineOptions="(props.optional?.flowDefineOptions || []) as any"
         :load-flow-params="props.optional?.loadFlowParams"
         @inited="setContainerData"
     />

@@ -101,6 +101,8 @@ const scanner = useScanner({
   historySize: Number(preps.value.historySize) || 20,
   soundTip: preps.value.soundTip !== false && preps.value.soundTip !== "false",
 });
+const scanning = scanner.scanning;
+const history = scanner.history;
 
 const finishPass = (sn: string, success: boolean, message: string, nextOperation?: string) => {
   lastSuccess.value = success;

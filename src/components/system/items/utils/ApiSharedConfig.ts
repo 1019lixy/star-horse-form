@@ -709,11 +709,11 @@ export function createApiConfig(
     mode === "dataSource" ? "dyform.apiSource" : "dyform.relation.apiLinkage";
   const defaultMethod = mode === "dataSource" ? "GET" : "POST";
 
-  const responseTab =
+  const responseTab: any =
     mode === "dataSource"
       ? createDataSourceResponseTab()
       : createLinkageResponseTab(formFields || []);
-  const authTab = createRequestTab(
+  const authTab: any = createRequestTab(
     i18n("dyform.apiConfig.tab.authConfig"),
     i18nPrefix,
     "authInfo",
@@ -722,7 +722,7 @@ export function createApiConfig(
     interfaceUtils,
     formFields,
   );
-  const isolationTab = createAreaIsolation();
+  const isolationTab: any = createAreaIsolation();
 
   // 直连模式(proxy=false)下隐藏仅代理后端才用到的配置：代理接口 proxyUrl / 出参配置 / 认证 / 隔离
   // 走代理(proxy=true，默认)则全部保留；请求接口配置(apiInfo)始终保留
