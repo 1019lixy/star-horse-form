@@ -30,6 +30,7 @@ export interface CommonPageProps {
   currentPageClass: string;
   preview: boolean;
   compList: any[];
+  formInfo?: any;
 }
 
 export interface CommonPageOptions {
@@ -141,6 +142,19 @@ export const useCommonPage = (options: CommonPageOptions) => {
       { deep: true },
     );
   }
+
+  // ==================== 表单列数 ====================
+  const formColumns = computed(() => {
+    if (props.formInfo?.columns) return props.formInfo.columns;
+    const list = props.compList as any[];
+    if (!list) return undefined;
+    for (const item of list) {
+      if (item?.itemType === "descriptions" && item?.preps?.column) {
+        return item.preps.column;
+      }
+    }
+    return undefined;
+  });
 
   // ==================== 加载 ====================
   const loadFormData = async () => {
@@ -281,6 +295,7 @@ export const useCommonPage = (options: CommonPageOptions) => {
     dataFormat,
     dataRecall,
     init,
+    formColumns,
     // 删除
     deleteVisible,
     deleteLoading,

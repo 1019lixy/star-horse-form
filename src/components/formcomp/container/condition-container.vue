@@ -46,7 +46,7 @@ const selectData = () => {
   designForm.selectItem(container, container?.itemType, "");
 };
 
-const { onDragAdd } = useDragAdd(designForm);
+const { onDragAdd } = useDragAdd(designForm, "condition");
 const checkItem = (adata: any) => ensureItems(adata, "children");
 
 // 创建子条件节点

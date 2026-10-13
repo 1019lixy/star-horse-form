@@ -3,7 +3,7 @@ import {computed} from "vue";
 import {getDesignFormStore} from "@/store/StoreManager";
 import camelCase from "camelcase";
 import {getCustomComponentList, getLocalCustomComponentList,} from "@/api/custom_component_api";
-import {createDefaultElements} from "@/components/formcomp/container/container-types";
+import {createDefaultElements, isContainer} from "@/components/formcomp/container/container-types";
 
 const formData = computed(() => getDesignFormStore().formData);
 const numField: Array<string> = [
@@ -180,6 +180,61 @@ export function fieldCopy(data: any, type: string) {
     });
   }
   return mvData;
+}
+
+/**
+ * 给裸组件包一层 descriptions 容器壳（设计器添加普通组件默认 description 风格）。
+ */
+export function wrapInDescriptionShell(component: any, columns: number = 3): any {
+  const { elements } = createDefaultElements("descriptions", "Descriptions");
+  elements[0].items.push(component);
+  const shellId = "Id" + uuid();
+  return {
+    id: shellId,
+    itemType: "descriptions",
+    compType: "container",
+    label: "",
+    preps: {
+      id: shellId,
+      column: columns,
+      elements,
+    },
+  };
+}
+
+/**
+ * 设计器添加组件统一入口：普通组件加 description 壳并连续同组归并，
+ * 容器独立成块（脱离壳）。返回实际选中项（供 selectItem）。
+ */
+export function addComponentWithShell(list: any[], component: any, index?: number): any {
+  const store = getDesignFormStore();
+  const columns = store.formInfo?.columns ?? 3;
+  if (isContainer(component)) {
+    store.clearActiveDescriptionShell();
+    if (index != null && index >= 0 && index <= list.length) {
+      list.splice(index, 0, component);
+    } else {
+      list.push(component);
+    }
+    return component;
+  }
+  const isAppend = index == null || index >= list.length;
+  const activeShell = store.activeDescriptionShell;
+  if (isAppend && activeShell && list.length > 0) {
+    const last = list[list.length - 1];
+    if (last && last.id === activeShell.id && last.itemType === "descriptions" && last.preps?.elements?.[0]?.items) {
+      last.preps.elements[0].items.push(component);
+      return component;
+    }
+  }
+  const shell = wrapInDescriptionShell(component, columns);
+  if (index != null && index >= 0 && index <= list.length) {
+    list.splice(index, 0, shell);
+  } else {
+    list.push(shell);
+  }
+  store.setActiveDescriptionShell(shell);
+  return shell;
 }
 
 export function compFieldInit() {

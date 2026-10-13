@@ -82,6 +82,7 @@ const pageConfig = () => {
     key: "formConfig",
   });
 };
+
 const closeDropdown = () => {
   activeDropdown.value = null;
 };
@@ -339,6 +340,7 @@ const doSave = (flag: boolean) => {
 
     <div class="toolbar-right">
       <el-tooltip
+
         v-if="optional?.cooperationMode ?? false"
         :content="i18n('dyform.toolbar.cooperationConfig')"
         effect="dark"
@@ -559,6 +561,7 @@ const doSave = (flag: boolean) => {
     }
   }
 }
+
 
 /* ====== Right Side ====== */
 .toolbar-right {

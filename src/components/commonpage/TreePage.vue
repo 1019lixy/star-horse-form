@@ -42,6 +42,7 @@ const {
   deleteLoading,
   handleDelete,
   confirmDelete,
+  formColumns,
 } = useCommonPage({
   props,
   formRef: treeFormRef,
@@ -135,6 +136,7 @@ const dataRecallTree = (formData: any, result: any) => {
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
           :rules="rules"
+          :columns="formColumns"
           ref="treeFormRef"
           :globalCondition="relationTables"
           :dynamicForm="true"

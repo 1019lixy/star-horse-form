@@ -76,11 +76,11 @@ export function getDataIndex(
 }
 
 // 快捷添加组件
-export const quickAddItem = (items: any[], hideLabel: boolean = false) => {
+export const createQuickItem = (itemsLength: number, hideLabel: boolean = false) => {
     const uid = uuid();
     const name = camelcase(["field", uid.substring(0, 6)]);
-    const label = i18n("dyform.condition.leafField") + (items.length + 1);
-    const newItem = {
+    const label = i18n("dyform.condition.leafField") + (itemsLength + 1);
+    return {
         id: "Id" + uid,
         label: label,
         fieldName: name,
@@ -96,6 +96,9 @@ export const quickAddItem = (items: any[], hideLabel: boolean = false) => {
             itemNameLabel: label,
         },
     };
+};
+export const quickAddItem = (items: any[], hideLabel: boolean = false) => {
+    const newItem = createQuickItem(items.length, hideLabel);
     items.push(newItem);
     const designForm = getDesignFormStore();
     designForm.selectItem(newItem, newItem.itemType, "");

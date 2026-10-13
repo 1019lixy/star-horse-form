@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {i18n} from "@/lang/index.js";
 import {error, isMobile, success} from "star-horse-lowcode";
-import {nextTick, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
+import {getDesignFormStore} from "@/store/StoreManager";
 
 const props = defineProps<{
   compSize: string;
@@ -9,6 +10,8 @@ const props = defineProps<{
   currentPageClass?: string;
   formStyle?: string;
 }>();
+const designForm = getDesignFormStore();
+const formInfo = computed(() => designForm.formInfo);
 const previewFormRef = ref();
 const validateForm = async () => {
   if (
@@ -126,90 +129,105 @@ defineExpose({
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <FormPage
         v-if="formData.pageStyle == 'form'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <FormTablePage
         v-if="formData.pageStyle == 'form-table'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <TabPage
         v-if="formData.pageStyle == 'tab'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <ViewFormPage
         v-if="formData.pageStyle == 'view'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <TreePage
         v-if="formData.pageStyle == 'tree'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <MasterDetailPage
         v-if="formData.pageStyle == 'master-detail'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <DetailPage
         v-if="formData.pageStyle == 'detail'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <WizardPage
         v-if="formData.pageStyle == 'wizard'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <CardListPage
         v-if="formData.pageStyle == 'card-list'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <ImportExportPage
         v-if="formData.pageStyle == 'import-export'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <ApprovalPage
         v-if="formData.pageStyle == 'approval'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <DashboardPage
         v-if="formData.pageStyle == 'dashboard'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <ComparePage
         v-if="formData.pageStyle == 'compare'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
       <PrintPage
         v-if="formData.pageStyle == 'print'"
         :compList="list"
         :currentPageClass="currentPageClass"
         :preview="true"
+        :formInfo="formInfo"
       />
     </div>
   </div>

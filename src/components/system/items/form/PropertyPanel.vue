@@ -5,18 +5,16 @@ import {getDesignFormStore} from "@/store/StoreManager";
 import {searchMatchList, SelectOption, StarHorseIcon,} from "star-horse-lowcode";
 import ItemPropertiesPanel from "@/components/system/items/form/ItemPropertiesPanel.vue";
 import CustomerPropertyPanel from "@/components/system/items/form/CustomerPropertyPanel.vue";
+import FormInfoPanel from "@/components/system/items/form/FormInfoPanel.vue";
 import {FormConfig} from "@/components/types";
 
 const props = defineProps({
   optional: { type: Object as PropType<FormConfig> },
 });
 let designForm = getDesignFormStore();
-const formProps = computed(() => designForm.currentFormPreps);
 const currentId = computed(() => designForm.currentItemId);
 const currentComp = computed(() => designForm.currentComp);
 let prepActiveName = ref<string>("base");
-let compSize = computed(() => props.optional?.compSize ?? "default");
-const itemPropertiesRef = ref();
 const customerPropertyPanelRef = ref();
 let matchTypeList = ref<SelectOption[]>();
 const panelDialogVisible = ref(false);
@@ -47,8 +45,34 @@ watch(
 
 <template>
   <div class="property-panel-root">
-    <!-- Tab Header -->
+    <!-- Tab Content -->
+    <div class="property-tabs-content">
+      <el-scrollbar class="property-scrollbar">
+        <item-properties-panel
+          v-if="prepActiveName === 'base'"
+          :optional="optional"
+        />
+        <customer-property-panel
+          v-if="prepActiveName === 'customer'"
+          ref="customerPropertyPanelRef"
+          :optional="optional"
+        />
+        <form-info-panel v-if="prepActiveName === 'formInfo'" />
+      </el-scrollbar>
+    </div>
+
+    <!-- Tab Header (竖排右侧) -->
     <div class="property-tabs-header">
+      <button
+        :class="['property-tab', { active: prepActiveName === 'formInfo' }]"
+        @click="
+          prepActiveName = 'formInfo';
+          changeOperation('base');
+        "
+      >
+        <star-horse-icon iconClass="form" size="14px" />
+        <span>{{ i18n("dyform.propPanel.formInfo") }}</span>
+      </button>
       <button
         :class="['property-tab', { active: prepActiveName === 'base' }]"
         @click="
@@ -82,65 +106,32 @@ watch(
       </button>
     </div>
 
-    <!-- Tab Content -->
-    <div class="property-tabs-content">
-      <el-scrollbar class="property-scrollbar">
-        <el-form
-          :model="formProps"
-          class="property-form"
-          ref="itemPropertiesRef"
-          :size="compSize"
-          :scroll-to-error="true"
-          :scroll-into-view-options="true"
-          :inline-message="false"
-          :status-icon="true"
-          label-width="auto"
-          label-position="right"
-          require-asterisk-position="right"
-        >
-          <item-properties-panel
-            v-if="prepActiveName === 'base'"
-            :optional="optional"
-          />
-          <customer-property-panel
-            v-if="prepActiveName === 'customer'"
-            ref="customerPropertyPanelRef"
-            :optional="optional"
-          />
-        </el-form>
-      </el-scrollbar>
-    </div>
-
     <!-- 弹窗打开当前面板 -->
     <star-horse-drawer
       v-model="panelDialogVisible"
       :title="
-        dialogPrepActiveName === 'base'
-          ? i18n('dyform.propPanel.baseProps')
-          : i18n('dyform.propPanel.customProps')
+        dialogPrepActiveName === 'formInfo'
+          ? i18n('dyform.propPanel.formInfo')
+          : dialogPrepActiveName === 'customer'
+            ? i18n('dyform.propPanel.customProps')
+            : i18n('dyform.propPanel.baseProps')
       "
       :userAction="true"
       size="40%"
       @closeAction="panelDialogVisible = false"
     >
       <el-scrollbar class="dialog-scrollbar">
-        <el-form
-          :model="formProps"
-          class="property-form"
-          :size="compSize"
-          label-width="auto"
-          label-position="right"
-          require-asterisk-position="right"
-        >
-          <item-properties-panel
-            v-if="dialogPrepActiveName === 'base'"
-            :optional="optional"
-          />
-          <customer-property-panel
-            v-if="dialogPrepActiveName === 'customer'"
-            :optional="optional"
-          />
-        </el-form>
+        <item-properties-panel
+          v-if="dialogPrepActiveName === 'base'"
+          :optional="optional"
+          :inDialog="true"
+        />
+        <customer-property-panel
+          v-if="dialogPrepActiveName === 'customer'"
+          :optional="optional"
+          :inDialog="true"
+        />
+        <form-info-panel v-if="dialogPrepActiveName === 'formInfo'" />
       </el-scrollbar>
     </star-horse-drawer>
   </div>
@@ -150,38 +141,42 @@ watch(
 .property-panel-root {
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background: #ffffff;
   overflow: hidden;
 }
 
-/* ====== Tab Header (segment style) ====== */
+/* ====== Tab Header (竖排右侧) ====== */
 .property-tabs-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 8px 12px;
+  padding: 8px 6px;
   background: #f8f9fb;
-  border-bottom: 1px solid #ebeef5;
+  border-left: 1px solid #ebeef5;
   flex-shrink: 0;
+  width: 52px;
 }
 
 .property-tab {
-  flex: 1;
+  width: 100%;
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 2px;
+  padding: 8px 4px;
   border: 1px solid transparent;
   background: transparent;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 11px;
   color: #606266;
   transition: all 0.15s ease;
-  white-space: nowrap;
+  white-space: normal;
   line-height: 1.2;
+  text-align: center;
 
   :deep(.star-horse-icon) {
     font-size: 14px;
@@ -232,6 +227,7 @@ watch(
   :deep(.el-scrollbar__wrap) {
     overflow-x: hidden;
   }
+
 }
 
 /* ====== Content Area ====== */
@@ -248,30 +244,6 @@ watch(
   }
 }
 
-.property-form {
-  padding: 12px;
-  width: 100%;
-
-  :deep(.el-form-item) {
-    margin-bottom: 14px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  :deep(.el-form-item__label) {
-    font-size: 13px;
-    color: #606266;
-    padding-right: 8px;
-  }
-
-  :deep(.el-form-item__content) {
-    width: 90%;
-    margin-left: 5px;
-    padding-left: 5px;
-  }
-}
 
 /* ====== Element Overrides ====== */
 :deep(.el-collapse-item) {

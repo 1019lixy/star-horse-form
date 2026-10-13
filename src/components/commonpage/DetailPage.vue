@@ -39,6 +39,7 @@ const {
   deleteLoading,
   handleDelete,
   confirmDelete,
+  formColumns,
 } = useCommonPage({
   props,
   formRef: detailFormRef,
@@ -80,6 +81,7 @@ const handlePrint = () => window.print();
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
           :rules="rules"
+          :columns="formColumns"
           ref="detailFormRef"
           :globalCondition="relationTables"
           :dynamicForm="true"
@@ -119,6 +121,7 @@ const handlePrint = () => window.print();
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
           :rules="rules"
+          :columns="formColumns"
           ref="detailFormRef"
           :globalCondition="relationTables"
           :dynamicForm="true"

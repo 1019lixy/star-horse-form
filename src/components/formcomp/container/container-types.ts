@@ -41,6 +41,7 @@ export const NO_NEST_CONTAINER_TYPES: ReadonlySet<string> = new Set([
 ]);
 
 /**
+
  * Check whether a parent container can accept a child of the given type.
  * Returns false only when the parent is a no-nest container AND the child is a container.
  */

@@ -37,6 +37,7 @@ const {
   deleteLoading,
   handleDelete,
   confirmDelete,
+  formColumns,
 } = useCommonPage({
   props,
   formRef: cardFormRef,
@@ -99,6 +100,7 @@ const cardTotal = computed(() => cardData.value.length);
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
           :rules="rules"
+          :columns="formColumns"
           ref="cardFormRef"
           :globalCondition="relationTables"
           :dynamicForm="true"

@@ -20,6 +20,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  formInfo: { type: Object, default: () => ({}) },
 });
 const normalPageRef = ref();
 const normalFormRef = ref();
@@ -90,6 +91,19 @@ const handleBeforeSubmit = async ({
     if (!ok) return false;
   }
 };
+
+// 表单列数：优先 formInfo.columns，fallback 从 compList 提取 descriptions 壳的 preps.column
+const formColumns = computed(() => {
+  if (props.formInfo?.columns) return props.formInfo.columns;
+  const list = props.compList as any[];
+  if (!list) return undefined;
+  for (const item of list) {
+    if (item?.itemType === "descriptions" && item?.preps?.column) {
+      return item.preps.column;
+    }
+  }
+  return undefined;
+});
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
@@ -188,6 +202,7 @@ watch(
           @beforeSubmit="handleBeforeSubmit"
           :apiEndpoints="apiEndpoints"
           :preview="preview"
+          :columns="formColumns"
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
           :rules="rules"

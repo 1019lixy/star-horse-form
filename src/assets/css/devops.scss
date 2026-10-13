@@ -833,6 +833,7 @@ $white: #ffffff;
 
 .el-form-item__content {
   min-width: unset;
+  flex-wrap: nowrap;
 }
 
 .el-tab-pane {

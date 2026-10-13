@@ -8,7 +8,7 @@ import {getDesignFormStore} from "@/store/StoreManager";
  * Create the standard onDragAdd handler used by all container components.
  * Selects the dragged item in the design form store.
  */
-export function useDragAdd(designForm?: any) {
+export function useDragAdd(designForm?: any, parentItemType?: string) {
   const store = designForm;
   const onDragAdd = (evt: Event | any, dataList: any) => {
     const newIndex = evt.newIndex;

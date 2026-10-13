@@ -2,6 +2,7 @@
 import {onMounted, onUnmounted, ref} from "vue";
 import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
 import {itemCheck} from "star-horse-lowcode";
+import {addComponentWithShell} from "@/components/system/items/utils/FieldOperationUtils.js";
 import {i18n} from "@/lang/index";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 
@@ -19,7 +20,13 @@ defineProps<{
   currentPageClass: string;
 }>();
 
-const onDragAdd = (evt: Event, dataList: Array<any>) => {
+const onDragAdd = (evt: any, dataList: Array<any>) => {
+  const newIndex = evt?.newIndex;
+  if (typeof newIndex === "number" && newIndex >= 0 && newIndex < dataList.length) {
+    const component = dataList[newIndex];
+    dataList.splice(newIndex, 1);
+    addComponentWithShell(dataList, component, newIndex);
+  }
   emit("dragAdd", evt, dataList);
 };
 
@@ -99,6 +106,7 @@ onUnmounted(() => {
     :size="'default'"
     :status-icon="formInfo['statusIcon'] == 'Y'"
     :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'"
+    :columns="formInfo['columns']"
     style="width: 100% !important; position: relative"
   >
     <!-- Empty Canvas State -->

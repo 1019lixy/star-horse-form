@@ -20,9 +20,22 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  formInfo: { type: Object, default: () => ({}) },
 });
 const starHorseTableCompRef = ref();
 const ftFormRef = ref();
+
+const formColumns = computed(() => {
+  if (props.formInfo?.columns) return props.formInfo.columns;
+  const list = props.compList as any[];
+  if (!list) return undefined;
+  for (const item of list) {
+    if (item?.itemType === "descriptions" && item?.preps?.column) {
+      return item.preps.column;
+    }
+  }
+  return undefined;
+});
 const apiEndpoints = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields | any>({});
@@ -219,6 +232,7 @@ defineExpose({
           :preview="preview"
           :fieldList="tableFieldList"
           :rules="rules"
+          :columns="formColumns"
           ref="ftFormRef"
         />
         <!-- 验证错误提示 -->

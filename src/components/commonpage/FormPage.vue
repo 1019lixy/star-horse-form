@@ -12,6 +12,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  formInfo: { type: Object, default: () => ({}) },
 });
 let apiEndpoints = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
@@ -94,11 +95,25 @@ watch(
   { deep: true },
 );
 
+// 表单列数：优先 formInfo.columns，fallback 从 compList 提取 descriptions 壳的 preps.column
+const formColumns = computed(() => {
+  if (props.formInfo?.columns) return props.formInfo.columns;
+  const list = props.compList as any[];
+  if (!list) return undefined;
+  for (const item of list) {
+    if (item?.itemType === "descriptions" && item?.preps?.column) {
+      return item.preps.column;
+    }
+  }
+  return undefined;
+});
+
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
   primaryKey.value = "id";
   console.log(props.compList);
   tableFieldList.value = analysisCompDatas(props.compList);
+
   if (props.currentPageClass == "main-design-phone") {
     tableFieldList.value = convertCompToAppComps(tableFieldList.value);
   }
@@ -150,6 +165,7 @@ watch(
           :dynamicForm="true"
           ref="formPageRef"
           :preview="preview"
+          :columns="formColumns"
           :label-position="
             currentPageClass == 'main-design-phone' ? 'top' : 'left'
           "

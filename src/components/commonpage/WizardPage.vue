@@ -29,6 +29,7 @@ const {
   onFormDataLoaded,
   handleBeforeSubmit,
   dataRecall,
+  formColumns,
 } = useCommonPage({
   props,
   formRef: computed(() => wizardFormRefs.value[currentStep.value]) as any,
@@ -152,6 +153,7 @@ const setFormRef = (el: any, idx: number) => {
             :fieldList="step.fieldList"
             :primary-key="primaryKey"
             :rules="rules"
+            :columns="formColumns"
             :globalCondition="relationTables"
             :dynamicForm="true"
             :typeModel="'form'"

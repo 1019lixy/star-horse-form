@@ -3761,6 +3761,13 @@ export default {
     "dyform.props.labelPosition.top": "顶部",
     "dyform.props.labelPosition.left": "左边",
     "dyform.props.labelPosition.right": "右边",
+    "dyform.props.labelWidth": "标签宽度",
+    "dyform.props.labelWidth.placeholder": "auto",
+    "dyform.props.size": "表单尺寸",
+    "dyform.props.size.large": "大",
+    "dyform.props.size.default": "默认",
+    "dyform.props.size.small": "小",
+    "dyform.props.hideRequiredAsterisk": "隐藏必填星号",
     "dyform.props.helpMsg": "提示信息",
     "dyform.props.helpMsg.placeholder": "请输入提示信息",
     "dyform.props.styles": "Css样式",
@@ -3890,6 +3897,8 @@ export default {
     "dyform.toolbar.cooperation.roleId": "角色",
     "dyform.toolbar.role": "角色",
     "dyform.toolbar.config": "配置",
+    "dyform.toolbar.columns": "列数",
+    "dyform.toolbar.applyColumns": "应用列数到所有分组",
 
     /**
      * StarHorseFormDesign 表单设计器
@@ -4624,6 +4633,7 @@ export default {
 
     // propPanel
     "dyform.propPanel.baseProps": "基础属性",
+    "dyform.propPanel.formInfo": "表单属性",
     "dyform.propPanel.customProps": "个性化属性",
     "dyform.propPanel.allPropsBtn": "全部属性",
     "dyform.propPanel.allPropsTitle": "属性总览",

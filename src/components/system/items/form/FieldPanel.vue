@@ -2,7 +2,7 @@
 import {computed, PropType, ref, useSlots} from "vue";
 import {StarHorseIcon} from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
-import {fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
+import {addComponentWithShell, fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
 import {i18n} from "@/lang/index.js";
 import {FormConfig} from "@/components/types";
 import OutlineTree from "@/components/system/items/form/components/OutlineTree.vue";
@@ -144,13 +144,8 @@ const onDataCopy = (data: any, type: string) => {
 
 const addElement = (element: any, type: string) => {
   let mvData = fieldCopy(element, type);
-  list.value.push(mvData);
-  if (Array.isArray(mvData)) {
-    let temp = mvData[mvData.length - 1];
-    designForm.selectItem(temp, temp["itemType"], "");
-  } else {
-    designForm.selectItem(mvData, mvData["itemType"], "");
-  }
+  const target = addComponentWithShell(list.value, mvData);
+  designForm.selectItem(target, target["itemType"], "");
 };
 </script>
 <template>

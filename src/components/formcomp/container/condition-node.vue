@@ -30,7 +30,7 @@ const isDragging = computed(() => designForm.isDragging);
 const editingId = ref<string>("");
 const editingText = ref<string>("");
 
-const { onDragAdd } = useDragAdd(designForm);
+const { onDragAdd } = useDragAdd(designForm, "condition");
 const checkItem = (adata: any) => ensureItems(adata);
 
 const createChildNode = (index: number) => {

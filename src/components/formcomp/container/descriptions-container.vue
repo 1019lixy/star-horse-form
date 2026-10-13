@@ -27,6 +27,17 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
+const dropBuffer = ref<any[]>([]);
+const onDropAdd = (evt: any) => {
+  const newIndex = evt?.newIndex;
+  if (newIndex == null || newIndex < 0 || newIndex >= dropBuffer.value.length) return;
+  const item = dropBuffer.value.splice(newIndex, 1)[0];
+  const items = props.field?.preps?.elements?.[0]?.items;
+  if (items) {
+    items.push(item);
+    designForm.selectItem(item, item.itemType, "");
+  }
+};
 // 双击编辑相关
 const editingId = ref<string>("");
 const editingText = ref<string>("");
@@ -91,7 +102,7 @@ onMounted(() => {
     <el-descriptions
         :title="field.preps['descTitle'] || ''"
         :direction="field.preps['direction'] || 'horizontal'"
-        :column="field.preps['column'] || 3"
+        :column="field.preps['column'] || designForm.formInfo?.columns || 3"
         :border="field.preps['border'] !== false"
         :size="field.preps['size'] || 'default'"
         :extra="field.preps['descExtra'] || ''"
@@ -157,6 +168,16 @@ onMounted(() => {
 
     <!-- 设计模式: 拖拽区域(始终可拖入,放在descriptions下方) -->
     <div v-if="isDesign" class="desc-design-bottom">
+      <draggable
+        :list="dropBuffer"
+        group="starHorseGroup"
+        :sort="false"
+        @add="onDropAdd"
+        class="desc-drop-zone"
+        item-key="id"
+      >
+        <template #item></template>
+      </draggable>
       <div class="quick-add-bar">
         <el-button
             size="small"
@@ -200,6 +221,22 @@ onMounted(() => {
   padding: 4px;
   border: 1px dashed #e4e7ed;
   border-radius: 4px;
+}
+
+.desc-drop-zone {
+  min-height: 36px;
+  border: 1px dashed #c0c4cc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  background: #fafafa;
+
+  &:hover {
+    border-color: var(--el-color-primary);
+    background: #ecf5ff;
+  }
 }
 
 .desc-design {

@@ -3871,6 +3871,13 @@ export default {
   "dyform.props.labelPosition.top": "Top",
   "dyform.props.labelPosition.left": "Left",
   "dyform.props.labelPosition.right": "Right",
+  "dyform.props.labelWidth": "Label Width",
+  "dyform.props.labelWidth.placeholder": "auto",
+  "dyform.props.size": "Form Size",
+  "dyform.props.size.large": "Large",
+  "dyform.props.size.default": "Default",
+  "dyform.props.size.small": "Small",
+  "dyform.props.hideRequiredAsterisk": "Hide Required Asterisk",
   "dyform.props.helpMsg": "Help Message",
   "dyform.props.helpMsg.placeholder": "Please enter help message",
   "dyform.props.styles": "CSS Styles",
@@ -4002,6 +4009,8 @@ If empty, the table information will be created in the current business database
   "dyform.toolbar.cooperation.roleId": "Role",
   "dyform.toolbar.role": "Role",
   "dyform.toolbar.config": "Configure",
+  "dyform.toolbar.columns": "Columns",
+  "dyform.toolbar.applyColumns": "Apply Columns to All Groups",
   /**
    * StarHorseFormDesign
    */
@@ -4761,6 +4770,7 @@ If empty, the table information will be created in the current business database
   "dyform.custProp.customEvent": "Custom Event",
   // propPanel
   "dyform.propPanel.baseProps": "Basic Properties",
+  "dyform.propPanel.formInfo": "Form Properties",
   "dyform.propPanel.customProps": "Personalized Properties",
   "dyform.propPanel.allPropsBtn": "All Properties",
   "dyform.propPanel.allPropsTitle": "Properties Overview",

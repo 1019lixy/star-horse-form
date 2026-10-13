@@ -33,6 +33,7 @@ const {
   onFormDataLoaded,
   handleBeforeSubmit,
   dataFormat,
+  formColumns,
 } = useCommonPage({
   props,
   formRef: approvalFormRef,
@@ -169,6 +170,7 @@ const handleTransfer = async () => {
                 :fieldList="tableFieldList"
                 :primary-key="primaryKey"
                 :rules="rules"
+                :columns="formColumns"
                 ref="approvalFormRef"
                 :globalCondition="relationTables"
                 :dynamicForm="true"

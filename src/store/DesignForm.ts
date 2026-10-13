@@ -11,6 +11,8 @@ export const useDesignFormStore = defineStore("designForm", () => {
   const mesFormDataList = ref<CompType[]>([]);
   const allFormDataList = ref<Array<any>>([]);
   const formInfo = ref<any>({});
+  /** 当前活动 description 壳：连续添加普通组件时归入此壳，添加容器/拖拽重组/删除时清空 */
+  const activeDescriptionShell = ref<any>(null);
   const compList = ref<Array<any>>([]);
   const compListNoLayer = shallowRef<Record<string, any>>({});
   const editUserList = shallowRef<Record<string, UserInfo>>({});
@@ -293,9 +295,11 @@ export const useDesignFormStore = defineStore("designForm", () => {
       disabled: "N",
       dataIndex: 1,
       scrollToError: "N",
+      columns: 3,
       formId: "id" + ms,
       tbName: "tb" + ms,
     };
+    activeDescriptionShell.value = null;
     compList.value = [];
     isCompListUpdated.value = true;
     formData.value = { index: 1 };
@@ -336,6 +340,34 @@ export const useDesignFormStore = defineStore("designForm", () => {
   };
   const removeCurrentCompEditUserInfo = (compId: string) => {
     editUserList.value && delete editUserList.value[compId];
+  };
+  const setActiveDescriptionShell = (shell: any) => {
+    activeDescriptionShell.value = shell;
+  };
+  const clearActiveDescriptionShell = () => {
+    activeDescriptionShell.value = null;
+  };
+  /** 一键应用全局列数到所有 descriptions 壳（递归 compList） */
+  const applyColumnsToAllShells = (columns: number) => {
+    const walk = (items: any[]) => {
+      if (!Array.isArray(items)) return;
+      items.forEach((it: any) => {
+        if (it?.itemType === "descriptions" && it?.preps) {
+          it.preps.column = columns;
+        }
+        if (it?.preps?.elements) {
+          it.preps.elements.forEach((sec: any) => {
+            if (Array.isArray(sec?.items)) walk(sec.items);
+            if (Array.isArray(sec?.columns)) {
+              sec.columns.forEach((col: any) => {
+                if (Array.isArray(col?.items)) walk(col.items);
+              });
+            }
+          });
+        }
+      });
+    };
+    walk(compList.value);
   };
   return {
     formData,
@@ -406,5 +438,9 @@ export const useDesignFormStore = defineStore("designForm", () => {
     getCurrentCompEditUserInfo,
     addCurrentCompEditUserInfo,
     removeCurrentCompEditUserInfo,
+    activeDescriptionShell,
+    setActiveDescriptionShell,
+    clearActiveDescriptionShell,
+    applyColumnsToAllShells,
   };
 });

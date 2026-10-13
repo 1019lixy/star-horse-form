@@ -47,10 +47,10 @@ import {formItems} from "@/components/system/items/form/composables/formItems";
 import {FormConfig} from "@/components/types";
 import {FormSocketService} from "@/components/system/items/FormSocketService";
 import JSON5 from "json5";
-import {quickAddItem} from "@/api/form_utils";
+import {createQuickItem} from "@/api/form_utils";
 import type {Content} from "vanilla-jsoneditor";
 import {createJSONEditor, isTextContent, toJSONContent,} from "vanilla-jsoneditor";
-import {initContainerDimensions, loadCustomComponents,} from "@/components/system/items/utils/FieldOperationUtils";
+import {addComponentWithShell, initContainerDimensions, loadCustomComponents,} from "@/components/system/items/utils/FieldOperationUtils";
 import {initCustomCompApi} from "@/api/custom_component_api";
 import {hasOpenDialog} from "@/api/keyboard-event-utils";
 import {appEndpoints} from "@/api/app_config";
@@ -648,8 +648,12 @@ const actions = (action: ToolBtnType | string) => {
       rightPanelVisible.value = !rightPanelVisible.value;
       break;
     case "new":
-      //插入组件
-      quickAddItem(list.value);
+      //插入组件（加 description 壳）
+      {
+        const newItem = createQuickItem(list.value.length);
+        const target = addComponentWithShell(list.value, newItem);
+        designForm.selectItem(target, target.itemType, "");
+      }
       break;
     case "newForm":
       //新建表单：清空所有组件和表单信息

@@ -31,6 +31,7 @@ const FieldLayerDrawer = defineAsyncComponent(
 
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
+  inDialog: {type: Boolean, default: false},
 });
 let designForm = getDesignFormStore();
 let formDataList = computed(() => designForm.formDataList);
@@ -393,7 +394,8 @@ watch(
             <span>{{ i18n("dyform.custProp.compProps") }}</span>
           </div>
         </template>
-        <el-form-item
+        <el-descriptions :column="inDialog ? 2 : 1" border size="small" class="property-desc">
+        <el-descriptions-item
             :label="i18n('dyform.custProp.403')"
             prop="cfg"
             v-if="
@@ -411,14 +413,14 @@ watch(
             {{ i18n("dyform.custProp.config") }}
           </el-button
           >
-        </el-form-item>
+        </el-descriptions-item>
         <template v-for="item in visibleBasePreps" :key="item.fieldName">
-          <el-form-item
+          <el-descriptions-item
               :label="item.label"
               :prop="item.fieldName"
               :size="compSize"
               :label-position="
-              item.type == 'switch' || item.type == 'button' ? 'left' : 'top'
+              item.type == 'switch' || item.type == 'button' || item.type == 'select' ? 'left' : 'top'
             "
           >
             <el-button
@@ -443,9 +445,9 @@ watch(
                 },
               }"
             />
-          </el-form-item>
+          </el-descriptions-item>
         </template>
-        <el-form-item
+        <el-descriptions-item
             :label="i18n('dyform.custProp.404')"
             prop="userDefinePreps"
             :size="compSize"
@@ -453,7 +455,8 @@ watch(
           <el-button type="primary" plain @click="configPreps" icon="Setting">
             {{ i18n("dyform.custProp.config") }}
           </el-button>
-        </el-form-item>
+        </el-descriptions-item>
+        </el-descriptions>
       </el-collapse-item>
       <el-collapse-item name="other">
         <template #title="{ isActive }">
@@ -462,13 +465,14 @@ watch(
             <span>{{ i18n("dyform.custProp.otherConfig") }}</span>
           </div>
         </template>
+        <el-descriptions :column="inDialog ? 2 : 1" border size="small" class="property-desc">
         <template v-for="item in filteredOtherPreps" :key="item.fieldName">
-          <el-form-item
+          <el-descriptions-item
               :label="item.label"
               :prop="item.fieldName"
               :size="compSize"
               :label-position="
-              item.fieldType == 'switch' || item.fieldType == 'button'
+              item.fieldType == 'switch' || item.fieldType == 'button' || item.fieldType == 'select'
                 ? 'left'
                 : 'top'
             "
@@ -515,8 +519,9 @@ watch(
                 }"
               />
             </template>
-          </el-form-item>
+          </el-descriptions-item>
         </template>
+        </el-descriptions>
       </el-collapse-item>
     </el-collapse>
   </el-scrollbar>
@@ -530,5 +535,30 @@ watch(
 
 .title-wrapper.is-active {
   color: var(--el-color-primary);
+}
+
+.property-desc {
+  width: 100%;
+
+  :deep(.el-descriptions__label) {
+    width: 80px;
+    font-size: 13px;
+    color: #606266;
+  }
+
+  :deep(.el-descriptions__content) {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    > :deep(.el-popover) {
+      flex-shrink: 0;
+    }
+  }
+
+  :deep(.el-descriptions__cell) {
+    padding: 8px 10px;
+  }
 }
 </style>

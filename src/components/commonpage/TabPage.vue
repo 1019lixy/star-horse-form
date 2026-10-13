@@ -22,6 +22,19 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  formInfo: { type: Object, default: () => ({}) },
+});
+
+const formColumns = computed(() => {
+  if (props.formInfo?.columns) return props.formInfo.columns;
+  const list = props.compList as any[];
+  if (!list) return undefined;
+  for (const item of list) {
+    if (item?.itemType === "descriptions" && item?.preps?.column) {
+      return item.preps.column;
+    }
+  }
+  return undefined;
 });
 const starHorseTableCompRef = ref();
 const tabPageFormRef = ref();
@@ -38,7 +51,7 @@ const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
 let relationTables = ref<any>({});
-const formInfo = ref<any>({});
+
 const fieldMappingList = ref<any>([]);
 const dataSource = ref<any>({});
 let dateFields = ref<Array<string>>([]);
@@ -207,10 +220,11 @@ watch(
               @beforeSubmit="handleBeforeSubmit"
               :dynamicForm="true"
               :apiEndpoints="apiEndpoints"
-              :formInfo="formInfo"
+              :formInfo="props.formInfo"
               :preview="preview"
               :fieldList="tableFieldList"
               :rules="rules"
+              :columns="formColumns"
               :globalCondition="relationTables"
               :typeModel="'form'"
               ref="tabPageFormRef"

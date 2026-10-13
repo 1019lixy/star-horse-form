@@ -39,6 +39,7 @@ const {
   deleteLoading,
   handleDelete,
   confirmDelete,
+  formColumns,
 } = useCommonPage({
   props,
   formRef: masterFormRef,
@@ -134,6 +135,7 @@ watch(
           :fieldList="tableFieldList"
           :primary-key="primaryKey"
           :rules="rules"
+          :columns="formColumns"
           ref="masterFormRef"
           :globalCondition="relationTables"
           :dynamicForm="true"
@@ -225,6 +227,7 @@ watch(
                   :preview="preview"
                   :fieldList="detailFieldList"
                   :primary-key="primaryKey"
+                  :columns="formColumns"
                   ref="detailFormRef"
                   :dynamicForm="true"
                 />
