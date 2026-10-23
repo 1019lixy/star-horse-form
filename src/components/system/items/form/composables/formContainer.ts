@@ -971,6 +971,15 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
+        label: i18n("dyform.container.cmAllowQuickOp"),
+        fieldName: "allowQuickOp",
+        fieldType: "switch",
+        required: false,
+        defaultValues: true,
+        category: 1,
+        configParams: [],
+      },
+      {
         label: i18n("dyform.container.cmShowLineNumber"),
         fieldName: "showLineNumber",
         fieldType: "switch",

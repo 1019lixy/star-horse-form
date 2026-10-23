@@ -5039,6 +5039,7 @@ If empty, the table information will be created in the current business database
   "dyform.container.descriptions": "Descriptions",
   "dyform.container.descriptionsRemark":
     "Descriptions container, suitable for displaying key-value information",
+  "dyform.container.cmAllowQuickOp": "Allow Quick Batch",
   "dyform.container.cmShowLineNumber": "Show Row Number",
   "dyform.container.cmShowStats": "Show Stats",
   "dyform.item.checkitemGroupLevel": "Group Level",

@@ -4899,6 +4899,7 @@ export default {
     "dyform.container.descriptions": "描述列表",
     "dyform.container.descriptionsRemark":
         "Descriptions描述列表容器,适合展示键值对信息",
+    "dyform.container.cmAllowQuickOp": "允许快捷批量操作",
     "dyform.container.cmShowLineNumber": "显示行号列",
     "dyform.container.cmShowStats": "显示统计",
     "dyform.item.checkitemGroupLevel": "分组层级",
