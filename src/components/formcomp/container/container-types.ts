@@ -1,4 +1,5 @@
 import {i18n} from "@/lang";
+import {uuid} from "star-horse-lowcode";
 
 /**
  * All supported container type identifiers.
@@ -20,6 +21,7 @@ export const CONTAINER_TYPES: ReadonlyArray<string> = [
   "fieldset",
   "descriptions",
   "anchor",
+  "checkmatrix",
 ];
 
 /**
@@ -38,6 +40,7 @@ export const NO_NEST_CONTAINER_TYPES: ReadonlySet<string> = new Set([
   "dytable",
   "table",
   "descriptions",
+  "checkmatrix",
 ]);
 
 /**
@@ -115,7 +118,7 @@ export function createDefaultElements(
   itemType: string,
   itemName?: string,
 ): {
-  elements: ContainerSection[];
+  elements: any[];
   extraPreps?: Record<string, any>;
 } {
   switch (itemType) {
@@ -203,6 +206,25 @@ export function createDefaultElements(
     case "descriptions":
       return {
         elements: [createDefaultSection("Descriptions", "descriptions")],
+      };
+    case "checkmatrix":
+      return {
+        elements: [
+          {
+            id: uuid(),
+            rowIndex: 1,
+            columns: [
+              {
+                id: uuid(),
+                cellVisible: true,
+                colIndex: 1,
+                colspan: 1,
+                rowspan: 1,
+                items: [],
+              },
+            ],
+          },
+        ],
       };
     default:
       return {

@@ -32,6 +32,7 @@ const dataSourceComps = [
   "icon",
   "datapicker",
   "workorder",
+  "checkmatrix",
 ];
 
 /** 不显示数据源配置的组件类型 */

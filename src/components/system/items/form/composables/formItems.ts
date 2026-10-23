@@ -4006,3 +4006,58 @@ export const formItems: CompType[] = [
   },
 
 ];
+formItems.push({
+  itemName: i18n("dyform.item.checkitem"),
+  itemType: "checkitem",
+  itemIcon: "text",
+  category: 1,
+  fields: [
+    {
+      label: i18n("dyform.item.checkitemFreq"),
+      fieldName: "freq",
+      fieldType: "input",
+      required: false,
+      defaultValues: "",
+      category: 1,
+      configParams: [],
+    },
+    {
+      label: i18n("dyform.item.checkitemMergeRule"),
+      fieldName: "mergeRule",
+      fieldType: "select",
+      required: false,
+      selectValues: [
+        {name: i18n("dyform.item.mergeTwoPerShift"), value: "twoPerShift"},
+        {name: i18n("dyform.item.mergeEvery2h"), value: "every2h"},
+        {name: i18n("dyform.item.mergeEvery4h"), value: "every4h"},
+        {name: i18n("dyform.item.mergeOnceAll"), value: "onceAll"},
+      ],
+      defaultValues: "every2h",
+      category: 1,
+      configParams: [],
+    },
+    {
+      label: i18n("dyform.item.checkitemOptions"),
+      fieldName: "options",
+      fieldType: "input",
+      required: false,
+      defaultValues: "",
+      category: 1,
+      configParams: [],
+      helpMsg: i18n("dyform.item.checkitemOptionsTip"),
+    },
+    {
+      label: i18n("dyform.item.checkitemGroupLevel"),
+      fieldName: "groupLevel",
+      fieldType: "number",
+      required: false,
+      defaultValues: "1",
+      category: 1,
+      configParams: [],
+    },
+  ],
+  advancedFields: [],
+  selfFields: [],
+  actions: [],
+  preps: [],
+} as CompType);

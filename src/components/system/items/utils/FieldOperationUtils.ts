@@ -114,7 +114,8 @@ export function fieldCopy(data: any, type: string) {
   if (
     reData.itemType == "box" ||
     reData.itemType == "dytable" ||
-    reData.itemType == "gridtable"
+    reData.itemType == "gridtable" ||
+    reData.itemType == "checkmatrix"
   ) {
     mvData.rowNums = 1;
     mvData.columnNums = 1;
@@ -209,7 +210,7 @@ export function wrapInDescriptionShell(component: any, columns: number = 3): any
 export function addComponentWithShell(list: any[], component: any, index?: number): any {
   const store = getDesignFormStore();
   const columns = store.formInfo?.columns ?? 3;
-  if (isContainer(component)) {
+  if (isContainer(component) || isIndependentFieldType(component)) {
     store.clearActiveDescriptionShell();
     if (index != null && index >= 0 && index <= list.length) {
       list.splice(index, 0, component);
@@ -235,6 +236,19 @@ export function addComponentWithShell(list: any[], component: any, index?: numbe
   }
   store.setActiveDescriptionShell(shell);
   return shell;
+}
+
+/**
+ * 独立成块的字段类型(与 shplugin wrapDefaultContainer 的
+ * INDEPENDENT_FIELD_TYPES 对齐):整表字段需要完整宽度与自然高度,
+ * 不包 descriptions 壳,拖入画布即独立成块
+ */
+const INDEPENDENT_FIELD_TYPES: ReadonlySet<string> = new Set([
+  "checkmatrix",
+]);
+
+function isIndependentFieldType(component: any): boolean {
+  return INDEPENDENT_FIELD_TYPES.has(component?.itemType);
 }
 
 export function compFieldInit() {
@@ -424,7 +438,8 @@ export function initContainerDimensions(comps: any[]) {
       comp.compType === "container" &&
       (comp.itemType === "box" ||
         comp.itemType === "dytable" ||
-        comp.itemType === "gridtable")
+        comp.itemType === "gridtable" ||
+        comp.itemType === "checkmatrix")
     ) {
       const elements = comp.preps?.elements;
       if (Array.isArray(elements) && elements.length > 0) {

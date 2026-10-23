@@ -638,123 +638,114 @@ watch(
         <field-list @selectData="changeItem"/>
       </el-splitter-panel>
       <el-splitter-panel>
-        <el-form v-model="fieldForm" label-position="top">
-          <el-descriptions column="1" border label-width="120px">
-            <el-descriptions-item
-                v-if="currentItem"
-                :label="i18n('dyform.container.selectedComponent')"
-            >
-              <el-tag type="primary">{{ currentItem.label }}</el-tag>
-            </el-descriptions-item>
-            <el-descriptions-item
-                :label="i18n('dyform.container.sameConfigRows')"
-            >
-              <el-select v-model="fieldForm.configRowType">
-                <el-option
-                    :label="i18n('dyform.container.currentCell')"
-                    value="currentRow"
-                />
-                <el-option
-                    :label="i18n('dyform.container.continuous')"
-                    value="linkRows"
-                />
-                <el-option
-                    :label="i18n('dyform.container.nonContinuous')"
-                    value="unlinkRows"
-                />
-              </el-select>
-            </el-descriptions-item>
-            <el-descriptions-item
-                :label="i18n('dyform.container.rubberSelect')"
-                v-if="
+        <el-descriptions :column="1" border label-width="120px" size="small" class="change-comp-desc">
+          <el-descriptions-item
+              v-if="currentItem"
+              :label="i18n('dyform.container.selectedComponent')"
+          >
+            <el-tag type="primary">{{ currentItem.label }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.container.sameConfigRows')"
+          >
+            <el-select v-model="fieldForm.configRowType">
+              <el-option
+                  :label="i18n('dyform.container.currentCell')"
+                  value="currentRow"
+              />
+              <el-option
+                  :label="i18n('dyform.container.continuous')"
+                  value="linkRows"
+              />
+              <el-option
+                  :label="i18n('dyform.container.nonContinuous')"
+                  value="unlinkRows"
+              />
+            </el-select>
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.container.rubberSelect')"
+              v-if="
                 fieldForm.configRowType == 'linkRows' ||
                 fieldForm.configRowType == 'unlinkRows'
               "
-            >
-              <div class="rubber-select-entry">
-                <el-button size="small" type="primary" plain @click="startRubberSelect">
-                  {{ i18n("dyform.container.rubberSelect") }}
-                </el-button>
-                <span class="rubber-select-tip">{{
-                    fieldForm.configRowType == "linkRows"
-                        ? i18n("dyform.container.rubberSelectTipLink")
-                        : i18n("dyform.container.rubberSelectTipUnlink")
-                  }}</span>
-              </div>
-            </el-descriptions-item>
-            <el-descriptions-item
-                :label="i18n('dyform.container.copyCurrentComponent')"
-                v-if="
+          >
+            <div class="rubber-select-entry">
+              <el-button size="small" type="primary" plain @click="startRubberSelect">
+                {{ i18n("dyform.container.rubberSelect") }}
+              </el-button>
+              <span class="rubber-select-tip">{{
+                  fieldForm.configRowType == "linkRows"
+                      ? i18n("dyform.container.rubberSelectTipLink")
+                      : i18n("dyform.container.rubberSelectTipUnlink")
+                }}</span>
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.container.copyCurrentComponent')"
+              v-if="
                 currentCell?.items?.length > 0 &&
                 fieldForm.configRowType != 'currentRow'
               "
-            >
-              <el-switch v-model="fieldForm.copyCurrentItem"/>
-            </el-descriptions-item>
-            <el-descriptions-item
-                :label="i18n('dyform.container.linkRows')"
-                v-if="fieldForm.configRowType == 'linkRows'"
-            >
-              <number-range-item
-                  :field="{
+          >
+            <el-switch v-model="fieldForm.copyCurrentItem"/>
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.container.linkRows')"
+              v-if="fieldForm.configRowType == 'linkRows'"
+          >
+            <number-range-item
+                :field="{
                   fieldName: 'linkRows',
                   preps: {},
                 }"
-                  v-model:formData="fieldForm"
-              />
-            </el-descriptions-item>
-            <el-descriptions-item
-                :label="i18n('dyform.container.linkCols')"
-                prop="linkCols"
-                v-if="fieldForm.configRowType == 'linkRows'"
-            >
-              <number-range-item
-                  :field="{
+                v-model:formData="fieldForm"
+            />
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.container.linkCols')"
+              v-if="fieldForm.configRowType == 'linkRows'"
+          >
+            <number-range-item
+                :field="{
                   fieldName: 'linkCols',
                   preps: {},
                 }"
-                  v-model:formData="fieldForm"
-              />
-            </el-descriptions-item>
-            <el-descriptions-item
-                :label="i18n('dyform.container.unlinkRows')"
-                prop="unlinkRows"
-                v-if="fieldForm.configRowType == 'unlinkRows'"
-            >
-              <el-input-tag v-model="fieldForm.unlinkRows"/>
-            </el-descriptions-item>
-            <el-descriptions-item
-                :label="i18n('dyform.container.unlinkCols')"
-                prop="unlinkCols"
-                v-if="fieldForm.configRowType == 'unlinkRows'"
-            >
-              <el-input-tag v-model="fieldForm.unlinkCols"/>
-            </el-descriptions-item>
-            <el-descriptions-item
-                :label="i18n('dyform.container.rubberDetailLabel')"
-                v-if="
+                v-model:formData="fieldForm"
+            />
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.container.unlinkRows')"
+              v-if="fieldForm.configRowType == 'unlinkRows'"
+          >
+            <el-input-tag v-model="fieldForm.unlinkRows"/>
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.container.unlinkCols')"
+              v-if="fieldForm.configRowType == 'unlinkRows'"
+          >
+            <el-input-tag v-model="fieldForm.unlinkCols"/>
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.container.rubberDetailLabel')"
+              v-if="
                 fieldForm.configRowType == 'unlinkRows' &&
                 fieldForm.unlinkCells?.length
               "
-            >
-              <span class="rubber-cell-detail">{{ unlinkCellDetail }}</span>
-            </el-descriptions-item>
-            <el-descriptions-item
-                label-position="left"
-                :label="i18n('dyform.props.hideLabel')"
-                prop="hideLabel"
-            >
-              <el-switch v-model="fieldForm.hideLabel"/>
-            </el-descriptions-item>
-            <el-descriptions-item
-                label-position="left"
-                :label="i18n('dyform.props.required')"
-                prop="required"
-            >
-              <el-switch v-model="fieldForm.required"/>
-            </el-descriptions-item>
-          </el-descriptions>
-        </el-form>
+          >
+            <span class="rubber-cell-detail">{{ unlinkCellDetail }}</span>
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.props.hideLabel')"
+          >
+            <el-switch v-model="fieldForm.hideLabel"/>
+          </el-descriptions-item>
+          <el-descriptions-item
+              :label="i18n('dyform.props.required')"
+          >
+            <el-switch v-model="fieldForm.required"/>
+          </el-descriptions-item>
+        </el-descriptions>
       </el-splitter-panel>
     </el-splitter>
   </star-horse-panel>
@@ -1167,5 +1158,26 @@ watch(
   font-size: 12px;
   color: #67c23a;
   word-break: break-all;
+}
+
+.change-comp-desc {
+  padding: 0 12px;
+
+  :deep(.el-descriptions__label) {
+    font-size: 13px;
+    color: #606266;
+    font-weight: normal;
+  }
+
+  :deep(.el-descriptions__content) {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  :deep(.el-descriptions__cell) {
+    padding: 8px 10px;
+  }
 }
 </style>

@@ -10,6 +10,7 @@ import {getDesignFormStore} from "@/store/StoreManager";
 import {fieldCopy} from "@/utils/FieldOperationUtils";
 import {hasOpenDialog} from "@/api/keyboard-event-utils";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
+
 import {CellRubberBand} from "@/components/formcomp/utils/CellRubberBand";
 import {
   clearRegionItems,
@@ -612,11 +613,11 @@ const rubberEditApply = () => {
             i18n("dyform.container.boxAddCompNoPickTip")
           }}</span>
         </div>
-        <el-form label-position="top" class="rubber-props-form">
-          <div class="rubber-props-tip">
-            {{ i18n("dyform.container.boxAddPropsTip") }}
-          </div>
-          <el-form-item
+        <div class="rubber-props-tip">
+          {{ i18n("dyform.container.boxAddPropsTip") }}
+        </div>
+        <el-descriptions :column="1" border size="small" class="rubber-props-desc">
+          <el-descriptions-item
             v-for="prop in basePropList"
             :key="prop.key"
             :label="i18n(prop.label)"
@@ -626,8 +627,8 @@ const rubberEditApply = () => {
               :active-text="i18n('dyform.props.yes')"
               :inactive-text="i18n('dyform.props.no')"
             />
-          </el-form-item>
-        </el-form>
+          </el-descriptions-item>
+        </el-descriptions>
       </el-splitter-panel>
     </el-splitter>
   </star-horse-panel>
@@ -647,13 +648,13 @@ const rubberEditApply = () => {
         >{{ i18n("dyform.container.boxEditPropsApply") }}
       </el-button>
     </template>
-    <el-form label-position="top" class="rubber-props-form">
-      <div class="rubber-props-tip">
-        {{ i18n("dyform.container.boxEditPropsTip") }}（{{
-          i18n("dyform.container.boxEditPropsAffect")
-        }}：{{ rubberEditCompCount }}）
-      </div>
-      <el-form-item
+    <div class="rubber-props-tip">
+      {{ i18n("dyform.container.boxEditPropsTip") }}（{{
+        i18n("dyform.container.boxEditPropsAffect")
+      }}：{{ rubberEditCompCount }}）
+    </div>
+    <el-descriptions :column="1" border size="small" class="rubber-props-desc">
+      <el-descriptions-item
         v-for="prop in basePropList"
         :key="prop.key"
         :label="i18n(prop.label)"
@@ -663,8 +664,8 @@ const rubberEditApply = () => {
           :active-text="i18n('dyform.props.yes')"
           :inactive-text="i18n('dyform.props.no')"
         />
-      </el-form-item>
-    </el-form>
+      </el-descriptions-item>
+    </el-descriptions>
   </star-horse-panel>
   <div
     class="field-item"
@@ -855,14 +856,34 @@ const rubberEditApply = () => {
     color: #c0c4cc;
   }
 }
-/* 框选属性设置/批量编辑表单 */
-.rubber-props-form {
+/* 框选属性设置/批量编辑描述表单 */
+.rubber-props-tip {
   padding: 0 12px;
-  .rubber-props-tip {
-    font-size: 12px;
-    color: #909399;
-    line-height: 1.6;
-    margin-bottom: 8px;
+  font-size: 12px;
+  color: #909399;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.rubber-props-desc {
+  margin: 0 12px;
+
+  :deep(.el-descriptions__label) {
+    width: 80px;
+    font-size: 13px;
+    color: #606266;
+    font-weight: normal;
+  }
+
+  :deep(.el-descriptions__content) {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  :deep(.el-descriptions__cell) {
+    padding: 8px 10px;
   }
 }
 /* 容器工具栏"框选"入口图标（虚线选框+光标，与其他工具栏图标尺寸一致） */

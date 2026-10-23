@@ -1,5 +1,5 @@
 <script setup lang="ts" name="CustomerPropertyPanel">
-import {computed, defineAsyncComponent, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
+import {computed, defineAsyncComponent, nextTick, onMounted, PropType, provide, ref, unref, watch,} from "vue";
 import {i18n} from "@/lang";
 import {formFieldMapping, isJson, PageFieldInfo} from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
@@ -8,6 +8,8 @@ import {useDialogManager} from "@/components/system/items/form/composables/useDi
 import {FormConfig} from "@/components/types";
 import {deepClone} from "@/api/system.js";
 import {OtherPreps, otherPreps,} from "@/components/system/items/form/composables/otherPreps";
+import PropertyDescriptionsItem
+  from "@/components/system/items/form/components/PropertyDescriptionsItem.vue";
 // 对话框类组件改为异步加载，减小首屏 bundle
 const ButtonEventDialog = defineAsyncComponent(
     () => import("@/components/system/items/form/dialogs/ButtonEventDialog.vue"),
@@ -33,6 +35,7 @@ const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
   inDialog: {type: Boolean, default: false},
 });
+provide("propertyPanelInDialog", computed(() => props.inDialog));
 let designForm = getDesignFormStore();
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerDataList);
@@ -394,10 +397,10 @@ watch(
             <span>{{ i18n("dyform.custProp.compProps") }}</span>
           </div>
         </template>
-        <el-descriptions :column="inDialog ? 2 : 1" border size="small" class="property-desc">
-        <el-descriptions-item
+        <div class="props-list" :class="{ 'in-dialog': inDialog }">
+        <property-descriptions-item
             :label="i18n('dyform.custProp.403')"
-            prop="cfg"
+            label-position="left"
             v-if="
             [
               'input',
@@ -407,20 +410,17 @@ watch(
               'number-range',
             ].includes(currentItemType)
           "
-            :size="compSize"
         >
           <el-button @click="prependOrAppend" icon="setting">
             {{ i18n("dyform.custProp.config") }}
           </el-button
           >
-        </el-descriptions-item>
+        </property-descriptions-item>
         <template v-for="item in visibleBasePreps" :key="item.fieldName">
-          <el-descriptions-item
+          <property-descriptions-item
               :label="item.label"
-              :prop="item.fieldName"
-              :size="compSize"
               :label-position="
-              item.type == 'switch' || item.type == 'button' || item.type == 'select' ? 'left' : 'top'
+              item.type == 'switch' || item.type == 'button' ? 'left' : 'top'
             "
           >
             <el-button
@@ -445,18 +445,17 @@ watch(
                 },
               }"
             />
-          </el-descriptions-item>
+          </property-descriptions-item>
         </template>
-        <el-descriptions-item
+        <property-descriptions-item
             :label="i18n('dyform.custProp.404')"
-            prop="userDefinePreps"
-            :size="compSize"
+            label-position="left"
         >
           <el-button type="primary" plain @click="configPreps" icon="Setting">
             {{ i18n("dyform.custProp.config") }}
           </el-button>
-        </el-descriptions-item>
-        </el-descriptions>
+        </property-descriptions-item>
+        </div>
       </el-collapse-item>
       <el-collapse-item name="other">
         <template #title="{ isActive }">
@@ -465,16 +464,12 @@ watch(
             <span>{{ i18n("dyform.custProp.otherConfig") }}</span>
           </div>
         </template>
-        <el-descriptions :column="inDialog ? 2 : 1" border size="small" class="property-desc">
+        <div class="props-list" :class="{ 'in-dialog': inDialog }">
         <template v-for="item in filteredOtherPreps" :key="item.fieldName">
-          <el-descriptions-item
+          <property-descriptions-item
               :label="item.label"
-              :prop="item.fieldName"
-              :size="compSize"
               :label-position="
-              item.fieldType == 'switch' || item.fieldType == 'button' || item.fieldType == 'select'
-                ? 'left'
-                : 'top'
+              item.fieldType == 'switch' || item.fieldType == 'button' ? 'left' : 'top'
             "
           >
             <div class="flex flex-col" v-if="item.fieldType == 'button'">
@@ -519,9 +514,9 @@ watch(
                 }"
               />
             </template>
-          </el-descriptions-item>
+          </property-descriptions-item>
         </template>
-        </el-descriptions>
+        </div>
       </el-collapse-item>
     </el-collapse>
   </el-scrollbar>
@@ -537,28 +532,37 @@ watch(
   color: var(--el-color-primary);
 }
 
-.property-desc {
-  width: 100%;
+.props-list {
+  display: flex;
+  flex-direction: column;
 
-  :deep(.el-descriptions__label) {
-    width: 80px;
-    font-size: 13px;
-    color: #606266;
+  > * + * {
+    margin-top: -1px;
   }
 
-  :deep(.el-descriptions__content) {
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  &.in-dialog {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 8px;
 
-    > :deep(.el-popover) {
-      flex-shrink: 0;
+    > * + * {
+      margin-top: 0;
     }
-  }
 
-  :deep(.el-descriptions__cell) {
-    padding: 8px 10px;
+    > * {
+      height: 100%;
+    }
+
+    :deep(.el-descriptions__body) {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    :deep(table) {
+      height: 100%;
+    }
   }
 }
 </style>
